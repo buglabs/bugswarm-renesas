@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/Renesas/!svn/ver/152/branches/FDI/michael.king/YRDKRL78G13/dev1/SW/WorkSpace/Bring%20Up%20Testing/Glyph
+END
+glyph_api.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/Renesas/!svn/ver/152/branches/FDI/michael.king/YRDKRL78G13/dev1/SW/WorkSpace/Bring%20Up%20Testing/Glyph/glyph_api.h
+END
+glyph.c
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/Renesas/!svn/ver/152/branches/FDI/michael.king/YRDKRL78G13/dev1/SW/WorkSpace/Bring%20Up%20Testing/Glyph/glyph.c
+END
+glyph_cfg.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/Renesas/!svn/ver/152/branches/FDI/michael.king/YRDKRL78G13/dev1/SW/WorkSpace/Bring%20Up%20Testing/Glyph/glyph_cfg.h
+END
+glyph_register.c
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/Renesas/!svn/ver/152/branches/FDI/michael.king/YRDKRL78G13/dev1/SW/WorkSpace/Bring%20Up%20Testing/Glyph/glyph_register.c
+END
+glyph_types.h
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/Renesas/!svn/ver/152/branches/FDI/michael.king/YRDKRL78G13/dev1/SW/WorkSpace/Bring%20Up%20Testing/Glyph/glyph_types.h
+END

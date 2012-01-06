@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Project>
+  <Desktop>
+    <Static>
+      <Debug-Log>
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1381</ColumnWidth1></Debug-Log>
+      <Build>
+        <ColumnWidth0>20</ColumnWidth0>
+        <ColumnWidth1>1035</ColumnWidth1>
+        <ColumnWidth2>276</ColumnWidth2>
+        <ColumnWidth3>69</ColumnWidth3>
+      </Build>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>241</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Disassembly>
+        <PreferedWindows>
+          <Position>2</Position>
+          <ScreenPosX>0</ScreenPosX>
+          <ScreenPosY>0</ScreenPosY>
+          <Windows/>
+        </PreferedWindows>
+        
+        
+        
+      <MixedMode>1</MixedMode><CodeCovShow>1</CodeCovShow><InstrProfShow>1</InstrProfShow></Disassembly>
+      <Watch>
+        <Format>
+          <struct_types/>
+          <watch_formats/>
+        </Format>
+        
+        
+        
+        
+      <Column0>208</Column0><Column1>100</Column1><Column2>100</Column2><Column3>100</Column3></Watch>
+    </Static>
+    <Windows>
+      
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-940-29928</Identity>
+            <TabName>Debug Log</TabName>
+            <Factory>Debug-Log</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-417-29937</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-11689-29931</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>RS-RL78G132200CCDEMO</ExpandedNode><ExpandedNode>RS-RL78G132200CCDEMO/applilet_src</ExpandedNode><ExpandedNode>RS-RL78G132200CCDEMO/user_src</ExpandedNode><ExpandedNode>RS-RL78G132200CCDEMO/wifi_api</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1><Wnd2>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-4140-30277</Identity>
+            <TabName>Watch</TabName>
+            <Factory>Watch</Factory>
+            <Session>
+              <Expressions>
+                
+              <Expression><Expression>lib_rspBuf</Expression></Expression><Expression><Expression>ipstring_buffer</Expression></Expression></Expressions>
+              
+              
+              
+              
+              
+            <TabId>0</TabId><Column0>208</Column0><Column1>100</Column1><Column2>100</Column2><Column3>100</Column3></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd3><Tabs><Tab><Identity>TabID-8979-21890</Identity><TabName>Disassembly</TabName><Factory>Disassembly</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd3></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_port_user.c</Filename><XPos>0</XPos><YPos>21</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Glyph\glyph_types.h</Filename><XPos>0</XPos><YPos>18</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\user_src\lcd.c</Filename><XPos>0</XPos><YPos>54</YPos><SelStart>1359</SelStart><SelEnd>1359</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Glyph\Drivers\YRDKRL78_LCD.h</Filename><XPos>0</XPos><YPos>15</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_port.c</Filename><XPos>0</XPos><YPos>199</YPos><SelStart>6462</SelStart><SelEnd>6462</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Glyph\glyph_register.c</Filename><XPos>0</XPos><YPos>63</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Glyph\glyph.c</Filename><XPos>0</XPos><YPos>609</YPos><SelStart>23642</SelStart><SelEnd>23642</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_system.c</Filename><XPos>0</XPos><YPos>60</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_system.h</Filename><XPos>0</XPos><YPos>78</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_system_user.c</Filename><XPos>0</XPos><YPos>36</YPos><SelStart>1568</SelStart><SelEnd>1568</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\user_src\RDKRL78_spi.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Glyph\Drivers\YRDKRL78_LCD.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>5707</SelStart><SelEnd>5707</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Glyph\Drivers\ST7579_LCD.h</Filename><XPos>0</XPos><YPos>24</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wlan\rsi_lib_boot.c</Filename><XPos>0</XPos><YPos>144</YPos><SelStart>1936</SelStart><SelEnd>1936</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_systeminit.c</Filename><XPos>0</XPos><YPos>75</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_userdefine.h</Filename><XPos>0</XPos><YPos>18</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\PinoutDef.h</Filename><XPos>0</XPos><YPos>23</YPos><SelStart>1414</SelStart><SelEnd>1414</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\Preamble.h</Filename><XPos>0</XPos><YPos>28</YPos><SelStart>1233</SelStart><SelEnd>1233</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Glyph\Drivers\ST7579_LCD.c</Filename><XPos>0</XPos><YPos>319</YPos><SelStart>14422</SelStart><SelEnd>14422</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\user_src\rsi_demo_app.h</Filename><XPos>0</XPos><YPos>35</YPos><SelStart>1955</SelStart><SelEnd>1955</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_serial_user.c</Filename><XPos>0</XPos><YPos>58</YPos><SelStart>3675</SelStart><SelEnd>3675</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_serial.c</Filename><XPos>0</XPos><YPos>698</YPos><SelStart>19377</SelStart><SelEnd>19377</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wlan\rsi_lib_api.c</Filename><XPos>0</XPos><YPos>159</YPos><SelStart>14950</SelStart><SelEnd>14950</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_macrodriver.h</Filename><XPos>0</XPos><YPos>43</YPos><SelStart>1970</SelStart><SelEnd>1970</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wlan\rsi_at_command_processor.h</Filename><XPos>0</XPos><YPos>117</YPos><SelStart>4498</SelStart><SelEnd>4498</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wlan\rsi_uart_api.h</Filename><XPos>0</XPos><YPos>293</YPos><SelStart>11393</SelStart><SelEnd>11393</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wifi_uart_hal\rsi_hal_timers.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>926</SelStart><SelEnd>926</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wlan\rsi_data_types.h</Filename><XPos>0</XPos><YPos>21</YPos><SelStart>689</SelStart><SelEnd>689</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\user_src\app_wifi_init.c</Filename><XPos>0</XPos><YPos>175</YPos><SelStart>5141</SelStart><SelEnd>5141</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wlan\rsi_global.h</Filename><XPos>0</XPos><YPos>69</YPos><SelStart>2240</SelStart><SelEnd>2240</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wlan\rsi_lib_at_cmd_processor.c</Filename><XPos>0</XPos><YPos>151</YPos><SelStart>4244</SelStart><SelEnd>4244</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\user_src\RDKRL78_spi.c</Filename><XPos>0</XPos><YPos>57</YPos><SelStart>983</SelStart><SelEnd>983</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\user_src\rsi_demo_app.c</Filename><XPos>0</XPos><YPos>237</YPos><SelStart>5868</SelStart><SelEnd>5868</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\CG_main.c</Filename><XPos>0</XPos><YPos>142</YPos><SelStart>4789</SelStart><SelEnd>4789</SelEnd></Tab><ActiveTab>33</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wifi_uart_hal\rsi_hal_uart.c</Filename><XPos>0</XPos><YPos>66</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wlan\rsi_lib_init.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-012aaec8><key>iaridepm.enu1</key></Toolbar-012aaec8></Sizes></Row0><Row1><Sizes><Toolbar-0660da60><key>debuggergui.enu1</key></Toolbar-0660da60></Sizes></Row1><Row2><Sizes><Toolbar-03597d80><key>rl78ocd.enu1</key></Toolbar-03597d80></Sizes></Row2><Row3><Sizes/></Row3><Row4><Sizes/></Row4><Row5><Sizes/></Row5><Row6><Sizes/></Row6><Row7><Sizes/></Row7><Row8><Sizes/></Row8><Row9><Sizes/></Row9><Row10><Sizes/></Row10><Row11><Sizes/></Row11><Row12><Sizes/></Row12><Row13><Sizes/></Row13><Row14><Sizes/></Row14><Row15><Sizes/></Row15></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>642</Bottom><Right>332</Right><x>-2</x><y>-2</y><xscreen>239</xscreen><yscreen>330</yscreen><sizeHorzCX>186719</sizeHorzCX><sizeHorzCY>348101</sizeHorzCY><sizeVertCX>260938</sizeVertCX><sizeVertCY>679325</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>642</Bottom><Right>105</Right><x>-2</x><y>-2</y><xscreen>239</xscreen><yscreen>330</yscreen><sizeHorzCX>186719</sizeHorzCX><sizeHorzCY>348101</sizeHorzCY><sizeVertCX>83594</sizeVertCX><sizeVertCY>679325</sizeVertCY></Rect></Wnd2></Sizes></Row0><Row1><Sizes><Wnd3><Rect><Top>-2</Top><Left>103</Left><Bottom>642</Bottom><Right>281</Right><x>103</x><y>-2</y><xscreen>178</xscreen><yscreen>230</yscreen><sizeHorzCX>139063</sizeHorzCX><sizeHorzCY>242616</sizeHorzCY><sizeVertCX>139063</sizeVertCX><sizeVertCY>679325</sizeVertCY></Rect></Wnd3></Sizes></Row1></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>214</Bottom><Right>1282</Right><x>-2</x><y>-2</y><xscreen>1284</xscreen><yscreen>216</yscreen><sizeHorzCX>1003125</sizeHorzCX><sizeHorzCY>227848</sizeHorzCY><sizeVertCX>186719</sizeVertCX><sizeVertCY>348101</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Project>
+
+

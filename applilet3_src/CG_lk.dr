@@ -1,0 +1,60 @@
+;/*
+;******************************************************************************
+;* Copyright(C) 2011 Renesas Electronics Corporation
+;* RENESAS ELECTRONICS CONFIDENTIAL AND PROPRIETARY
+;* This program must be used solely for the purpose for which
+;* it was furnished by Renesas Electronics Corporation. No part of this
+;* program may be reproduced or disclosed to others, in any
+;* form, without the prior written permission of Renesas Electronics
+;* Corporation.
+;*
+;* This device driver was created by Applilet3 for RL78/G13
+;* 16-Bit Single-Chip Microcontrollers
+;* Filename:	CG_lk.dr
+;* Abstract:	This is the link file.
+;* APIlib:	Applilet3 for RL78/G13 E1.00b [14 Jan 2011]
+;* Device:	R5F100LE
+;* Compiler:	CARL78
+;* Creation date:	7/28/2011
+;******************************************************************************
+;*/
+; [Sample of Link Directive File]
+; *************************************************************
+; Link Directive File is created by users when memory or segment
+; location needs to be changed from the default as the following
+; cases, for instance:
+;    1. In case the stack area should be in fixed area
+;    2. In case the external memory should be used
+;
+; Please change the start address, the size of memory, 
+; and the name of memory or segment according to your system,
+; and link this file with -D linker option if necessary.
+;
+;   MEMORY directive : Declares an address in installed memory.
+;                      Devides memory into two or more areas and
+;                      specifies a memory area
+;   MERGE directive  : Specifies location of a segment
+; *************************************************************
+
+; <Example on how to specify the stack area>
+;  Please specify the linker option -SSTK.
+;  The stack area should be in the internal RAM area.
+;
+;      START ADDRESS, STACK SIZE
+;memory STK : ( 0FB000H, 100H )
+; <Example of locating data in external memory>
+; The section name output by C compiler can be changed with
+; #pragma section function.
+;
+; If the name of ROMization-related section which has global
+; variables with initial values is changed, the modification of
+; C start-up routine will be required. 
+; Please refer the CC78K0R C Compiler Language User's Manual 
+; Language Chap.11 in detail.
+;
+; ex. This is the example of renaming the @@DATAL segment.
+;   #pragma section @@DATAL EXTDATA
+;
+;   By the following directives, "EXTDATA" segment is located in EXMEM area.
+;
+;        START ADDRESS, MEMORY SIZE

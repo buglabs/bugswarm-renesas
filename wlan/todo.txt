@@ -1,0 +1,3 @@
+check all timeout values
+Check UART_Getchar function replace READ_CHAR with this function.
+Add code to flush the Rx FIFO of host. Before sending a new command.

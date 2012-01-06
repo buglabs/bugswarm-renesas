@@ -1,0 +1,29 @@
+Rx path
+
+Interrupt for a byte and then go to polling to read remaining bytes 
+
+SLEEP
+DISCONNECT
+SOCK_CLOSE
+Process in the interrupt context
+And set the event type
+Check if we can receive bytes in interrupt context, interrupt disabled
+Better check with a uC
+
+Think of how to give resp and recv data to the application
+It is better to process everything in the interrupt context only, I think.
+
+READ DATA 
+OK
+ERROR
+
+Interrupt
+Polling
+Read
+process
+Receiving the response / data from the application
+
+
+Tx path
+
+First go with sending with out the interrupt.
