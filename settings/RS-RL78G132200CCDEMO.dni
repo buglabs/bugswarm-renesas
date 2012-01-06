@@ -1,8 +1,7 @@
 [DebugChecksum]
-Checksum=713545763
+Checksum=-764563815
 [DisAssemblyWindow]
-NumStates=_ 1
-State 1=_ 1
+NumStates=_ 0
 [InstructionProfiling]
 Enabled=_ 0
 [CodeCoverage]
@@ -95,6 +94,9 @@ GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
 SumSortOrder=0
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\wlan\app_wifi_init.c}.98.12@1" 0 0 0 0 "" 0 ""
+Count=1
 [Interrupts]
 Enabled=1
 [MemoryMap]
@@ -104,12 +106,9 @@ UseAuto=0
 TypeViolation=1
 UnspecRange=1
 ActionState=1
-[TraceHelper]
-Enabled=0
-ShowSource=1
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\wlan\app_wifi_init.c}.98.12@1" 0 0 0 0 "" 0 ""
-Count=1
 [Aliases]
 Count=0
 SuppressDialog=0
+[TraceHelper]
+Enabled=0
+ShowSource=1

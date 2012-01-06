@@ -10,6 +10,6 @@
 @REM 
 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\common\bin\cspybat" "C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\rl78\bin\rl78proc.dll" "C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\rl78\bin\rl78sim.dll"  %1 --plugin "C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\rl78\bin\rl78bat.dll" --backend -B "--core" "rl78_1" "--near_const_location" "rom0" "--near_const_start" "0xf2000" "--near_const_size" "51.75" "-p" "C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\rl78\CONFIG\DDF\ior5f100le.ddf" "-d" "sim" 
+"C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\common\bin\cspybat" "C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\rl78\bin\rl78proc.dll" "C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\rl78\bin\rl78ocd.dll"  %1 --plugin "C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\rl78\bin\rl78bat.dll" --backend -B "--core" "rl78_1" "--near_const_location" "rom0" "--near_const_start" "0xf2000" "--near_const_size" "51.75" "-p" "C:\Program Files\IAR Systems\Embedded Workbench 6.0 Kickstart\rl78\CONFIG\DDF\ior5f100le.ddf" "-d" "tk" 
 
 
