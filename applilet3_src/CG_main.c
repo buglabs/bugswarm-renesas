@@ -47,7 +47,8 @@ DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
 #define LIB_RX_BUF_SIZE       100
 #define LIB_NETWORK_HDR_LEN   50
 
-rsi_socketFrame_t      pd_dltcp_socket;
+rsi_socketFrame_t      insock_obj;
+rsi_socketFrame_t      outsock_obj;
 extern rsi_recvSocketFrame_t  pd_rcv;
 
 extern  rsi_uUartRsp   lib_rspBuf;
@@ -133,9 +134,11 @@ void  main(void)
       int16     retryCount = 0;
       int       retval;
       uint16    app_event = 0;   
+      char     tempbuff[30];
          
      
-      struct rsi_socketFrame_s *dltcp_sock = &pd_dltcp_socket;    
+      struct rsi_socketFrame_s *insock = &insock_obj;
+      struct rsi_socketFrame_s *outsock = &outsock_obj;
 
       /* Initialize UART and enable Module power and reset pins */  
       rsi_init();
@@ -162,132 +165,58 @@ void  main(void)
       LED2 = TRUE;
       LED3 = TRUE;
       
-      /* Initialize TCP server socket port, it is listening socket in WiFi module */
-      dltcp_sock->lport = 14046;
+      /* Open listening socket first... */
+      insock->lport = 80;
+      insock->handle = 0; 
       
-      /* Tcp Server socket handle */
-      dltcp_sock->handle = 0; 
+      /* Now open our outbound socket... */
+      outsock->rport = 80;
+      outsock->lport = 80;
+      outsock->handle = 0; 
+      /* Remote address is IP address for api.bugswarm.net 
+      dltcp_sock->remote_ip[0] = 107U;
+      dltcp_sock->remote_ip[1] = 20U;
+      dltcp_sock->remote_ip[2] = 250U;
+      dltcp_sock->remote_ip[3] = 52U; */
+      outsock->remote_ip[0] = 0xC0;
+      outsock->remote_ip[1] = 0xA8;
+      outsock->remote_ip[2] = 0x01;
+      outsock->remote_ip[3] = 0x1D;
       
-      /* Open  Server TCP Socket */
-      if( rsi_socket_ltcp_open (dltcp_sock) != RSI_NOERROR )
+      //TODO - We need to open a listening socket FIRST
+      //these are apparently only unidirectional ports..
+      LCDString("Open socket...", LCDRight(8)-55, 11); 
+      
+      if( rsi_socket_tcp_open (dltcp_sock) != RSI_NOERROR )
       {
+          LCDString("Socketopen FAIL", LCDRight(8)-55, 21); 
           return;
       }
-      
-      /* wait for response from WiFi module */
       do {
-          rsi_delayMs(2);
-          status = rsi_read_cmd_rsp(&dltcp_sock->handle);
-      }while ((status != RSI_NOERROR));
-        
-       
-      /* wait for Remote TCP connection */
-      do
-      {
-          status = rsi_query_ltcp_status (dltcp_sock->handle);
-          if (status == RSI_NOERROR)
-          {
-              rsi_delayMs(10);
-              /* read message from WiFi module */
-              status = rsi_read_cmd_rsp(&lib_rspBuf);
-              if((status == RSI_NOERROR) && (lib_rspBuf.SocketLtcpQueryRsp.socketHandle != -1))
-              {
-                break;
-              }
-          }
-      }while (1);
-      
-      socket0 = dltcp_sock->handle;
-      /* Initialize TCP server socket buffer with Transmission buffers */    
-
-      while(1)
-      {       	
-	      if(((loopCount%1000) == 0))
-              {
-                  /* Read Temperature and Light sensor values */
-                  send_sensor_reading(dltcp_sock);		  
-	      }		
-              
-              retryCount = 0;
-              do
-              {
-		 /* Read if any receive data on sockets */
-		  retval = rsi_read_data ((uint8*)&lib_rspBuf, &app_event); 
-		  retryCount++;
-              } while ( (retval == RSI_ERROR_NO_RX_PENDING) && (retryCount < 5));
-              
-              /* Process the received message from WiFi module */
-              if (retval == RSI_NOERROR)
-              {
-                  switch (app_event)
-		  {
-		    case RSI_EVENT_RX_DATA:		         
-		         /*If throughput or wifi_config information is received*/
-                         processdata(&strApi,NULL, dltcp_sock,NULL);                         						
-		         break;		  
-		    case RSI_EVENT_SOCKET_CLOSE:
-			 if(lib_rspBuf.socketHandle == sock_desc[2])
-			 {
-			     rsi_socket_close(sock_desc[2]);
-                             sock_desc[2]= 0;
-			     //socket_not_creatted =0;
-                         }
-                         else if(lib_rspBuf.socketHandle == socket0)
-			 {
-                            /* Put LEDs in off state */
-                             LED1 = TRUE;
-                             LED2 = TRUE;
-                             LED3 = TRUE;
-                             /* Re-open TCP server sonnection */
-			     socket0 = 0;                            
-                             /* Open  Server TCP Socket */
-                             if( rsi_socket_ltcp_open (dltcp_sock) != RSI_NOERROR )
-                             {
-                                return;
-                             }
-                            /* wait for response from WiFi module */
-                            do {
-                                 rsi_delayMs(2);
-                                 status = rsi_read_cmd_rsp(&dltcp_sock->handle);
-                            }while ((status != RSI_NOERROR));
-        
-       
-                            /* wait for Remote TCP connection */
-                            do
-                            {
-                              status = rsi_query_ltcp_status (dltcp_sock->handle);
-                               if (status == RSI_NOERROR)
-                                {
-                                    rsi_delayMs(10);
-                                    status = rsi_read_cmd_rsp(&lib_rspBuf);
-                                    if((status == RSI_NOERROR) && (lib_rspBuf.SocketLtcpQueryRsp.socketHandle != -1))
-                                    {
-                                      break;
-                                    }
-                                }
-                            }while (1);
-      
-                           socket0 = dltcp_sock->handle;
-                         }
-                         break;
-                    case RSI_EVENT_SLEEP:						
-			 break;								
-		    case RSI_EVENT_CMD_RESPONSE:
-			 break;		 
-		    default:
-			 break;
-                  }
-              }
-              /* reset WiFi module event flag */
-              app_event = 0;
-              loopCount++;
-              if(loopCount == 500000)
-              {
-                loopCount = 0;
-              }
+        status = rsi_read_cmd_rsp(&dltcp_sock->handle);
+      } while (status == RSI_ERROR_NO_RX_PENDING);
+      if (status != RSI_NOERROR){
+          memset(tempbuff, '\0', sizeof(tempbuff));
+          sprintf(tempbuff, "Socketopen %d", (signed int)status);
+          LCDString(tempbuff, LCDRight(8)-55, 21); 
+          return;
       }
-           
-      /* End user code. Do not edit comment generated here */
+      LCDString("Socketopen GOOD!", LCDRight(8)-55, 21); 
+      dltcp_sock->buf = (uint8 *)"Hello world\n";
+      dltcp_sock->buf_len = strlen(dltcp_sock->buf);
+      rsi_send(dltcp_sock);
+      return;
+      /*while(1){
+          retval = rsi_read_data ((uint8*)&lib_rspBuf, &app_event); 
+          if (retval != RSI_ERROR_NO_RX_PENDING){
+              if (app_event == RSI_EVENT_SOCKET_CLOSE){
+                  LCDString("Socketevent CLOSE", LCDRight(8)-55, 31);
+                  rsi_socket_close(dltcp_sock->handle);
+                  //We should be able to retry here...
+              }
+              LCDString("Socketevent OTHER", LCDRight(8)-55, 31); 
+          }
+      }*/
 }
 
 /* Start user code for adding. Do not edit comment generated here */

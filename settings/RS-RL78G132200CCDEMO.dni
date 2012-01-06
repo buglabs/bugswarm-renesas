@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-764563815
+Checksum=821769272
 [DisAssemblyWindow]
 NumStates=_ 0
 [InstructionProfiling]
@@ -54,14 +54,14 @@ SeqEnable34=0,0,0,0,0,0,0,0,0,0
 SeqEnable44=0,0,0,0,0,0,0,0,0,0
 SeqDisable4=0,0,0,0,0,0,0,0,0,0
 SeqData24=0,0,0,0,0,0
-TraceSettings=64,0,0,0,0,0,8192
+TraceSettings=128,0,0,0,0,0,8192
 TimerSettings=0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 CoverSettings=1048192,1048207,0
 Version=1,trace.txt
 LastDevFile=DR5F100LE.DVF
 EmulType=256
 BreakToggle=0
-EventLimits=0, 1, 1, 0, 0, 0, 2
+EventLimits=0, 1, 1, 0, 0, 0, 1
 LastSetupFailed=0
 [StackPlugin]
 Enabled=1
@@ -73,20 +73,6 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
-[CallStackLog]
-Enabled=0
-[DriverProfiling]
-Enabled=0
-Mode=0
-Graph=0
-Symbiont=0
 [InterruptLog]
 LogEnabled=0
 SumEnabled=0
@@ -94,9 +80,6 @@ GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
 SumSortOrder=0
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\wlan\app_wifi_init.c}.98.12@1" 0 0 0 0 "" 0 ""
-Count=1
 [Interrupts]
 Enabled=1
 [MemoryMap]
@@ -106,9 +89,26 @@ UseAuto=0
 TypeViolation=1
 UnspecRange=1
 ActionState=1
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\wlan\app_wifi_init.c}.98.12@1" 0 0 0 0 "" 0 ""
+Count=1
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [Aliases]
 Count=0
 SuppressDialog=0
 [TraceHelper]
 Enabled=0
 ShowSource=1
+[CallStackLog]
+Enabled=0
+[DriverProfiling]
+Enabled=0
+Mode=0
+Graph=0
+Symbiont=0
