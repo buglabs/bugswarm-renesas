@@ -126,6 +126,11 @@ __root const UCHAR secuid[10] =
 **-----------------------------------------------------------------------------
 */
 
+void mydelay(long ms){
+  for (long i=0;i<(20*ms);i++)
+        asm("nop");
+}
+
 void  main(void)
 {
    /* Start user code. Do not edit comment generated here */     
@@ -166,13 +171,13 @@ void  main(void)
       LED3 = TRUE;
       
       /* Open listening socket first... */
-      insock->lport = 80;
+      insock->lport = 8000;
       insock->handle = 0; 
       
       /* Now open our outbound socket... */
-      outsock->rport = 80;
-      outsock->lport = 80;
-      outsock->handle = 0; 
+      outsock->rport = 8001;
+      outsock->lport = 8000;
+      outsock->handle = 1; 
       /* Remote address is IP address for api.bugswarm.net 
       dltcp_sock->remote_ip[0] = 107U;
       dltcp_sock->remote_ip[1] = 20U;
@@ -183,28 +188,50 @@ void  main(void)
       outsock->remote_ip[2] = 0x01;
       outsock->remote_ip[3] = 0x1D;
       
-      //TODO - We need to open a listening socket FIRST
-      //these are apparently only unidirectional ports..
-      LCDString("Open socket...", LCDRight(8)-55, 11); 
       
-      if( rsi_socket_tcp_open (dltcp_sock) != RSI_NOERROR )
+      //OPEN listening socket first
+      LCDString("Open socket...", LCDRight(8)-55, 11); 
+      if( rsi_socket_ltcp_open (insock) != RSI_NOERROR )
       {
-          LCDString("Socketopen FAIL", LCDRight(8)-55, 21); 
+          LCDString("insock FAIL", LCDRight(8)-55, 21); 
           return;
       }
       do {
-        status = rsi_read_cmd_rsp(&dltcp_sock->handle);
+        mydelay(10);
+        status = rsi_read_cmd_rsp(&insock->handle);
       } while (status == RSI_ERROR_NO_RX_PENDING);
       if (status != RSI_NOERROR){
           memset(tempbuff, '\0', sizeof(tempbuff));
-          sprintf(tempbuff, "Socketopen %d", (signed int)status);
+          sprintf(tempbuff, "insnock %d", (signed int)status);
           LCDString(tempbuff, LCDRight(8)-55, 21); 
           return;
       }
-      LCDString("Socketopen GOOD!", LCDRight(8)-55, 21); 
-      dltcp_sock->buf = (uint8 *)"Hello world\n";
-      dltcp_sock->buf_len = strlen(dltcp_sock->buf);
-      rsi_send(dltcp_sock);
+      LCDString("insock GOOD", LCDRight(8)-55, 21);
+      LED1 = FALSE;
+      mydelay(2000);
+      LED2 = FALSE;
+      //OPEN outgoing socket, which references listening socket
+      if( rsi_socket_tcp_open (outsock) != RSI_NOERROR )
+      {
+          LCDString("outsock FAIL", LCDRight(8)-55, 31); 
+          return;
+      }
+      do {
+        mydelay(10);
+        status = rsi_read_cmd_rsp(&outsock->handle);
+      } while (status == RSI_ERROR_NO_RX_PENDING);
+      if (status != RSI_NOERROR){
+          memset(tempbuff, '\0', sizeof(tempbuff));
+          sprintf(tempbuff, "outsock %d", (signed int)status);
+          LCDString(tempbuff, LCDRight(8)-55, 31); 
+          return;
+      }
+      LCDString("outsock GOOD", LCDRight(8)-55, 31);
+      
+      //Send some test data to the socket.
+      outsock->buf = (uint8 *)"Hello world\n";
+      outsock->buf_len = strlen(outsock->buf);
+      rsi_send(outsock);
       return;
       /*while(1){
           retval = rsi_read_data ((uint8*)&lib_rspBuf, &app_event); 
