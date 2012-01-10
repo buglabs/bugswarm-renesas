@@ -32,8 +32,6 @@
 #include "CG_ad.h"
 #include "CG_timer.h"
 #include "CG_it.h"
-
-/* Start user code for include. Do not edit comment generated here */
 #include "rsi_data_types.h"
 #include "rsi_uart_api.h"
 #include "rsi_hal.h"
@@ -63,7 +61,6 @@ uint8 lib_rx_buffer2[LIB_RX_BUF_SIZE+LIB_NETWORK_HDR_LEN];
 
 #if 0 // Skip Applilet3 code here to set custom option bytes for LVD
 
-/* End user code. Do not edit comment generated here */
 #include "CG_userdefine.h"
 #include "swarm.h
 #include <stdint.h>
@@ -76,7 +73,6 @@ uint8 lib_rx_buffer2[LIB_RX_BUF_SIZE+LIB_NETWORK_HDR_LEN];
 **  Global define
 *******************************************************************************
 */
-/* Set option bytes */
 #pragma location = "OPTBYTE"
 __root const UCHAR opbyte0 = 0xEFU;
 #pragma location = "OPTBYTE"
@@ -85,15 +81,10 @@ __root const UCHAR opbyte1 = 0x73U;
 __root const UCHAR opbyte2 = 0xE8U;
 #pragma location = "OPTBYTE"
 __root const UCHAR opbyte3 = 0x04U;
-
-/* Set security ID */
 #pragma location = "SECUID"
 __root const UCHAR secuid[10] = 
 	{0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU};
-/* Start user code for global. Do not edit comment generated here */
 #else
-
-/* Set option bytes */
 #pragma location = "OPTBYTE"
 __root const UCHAR opbyte0 = 0xEFU;
 #pragma location = "OPTBYTE"
@@ -102,30 +93,11 @@ __root const UCHAR opbyte1 = 0x35U;
 __root const UCHAR opbyte2 = 0xE8U;   
 #pragma location = "OPTBYTE"
 __root const UCHAR opbyte3 = 0x84U;
-
-/* Set security ID */
 #pragma location = "SECUID"
 __root const UCHAR secuid[10] = 
 	{0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU};
-
 #endif
-/* End user code. Do not edit comment generated here */
 
-
-/*
-**-----------------------------------------------------------------------------
-**
-**  Abstract:
-**	This function implements main function.
-**
-**  Parameters:
-**	None
-**
-**  Returns:
-**	None
-**
-**-----------------------------------------------------------------------------
-*/
 
 void mydelay(long ms){
   for (long i=0;i<(20*ms);i++)
@@ -134,7 +106,6 @@ void mydelay(long ms){
 
 void  main(void)
 {
-   /* Start user code. Do not edit comment generated here */     
       int16     status = 0;
       char     tempbuff[30];
          
@@ -175,6 +146,8 @@ void  main(void)
       outsock->lport = 80;
       /* Remote address is IP address for api.bugswarm.net 
       strcpy(outsock->remote_ip, "107.20.250.52"); */
+      /* EDIT the following IP address is the machine that this board will
+         attempt to connect to... */
       strcpy(outsock->remote_ip, "192.168.1.29"); 
       LED1 = FALSE;
       
