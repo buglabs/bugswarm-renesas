@@ -104,11 +104,11 @@
         </option>
         <option>
           <name>GenStackSize</name>
-          <state>128</state>
+          <state>256</state>
         </option>
         <option>
           <name>GenNearHeapSize</name>
-          <state>256</state>
+          <state>512</state>
         </option>
         <option>
           <name>GenFarHeapSize</name>
@@ -347,6 +347,7 @@
           <state>$PROJ_DIR$\applilet3_src\</state>
           <state>$PROJ_DIR$\wlan\</state>
           <state>$PROJ_DIR$\wifi_uart_hal\</state>
+          <state>$PROJ_DIR$\swarm_libs\</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -711,7 +712,7 @@
         </option>
         <option>
           <name>ModuleSummary</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>xcProgramEntryLabel</name>
@@ -1807,7 +1808,7 @@
     </file>
   </group>
   <group>
-    <name>swarm_lib</name>
+    <name>swarm_libs</name>
     <file>
       <name>$PROJ_DIR$\swarm_libs\swarm.c</name>
     </file>
