@@ -172,9 +172,11 @@ rsi_wifi_init (uint8 band_val, rsi_scanFrameSnd_t * sf, rsi_joinFrameSnd_t * jf,
         /* Convert IP address to dotted string */
         rsi_convert_ip_to_string(lib_rspBuf.IpparamRsp.ipaddr, ipstring_buffer);
         /* Display AP name to which WiFi module is conneted */ 
-        //LCDString((char const *)jf->ssid, LCDRight(8)-55, 15);
+        LCDString("AP", LCDRight(8)-55, 1);
+        LCDString((char const *)jf->ssid, LCDRight(8)-40, 1);
         /* Display IP address of the WiFi module */
-        LCDString((char const *)ipstring_buffer, LCDRight(8)-55, 1); 
+        LCDString("IP", LCDRight(8)-55, 11);
+        LCDString((char const *)ipstring_buffer, LCDRight(8)-40, 11); 
        // LCDString("Status:Connected", LCDRight(8)-55, 35);          /* Comment this if CMD_QRY_FWVERSION in #if 0 is enabled */
         cmd_type++;
       }

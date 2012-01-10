@@ -83,11 +83,11 @@
 /* Module IP Parameters */
 #define DHCP_MODE             DHCP_MODE_YES         /* DHCP_MODE_NO or DHCP_MODE_YES */
 
-#define	MODULE_IP_ADDRESS     "192.168.0.148"       /* IP Address of the WiFi Module */
+#define	MODULE_IP_ADDRESS     "192.168.1.33"       /* IP Address of the WiFi Module */
 
-#define GATEWAY               "192.168.0.1"         /* Default Gateway */
+#define GATEWAY               "192.168.0.3"         /* Default Gateway */
 
-#define NETMASK               "255.255.255.0"       /* Netmask */
+#define NETMASK               "255.255.0.0"       /* Netmask */
 
 /* Remote IP PC IP address to which WiFi module comminicats */
 #define REMOTE_IP             "192.168.0.60"       /* IP Address we will connect to */

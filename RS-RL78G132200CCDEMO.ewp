@@ -1807,6 +1807,15 @@
     </file>
   </group>
   <group>
+    <name>swarm_lib</name>
+    <file>
+      <name>$PROJ_DIR$\swarm_libs\swarm.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\swarm_libs\swarm.h</name>
+    </file>
+  </group>
+  <group>
     <name>user_src</name>
     <file>
       <name>$PROJ_DIR$\user_src\app_wifi_init.c</name>
