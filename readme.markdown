@@ -15,5 +15,5 @@ A bugswarm connector for Renesas 8- and 16-bit microcontrollers.
 5.  Double click the file `rsi_global.h` in the `wifi_api` folder and edit the following sections: security info, scan info, join info.
 6.  Open `CG_main.c` in the `applilet_src` folder, and edit any fields indicated by the code comments.
 7.  Select the `Debug` target in the Workspace frame (at the top).  Right click on the Project and select `Rebuild All`
-8.  Connect the Renesas board to your computer and select Project->Make & Restart Debugger.  Wait for the code to deploy, and the debbuger to halt on main
+8.  Connect the Renesas board to your computer and select Project->Make & Restart Debugger.  Wait for the code to deploy, and the debugger to halt on main
 9.  Select Debug->Go.  The connector will now begin running.  Watch the LCD screen for status messages!
