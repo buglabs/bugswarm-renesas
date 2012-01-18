@@ -68,14 +68,12 @@ void LCDFont (LCDFONT font)
     }
 }
 
-#if 0
 void LCDClearLine (uint8_t aLine)
 {
     uint8_t y = aLine * G_CharHeight;
 
     GlyphEraseBlock(G_lcd, 0u, y, 95u, y + 7u);
 }
-#endif
 void LCDString (const char *aStr, uint8_t aX, uint8_t aY)
 {
     GlyphSetXY (G_lcd, aX, aY);

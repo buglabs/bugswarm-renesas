@@ -14,6 +14,7 @@ const char produce_header[] = "POST /stream?swarm_id=%s&"
   "resource_id=%s HTTP/1.1\r\nHost:api.bugswarm.net\r\n"
   "x-bugswarmapikey:%s\r\ntransfer-encoding:chunked\r\nConnection:keep-alive"
   "\r\nContent-Type: application/json\r\n\r\n1\r\n\n\r\n\r\n";
+const char feed_request[] = "{\"capabilities\": {\"feeds\": [\"Acceleration\"], \"modules\": {\"slot1\":\"LCD\"}}}";
 const char message_header[] = "%x\r\n{\"message\": {\"payload\":%s}}\r\n\r\n";
 
 char pktbuff[500];
@@ -36,4 +37,8 @@ void swarm_produce(char *message, struct rsi_socketFrame_s *sock){
   sock->buf = (uint8 *)pktbuff;
   sock->buf_len = strlen((const char *)sock->buf);
   rsi_send(sock);
+}
+
+void capabilities_announce(struct rsi_socketFrame_s *sock){
+  swarm_produce((char *)feed_request, sock);
 }

@@ -83,7 +83,7 @@
 /* Module IP Parameters */
 #define DHCP_MODE             DHCP_MODE_YES         /* DHCP_MODE_NO or DHCP_MODE_YES */
 
-#define	MODULE_IP_ADDRESS     "192.168.1.33"       /* IP Address of the WiFi Module */
+#define	MODULE_IP_ADDRESS     "192.168.1.200"       /* IP Address of the WiFi Module */
 
 #define GATEWAY               "192.168.0.3"         /* Default Gateway */
 
