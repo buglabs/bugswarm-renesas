@@ -474,7 +474,7 @@ void UART2_SendEndCallback(void)
 void UART2_ErrorCallback(UCHAR err_type)
 {
 	/* Start user code. Do not edit comment generated here */
-      LED2 = 0;
+      //LED2 = 0;
 	/* End user code. Do not edit comment generated here */
 }
 /*

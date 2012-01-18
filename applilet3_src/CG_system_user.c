@@ -27,6 +27,8 @@
 #include "CG_macrodriver.h"
 #include "CG_system.h"
 /* Start user code for include. Do not edit comment generated here */
+#include "rsi_data_types.h"
+#include "rsi_uart_api.h"
 /* End user code. Do not edit comment generated here */
 #include "CG_userdefine.h"
 
@@ -56,6 +58,15 @@ void CG_ReadResetSource(void)
 {
 	UCHAR resetflag = RESF;
 	/* Start user code. Do not edit comment generated here */
+        
+        /* The following was an attempt to force the redpine module to
+         * close sockets before resetting.  It didn't seem to work        
+        
+        //Brute force attempt to close all sockets before we reset!
+        rsi_socket_close(1);
+        rsi_socket_close(0);
+        rsi_socket_close(2);
+        rsi_socket_close(3);*/
 	/* End user code. Do not edit comment generated here */
 }
 
