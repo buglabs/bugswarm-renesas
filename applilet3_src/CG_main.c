@@ -78,6 +78,9 @@ __root const UCHAR secuid[10] =
  * NOTE - this isn't a precise value, it does not take into effect the time
  * spent retrieving the sample and sending it out to swarm.*/
 #define UPDATE_PERIOD 1000
+/* The number of messages to wait until sending out a swarm capabilities message
+ */
+#define ANNOUNCE_INTERVAL  10
 
 api strApi;
 DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
@@ -88,9 +91,9 @@ DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
  * Edit the following values based on desired BUGSwarm configuration */
 const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
 //const char swarm_server_ip = "64.118.81.28";  //test.api.bugswarm.net
-const char swarm_id[] =          "32c570d1d07756d92eb1a0e1cb3afbc60bfd5a94";
-const char resource_id[] =       "ea8da467c44d4e3f2327b9346f0869787aa8342a";
-const char participation_key[] = "dd370eabf1fde6beeab83ec9c288e0abb4639654";
+const char swarm_id[] =          "27e5a0e7e2e5445c51be56de44f45b19701f36d3";
+const char resource_id[] =       "b75538642bcadbdf4ae6d242d4f492266c11cb44";
+const char participation_key[] = "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b";
 
 rsi_socketFrame_t      insock_obj;
 rsi_socketFrame_t      outsock_obj;
@@ -139,6 +142,7 @@ void  main(void)
 {
       int16 status = 0;
       char tempbuff[50];
+      int16 loopcount = 0;
       
       struct rsi_socketFrame_s *insock = &insock_obj;    
       struct rsi_socketFrame_s *outsock = &outsock_obj;          
@@ -268,5 +272,10 @@ void  main(void)
                 abs((int)((((long)datay*10000L)/270)-((long)datayRounded*10000L))));
         LCDString(tempbuff, LCDRight(8)-55, 51);        
         mydelay(UPDATE_PERIOD);
+        if (++loopcount%ANNOUNCE_INTERVAL == 0){
+           capabilities_announce(outsock);
+           //small delay just to make sure we don't rush the next sample going out
+           mydelay(100);
+        }
       }
 }

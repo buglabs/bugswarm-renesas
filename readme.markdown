@@ -29,7 +29,7 @@ A bugswarm connector for Renesas 8- and 16-bit microcontrollers.
 
 ## Note
 
-You may notice that the Renesas board is unable to connect immediately, displaying `Can't connect to SWARM, retrying` on the LCD screen.  This is caused by a previous connection being kept alive by a firewall in-between the Renesas board and the Swarm server.  The board will automatically attempt to reconnect, and should succeed on it's own in less than 2 minutes.  To expedite the process, you can kick the `ea8da467c44d4e3f2327b9346f0869787aa8342a` resource from the Multi User Chat.
+You may notice that the Renesas board is unable to connect immediately, displaying `Can't connect to SWARM, retrying` on the LCD screen.  This is caused by a previous connection being kept alive by a firewall in-between the Renesas board and the Swarm server.  The board will automatically attempt to reconnect, and should succeed on it's own in less than 2 minutes.  To expedite the process, you can kick the `b75538642bcadbdf4ae6d242d4f492266c11cb44` resource from the Multi User Chat.
 
 ## Disclaimer
 
