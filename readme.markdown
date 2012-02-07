@@ -21,10 +21,10 @@ A bugswarm connector for Renesas 8- and 16-bit microcontrollers.
 ### Usage
 
 1.  Once the code has been deployed to the board, you can toggle Switch 2 on the DIP switch SW5.  That will allow the code to run whenever the board is powered (IE, you will not need to use the debugger).  Remember to re-set this switch in order to use the debugger. 
-2.  Before powering on the board, open [www.bugswarm.net](www.bugswarm.net) and log in with username `atergis_dp`.  
-3.  Click on the `RenesasDemo` swarm in the `My Swarms` tab.  Now you can either power on the Renesas board, or reset the application by pressing the RESET button.  
-4.  Wait until you see the `RenesasMicro` resource come online (the small circle in the upper left hand corner of the resource icon will turn green, and the RenesasMicro text will turn black).  
-5.  Click on the `RenesasMicro` resource, and on the `Acceleration` service.  If you cannot click on the Acceleration service, you may need to reset the Renesas board.  
+2.  Before powering on the board, open [www.bugswarm.net](www.bugswarm.net) and log in with username `demo`.  
+3.  Click on the `Renesas Demo` swarm in the `My Swarms` tab.  
+4.  Wait until you see the `Renesas01` resource come online (the small circle in the upper left hand corner of the resource icon will turn green, and the RenesasMicro text will turn black).  
+5.  Click on the `Renesas01` resource, and on the `Acceleration` service.  It may take up to 10 seconds for the acceleration service to become clickable.  
 6.  You should see raw acceleration data streaming on the screen.  Click on the grey `App` button to view a graph of the acceleration data.  Values have been normalized to G-Force (1G = 9.81N).
 
 ## Note
