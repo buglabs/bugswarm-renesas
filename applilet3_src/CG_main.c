@@ -90,7 +90,7 @@ __root const UCHAR secuid[10] =
  * Adjust with care and an eye on a swarm console.
  * NOTE - this isn't a precise value, it does not take into effect the time
  * spent retrieving the sample and sending it out to swarm.*/
-#define UPDATE_PERIOD 1000
+#define UPDATE_PERIOD 2000
 /* The number of messages to wait until sending out a swarm capabilities message
  */
 #define ANNOUNCE_INTERVAL  10
@@ -299,10 +299,11 @@ void  main(void)
         // Scale accelerometer data:
         // -Intentionally concatenate integer divided value
         // -Absolute value, so that we can add our own negative sign 
+        getAccelSample();
         int dataxRounded = abs(datax/ACCEL_SCALE);
         int datayRounded = abs(datay/ACCEL_SCALE);
         memset(tempbuff, '\0', sizeof(tempbuff));
-        // Create swarm payload, and load it into tempbuff.
+        // Create swarm payload for acceleration, and load it into tempbuff.
         // Integer math to compensate for lack fo floating point formatter: 
         // -%c is used to display a negative sign if number is negative
         // -%d. is the whole part of the number
@@ -314,14 +315,8 @@ void  main(void)
                 abs((int)((((long)datay*10000L)/ACCEL_SCALE)-((long)datayRounded*10000L))));
         // Send data to swarm and toggle LED2 
         swarm_produce(tempbuff,outsock);
-        LED2 = !LED2;
-        
-        getAccelSample();
-        // Clear the lower half of the LCD screen and repaint it with data 
-        LCDClearLine(5);
-        LCDClearLine(6);
-        LCDClearLine(7);
-        memset(tempbuff, '\0', sizeof(tempbuff));
+        mydelay(100);        
+        /*
         // Format accelerometer data for the LCD screen.
         // the same integer math as above with the SWARM payload. 
         sprintf(tempbuff, "X: %c%d.%04d",(datax < 0)?'-':' ', dataxRounded, 
@@ -331,11 +326,25 @@ void  main(void)
         sprintf(tempbuff, "Y: %c%d.%04d",(datay < 0)?'-':' ', datayRounded, 
                 abs((int)((((long)datay*10000L)/270)-((long)datayRounded*10000L))));
         LCDString(tempbuff, LCDRight(8)-55, 51);        
+        */
+        
+        memset(tempbuff, '\0', sizeof(tempbuff));
+        // Create swarm payload for light
+        sprintf(tempbuff, "{\"Light\":{\"value\":%d}}", getLightSample());
+        swarm_produce(tempbuff,outsock);
+        mydelay(500);        
+        
+        // Clear the lower half of the LCD screen and repaint it with data 
+        LCDClearLine(5);
+        LCDClearLine(6);
+        LCDClearLine(7);
+        memset(tempbuff, '\0', sizeof(tempbuff));
+        
+        LED2 = !LED2;
         mydelay(UPDATE_PERIOD);
         if (++loopcount%ANNOUNCE_INTERVAL == 0){
            capabilities_announce(outsock);
-           //small delay just to make sure we don't rush the next sample going out
-           mydelay(100);
+           mydelay(500);
         }
         
       } 
