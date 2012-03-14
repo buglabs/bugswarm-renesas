@@ -90,7 +90,7 @@ __root const UCHAR secuid[10] =
  * Adjust with care and an eye on a swarm console.
  * NOTE - this isn't a precise value, it does not take into effect the time
  * spent retrieving the sample and sending it out to swarm.*/
-#define UPDATE_PERIOD 2000
+#define UPDATE_PERIOD 1000
 /* The number of messages to wait until sending out a swarm capabilities message
  */
 #define ANNOUNCE_INTERVAL  10
@@ -316,9 +316,10 @@ void  main(void)
         // Send data to swarm and toggle LED2 
         swarm_produce(tempbuff,outsock);
         mydelay(100);        
-        /*
+        
         // Format accelerometer data for the LCD screen.
         // the same integer math as above with the SWARM payload. 
+        memset(tempbuff, '\0', sizeof(tempbuff));
         sprintf(tempbuff, "X: %c%d.%04d",(datax < 0)?'-':' ', dataxRounded, 
                 abs((int)((((long)datax*10000L)/270)-((long)dataxRounded*10000L))));
         LCDString(tempbuff, LCDRight(8)-55, 41);
@@ -326,13 +327,13 @@ void  main(void)
         sprintf(tempbuff, "Y: %c%d.%04d",(datay < 0)?'-':' ', datayRounded, 
                 abs((int)((((long)datay*10000L)/270)-((long)datayRounded*10000L))));
         LCDString(tempbuff, LCDRight(8)-55, 51);        
-        */
         
-        memset(tempbuff, '\0', sizeof(tempbuff));
+        
+        /*memset(tempbuff, '\0', sizeof(tempbuff));
         // Create swarm payload for light
         sprintf(tempbuff, "{\"Light\":{\"value\":%d}}", getLightSample());
         swarm_produce(tempbuff,outsock);
-        mydelay(500);        
+        mydelay(500);        */
         
         // Clear the lower half of the LCD screen and repaint it with data 
         LCDClearLine(5);
