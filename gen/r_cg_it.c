@@ -23,12 +23,12 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_port.c
+* File Name    : r_cg_it.c
 * Version      : CodeGenerator for RL78/G13 V1.03.01 [11 Oct 2011]
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
-* Description  : This file implements device driver for PORT module.
-* Creation Date: 4/16/2012
+* Description  : This file implements device driver for IT module.
+* Creation Date: 4/17/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -41,7 +41,7 @@ Pragma directive
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "r_cg_port.h"
+#include "r_cg_it.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -50,21 +50,51 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
+unsigned long millis;
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: R_PORT_Create
-* Description  : This function initializes the Port I/O.
+* Function Name: R_IT_Create
+* Description  : This function initializes the IT module.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_PORT_Create(void)
+void R_IT_Create(void)
 {
-    P5 = _04_Pn2_OUTPUT_1 | _08_Pn3_OUTPUT_1 | _10_Pn4_OUTPUT_1 | _20_Pn5_OUTPUT_1;
-    P6 = _04_Pn2_OUTPUT_1 | _08_Pn3_OUTPUT_1;
-    PM5 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _00_PMn2_MODE_OUTPUT | _00_PMn3_MODE_OUTPUT | _00_PMn4_MODE_OUTPUT |
-          _00_PMn5_MODE_OUTPUT | _C0_PM5_DEFAULT;
-    PM6 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _00_PMn2_MODE_OUTPUT | _00_PMn3_MODE_OUTPUT | _F0_PM6_DEFAULT;
+    RTCEN = 1U;    /* supply IT clock */
+    ITMC = _0000_IT_OPERATION_DISABLE;    /* disable IT operation */
+    ITMK = 1U;    /* disable INTIT interrupt */
+    ITIF = 0U;    /* clear INTIT interrupt flag */
+    /* Set INTIT high priority */
+    ITPR1 = 0U;
+    ITPR0 = 0U;
+    ITMC = _000E_ITMCMP_VALUE;
+}
+
+/***********************************************************************************************************************
+* Function Name: R_IT_Start
+* Description  : This function starts IT module operation.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_IT_Start(void)
+{
+    ITMC |= _8000_IT_OPERATION_ENABLE;    /* enable IT operation */
+    ITIF = 0U;    /* clear INTIT interrupt flag */
+    ITMK = 0U;    /* enable INTIT interrupt */
+}
+
+/***********************************************************************************************************************
+* Function Name: R_IT_Stop
+* Description  : This function stops IT module operation.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_IT_Stop(void)
+{
+    ITMK = 1U;    /* disable INTIT interrupt */
+    ITIF = 0U;    /* clear INTIT interrupt flag */
+    ITMC &= (uint16_t)~_8000_IT_OPERATION_ENABLE;    /* disable IT operation    */
 }
 
 /* Start user code for adding. Do not edit comment generated here */

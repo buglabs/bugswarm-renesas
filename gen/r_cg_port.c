@@ -23,12 +23,12 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_main.c
+* File Name    : r_cg_port.c
 * Version      : CodeGenerator for RL78/G13 V1.03.01 [11 Oct 2011]
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
-* Description  : This file implements main function.
-* Creation Date: 4/16/2012
+* Description  : This file implements device driver for PORT module.
+* Creation Date: 4/17/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -41,13 +41,8 @@ Pragma directive
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "r_cg_cgc.h"
 #include "r_cg_port.h"
-#include "r_cg_serial.h"
-#include "r_cg_it.h"
 /* Start user code for include. Do not edit comment generated here */
-#include <stdio.h>
-#include "YRDKRL78G13.h"
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -55,48 +50,21 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
-const uint8_t * message = (const uint8_t *)"Hello World\r\n";
-const uint8_t * tester = (const uint8_t *)"abcdefghijklmnopqrstuvwxyz\r\n";
-
-uint8_t buff[120];
-int num = 0;
-int len;
-MD_STATUS ret;
-accelData last_accel;
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: main
-* Description  : This function implements main function.
+* Function Name: R_PORT_Create
+* Description  : This function initializes the Port I/O.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void main(void)
+void R_PORT_Create(void)
 {
-    /* Start user code. Do not edit comment generated here */
-    R_IT_Start();		//Start the interval timer
-    R_UART0_Start();		//Start the UART
-    R_UART0_Send(message, strlen(message));
-    delay_ms(100);
-    
-    //Initialize i2c devices, give them time to start up
-    setup_accel();
-    
-    delay_ms(100);
-    while (1U)
-    {
-	toggle(&P5,4);
-	read_accel(&last_accel);
-	
-	memset(buff, '\0', 120);
-	len = sprintf(buff, "%d-%d-%d (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time);
-	ret = R_UART0_Send(buff, len);
-	if (ret != MD_OK){
-		P5 &= ~(1 << 5);
-	}
-	delay_ms(1000);
-    }
-    /* End user code. Do not edit comment generated here */
+    P5 = _04_Pn2_OUTPUT_1 | _08_Pn3_OUTPUT_1 | _10_Pn4_OUTPUT_1 | _20_Pn5_OUTPUT_1;
+    P6 = _04_Pn2_OUTPUT_1 | _08_Pn3_OUTPUT_1;
+    PM5 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _00_PMn2_MODE_OUTPUT | _00_PMn3_MODE_OUTPUT | _00_PMn4_MODE_OUTPUT |
+          _00_PMn5_MODE_OUTPUT | _C0_PM5_DEFAULT;
+    PM6 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _00_PMn2_MODE_OUTPUT | _00_PMn3_MODE_OUTPUT | _F0_PM6_DEFAULT;
 }
 
 /* Start user code for adding. Do not edit comment generated here */

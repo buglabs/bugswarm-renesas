@@ -23,46 +23,81 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_it.h
+* File Name    : r_main.c
 * Version      : CodeGenerator for RL78/G13 V1.03.01 [11 Oct 2011]
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
-* Description  : This file implements device driver for IT module.
-* Creation Date: 4/16/2012
-***********************************************************************************************************************/
-
-#ifndef IT_H
-#define IT_H
-
-/***********************************************************************************************************************
-Macro definitions (Register bit)
-***********************************************************************************************************************/
-/* 
-    Interval timer control register (ITMC)
-*/
-/* Interval timer operation enable/disable specification (RINTE) */
-#define _0000_IT_OPERATION_DISABLE    (0x0000U)    /* disable interval timer operation */
-#define _8000_IT_OPERATION_ENABLE     (0x8000U)    /* enable interval timer operation */
-
-/***********************************************************************************************************************
-Macro definitions
-***********************************************************************************************************************/
-/* Interval timer compare value (ITMCMP11 - 0) */
-#define _000E_ITMCMP_VALUE            (0x000EU)
-
-/***********************************************************************************************************************
-Typedef definitions
+* Description  : This file implements main function.
+* Creation Date: 4/17/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Global functions
+Pragma directive
 ***********************************************************************************************************************/
-void R_IT_Create(void);
-void R_IT_Start(void);
-void R_IT_Stop(void);
-
-/* Start user code for function. Do not edit comment generated here */
-extern unsigned long millis;
-void delay_ms(unsigned long ms);
+/* Start user code for pragma. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
-#endif
+
+/***********************************************************************************************************************
+Includes
+***********************************************************************************************************************/
+#include "r_cg_macrodriver.h"
+#include "r_cg_cgc.h"
+#include "r_cg_port.h"
+#include "r_cg_serial.h"
+#include "r_cg_it.h"
+/* Start user code for include. Do not edit comment generated here */
+#include <stdio.h>
+#include "../board/YRDKRL78G13.h"
+/* End user code. Do not edit comment generated here */
+#include "r_cg_userdefine.h"
+
+/***********************************************************************************************************************
+Global variables and functions
+***********************************************************************************************************************/
+/* Start user code for global. Do not edit comment generated here */
+const uint8_t * message = (const uint8_t *)"Hello World\r\n";
+const uint8_t * tester = (const uint8_t *)"abcdefghijklmnopqrstuvwxyz\r\n";
+
+uint8_t buff[120];
+int num = 0;
+int len;
+MD_STATUS ret;
+accelData last_accel;
+/* End user code. Do not edit comment generated here */
+
+/***********************************************************************************************************************
+* Function Name: main
+* Description  : This function implements main function.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void main(void)
+{
+    /* Start user code. Do not edit comment generated here */
+    R_IT_Start();		//Start the interval timer
+    R_UART0_Start();		//Start the UART
+    R_UART0_Send(message, strlen(message));
+    delay_ms(100);
+    
+    //Initialize i2c devices, give them time to start up
+    setup_accel();
+    
+    delay_ms(100);
+    while (1U)
+    {
+	toggle(&P5,4);
+	read_accel(&last_accel);
+	
+	memset(buff, '\0', 120);
+	len = sprintf(buff, "%d-%d-%d (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time);
+	ret = R_UART0_Send(buff, len);
+	if (ret != MD_OK){
+		P5 &= ~(1 << 5);
+	}
+	delay_ms(1000);
+    }
+    /* End user code. Do not edit comment generated here */
+}
+
+/* Start user code for adding. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */

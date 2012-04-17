@@ -20,161 +20,149 @@
       <Name>Code Generator</Name>
       <Type>Category</Type>
       <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
-    </Instance>
-    <Instance Guid="a2b8aa21-09c0-42b9-904e-6e3ec0a7c18e">
-      <Name>r_lk.dr</Name>
-      <Type>File</Type>
-      <RelativePath>r_lk.dr</RelativePath>
-      <TreeImageGuid>a4460d02-6943-4122-9169-dd699e916213</TreeImageGuid>
-      <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
-      <Property>b65e5174-674e-432b-b9e9-ced4c5d105d4</Property>
+      <Property>107957c7-f11f-4ad9-b5b9-c7cf9c257572</Property>
     </Instance>
     <Instance Guid="3e092503-dc7b-40b2-8c75-f0a4639dd942">
-      <Name>Project Source</Name>
+      <Name>board</Name>
       <Type>Category</Type>
       <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
       <Property>397cc0e5-200f-4de7-ac42-0806c3129929</Property>
     </Instance>
-    <Instance Guid="d8ee9314-97e8-4fb1-b479-23a5346e2be1">
+    <Instance Guid="22d3843a-a66d-42d4-b04d-c4df475b44ea">
+      <Name>r_lk.dr</Name>
+      <Type>File</Type>
+      <RelativePath>Code Generator\r_lk.dr</RelativePath>
+      <TreeImageGuid>a4460d02-6943-4122-9169-dd699e916213</TreeImageGuid>
+      <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
+    </Instance>
+    <Instance Guid="dd6b3ebe-8369-41b7-aafa-a31341e04de6">
       <Name>r_main.c</Name>
       <Type>File</Type>
-      <RelativePath>r_main.c</RelativePath>
+      <RelativePath>Code Generator\r_main.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>37c46937-792e-42b1-bbec-ea0779d5665c</Property>
     </Instance>
-    <Instance Guid="595f3f0f-ebc3-4b84-b00e-d0600accf386">
+    <Instance Guid="9af26856-0196-4609-a33e-dffd0d428eff">
       <Name>r_systeminit.c</Name>
       <Type>File</Type>
-      <RelativePath>r_systeminit.c</RelativePath>
+      <RelativePath>Code Generator\r_systeminit.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>340bc714-a340-4757-bfe9-96a0c13502bd</Property>
     </Instance>
-    <Instance Guid="a6432b74-f08d-4759-9848-3a5f5526beb9">
+    <Instance Guid="18dd92d5-cdff-4867-8af4-23b763541b81">
       <Name>r_cg_cgc.c</Name>
       <Type>File</Type>
-      <RelativePath>r_cg_cgc.c</RelativePath>
+      <RelativePath>Code Generator\r_cg_cgc.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
     </Instance>
-    <Instance Guid="4bb09292-76e2-4ba5-80b8-5a4f36a27c95">
+    <Instance Guid="45523609-a014-4d3e-af65-20e270c2a86c">
       <Name>r_cg_cgc_user.c</Name>
       <Type>File</Type>
-      <RelativePath>r_cg_cgc_user.c</RelativePath>
+      <RelativePath>Code Generator\r_cg_cgc_user.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>e6ab67ea-3a00-44f1-9ddb-230ee41b5e63</Property>
     </Instance>
-    <Instance Guid="c747baa3-8d24-4f0f-b1c3-af600ab924d4">
+    <Instance Guid="8c1b801c-8fd6-4ff4-923a-d13bd564c0d2">
       <Name>r_cg_port.c</Name>
       <Type>File</Type>
-      <RelativePath>r_cg_port.c</RelativePath>
+      <RelativePath>Code Generator\r_cg_port.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
     </Instance>
-    <Instance Guid="a813f56c-8e73-4884-b5e1-b94f173451f9">
+    <Instance Guid="8e6ccfcc-fe14-40fa-8480-09553622c067">
       <Name>r_cg_port_user.c</Name>
       <Type>File</Type>
-      <RelativePath>r_cg_port_user.c</RelativePath>
+      <RelativePath>Code Generator\r_cg_port_user.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>4c09b7c0-2c95-4612-ac36-7e24be1047d6</Property>
     </Instance>
-    <Instance Guid="7bad6cdd-1178-4dd5-9f80-a58d181865ea">
-      <Name>r_cg_macrodriver.h</Name>
-      <Type>File</Type>
-      <RelativePath>r_cg_macrodriver.h</RelativePath>
-      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>2d9e86f0-4202-45a8-b5da-efa7a9319c01</Property>
-    </Instance>
-    <Instance Guid="58295600-216e-4edb-b985-b1b4da4629d7">
-      <Name>r_cg_userdefine.h</Name>
-      <Type>File</Type>
-      <RelativePath>r_cg_userdefine.h</RelativePath>
-      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>dbe64045-784a-428d-a25a-8e9f93daf067</Property>
-    </Instance>
-    <Instance Guid="e251b415-8ba9-45f2-99b8-158fc2ca9681">
-      <Name>r_cg_cgc.h</Name>
-      <Type>File</Type>
-      <RelativePath>r_cg_cgc.h</RelativePath>
-      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>c6d5242b-ee45-4656-9cba-103e66b8911f</Property>
-    </Instance>
-    <Instance Guid="d1f2d038-ed37-4173-8946-f929f279ee13">
-      <Name>r_cg_port.h</Name>
-      <Type>File</Type>
-      <RelativePath>r_cg_port.h</RelativePath>
-      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>50f4137e-d3dd-4631-907e-ae58c68f3320</Property>
-    </Instance>
-    <Instance Guid="8c25ad3f-d860-427c-acad-e5f6c94b012c">
-      <Name>r_cg_it.c</Name>
-      <Type>File</Type>
-      <RelativePath>r_cg_it.c</RelativePath>
-      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>345ef4c3-bdb8-4147-bdcd-86bef9d34843</Property>
-    </Instance>
-    <Instance Guid="711a5384-37fc-4425-b048-a90fc6c99510">
-      <Name>r_cg_it_user.c</Name>
-      <Type>File</Type>
-      <RelativePath>r_cg_it_user.c</RelativePath>
-      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>9f346417-96cf-43d3-8274-782edbb4ade5</Property>
-    </Instance>
-    <Instance Guid="bc800507-bce5-4403-83d5-708b918215e7">
-      <Name>r_cg_it.h</Name>
-      <Type>File</Type>
-      <RelativePath>r_cg_it.h</RelativePath>
-      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>2666cddd-bd21-4e72-9fa8-3f865db43bc2</Property>
-    </Instance>
-    <Instance Guid="f7fa10d9-ae9a-4723-869c-cb3ca43eb7f1">
+    <Instance Guid="651f7cfe-50e1-42c6-875a-02f675966a4b">
       <Name>r_cg_serial.c</Name>
       <Type>File</Type>
-      <RelativePath>r_cg_serial.c</RelativePath>
+      <RelativePath>Code Generator\r_cg_serial.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>6b1e6fde-302f-4c3d-9cd7-965be75079f9</Property>
     </Instance>
-    <Instance Guid="f0ebc215-5ca3-4499-811d-0e91dc875cee">
+    <Instance Guid="e717f794-a081-4556-bfa7-1fb45405d69b">
       <Name>r_cg_serial_user.c</Name>
       <Type>File</Type>
-      <RelativePath>r_cg_serial_user.c</RelativePath>
+      <RelativePath>Code Generator\r_cg_serial_user.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>0362688e-d957-4c5a-a5be-230250d06f28</Property>
     </Instance>
-    <Instance Guid="6fb2f6bf-828d-42f5-8b0f-442df41fe64e">
+    <Instance Guid="c77fc9e8-25ed-4e64-9227-a0d04cc0bd63">
+      <Name>r_cg_it.c</Name>
+      <Type>File</Type>
+      <RelativePath>Code Generator\r_cg_it.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
+    <Instance Guid="68fb5a4c-954c-440f-83f8-1698d3873231">
+      <Name>r_cg_it_user.c</Name>
+      <Type>File</Type>
+      <RelativePath>Code Generator\r_cg_it_user.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
+    <Instance Guid="bc29403f-78bc-4df7-99ba-94eff8e86685">
+      <Name>r_cg_macrodriver.h</Name>
+      <Type>File</Type>
+      <RelativePath>Code Generator\r_cg_macrodriver.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
+    <Instance Guid="546a0f3f-37b9-4ac0-93dc-d021d98b114b">
+      <Name>r_cg_userdefine.h</Name>
+      <Type>File</Type>
+      <RelativePath>Code Generator\r_cg_userdefine.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
+    <Instance Guid="fbc267c0-efd9-4f19-b596-f996bcb477f5">
+      <Name>r_cg_cgc.h</Name>
+      <Type>File</Type>
+      <RelativePath>Code Generator\r_cg_cgc.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
+    <Instance Guid="b3c828a3-3300-443a-bfaf-dd95a6cc1ae5">
+      <Name>r_cg_port.h</Name>
+      <Type>File</Type>
+      <RelativePath>Code Generator\r_cg_port.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
+    <Instance Guid="fe1aab9b-8549-45ec-9d29-8d70309cf087">
       <Name>r_cg_serial.h</Name>
       <Type>File</Type>
-      <RelativePath>r_cg_serial.h</RelativePath>
+      <RelativePath>Code Generator\r_cg_serial.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>04b056a2-6585-42c3-8b62-6733f8e55d42</Property>
     </Instance>
-    <Instance Guid="67cd91ba-b37c-46be-b67d-0419a162ce42">
+    <Instance Guid="709411c2-3277-43e2-9276-4661d54d7c6d">
+      <Name>r_cg_it.h</Name>
+      <Type>File</Type>
+      <RelativePath>Code Generator\r_cg_it.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
+    <Instance Guid="9353556a-647d-41ad-9abb-608604ac5736">
       <Name>YRDKRL78G13.c</Name>
       <Type>File</Type>
-      <RelativePath>YRDKRL78G13.c</RelativePath>
+      <RelativePath>board\YRDKRL78G13.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>3e092503-dc7b-40b2-8c75-f0a4639dd942</ParentItem>
-      <Property>2d4b697b-7101-41e0-bd8a-fb37a8074ea2</Property>
+      <Property>db523d1b-c913-4c7e-b917-0a7e87860754</Property>
     </Instance>
-    <Instance Guid="4b73e218-7954-40e7-bc45-f5e816f62ea7">
+    <Instance Guid="404dc7ed-7c81-4f81-9c09-0fcb0640032f">
       <Name>YRDKRL78G13.h</Name>
       <Type>File</Type>
-      <RelativePath>YRDKRL78G13.h</RelativePath>
+      <RelativePath>board\YRDKRL78G13.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>3e092503-dc7b-40b2-8c75-f0a4639dd942</ParentItem>
-      <Property>02b37e12-834e-468b-99f6-9be73dde537f</Property>
+      <Property>72ef4808-b61e-4d68-a809-f9adb073dbc9</Property>
     </Instance>
   </Class>
   <Class Guid="fb98844b-2c27-4275-9804-f6e63e204da0">
@@ -183,57 +171,21 @@
     </Instance>
   </Class>
   <Class Guid="0d548289-d5e9-4893-9a8f-9374b13f19a9">
-    <Instance Guid="b65e5174-674e-432b-b9e9-ced4c5d105d4">
+    <Instance Guid="e6ab67ea-3a00-44f1-9ddb-230ee41b5e63">
       <MemoCount>0</MemoCount>
     </Instance>
-    <Instance Guid="37c46937-792e-42b1-bbec-ea0779d5665c">
+    <Instance Guid="db523d1b-c913-4c7e-b917-0a7e87860754">
       <MemoCount>0</MemoCount>
     </Instance>
-    <Instance Guid="340bc714-a340-4757-bfe9-96a0c13502bd">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="4c09b7c0-2c95-4612-ac36-7e24be1047d6">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="2d9e86f0-4202-45a8-b5da-efa7a9319c01">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="dbe64045-784a-428d-a25a-8e9f93daf067">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="c6d5242b-ee45-4656-9cba-103e66b8911f">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="50f4137e-d3dd-4631-907e-ae58c68f3320">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="345ef4c3-bdb8-4147-bdcd-86bef9d34843">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="9f346417-96cf-43d3-8274-782edbb4ade5">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="2666cddd-bd21-4e72-9fa8-3f865db43bc2">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="6b1e6fde-302f-4c3d-9cd7-965be75079f9">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="0362688e-d957-4c5a-a5be-230250d06f28">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="04b056a2-6585-42c3-8b62-6733f8e55d42">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="2d4b697b-7101-41e0-bd8a-fb37a8074ea2">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="02b37e12-834e-468b-99f6-9be73dde537f">
+    <Instance Guid="72ef4808-b61e-4d68-a809-f9adb073dbc9">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
   <Class Guid="78a5c5cd-76cb-4bcc-a031-3020011fbc9a">
     <Instance Guid="397cc0e5-200f-4de7-ac42-0806c3129929">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="107957c7-f11f-4ad9-b5b9-c7cf9c257572">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -268,30 +220,30 @@
       <BuildMode0>RABlAGYAYQB1AGwAdABCAHUAaQBsAGQA</BuildMode0>
       <BatchBuildFlag0>False</BatchBuildFlag0>
       <CurrentBuildMode>DefaultBuild</CurrentBuildMode>
-      <SourceItemGuid0>a2b8aa21-09c0-42b9-904e-6e3ec0a7c18e</SourceItemGuid0>
-      <SourceItemType0>LinkDirectiveSource</SourceItemType0>
-      <SourceItemGuid1>d8ee9314-97e8-4fb1-b479-23a5346e2be1</SourceItemGuid1>
+      <SourceItemGuid0>68fb5a4c-954c-440f-83f8-1698d3873231</SourceItemGuid0>
+      <SourceItemType0>CSource</SourceItemType0>
+      <SourceItemGuid1>c77fc9e8-25ed-4e64-9227-a0d04cc0bd63</SourceItemGuid1>
       <SourceItemType1>CSource</SourceItemType1>
-      <SourceItemGuid2>595f3f0f-ebc3-4b84-b00e-d0600accf386</SourceItemGuid2>
+      <SourceItemGuid2>e717f794-a081-4556-bfa7-1fb45405d69b</SourceItemGuid2>
       <SourceItemType2>CSource</SourceItemType2>
-      <SourceItemGuid3>a6432b74-f08d-4759-9848-3a5f5526beb9</SourceItemGuid3>
+      <SourceItemGuid3>651f7cfe-50e1-42c6-875a-02f675966a4b</SourceItemGuid3>
       <SourceItemType3>CSource</SourceItemType3>
-      <SourceItemGuid4>4bb09292-76e2-4ba5-80b8-5a4f36a27c95</SourceItemGuid4>
+      <SourceItemGuid4>45523609-a014-4d3e-af65-20e270c2a86c</SourceItemGuid4>
       <SourceItemType4>CSource</SourceItemType4>
-      <SourceItemGuid5>c747baa3-8d24-4f0f-b1c3-af600ab924d4</SourceItemGuid5>
+      <SourceItemGuid5>18dd92d5-cdff-4867-8af4-23b763541b81</SourceItemGuid5>
       <SourceItemType5>CSource</SourceItemType5>
-      <SourceItemGuid6>a813f56c-8e73-4884-b5e1-b94f173451f9</SourceItemGuid6>
+      <SourceItemGuid6>8c1b801c-8fd6-4ff4-923a-d13bd564c0d2</SourceItemGuid6>
       <SourceItemType6>CSource</SourceItemType6>
-      <SourceItemGuid7>8c25ad3f-d860-427c-acad-e5f6c94b012c</SourceItemGuid7>
+      <SourceItemGuid7>8e6ccfcc-fe14-40fa-8480-09553622c067</SourceItemGuid7>
       <SourceItemType7>CSource</SourceItemType7>
-      <SourceItemGuid8>711a5384-37fc-4425-b048-a90fc6c99510</SourceItemGuid8>
+      <SourceItemGuid8>9af26856-0196-4609-a33e-dffd0d428eff</SourceItemGuid8>
       <SourceItemType8>CSource</SourceItemType8>
-      <SourceItemGuid9>f7fa10d9-ae9a-4723-869c-cb3ca43eb7f1</SourceItemGuid9>
+      <SourceItemGuid9>dd6b3ebe-8369-41b7-aafa-a31341e04de6</SourceItemGuid9>
       <SourceItemType9>CSource</SourceItemType9>
-      <SourceItemGuid10>f0ebc215-5ca3-4499-811d-0e91dc875cee</SourceItemGuid10>
+      <SourceItemGuid10>9353556a-647d-41ad-9abb-608604ac5736</SourceItemGuid10>
       <SourceItemType10>CSource</SourceItemType10>
-      <SourceItemGuid11>67cd91ba-b37c-46be-b67d-0419a162ce42</SourceItemGuid11>
-      <SourceItemType11>CSource</SourceItemType11>
+      <SourceItemGuid11>22d3843a-a66d-42d4-b04d-c4df475b44ea</SourceItemGuid11>
+      <SourceItemType11>LinkDirectiveSource</SourceItemType11>
       <SourceItemCount>12</SourceItemCount>
       <VfiSourceItemCount>0</VfiSourceItemCount>
     </Instance>
@@ -413,8 +365,11 @@ cl0rmf.lib
       <NumberOfCharactersPerLine-DefaultValue>132</NumberOfCharactersPerLine-DefaultValue>
       <NumberOfLinesPerPage-DefaultValue>0</NumberOfLinesPerPage-DefaultValue>
       <TabWidth-DefaultValue>8</TabWidth-DefaultValue>
-      <TimeTagModified--0>-8588672590065027472</TimeTagModified--0>
-      <AdditionalIncludePaths-0 />
+      <TimeTagModified--0>-8588669276372165651</TimeTagModified--0>
+      <AdditionalIncludePaths-0>board
+Project Source
+Code Generator
+</AdditionalIncludePaths-0>
       <AssemblyFile-0>NotOutput</AssemblyFile-0>
       <BitFieldMostSignificantBit-0>False</BitFieldMostSignificantBit-0>
       <CPlusPlusStyleComment-0>True</CPlusPlusStyleComment-0>
@@ -528,7 +483,7 @@ cl0rmf.lib
       <DebugInformation-DefaultValue>True</DebugInformation-DefaultValue>
       <ErrorListFile-DefaultValue>False</ErrorListFile-DefaultValue>
       <LibraryFiles-DefaultValue />
-      <LinkDirectiveFile-DefaultValue>r_lk.dr</LinkDirectiveFile-DefaultValue>
+      <LinkDirectiveFile-DefaultValue>Code Generator\r_lk.dr</LinkDirectiveFile-DefaultValue>
       <LinkListFile-DefaultValue>True</LinkListFile-DefaultValue>
       <OnChipDebugOptionBytes-DefaultValue>False</OnChipDebugOptionBytes-DefaultValue>
       <OutputFolder-DefaultValue>%BuildModeName%</OutputFolder-DefaultValue>
@@ -560,7 +515,7 @@ cl0rmf.lib
       <FlashStartAddress-DefaultValue />
       <BootAreaModuleFile-DefaultValue />
       <AllocationControlOfSelfRandomAccessMemory-DefaultValue>No</AllocationControlOfSelfRandomAccessMemory-DefaultValue>
-      <TimeTagModified--0>-8588670266932470320</TimeTagModified--0>
+      <TimeTagModified--0>-8588669276332108051</TimeTagModified--0>
       <DebugInformation-0>True</DebugInformation-0>
       <ErrorListFile-0>False</ErrorListFile-0>
       <LibraryFiles-0 />
@@ -677,7 +632,7 @@ cl0rmf.lib
       <OtherAdditionalOptions-DefaultValue />
       <NumberOfCharactersPerLine-DefaultValue>132</NumberOfCharactersPerLine-DefaultValue>
       <NumberOfLinesPerPage-DefaultValue>0</NumberOfLinesPerPage-DefaultValue>
-      <TimeTagModified--0>-8588670266932470320</TimeTagModified--0>
+      <TimeTagModified--0>-8588669276332108051</TimeTagModified--0>
       <ListFile-0>False</ListFile-0>
       <OutputFolder-0>%BuildModeName%</OutputFolder-0>
       <PreLibraryCommands-0 />
@@ -695,127 +650,127 @@ cl0rmf.lib
       <VariableInformationFile-DefaultValue>False</VariableInformationFile-DefaultValue>
       <VariableInformationFolder-DefaultValue>%BuildModeName%</VariableInformationFolder-DefaultValue>
       <VariableInformationFileName-DefaultValue>%ProjectName%.vfi</VariableInformationFileName-DefaultValue>
-      <TimeTagModified--0>-8588670266932470320</TimeTagModified--0>
+      <TimeTagModified--0>-8588669276332108051</TimeTagModified--0>
       <Margin-0>0</Margin-0>
       <OutputRomRamUsage-0>False</OutputRomRamUsage-0>
       <VariableInformationFile-0>False</VariableInformationFile-0>
       <VariableInformationFolder-0>%BuildModeName%</VariableInformationFolder-0>
       <VariableInformationFileName-0>%ProjectName%.vfi</VariableInformationFileName-0>
     </Instance>
-    <Instance Guid="d8ee9314-97e8-4fb1-b479-23a5346e2be1">
-      <ItemAddTime>634699196910597968</ItemAddTime>
-      <ItemAddTimeCount>0</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="595f3f0f-ebc3-4b84-b00e-d0600accf386">
-      <ItemAddTime>634699196910698112</ItemAddTime>
-      <ItemAddTimeCount>0</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="a6432b74-f08d-4759-9848-3a5f5526beb9">
-      <ItemAddTime>634699196910698112</ItemAddTime>
-      <ItemAddTimeCount>1</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="4bb09292-76e2-4ba5-80b8-5a4f36a27c95">
-      <ItemAddTime>634699196910698112</ItemAddTime>
-      <ItemAddTimeCount>2</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="c747baa3-8d24-4f0f-b1c3-af600ab924d4">
-      <ItemAddTime>634699196910698112</ItemAddTime>
-      <ItemAddTimeCount>3</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="a813f56c-8e73-4884-b5e1-b94f173451f9">
-      <ItemAddTime>634699196910698112</ItemAddTime>
-      <ItemAddTimeCount>4</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="4b73e218-7954-40e7-bc45-f5e816f62ea7">
-      <ItemAddTime>634701759938908272</ItemAddTime>
-      <ItemAddTimeCount>0</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="7bad6cdd-1178-4dd5-9f80-a58d181865ea">
-      <ItemAddTime>634699196910698112</ItemAddTime>
-      <ItemAddTimeCount>7</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="58295600-216e-4edb-b985-b1b4da4629d7">
-      <ItemAddTime>634699196910698112</ItemAddTime>
-      <ItemAddTimeCount>8</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="e251b415-8ba9-45f2-99b8-158fc2ca9681">
-      <ItemAddTime>634699196910698112</ItemAddTime>
+    <Instance Guid="68fb5a4c-954c-440f-83f8-1698d3873231">
+      <ItemAddTime>634702508532381725</ItemAddTime>
       <ItemAddTimeCount>9</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="d1f2d038-ed37-4173-8946-f929f279ee13">
-      <ItemAddTime>634699196910698112</ItemAddTime>
+    <Instance Guid="c77fc9e8-25ed-4e64-9227-a0d04cc0bd63">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>8</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="e717f794-a081-4556-bfa7-1fb45405d69b">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>7</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="651f7cfe-50e1-42c6-875a-02f675966a4b">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>6</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="45523609-a014-4d3e-af65-20e270c2a86c">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>3</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="18dd92d5-cdff-4867-8af4-23b763541b81">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>2</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="bc29403f-78bc-4df7-99ba-94eff8e86685">
+      <ItemAddTime>634702508532381725</ItemAddTime>
       <ItemAddTimeCount>10</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="67cd91ba-b37c-46be-b67d-0419a162ce42">
-      <ItemAddTime>634701759743727616</ItemAddTime>
-      <ItemAddTimeCount>0</ItemAddTimeCount>
+    <Instance Guid="8c1b801c-8fd6-4ff4-923a-d13bd564c0d2">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>4</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="a2b8aa21-09c0-42b9-904e-6e3ec0a7c18e">
-      <ItemAddTime>634699196913502144</ItemAddTime>
-      <ItemAddTimeCount>0</ItemAddTimeCount>
+    <Instance Guid="8e6ccfcc-fe14-40fa-8480-09553622c067">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>5</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="8c25ad3f-d860-427c-acad-e5f6c94b012c">
-      <ItemAddTime>634699213067430352</ItemAddTime>
-      <ItemAddTimeCount>0</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="711a5384-37fc-4425-b048-a90fc6c99510">
-      <ItemAddTime>634699213067430352</ItemAddTime>
+    <Instance Guid="9af26856-0196-4609-a33e-dffd0d428eff">
+      <ItemAddTime>634702508532381725</ItemAddTime>
       <ItemAddTimeCount>1</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="bc800507-bce5-4403-83d5-708b918215e7">
-      <ItemAddTime>634699213067430352</ItemAddTime>
-      <ItemAddTimeCount>2</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="f7fa10d9-ae9a-4723-869c-cb3ca43eb7f1">
-      <ItemAddTime>634701489809581376</ItemAddTime>
+    <Instance Guid="dd6b3ebe-8369-41b7-aafa-a31341e04de6">
+      <ItemAddTime>634702508532381725</ItemAddTime>
       <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="f0ebc215-5ca3-4499-811d-0e91dc875cee">
-      <ItemAddTime>634701489809581376</ItemAddTime>
-      <ItemAddTimeCount>1</ItemAddTimeCount>
+    <Instance Guid="546a0f3f-37b9-4ac0-93dc-d021d98b114b">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>11</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="6fb2f6bf-828d-42f5-8b0f-442df41fe64e">
-      <ItemAddTime>634701489809581376</ItemAddTime>
-      <ItemAddTimeCount>2</ItemAddTimeCount>
+    <Instance Guid="9353556a-647d-41ad-9abb-608604ac5736">
+      <ItemAddTime>634702508421422173</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="2317529b-91c1-49b6-8351-6d8f51718b0d">
-      <TimeTagModified-SourceItem0--0>-8588672587941273664</TimeTagModified-SourceItem0--0>
-      <SourceItem0-BuildingTarget-0>True</SourceItem0-BuildingTarget-0>
+    <Instance Guid="404dc7ed-7c81-4f81-9c09-0fcb0640032f">
+      <ItemAddTime>634702508482910589</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="fbc267c0-efd9-4f19-b596-f996bcb477f5">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>12</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="b3c828a3-3300-443a-bfaf-dd95a6cc1ae5">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>13</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="fe1aab9b-8549-45ec-9d29-8d70309cf087">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>14</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="709411c2-3277-43e2-9276-4661d54d7c6d">
+      <ItemAddTime>634702508532381725</ItemAddTime>
+      <ItemAddTimeCount>15</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="22d3843a-a66d-42d4-b04d-c4df475b44ea">
+      <ItemAddTime>634702506050713261</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
     <Instance Guid="fc999d8f-43d6-4cb3-af4b-cf6891d759fb">
-      <TimeTagModified-SourceItem1--0>-8588672587943877408</TimeTagModified-SourceItem1--0>
+      <TimeTagModified-SourceItem0--0>-8588669276318288179</TimeTagModified-SourceItem0--0>
+      <SourceItem0-BuildingTarget-0>True</SourceItem0-BuildingTarget-0>
+      <SourceItem0-IndividualCompileOption-0>False</SourceItem0-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem1--0>-8588669276318588611</TimeTagModified-SourceItem1--0>
       <SourceItem1-BuildingTarget-0>True</SourceItem1-BuildingTarget-0>
       <SourceItem1-IndividualCompileOption-0>False</SourceItem1-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem2--0>-8588672587943576976</TimeTagModified-SourceItem2--0>
+      <TimeTagModified-SourceItem2--0>-8588669276318889043</TimeTagModified-SourceItem2--0>
       <SourceItem2-BuildingTarget-0>True</SourceItem2-BuildingTarget-0>
       <SourceItem2-IndividualCompileOption-0>False</SourceItem2-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem3--0>-8588672587943376688</TimeTagModified-SourceItem3--0>
+      <TimeTagModified-SourceItem3--0>-8588669276319289619</TimeTagModified-SourceItem3--0>
       <SourceItem3-BuildingTarget-0>True</SourceItem3-BuildingTarget-0>
       <SourceItem3-IndividualCompileOption-0>False</SourceItem3-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem4--0>-8588672587943076256</TimeTagModified-SourceItem4--0>
+      <TimeTagModified-SourceItem4--0>-8588669276320190915</TimeTagModified-SourceItem4--0>
       <SourceItem4-BuildingTarget-0>True</SourceItem4-BuildingTarget-0>
       <SourceItem4-IndividualCompileOption-0>False</SourceItem4-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem5--0>-8588672587942875968</TimeTagModified-SourceItem5--0>
+      <TimeTagModified-SourceItem5--0>-8588669276320591491</TimeTagModified-SourceItem5--0>
       <SourceItem5-BuildingTarget-0>True</SourceItem5-BuildingTarget-0>
       <SourceItem5-IndividualCompileOption-0>False</SourceItem5-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem6--0>-8588672587942675680</TimeTagModified-SourceItem6--0>
+      <TimeTagModified-SourceItem6--0>-8588669276319890483</TimeTagModified-SourceItem6--0>
       <SourceItem6-BuildingTarget-0>True</SourceItem6-BuildingTarget-0>
       <SourceItem6-IndividualCompileOption-0>False</SourceItem6-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem7--0>-8588672571786944880</TimeTagModified-SourceItem7--0>
+      <TimeTagModified-SourceItem7--0>-8588669276319590051</TimeTagModified-SourceItem7--0>
       <SourceItem7-BuildingTarget-0>True</SourceItem7-BuildingTarget-0>
       <SourceItem7-IndividualCompileOption-0>False</SourceItem7-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem8--0>-8588672571786544304</TimeTagModified-SourceItem8--0>
+      <TimeTagModified-SourceItem8--0>-8588669276321693075</TimeTagModified-SourceItem8--0>
       <SourceItem8-BuildingTarget-0>True</SourceItem8-BuildingTarget-0>
       <SourceItem8-IndividualCompileOption-0>False</SourceItem8-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem9--0>-8588670295044793856</TimeTagModified-SourceItem9--0>
+      <TimeTagModified-SourceItem9--0>-8588669276321993507</TimeTagModified-SourceItem9--0>
       <SourceItem9-BuildingTarget-0>True</SourceItem9-BuildingTarget-0>
       <SourceItem9-IndividualCompileOption-0>False</SourceItem9-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem10--0>-8588670295044393280</TimeTagModified-SourceItem10--0>
+      <TimeTagModified-SourceItem10--0>-8588669276433353635</TimeTagModified-SourceItem10--0>
       <SourceItem10-BuildingTarget-0>True</SourceItem10-BuildingTarget-0>
       <SourceItem10-IndividualCompileOption-0>False</SourceItem10-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem11--0>-8588670025111048192</TimeTagModified-SourceItem11--0>
+    </Instance>
+    <Instance Guid="2317529b-91c1-49b6-8351-6d8f51718b0d">
+      <TimeTagModified-SourceItem11--0>-8588669278804062547</TimeTagModified-SourceItem11--0>
       <SourceItem11-BuildingTarget-0>True</SourceItem11-BuildingTarget-0>
-      <SourceItem11-IndividualCompileOption-0>False</SourceItem11-IndividualCompileOption-0>
     </Instance>
   </Class>
   <Class Guid="44fa27c9-0aa0-4297-bd3b-2c5c5bdb8881">
@@ -1326,7 +1281,7 @@ cl0rmf.lib
     &lt;PIOR3Value Name="PIOR3Value" Text="0" /&gt;
     &lt;PIOR4Value Name="PIOR4Value" Text="0" /&gt;
     &lt;PIOR5Value Name="PIOR5Value" Text="0" /&gt;
-    &lt;ProjectName Name="PrjName" Text="HelloWorld_01" /&gt;
+    &lt;ProjectName Name="PrjName" Text="bugswarm-renesas" /&gt;
     &lt;ProjectPath Name="PrjPath" Text="C:\Documents and Settings\Buglabs\My Documents\CubeSuite\bugswarm-renesas" /&gt;
     &lt;ProjectKind Name="PrjKind" Text="Project78K0R" /&gt;
     &lt;DeviceName Name="DeviceName" Fixed="" Text="RL78G13" /&gt;
@@ -1348,7 +1303,7 @@ cl0rmf.lib
     &lt;RAMEndAddress Name="RAMEndAddress" Fixed="" Text="000FFEFF" /&gt;
     &lt;ROMEndAddress Chip="R5F1006E,R5F1007E,R5F1008E,R5F100AE,R5F100BE,R5F100CE,R5F100EE,R5F100FE,R5F100GE,R5F100JE,R5F100LE" Name="ROMEndAddress" Fixed="" Text="0000FFFF" /&gt;
     &lt;MirrorROM Name="MirrorROM" Fixed="" Text="53.75" /&gt;
-    &lt;CodePath Name="CodePath" Text="" /&gt;
+    &lt;CodePath Name="CodePath" Text="Code Generator\" /&gt;
     &lt;ReportType Name="ReportType" Text="Html" /&gt;
     &lt;GenerateType Name="GenerateType" Text="Merge" /&gt;
     &lt;FileRegister Name="FileRegister" Text="Yes" /&gt;

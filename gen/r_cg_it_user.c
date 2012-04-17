@@ -23,17 +23,18 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_port_user.c
+* File Name    : r_cg_it_user.c
 * Version      : CodeGenerator for RL78/G13 V1.03.01 [11 Oct 2011]
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
-* Description  : This file implements device driver for PORT module.
-* Creation Date: 4/16/2012
+* Description  : This file implements device driver for IT module.
+* Creation Date: 4/17/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Pragma directive
 ***********************************************************************************************************************/
+#pragma interrupt INTIT r_it_interrupt
 /* Start user code for pragma. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
@@ -41,7 +42,7 @@ Pragma directive
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "r_cg_port.h"
+#include "r_cg_it.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -50,20 +51,26 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
+void delay_ms(unsigned long ms){
+	unsigned long dest = millis + ms;
+	while (millis < dest){
+		;
+	}
+}
 /* End user code. Do not edit comment generated here */
 
-/* Start user code for adding. Do not edit comment generated here */
-void toggle(char * port, char pin){
-	if (*port & (1<<pin))
-		*port &= ~(1<<pin);
-	else
-		*port |= (1<<pin);
+/***********************************************************************************************************************
+* Function Name: r_it_interrupt
+* Description  : This function is INTIT interrupt service routine.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+__interrupt static void r_it_interrupt(void)
+{
+    /* Start user code. Do not edit comment generated here */
+    ++millis;
+    /* End user code. Do not edit comment generated here */
 }
 
-void set_gpio(char * port, char pin, char value){
-	if (value)
-		*port|= (1<<pin);
-	else
-		*port &= ~(1<<pin);
-}
+/* Start user code for adding. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */

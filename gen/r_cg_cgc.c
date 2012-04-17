@@ -23,18 +23,17 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_it_user.c
+* File Name    : r_cg_cgc.c
 * Version      : CodeGenerator for RL78/G13 V1.03.01 [11 Oct 2011]
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
-* Description  : This file implements device driver for IT module.
-* Creation Date: 4/16/2012
+* Description  : This file implements device driver for CGC module.
+* Creation Date: 4/17/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Pragma directive
 ***********************************************************************************************************************/
-#pragma interrupt INTIT r_it_interrupt
 /* Start user code for pragma. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
@@ -42,7 +41,7 @@ Pragma directive
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "r_cg_it.h"
+#include "r_cg_cgc.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -51,25 +50,41 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
-void delay_ms(unsigned long ms){
-	unsigned long dest = millis + ms;
-	while (millis < dest){
-		;
-	}
-}
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: r_it_interrupt
-* Description  : This function is INTIT interrupt service routine.
+* Function Name: R_CGC_Create
+* Description  : This function initializes the clock generator.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-__interrupt static void r_it_interrupt(void)
+void R_CGC_Create(void)
 {
-    /* Start user code. Do not edit comment generated here */
-    ++millis;
-    /* End user code. Do not edit comment generated here */
+    uint8_t           temp_stab_set;
+    uint8_t           temp_stab_wait; 
+
+    /* Set fMX */
+    CMC = _40_CGC_HISYS_OSC | _00_CGC_SUB_PORT | _01_CGC_SYSOSC_OVER10M | _00_CGC_SUBMODE_DEFAULT;
+    OSTS = _07_CGC_OSCSTAB_SEL18;
+    MSTOP = 0U;
+    temp_stab_set = _FF_CGC_OSCSTAB_STA18;
+    
+    do
+    {
+        temp_stab_wait = OSTC;
+        temp_stab_wait &= temp_stab_set;
+    }
+    while (temp_stab_wait != temp_stab_set);
+    
+    /* Set fMAIN */
+    MCM0 = 0U;
+    /* Set fSUB */
+    XTSTOP = 1U;
+    OSMC = _10_CGC_RTC_CLK_FIL;
+    /* Set fCLK */
+    CSS = 0U;
+    /* Set fIH */
+    HIOSTOP = 0U;
 }
 
 /* Start user code for adding. Do not edit comment generated here */

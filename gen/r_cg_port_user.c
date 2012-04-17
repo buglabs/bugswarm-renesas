@@ -23,12 +23,12 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_cgc.c
+* File Name    : r_cg_port_user.c
 * Version      : CodeGenerator for RL78/G13 V1.03.01 [11 Oct 2011]
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
-* Description  : This file implements device driver for CGC module.
-* Creation Date: 4/16/2012
+* Description  : This file implements device driver for PORT module.
+* Creation Date: 4/17/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -41,7 +41,7 @@ Pragma directive
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "r_cg_cgc.h"
+#include "r_cg_port.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -52,40 +52,18 @@ Global variables and functions
 /* Start user code for global. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
-/***********************************************************************************************************************
-* Function Name: R_CGC_Create
-* Description  : This function initializes the clock generator.
-* Arguments    : None
-* Return Value : None
-***********************************************************************************************************************/
-void R_CGC_Create(void)
-{
-    uint8_t           temp_stab_set;
-    uint8_t           temp_stab_wait; 
-
-    /* Set fMX */
-    CMC = _40_CGC_HISYS_OSC | _00_CGC_SUB_PORT | _01_CGC_SYSOSC_OVER10M | _00_CGC_SUBMODE_DEFAULT;
-    OSTS = _07_CGC_OSCSTAB_SEL18;
-    MSTOP = 0U;
-    temp_stab_set = _FF_CGC_OSCSTAB_STA18;
-    
-    do
-    {
-        temp_stab_wait = OSTC;
-        temp_stab_wait &= temp_stab_set;
-    }
-    while (temp_stab_wait != temp_stab_set);
-    
-    /* Set fMAIN */
-    MCM0 = 0U;
-    /* Set fSUB */
-    XTSTOP = 1U;
-    OSMC = _10_CGC_RTC_CLK_FIL;
-    /* Set fCLK */
-    CSS = 0U;
-    /* Set fIH */
-    HIOSTOP = 0U;
+/* Start user code for adding. Do not edit comment generated here */
+void toggle(char * port, char pin){
+	if (*port & (1<<pin))
+		*port &= ~(1<<pin);
+	else
+		*port |= (1<<pin);
 }
 
-/* Start user code for adding. Do not edit comment generated here */
+void set_gpio(char * port, char pin, char value){
+	if (value)
+		*port|= (1<<pin);
+	else
+		*port &= ~(1<<pin);
+}
 /* End user code. Do not edit comment generated here */

@@ -23,12 +23,12 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_systeminit.c
+* File Name    : r_cg_cgc_user.c
 * Version      : CodeGenerator for RL78/G13 V1.03.01 [11 Oct 2011]
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
-* Description  : This file implements system initializing function.
-* Creation Date: 4/16/2012
+* Description  : This file implements device driver for CGC module.
+* Creation Date: 4/17/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -42,9 +42,6 @@ Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
 #include "r_cg_cgc.h"
-#include "r_cg_port.h"
-#include "r_cg_serial.h"
-#include "r_cg_it.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -56,36 +53,16 @@ Global variables and functions
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: R_Systeminit
-* Description  : This function initializes every macro.
+* Function Name: R_CGC_Get_ResetSource
+* Description  : This function process of Reset.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_Systeminit(void)
+void R_CGC_Get_ResetSource(void)
 {
-    PIOR = 0x00U;
-    R_CGC_Get_ResetSource();
-    R_PORT_Create();
-    R_CGC_Create();
-    R_SAU0_Create();
-    R_IICA0_Create();
-    R_IT_Create();
-    CRC0CTL = 0x00U;
-    IAWCTL = 0x00U;
-}
-
-
-/***********************************************************************************************************************
-* Function Name: hdwinit
-* Description  : This function initializes hardware setting.
-* Arguments    : None
-* Return Value : None
-***********************************************************************************************************************/
-void hdwinit(void)
-{
-    DI();
-    R_Systeminit();
-    EI();
+    uint8_t reset_flag = RESF;
+    /* Start user code. Do not edit comment generated here */
+    /* End user code. Do not edit comment generated here */
 }
 
 /* Start user code for adding. Do not edit comment generated here */

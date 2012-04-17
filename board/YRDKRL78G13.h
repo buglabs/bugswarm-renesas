@@ -10,7 +10,7 @@
 #ifndef YRDKRL78G13
 #define YRDKRL78G13
 
-#include "r_cg_macrodriver.h"
+#include "../gen/r_cg_macrodriver.h"
 
 /***********************************************************************************************************************
 * Sensor specific defines and structures
@@ -72,7 +72,7 @@ typedef struct
 
 typedef struct
 {
-	uint16_t light
+	uint16_t light;
 	unsigned long time;	//time offset from CPU start, in ms
 } lightData;
 
@@ -84,7 +84,7 @@ typedef struct
 
 typedef struct
 {
-	uint16_t temp
+	uint16_t temp;
 	unsigned long time;	//time offset from CPU start, in ms
 } tempData;
 
