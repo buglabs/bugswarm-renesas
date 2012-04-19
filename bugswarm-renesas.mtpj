@@ -15,6 +15,7 @@
       <Type>Category</Type>
       <TreeImageGuid>ca577376-6f97-4ef1-9fe7-b03e86e75233</TreeImageGuid>
       <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
+      <Property>ac807223-9413-429f-8a61-330cba70ba6c</Property>
     </Instance>
     <Instance Guid="783b22ad-71fb-4394-ba06-220a812ffb4e">
       <Name>Code Generator</Name>
@@ -28,123 +29,134 @@
       <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
       <Property>397cc0e5-200f-4de7-ac42-0806c3129929</Property>
     </Instance>
-    <Instance Guid="22d3843a-a66d-42d4-b04d-c4df475b44ea">
+    <Instance Guid="7926c2a5-6951-4bff-a2a3-d3310bba6afb">
       <Name>r_lk.dr</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_lk.dr</RelativePath>
+      <RelativePath>gen\r_lk.dr</RelativePath>
       <TreeImageGuid>a4460d02-6943-4122-9169-dd699e916213</TreeImageGuid>
       <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
     </Instance>
-    <Instance Guid="dd6b3ebe-8369-41b7-aafa-a31341e04de6">
-      <Name>r_main.c</Name>
-      <Type>File</Type>
-      <RelativePath>Code Generator\r_main.c</RelativePath>
-      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-    </Instance>
-    <Instance Guid="9af26856-0196-4609-a33e-dffd0d428eff">
-      <Name>r_systeminit.c</Name>
-      <Type>File</Type>
-      <RelativePath>Code Generator\r_systeminit.c</RelativePath>
-      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-    </Instance>
-    <Instance Guid="18dd92d5-cdff-4867-8af4-23b763541b81">
+    <Instance Guid="c50f33e4-823d-4f84-8e80-c8428419599b">
       <Name>r_cg_cgc.c</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_cgc.c</RelativePath>
+      <RelativePath>gen\r_cg_cgc.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>71246cd3-baa2-4308-9e2a-1e70ced06749</Property>
     </Instance>
-    <Instance Guid="45523609-a014-4d3e-af65-20e270c2a86c">
+    <Instance Guid="4bbb1be8-673d-42ce-9881-6dfab9dec5fa">
       <Name>r_cg_cgc_user.c</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_cgc_user.c</RelativePath>
+      <RelativePath>gen\r_cg_cgc_user.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-      <Property>e6ab67ea-3a00-44f1-9ddb-230ee41b5e63</Property>
+      <Property>19911d6e-1c06-4bd3-9c05-09d1633fcaee</Property>
     </Instance>
-    <Instance Guid="8c1b801c-8fd6-4ff4-923a-d13bd564c0d2">
-      <Name>r_cg_port.c</Name>
-      <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_port.c</RelativePath>
-      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-    </Instance>
-    <Instance Guid="8e6ccfcc-fe14-40fa-8480-09553622c067">
-      <Name>r_cg_port_user.c</Name>
-      <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_port_user.c</RelativePath>
-      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-    </Instance>
-    <Instance Guid="651f7cfe-50e1-42c6-875a-02f675966a4b">
-      <Name>r_cg_serial.c</Name>
-      <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_serial.c</RelativePath>
-      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-    </Instance>
-    <Instance Guid="e717f794-a081-4556-bfa7-1fb45405d69b">
-      <Name>r_cg_serial_user.c</Name>
-      <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_serial_user.c</RelativePath>
-      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
-      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
-    </Instance>
-    <Instance Guid="c77fc9e8-25ed-4e64-9227-a0d04cc0bd63">
+    <Instance Guid="1b730b9e-e4a1-4642-b0c3-4558ca8b6a64">
       <Name>r_cg_it.c</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_it.c</RelativePath>
+      <RelativePath>gen\r_cg_it.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>e9c0e27b-3f79-4793-921e-ad7789d7470d</Property>
     </Instance>
-    <Instance Guid="68fb5a4c-954c-440f-83f8-1698d3873231">
+    <Instance Guid="f7f9b988-ec77-43c4-a572-1a4658b9f44b">
       <Name>r_cg_it_user.c</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_it_user.c</RelativePath>
+      <RelativePath>gen\r_cg_it_user.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>baf911f5-a53c-462b-9bdb-343b6f858a30</Property>
     </Instance>
-    <Instance Guid="bc29403f-78bc-4df7-99ba-94eff8e86685">
+    <Instance Guid="5b426cbe-d5cc-4147-ae8a-f4b2975022c0">
+      <Name>r_cg_port.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_port.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>9eba7277-53fb-4924-87f6-219e5ce37e2e</Property>
+    </Instance>
+    <Instance Guid="7d6e665d-cfc6-402c-bb26-d23bb0479ee6">
+      <Name>r_cg_port_user.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_port_user.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>72ad4186-45db-4159-96ec-46fca2b2adfe</Property>
+    </Instance>
+    <Instance Guid="0e69c6c6-003a-4a26-9dec-a64f5d9734fd">
+      <Name>r_cg_serial.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_serial.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>a0567c18-9792-4924-9524-326d9e9e1ad2</Property>
+    </Instance>
+    <Instance Guid="408ef075-de2a-429f-963a-adcb3da7ac3e">
+      <Name>r_cg_serial_user.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_serial_user.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>8b813051-7bec-4ab9-8935-82d98ccc137b</Property>
+    </Instance>
+    <Instance Guid="23b83cc1-7d6b-41d0-a7ad-6d09fa5f10b9">
+      <Name>r_main.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_main.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>e0481840-34c4-4c5c-a32a-0c58d39c27e9</Property>
+    </Instance>
+    <Instance Guid="79a0e099-91af-41f1-bef8-4e68455a3e75">
+      <Name>r_systeminit.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_systeminit.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>022322f4-ccf1-4e6b-9294-e0f3e5ef89e6</Property>
+    </Instance>
+    <Instance Guid="a1d2ed64-afec-4d95-b2e0-343dd02671bf">
       <Name>r_cg_macrodriver.h</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_macrodriver.h</RelativePath>
+      <RelativePath>gen\r_cg_macrodriver.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>45f06a2a-0dc9-45d0-8b59-c1b757d18bca</Property>
     </Instance>
-    <Instance Guid="546a0f3f-37b9-4ac0-93dc-d021d98b114b">
+    <Instance Guid="7c921dcd-2af9-4c16-8816-cfe583138548">
       <Name>r_cg_userdefine.h</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_userdefine.h</RelativePath>
+      <RelativePath>gen\r_cg_userdefine.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
     </Instance>
-    <Instance Guid="fbc267c0-efd9-4f19-b596-f996bcb477f5">
+    <Instance Guid="ead6ee19-c125-47c0-9266-7510ed245567">
       <Name>r_cg_cgc.h</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_cgc.h</RelativePath>
+      <RelativePath>gen\r_cg_cgc.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
     </Instance>
-    <Instance Guid="b3c828a3-3300-443a-bfaf-dd95a6cc1ae5">
+    <Instance Guid="cf68e33b-029b-4c7d-91f5-c7bdd9462ceb">
       <Name>r_cg_port.h</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_port.h</RelativePath>
+      <RelativePath>gen\r_cg_port.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
     </Instance>
-    <Instance Guid="fe1aab9b-8549-45ec-9d29-8d70309cf087">
+    <Instance Guid="a043229a-6803-4a05-8f13-97e0203f1004">
       <Name>r_cg_serial.h</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_serial.h</RelativePath>
+      <RelativePath>gen\r_cg_serial.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>151e2b26-e286-4e1f-8bfd-400b798c56dd</Property>
     </Instance>
-    <Instance Guid="709411c2-3277-43e2-9276-4661d54d7c6d">
+    <Instance Guid="006f9128-95fe-4f72-80fb-9cfcd5bef8ab">
       <Name>r_cg_it.h</Name>
       <Type>File</Type>
-      <RelativePath>Code Generator\r_cg_it.h</RelativePath>
+      <RelativePath>gen\r_cg_it.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
     </Instance>
@@ -171,7 +183,7 @@
     </Instance>
   </Class>
   <Class Guid="0d548289-d5e9-4893-9a8f-9374b13f19a9">
-    <Instance Guid="e6ab67ea-3a00-44f1-9ddb-230ee41b5e63">
+    <Instance Guid="e0481840-34c4-4c5c-a32a-0c58d39c27e9">
       <MemoCount>0</MemoCount>
     </Instance>
     <Instance Guid="db523d1b-c913-4c7e-b917-0a7e87860754">
@@ -180,12 +192,51 @@
     <Instance Guid="72ef4808-b61e-4d68-a809-f9adb073dbc9">
       <MemoCount>0</MemoCount>
     </Instance>
+    <Instance Guid="022322f4-ccf1-4e6b-9294-e0f3e5ef89e6">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="151e2b26-e286-4e1f-8bfd-400b798c56dd">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="45f06a2a-0dc9-45d0-8b59-c1b757d18bca">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="8b813051-7bec-4ab9-8935-82d98ccc137b">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="a0567c18-9792-4924-9524-326d9e9e1ad2">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="72ad4186-45db-4159-96ec-46fca2b2adfe">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="9eba7277-53fb-4924-87f6-219e5ce37e2e">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="baf911f5-a53c-462b-9bdb-343b6f858a30">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="e9c0e27b-3f79-4793-921e-ad7789d7470d">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="19911d6e-1c06-4bd3-9c05-09d1633fcaee">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="71246cd3-baa2-4308-9e2a-1e70ced06749">
+      <MemoCount>0</MemoCount>
+    </Instance>
   </Class>
   <Class Guid="78a5c5cd-76cb-4bcc-a031-3020011fbc9a">
+    <Instance Guid="107957c7-f11f-4ad9-b5b9-c7cf9c257572">
+      <MemoCount>0</MemoCount>
+    </Instance>
     <Instance Guid="397cc0e5-200f-4de7-ac42-0806c3129929">
       <MemoCount>0</MemoCount>
     </Instance>
-    <Instance Guid="107957c7-f11f-4ad9-b5b9-c7cf9c257572">
+    <Instance Guid="ac807223-9413-429f-8a61-330cba70ba6c">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="9d072886-641d-435b-9b34-fa703f3a7692">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -220,29 +271,29 @@
       <BuildMode0>RABlAGYAYQB1AGwAdABCAHUAaQBsAGQA</BuildMode0>
       <BatchBuildFlag0>False</BatchBuildFlag0>
       <CurrentBuildMode>DefaultBuild</CurrentBuildMode>
-      <SourceItemGuid0>68fb5a4c-954c-440f-83f8-1698d3873231</SourceItemGuid0>
+      <SourceItemGuid0>79a0e099-91af-41f1-bef8-4e68455a3e75</SourceItemGuid0>
       <SourceItemType0>CSource</SourceItemType0>
-      <SourceItemGuid1>c77fc9e8-25ed-4e64-9227-a0d04cc0bd63</SourceItemGuid1>
+      <SourceItemGuid1>23b83cc1-7d6b-41d0-a7ad-6d09fa5f10b9</SourceItemGuid1>
       <SourceItemType1>CSource</SourceItemType1>
-      <SourceItemGuid2>e717f794-a081-4556-bfa7-1fb45405d69b</SourceItemGuid2>
+      <SourceItemGuid2>408ef075-de2a-429f-963a-adcb3da7ac3e</SourceItemGuid2>
       <SourceItemType2>CSource</SourceItemType2>
-      <SourceItemGuid3>651f7cfe-50e1-42c6-875a-02f675966a4b</SourceItemGuid3>
+      <SourceItemGuid3>0e69c6c6-003a-4a26-9dec-a64f5d9734fd</SourceItemGuid3>
       <SourceItemType3>CSource</SourceItemType3>
-      <SourceItemGuid4>45523609-a014-4d3e-af65-20e270c2a86c</SourceItemGuid4>
+      <SourceItemGuid4>7d6e665d-cfc6-402c-bb26-d23bb0479ee6</SourceItemGuid4>
       <SourceItemType4>CSource</SourceItemType4>
-      <SourceItemGuid5>18dd92d5-cdff-4867-8af4-23b763541b81</SourceItemGuid5>
+      <SourceItemGuid5>5b426cbe-d5cc-4147-ae8a-f4b2975022c0</SourceItemGuid5>
       <SourceItemType5>CSource</SourceItemType5>
-      <SourceItemGuid6>8c1b801c-8fd6-4ff4-923a-d13bd564c0d2</SourceItemGuid6>
+      <SourceItemGuid6>f7f9b988-ec77-43c4-a572-1a4658b9f44b</SourceItemGuid6>
       <SourceItemType6>CSource</SourceItemType6>
-      <SourceItemGuid7>8e6ccfcc-fe14-40fa-8480-09553622c067</SourceItemGuid7>
+      <SourceItemGuid7>1b730b9e-e4a1-4642-b0c3-4558ca8b6a64</SourceItemGuid7>
       <SourceItemType7>CSource</SourceItemType7>
-      <SourceItemGuid8>9af26856-0196-4609-a33e-dffd0d428eff</SourceItemGuid8>
+      <SourceItemGuid8>4bbb1be8-673d-42ce-9881-6dfab9dec5fa</SourceItemGuid8>
       <SourceItemType8>CSource</SourceItemType8>
-      <SourceItemGuid9>dd6b3ebe-8369-41b7-aafa-a31341e04de6</SourceItemGuid9>
+      <SourceItemGuid9>c50f33e4-823d-4f84-8e80-c8428419599b</SourceItemGuid9>
       <SourceItemType9>CSource</SourceItemType9>
       <SourceItemGuid10>9353556a-647d-41ad-9abb-608604ac5736</SourceItemGuid10>
       <SourceItemType10>CSource</SourceItemType10>
-      <SourceItemGuid11>22d3843a-a66d-42d4-b04d-c4df475b44ea</SourceItemGuid11>
+      <SourceItemGuid11>7926c2a5-6951-4bff-a2a3-d3310bba6afb</SourceItemGuid11>
       <SourceItemType11>LinkDirectiveSource</SourceItemType11>
       <SourceItemCount>12</SourceItemCount>
       <VfiSourceItemCount>0</VfiSourceItemCount>
@@ -365,10 +416,9 @@ cl0rmf.lib
       <NumberOfCharactersPerLine-DefaultValue>132</NumberOfCharactersPerLine-DefaultValue>
       <NumberOfLinesPerPage-DefaultValue>0</NumberOfLinesPerPage-DefaultValue>
       <TabWidth-DefaultValue>8</TabWidth-DefaultValue>
-      <TimeTagModified--0>-8588669276372165651</TimeTagModified--0>
+      <TimeTagModified--0>-8588668385718826688</TimeTagModified--0>
       <AdditionalIncludePaths-0>board
-Project Source
-Code Generator
+gen
 </AdditionalIncludePaths-0>
       <AssemblyFile-0>NotOutput</AssemblyFile-0>
       <BitFieldMostSignificantBit-0>False</BitFieldMostSignificantBit-0>
@@ -483,7 +533,7 @@ Code Generator
       <DebugInformation-DefaultValue>True</DebugInformation-DefaultValue>
       <ErrorListFile-DefaultValue>False</ErrorListFile-DefaultValue>
       <LibraryFiles-DefaultValue />
-      <LinkDirectiveFile-DefaultValue>Code Generator\r_lk.dr</LinkDirectiveFile-DefaultValue>
+      <LinkDirectiveFile-DefaultValue>gen\r_lk.dr</LinkDirectiveFile-DefaultValue>
       <LinkListFile-DefaultValue>True</LinkListFile-DefaultValue>
       <OnChipDebugOptionBytes-DefaultValue>False</OnChipDebugOptionBytes-DefaultValue>
       <OutputFolder-DefaultValue>%BuildModeName%</OutputFolder-DefaultValue>
@@ -515,7 +565,7 @@ Code Generator
       <FlashStartAddress-DefaultValue />
       <BootAreaModuleFile-DefaultValue />
       <AllocationControlOfSelfRandomAccessMemory-DefaultValue>No</AllocationControlOfSelfRandomAccessMemory-DefaultValue>
-      <TimeTagModified--0>-8588669276332108051</TimeTagModified--0>
+      <TimeTagModified--0>-8588668385526850640</TimeTagModified--0>
       <DebugInformation-0>True</DebugInformation-0>
       <ErrorListFile-0>False</ErrorListFile-0>
       <LibraryFiles-0 />
@@ -632,7 +682,7 @@ Code Generator
       <OtherAdditionalOptions-DefaultValue />
       <NumberOfCharactersPerLine-DefaultValue>132</NumberOfCharactersPerLine-DefaultValue>
       <NumberOfLinesPerPage-DefaultValue>0</NumberOfLinesPerPage-DefaultValue>
-      <TimeTagModified--0>-8588669276332108051</TimeTagModified--0>
+      <TimeTagModified--0>-8588668385531457264</TimeTagModified--0>
       <ListFile-0>False</ListFile-0>
       <OutputFolder-0>%BuildModeName%</OutputFolder-0>
       <PreLibraryCommands-0 />
@@ -650,60 +700,60 @@ Code Generator
       <VariableInformationFile-DefaultValue>False</VariableInformationFile-DefaultValue>
       <VariableInformationFolder-DefaultValue>%BuildModeName%</VariableInformationFolder-DefaultValue>
       <VariableInformationFileName-DefaultValue>%ProjectName%.vfi</VariableInformationFileName-DefaultValue>
-      <TimeTagModified--0>-8588669276332108051</TimeTagModified--0>
+      <TimeTagModified--0>-8588668385526850640</TimeTagModified--0>
       <Margin-0>0</Margin-0>
       <OutputRomRamUsage-0>False</OutputRomRamUsage-0>
       <VariableInformationFile-0>False</VariableInformationFile-0>
       <VariableInformationFolder-0>%BuildModeName%</VariableInformationFolder-0>
       <VariableInformationFileName-0>%ProjectName%.vfi</VariableInformationFileName-0>
     </Instance>
-    <Instance Guid="68fb5a4c-954c-440f-83f8-1698d3873231">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>9</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="c77fc9e8-25ed-4e64-9227-a0d04cc0bd63">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>8</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="e717f794-a081-4556-bfa7-1fb45405d69b">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>7</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="651f7cfe-50e1-42c6-875a-02f675966a4b">
-      <ItemAddTime>634702508532381725</ItemAddTime>
+    <Instance Guid="0e69c6c6-003a-4a26-9dec-a64f5d9734fd">
+      <ItemAddTime>634703398642339344</ItemAddTime>
       <ItemAddTimeCount>6</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="45523609-a014-4d3e-af65-20e270c2a86c">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>3</ItemAddTimeCount>
+    <Instance Guid="408ef075-de2a-429f-963a-adcb3da7ac3e">
+      <ItemAddTime>634703398642339344</ItemAddTime>
+      <ItemAddTimeCount>7</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="18dd92d5-cdff-4867-8af4-23b763541b81">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>2</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="bc29403f-78bc-4df7-99ba-94eff8e86685">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>10</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="8c1b801c-8fd6-4ff4-923a-d13bd564c0d2">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>4</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="8e6ccfcc-fe14-40fa-8480-09553622c067">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>5</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="9af26856-0196-4609-a33e-dffd0d428eff">
-      <ItemAddTime>634702508532381725</ItemAddTime>
+    <Instance Guid="7c921dcd-2af9-4c16-8816-cfe583138548">
+      <ItemAddTime>634703399327224160</ItemAddTime>
       <ItemAddTimeCount>1</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="dd6b3ebe-8369-41b7-aafa-a31341e04de6">
-      <ItemAddTime>634702508532381725</ItemAddTime>
+    <Instance Guid="a1d2ed64-afec-4d95-b2e0-343dd02671bf">
+      <ItemAddTime>634703399327224160</ItemAddTime>
       <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="546a0f3f-37b9-4ac0-93dc-d021d98b114b">
-      <ItemAddTime>634702508532381725</ItemAddTime>
+    <Instance Guid="cf68e33b-029b-4c7d-91f5-c7bdd9462ceb">
+      <ItemAddTime>634703399327224160</ItemAddTime>
+      <ItemAddTimeCount>3</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="a043229a-6803-4a05-8f13-97e0203f1004">
+      <ItemAddTime>634703399327224160</ItemAddTime>
+      <ItemAddTimeCount>4</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="7d6e665d-cfc6-402c-bb26-d23bb0479ee6">
+      <ItemAddTime>634703398642339344</ItemAddTime>
+      <ItemAddTimeCount>5</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="79a0e099-91af-41f1-bef8-4e68455a3e75">
+      <ItemAddTime>634703398642339344</ItemAddTime>
       <ItemAddTimeCount>11</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="23b83cc1-7d6b-41d0-a7ad-6d09fa5f10b9">
+      <ItemAddTime>634703398642339344</ItemAddTime>
+      <ItemAddTimeCount>10</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="006f9128-95fe-4f72-80fb-9cfcd5bef8ab">
+      <ItemAddTime>634703399327224160</ItemAddTime>
+      <ItemAddTimeCount>5</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="7926c2a5-6951-4bff-a2a3-d3310bba6afb">
+      <ItemAddTime>634703399327925168</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="5b426cbe-d5cc-4147-ae8a-f4b2975022c0">
+      <ItemAddTime>634703398642339344</ItemAddTime>
+      <ItemAddTimeCount>4</ItemAddTimeCount>
     </Instance>
     <Instance Guid="9353556a-647d-41ad-9abb-608604ac5736">
       <ItemAddTime>634702508421422173</ItemAddTime>
@@ -713,55 +763,55 @@ Code Generator
       <ItemAddTime>634702508482910589</ItemAddTime>
       <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="fbc267c0-efd9-4f19-b596-f996bcb477f5">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>12</ItemAddTimeCount>
+    <Instance Guid="f7f9b988-ec77-43c4-a572-1a4658b9f44b">
+      <ItemAddTime>634703398642339344</ItemAddTime>
+      <ItemAddTimeCount>3</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="b3c828a3-3300-443a-bfaf-dd95a6cc1ae5">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>13</ItemAddTimeCount>
+    <Instance Guid="1b730b9e-e4a1-4642-b0c3-4558ca8b6a64">
+      <ItemAddTime>634703398642339344</ItemAddTime>
+      <ItemAddTimeCount>2</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="fe1aab9b-8549-45ec-9d29-8d70309cf087">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>14</ItemAddTimeCount>
+    <Instance Guid="4bbb1be8-673d-42ce-9881-6dfab9dec5fa">
+      <ItemAddTime>634703398642339344</ItemAddTime>
+      <ItemAddTimeCount>1</ItemAddTimeCount>
     </Instance>
-    <Instance Guid="709411c2-3277-43e2-9276-4661d54d7c6d">
-      <ItemAddTime>634702508532381725</ItemAddTime>
-      <ItemAddTimeCount>15</ItemAddTimeCount>
-    </Instance>
-    <Instance Guid="22d3843a-a66d-42d4-b04d-c4df475b44ea">
-      <ItemAddTime>634702506050713261</ItemAddTime>
+    <Instance Guid="c50f33e4-823d-4f84-8e80-c8428419599b">
+      <ItemAddTime>634703398642339344</ItemAddTime>
       <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
+    <Instance Guid="ead6ee19-c125-47c0-9266-7510ed245567">
+      <ItemAddTime>634703399327224160</ItemAddTime>
+      <ItemAddTimeCount>2</ItemAddTimeCount>
+    </Instance>
     <Instance Guid="fc999d8f-43d6-4cb3-af4b-cf6891d759fb">
-      <TimeTagModified-SourceItem0--0>-8588669276318288179</TimeTagModified-SourceItem0--0>
+      <TimeTagModified-SourceItem0--0>-8588668386212336320</TimeTagModified-SourceItem0--0>
       <SourceItem0-BuildingTarget-0>True</SourceItem0-BuildingTarget-0>
       <SourceItem0-IndividualCompileOption-0>False</SourceItem0-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem1--0>-8588669276318588611</TimeTagModified-SourceItem1--0>
+      <TimeTagModified-SourceItem1--0>-8588668386212336320</TimeTagModified-SourceItem1--0>
       <SourceItem1-BuildingTarget-0>True</SourceItem1-BuildingTarget-0>
       <SourceItem1-IndividualCompileOption-0>False</SourceItem1-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem2--0>-8588669276318889043</TimeTagModified-SourceItem2--0>
+      <TimeTagModified-SourceItem2--0>-8588668386212336320</TimeTagModified-SourceItem2--0>
       <SourceItem2-BuildingTarget-0>True</SourceItem2-BuildingTarget-0>
       <SourceItem2-IndividualCompileOption-0>False</SourceItem2-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem3--0>-8588669276319289619</TimeTagModified-SourceItem3--0>
+      <TimeTagModified-SourceItem3--0>-8588668386212336320</TimeTagModified-SourceItem3--0>
       <SourceItem3-BuildingTarget-0>True</SourceItem3-BuildingTarget-0>
       <SourceItem3-IndividualCompileOption-0>False</SourceItem3-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem4--0>-8588669276320190915</TimeTagModified-SourceItem4--0>
+      <TimeTagModified-SourceItem4--0>-8588668386212336320</TimeTagModified-SourceItem4--0>
       <SourceItem4-BuildingTarget-0>True</SourceItem4-BuildingTarget-0>
       <SourceItem4-IndividualCompileOption-0>False</SourceItem4-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem5--0>-8588669276320591491</TimeTagModified-SourceItem5--0>
+      <TimeTagModified-SourceItem5--0>-8588668386212436464</TimeTagModified-SourceItem5--0>
       <SourceItem5-BuildingTarget-0>True</SourceItem5-BuildingTarget-0>
       <SourceItem5-IndividualCompileOption-0>False</SourceItem5-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem6--0>-8588669276319890483</TimeTagModified-SourceItem6--0>
+      <TimeTagModified-SourceItem6--0>-8588668386212436464</TimeTagModified-SourceItem6--0>
       <SourceItem6-BuildingTarget-0>True</SourceItem6-BuildingTarget-0>
       <SourceItem6-IndividualCompileOption-0>False</SourceItem6-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem7--0>-8588669276319590051</TimeTagModified-SourceItem7--0>
+      <TimeTagModified-SourceItem7--0>-8588668386212436464</TimeTagModified-SourceItem7--0>
       <SourceItem7-BuildingTarget-0>True</SourceItem7-BuildingTarget-0>
       <SourceItem7-IndividualCompileOption-0>False</SourceItem7-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem8--0>-8588669276321693075</TimeTagModified-SourceItem8--0>
+      <TimeTagModified-SourceItem8--0>-8588668386212436464</TimeTagModified-SourceItem8--0>
       <SourceItem8-BuildingTarget-0>True</SourceItem8-BuildingTarget-0>
       <SourceItem8-IndividualCompileOption-0>False</SourceItem8-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem9--0>-8588669276321993507</TimeTagModified-SourceItem9--0>
+      <TimeTagModified-SourceItem9--0>-8588668386212436464</TimeTagModified-SourceItem9--0>
       <SourceItem9-BuildingTarget-0>True</SourceItem9-BuildingTarget-0>
       <SourceItem9-IndividualCompileOption-0>False</SourceItem9-IndividualCompileOption-0>
       <TimeTagModified-SourceItem10--0>-8588669276433353635</TimeTagModified-SourceItem10--0>
@@ -769,7 +819,7 @@ Code Generator
       <SourceItem10-IndividualCompileOption-0>False</SourceItem10-IndividualCompileOption-0>
     </Instance>
     <Instance Guid="2317529b-91c1-49b6-8351-6d8f51718b0d">
-      <TimeTagModified-SourceItem11--0>-8588669278804062547</TimeTagModified-SourceItem11--0>
+      <TimeTagModified-SourceItem11--0>-8588668385526850640</TimeTagModified-SourceItem11--0>
       <SourceItem11-BuildingTarget-0>True</SourceItem11-BuildingTarget-0>
     </Instance>
   </Class>
@@ -1303,7 +1353,7 @@ Code Generator
     &lt;RAMEndAddress Name="RAMEndAddress" Fixed="" Text="000FFEFF" /&gt;
     &lt;ROMEndAddress Chip="R5F1006E,R5F1007E,R5F1008E,R5F100AE,R5F100BE,R5F100CE,R5F100EE,R5F100FE,R5F100GE,R5F100JE,R5F100LE" Name="ROMEndAddress" Fixed="" Text="0000FFFF" /&gt;
     &lt;MirrorROM Name="MirrorROM" Fixed="" Text="53.75" /&gt;
-    &lt;CodePath Name="CodePath" Text="Code Generator\" /&gt;
+    &lt;CodePath Name="CodePath" Text="gen\" /&gt;
     &lt;ReportType Name="ReportType" Text="Html" /&gt;
     &lt;GenerateType Name="GenerateType" Text="Merge" /&gt;
     &lt;FileRegister Name="FileRegister" Text="Yes" /&gt;
@@ -2972,7 +3022,7 @@ Code Generator
           &lt;setting name="Receive_data_direction" value="LSB" /&gt;
           &lt;setting name="Receive_data_length" value="8 bits" /&gt;
           &lt;setting name="Receive_parity" value="none" /&gt;
-          &lt;setting name="RecBaudrate" value="9600" /&gt;
+          &lt;setting name="RecBaudrate" value="115200" /&gt;
           &lt;setting name="Receive_end_callback_function" value="generated" /&gt;
           &lt;setting name="Receive_error_callback_function" value="generated" /&gt;
           &lt;setting name="Transfer_mode" value="single" /&gt;
@@ -2981,7 +3031,7 @@ Code Generator
           &lt;setting name="Transmit_data_length" value="8 bits" /&gt;
           &lt;setting name="Transmit_parity" value="none" /&gt;
           &lt;setting name="Transmit_stop_length" value="1 bit" /&gt;
-          &lt;setting name="TranBaudrate" value="9600" /&gt;
+          &lt;setting name="TranBaudrate" value="115200" /&gt;
           &lt;setting name="Transmit_end_callback_function" value="generated" /&gt;
           &lt;setting name="Transmit_end_interrupt_priority" value="3" /&gt;
           &lt;setting name="Receive_error_interrupt_priority" value="3" /&gt;

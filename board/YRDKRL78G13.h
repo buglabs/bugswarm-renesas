@@ -20,6 +20,7 @@
 
 #define ACCEL_ADDR		0x3A
 
+//Rate register - write any of the RATExHZ values into the ACCEL_REG_RATE register directly.
 #define ACCEL_REG_RATE		0x2C
 #define ACCEL_BIT_RATE2HZ	0x4
 #define ACCEL_BIT_RATE3HZ	0x5
@@ -34,9 +35,13 @@
 #define ACCEL_BIT_RATE1600HZ	0xE
 #define ACCEL_BIT_RATE3200HZ	0xF
 
+//Power control - set ACCEL_BIT_MEASURE high to enter measurement mode (actually take samples)
 #define ACCEL_REG_POWER_CTL	0x2D
 #define ACCEL_BIT_MEASURE	(1<<3)
 
+//Data format - write the RANGExG values into ACCEL_REG_DATA_FORMAT to set the measurement range
+//set ACCEL_BIT_FULL_RES high to enable full resolution (up to 13-bit)
+//set ACCEL_BIT_JUSTIFY to set the data format - see ADXL345 datasheet.
 #define ACCEL_REG_DATA_FORMAT	0x31
 #define ACCEL_BIT_FULL_RES	(1<<3)
 #define ACCEL_BIT_JUSTIFY	(1<<2)
@@ -45,10 +50,7 @@
 #define ACCEL_BIT_RANGE8G	0x2
 #define ACCEL_BIT_RANGE16G	0x3
 
-//TODO - multibyte reads apparently need to be the register before?
-//Experimentally determined that reading right at 0x32 dropped the first byte
-//(forcefully overwritten by the iic handler to be the address...)
-#define ACCEL_REG_DATA		0x31
+#define ACCEL_REG_DATA		0x32
 
 typedef struct
 {
@@ -69,6 +71,23 @@ typedef struct
 ***********************************************************************************************************************/
 
 #define LIGHT_ADDR	0x72
+
+//These bits are used for the instruction code - used with every write
+#define LIGHT_BIT_SEL_MEASURE	(1<<7)
+#define LIGHT_BIT_SEL_CONTROL_N	(1<<6)
+#define LIGHT_BIT_PTR_INC	(1<<4)
+#define LIGHT_BIT_PTR_REG	(1<<5)
+#define LIGHT_BIT_POWER		(1<<0)
+
+//LIGHT_REG_CONTROL is only valid in control mode.  Most intterupt-related registers have been omitted
+//set LIGHT_BIT_RESOLUTION high to enable the 16 lux multiplier
+//set LIGHT_BIT_POWER high to enable the sensor
+#define LIGHT_REG_CONTROL	0x00
+#define LIGHT_BIT_RESOLUTION	(1<<2)
+#define LIGHT_BIT_POWER		(1<<0)
+
+
+
 
 typedef struct
 {

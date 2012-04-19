@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 4/17/2012
+* Creation Date: 4/18/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -290,6 +290,7 @@ static void iica0_master_handler(void)
 static void r_iica0_callback_master_error(MD_STATUS flag)
 {
     /* Start user code. Do not edit comment generated here */
+    iica0_busy = 0;
     /* End user code. Do not edit comment generated here */
 }
 
@@ -303,6 +304,7 @@ static void r_iica0_callback_master_receiveend(void)
 {
     /* Start user code. Do not edit comment generated here */
     SPT0 = 1U;
+    iica0_busy = 0;
     /* End user code. Do not edit comment generated here */
 }
 
@@ -315,12 +317,8 @@ static void r_iica0_callback_master_receiveend(void)
 static void r_iica0_callback_master_sendend(void)
 {
     /* Start user code. Do not edit comment generated here */
-    if (!iica0_multibyte){
-	SPT0 = 1U;
-    } else {
-	set_gpio(&P6, 3, 0);
-	iica0_multibyte = 0;    
-    }
+    SPT0 = 1U;
+    iica0_busy = 0;
     /* End user code. Do not edit comment generated here */
 }
 

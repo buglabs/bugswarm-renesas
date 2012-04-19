@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements main function.
-* Creation Date: 4/17/2012
+* Creation Date: 4/18/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -63,6 +63,7 @@ int num = 0;
 int len;
 MD_STATUS ret;
 accelData last_accel;
+lightData last_light;
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -81,20 +82,22 @@ void main(void)
     
     //Initialize i2c devices, give them time to start up
     setup_accel();
+    setup_light();
     
-    delay_ms(100);
+    delay_ms(500);
     while (1U)
     {
-	toggle(&P5,4);
+	toggle(&P5,4);	
 	read_accel(&last_accel);
+	read_light(&last_light);
 	
 	memset(buff, '\0', 120);
-	len = sprintf(buff, "%d-%d-%d (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time);
+	len = sprintf(buff, "%d-%d-%d (%ld) %u (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time, last_light.light, last_light.time);
 	ret = R_UART0_Send(buff, len);
 	if (ret != MD_OK){
 		P5 &= ~(1 << 5);
 	}
-	delay_ms(1000);
+	while((millis%1000) != 0) { ; }
     }
     /* End user code. Do not edit comment generated here */
 }

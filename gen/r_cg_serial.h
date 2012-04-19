@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 4/17/2012
+* Creation Date: 4/18/2012
 ***********************************************************************************************************************/
 
 #ifndef SERIAL_H
@@ -378,8 +378,8 @@ Macro definitions (Register bit)
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
-#define _CE00_UART0_RECEIVE_DIVISOR      (0xCE00U)
-#define _CE00_UART0_TRANSMIT_DIVISOR     (0xCE00U)
+#define _8800_UART0_RECEIVE_DIVISOR      (0x8800U)
+#define _8800_UART0_TRANSMIT_DIVISOR     (0x8800U)
 #define _10_IICA0_MASTERADDRESS          (0x10U)
 #define _55_IICA0_IICWH_VALUE            (0x55U)
 #define _4C_IICA0_IICWL_VALUE            (0x4CU)
@@ -412,6 +412,6 @@ static void iica0_master_handler(void);
 static void iica0_slave_handler(void);
 
 /* Start user code for function. Do not edit comment generated here */
-extern uint8_t iica0_multibyte;
+extern uint8_t iica0_busy;
 /* End user code. Do not edit comment generated here */
 #endif
