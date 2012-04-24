@@ -84,7 +84,7 @@ typedef struct
 //set LIGHT_BIT_POWER high to enable the sensor
 #define LIGHT_REG_CONTROL	0x00
 #define LIGHT_BIT_RESOLUTION	(1<<2)
-#define LIGHT_BIT_POWER		(1<<0)
+//#define LIGHT_BIT_POWER		(1<<0)
 
 
 

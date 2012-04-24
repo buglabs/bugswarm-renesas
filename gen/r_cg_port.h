@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for PORT module.
-* Creation Date: 4/18/2012
+* Creation Date: 4/24/2012
 ***********************************************************************************************************************/
 
 #ifndef PORT_H
@@ -209,7 +209,7 @@ Global functions
 void R_PORT_Create(void);
 
 /* Start user code for function. Do not edit comment generated here */
-void toggle(char * port, char pin);
-void set_gpio(char * port, char pin, char value);
+void toggle(uint8_t * port, char pin);
+void set_gpio(uint8_t * port, char pin, char value);
 /* End user code. Do not edit comment generated here */
 #endif

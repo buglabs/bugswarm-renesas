@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 4/18/2012
+* Creation Date: 4/24/2012
 ***********************************************************************************************************************/
 
 #ifndef SERIAL_H
@@ -380,6 +380,8 @@ Macro definitions
 ***********************************************************************************************************************/
 #define _8800_UART0_RECEIVE_DIVISOR      (0x8800U)
 #define _8800_UART0_TRANSMIT_DIVISOR     (0x8800U)
+#define _CE00_UART2_RECEIVE_DIVISOR      (0xCE00U)
+#define _CE00_UART2_TRANSMIT_DIVISOR     (0xCE00U)
 #define _10_IICA0_MASTERADDRESS          (0x10U)
 #define _55_IICA0_IICWH_VALUE            (0x55U)
 #define _4C_IICA0_IICWL_VALUE            (0x4CU)
@@ -400,6 +402,15 @@ MD_STATUS R_UART0_Receive(uint8_t * const rx_buf, uint16_t rx_num);
 static void r_uart0_callback_error(uint8_t err_type);
 static void r_uart0_callback_receiveend(void);
 static void r_uart0_callback_sendend(void);
+void R_SAU1_Create(void);
+void R_UART2_Create(void);
+void R_UART2_Start(void);
+void R_UART2_Stop(void);
+MD_STATUS R_UART2_Send(uint8_t * const tx_buf, uint16_t tx_num);
+MD_STATUS R_UART2_Receive(uint8_t * const rx_buf, uint16_t rx_num);
+static void r_uart2_callback_error(uint8_t err_type);
+static void r_uart2_callback_receiveend(void);
+static void r_uart2_callback_sendend(void);
 void R_IICA0_Create(void);
 MD_STATUS R_IICA0_Master_Send(uint8_t adr, uint8_t * const tx_buf, uint16_t tx_num, uint8_t wait);
 MD_STATUS R_IICA0_Master_Receive(uint8_t adr, uint8_t * const rx_buf, uint16_t rx_num, uint8_t wait);
@@ -413,5 +424,7 @@ static void iica0_slave_handler(void);
 
 /* Start user code for function. Do not edit comment generated here */
 extern uint8_t iica0_busy;
+int putchar(int c);
+int getchar(void);
 /* End user code. Do not edit comment generated here */
 #endif

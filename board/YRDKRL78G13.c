@@ -13,16 +13,14 @@
 #include "r_cg_serial.h"
 #include "YRDKRL78G13.h"
 #include <stdio.h>
+#include <string.h>
 
 uint8_t i2cbuf[10];
-uint8_t errbuf[50];
 
 //Handle error reporting here, to spare r_main the complexity.
 void md_err(MD_STATUS ret, const char * where){
 	set_gpio(&P6, 2, 0);	
-	memset(errbuf, '\0', 50);
-	sprintf(errbuf, "\r\n**i2cerr** ret=%02x at %s\r\n",ret,where);
-	R_UART0_Send(errbuf, strlen(errbuf));
+	printf("\r\n**i2cerr** ret=%02x at %s\r\n",ret,where);
 	delay_ms(100);
 }
 

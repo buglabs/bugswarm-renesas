@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 4/18/2012
+* Creation Date: 4/24/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -37,8 +37,13 @@ Pragma directive
 #pragma interrupt INTST0 r_uart0_interrupt_send
 #pragma interrupt INTSR0 r_uart0_interrupt_receive
 #pragma interrupt INTSRE0 r_uart0_interrupt_error
+#pragma interrupt INTST2 r_uart2_interrupt_send
+#pragma interrupt INTSR2 r_uart2_interrupt_receive
+#pragma interrupt INTSRE2 r_uart2_interrupt_error
 #pragma interrupt INTIICA0 r_iica0_interrupt
 /* Start user code for pragma. Do not edit comment generated here */
+//#pragma interrupt INTSR2 uart2_interrupt_receive
+//#define r_uart2_interrupt_receive uart2_interrupt_receive
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -48,6 +53,10 @@ Includes
 #include "r_cg_serial.h"
 /* Start user code for include. Do not edit comment generated here */
 #include "r_cg_port.h"
+#include "../redpine/rsi_data_types.h"
+#include "../redpine/rsi_uart_api.h"
+#include "../redpine/rsi_at_command_processor.h"
+#include "../redpine/rsi_hal.h"
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -59,6 +68,11 @@ extern volatile uint16_t  g_uart0_tx_count;            /* uart0 send data number
 extern volatile uint8_t * gp_uart0_rx_address;         /* uart0 receive buffer address */
 extern volatile uint16_t  g_uart0_rx_count;            /* uart0 receive data number */
 extern volatile uint16_t  g_uart0_rx_length;           /* uart0 receive data length */
+extern volatile uint8_t * gp_uart2_tx_address;         /* uart2 send buffer address */
+extern volatile uint16_t  g_uart2_tx_count;            /* uart2 send data number */
+extern volatile uint8_t * gp_uart2_rx_address;         /* uart2 receive buffer address */
+extern volatile uint16_t  g_uart2_rx_count;            /* uart2 receive data number */
+extern volatile uint16_t  g_uart2_rx_length;           /* uart2 receive data length */
 extern volatile uint8_t   g_iica0_master_status_flag;  /* iica0 master flag */ 
 extern volatile uint8_t   g_iica0_slave_status_flag;   /* iica0 slave flag */
 extern volatile uint8_t * gp_iica0_rx_address;         /* iica0 receive buffer address */
@@ -67,6 +81,7 @@ extern volatile uint16_t  g_iica0_rx_len;              /* iica0 receive data cou
 extern volatile uint8_t * gp_iica0_tx_address;         /* iica0 send buffer address */
 extern volatile uint16_t  g_iica0_tx_cnt;              /* iica0 send data count */
 /* Start user code for global. Do not edit comment generated here */
+char debugbuff[60];
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -163,6 +178,104 @@ static void r_uart0_callback_error(uint8_t err_type)
 {
     /* Start user code. Do not edit comment generated here */
     P5 &= ~(1 << 5);
+    /* End user code. Do not edit comment generated here */
+}
+
+/***********************************************************************************************************************
+* Function Name: r_uart2_interrupt_receive
+* Description  : This function is INTSR2 interrupt service routine.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+__interrupt static void r_uart2_interrupt_receive(void)
+{
+    uint8_t rx_data;
+    
+    //putchar('N');
+    rsi_receive();
+    /*rx_data = RXD2;
+
+    if (g_uart2_rx_length > g_uart2_rx_count)
+    {
+        *gp_uart2_rx_address = rx_data;
+        gp_uart2_rx_address++;
+        g_uart2_rx_count++;
+
+        if (g_uart2_rx_length == g_uart2_rx_count)
+        {
+            r_uart2_callback_receiveend();
+        }
+    }*/
+}
+
+/***********************************************************************************************************************
+* Function Name: r_uart2_interrupt_error
+* Description  : This function is INTSRE2 interrupt service routine.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+__interrupt static void r_uart2_interrupt_error(void)
+{
+    uint8_t err_type;
+
+    *gp_uart2_rx_address = RXD2;
+    r_uart2_callback_error(err_type);
+}
+
+/***********************************************************************************************************************
+* Function Name: r_uart2_interrupt_send
+* Description  : This function is INTST2 interrupt service routine.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+__interrupt static void r_uart2_interrupt_send(void)
+{
+    if (g_uart2_tx_count > 0U)
+    {
+        TXD2 = *gp_uart2_tx_address;
+        gp_uart2_tx_address++;
+        g_uart2_tx_count--;
+    }
+    else
+    {
+        r_uart2_callback_sendend();
+    }
+}
+
+/***********************************************************************************************************************
+* Function Name: r_uart2_callback_receiveend
+* Description  : This function is a callback function when UART2 finishes reception.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+static void r_uart2_callback_receiveend(void)
+{
+    /* Start user code. Do not edit comment generated here */
+    /* End user code. Do not edit comment generated here */
+}
+
+/***********************************************************************************************************************
+* Function Name: r_uart2_callback_sendend
+* Description  : This function is a callback function when UART2 finishes transmission.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+static void r_uart2_callback_sendend(void)
+{
+    /* Start user code. Do not edit comment generated here */
+    /* End user code. Do not edit comment generated here */
+}
+
+/***********************************************************************************************************************
+* Function Name: r_uart2_callback_error
+* Description  : This function is a callback function when UART2 reception error occurs.
+* Arguments    : err_type -
+*                    error type value
+* Return Value : None
+***********************************************************************************************************************/
+static void r_uart2_callback_error(uint8_t err_type)
+{
+    /* Start user code. Do not edit comment generated here */
     /* End user code. Do not edit comment generated here */
 }
 
@@ -323,4 +436,21 @@ static void r_iica0_callback_master_sendend(void)
 }
 
 /* Start user code for adding. Do not edit comment generated here */
+int putchar (int c){
+    //block while communication is in progress.
+    while (SSR00 & (1 << 6)) { ; }
+    TXD0 = c & 0xFF;
+    return c;
+}
+int getchar (void){
+    //block while communication is in progress.
+    while (SSR00 & (1 << 6)) { ; }
+    return RXD0;
+}
+
+__interrupt static void uart2_interrupt_receive(void){
+    putchar('Y');
+    rsi_receive();
+}
+#define r_uart2_interrupt_receive uart2_interrupt_receive
 /* End user code. Do not edit comment generated here */

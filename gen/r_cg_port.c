@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for PORT module.
-* Creation Date: 4/18/2012
+* Creation Date: 4/24/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -60,11 +60,19 @@ Global variables and functions
 ***********************************************************************************************************************/
 void R_PORT_Create(void)
 {
+    P4 = _00_Pn3_OUTPUT_0;
     P5 = _04_Pn2_OUTPUT_1 | _08_Pn3_OUTPUT_1 | _10_Pn4_OUTPUT_1 | _20_Pn5_OUTPUT_1;
     P6 = _04_Pn2_OUTPUT_1 | _08_Pn3_OUTPUT_1;
+    P13 = _00_Pn0_OUTPUT_0;
+    P14 = _00_Pn6_OUTPUT_0 | _00_Pn7_OUTPUT_0;
+    PMC14 = _00_PMCn7_DI_ON | _7F_PMC14_DEFAULT;
+    PM4 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _04_PMn2_NOT_USE | _00_PMn3_MODE_OUTPUT | _F0_PM4_DEFAULT;
     PM5 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _00_PMn2_MODE_OUTPUT | _00_PMn3_MODE_OUTPUT | _00_PMn4_MODE_OUTPUT |
           _00_PMn5_MODE_OUTPUT | _C0_PM5_DEFAULT;
     PM6 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _00_PMn2_MODE_OUTPUT | _00_PMn3_MODE_OUTPUT | _F0_PM6_DEFAULT;
+    PM7 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _04_PMn2_NOT_USE | _08_PMn3_NOT_USE | _10_PMn4_MODE_INPUT |
+          _20_PMn5_NOT_USE | _40_PMn6_NOT_USE | _80_PMn7_NOT_USE;
+    PM14 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _00_PMn6_MODE_OUTPUT | _00_PMn7_MODE_OUTPUT | _3C_PM14_DEFAULT;
 }
 
 /* Start user code for adding. Do not edit comment generated here */

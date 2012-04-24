@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements system initializing function.
-* Creation Date: 4/18/2012
+* Creation Date: 4/24/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -68,6 +68,7 @@ void R_Systeminit(void)
     R_PORT_Create();
     R_CGC_Create();
     R_SAU0_Create();
+    R_SAU1_Create();
     R_IICA0_Create();
     R_IT_Create();
     CRC0CTL = 0x00U;
