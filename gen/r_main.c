@@ -54,6 +54,7 @@ Includes
 #include "../redpine/rsi_hal.h"
 #include "../redpine/rsi_global.h"
 #include "../redpine/rsi_hal_api.h"
+#include "../swarmlibs/swarm.h"
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -61,12 +62,25 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
+#define ACCEL_SCALE 270
+/* The sample period, in milliseconds.  This will be limited by BUGswarm.
+ * Adjust with care and an eye on a swarm console.
+ * NOTE - this isn't a precise value, it does not take into effect the time
+ * spent retrieving the sample and sending it out to swarm.*/
+#define UPDATE_PERIOD 2000
+/* The number of messages to wait until sending out a swarm capabilities message
+ */
+#define CAPABILITIES_PERIOD 10000
+
 const uint8_t * message = (const uint8_t *)"Hello World\r\n";
 
-char buff[120];
+char tempbuff[50];
+int dataxRounded;
+int datayRounded;
 int num = 0;
 int len;
 int status;
+int seed;
 uint16_t ret;
 accelData last_accel;
 lightData last_light;
@@ -81,9 +95,9 @@ rsi_socketFrame_t      outsock;
 
 /* Swarm IDs
  * Edit the following values based on desired BUGSwarm configuration */
-//const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
+const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
 //const char swarm_server_ip = "64.118.81.28";  //test.api.bugswarm.net
-const char swarm_server_ip[] = "192.168.11.204";
+//const char swarm_server_ip[] = "192.168.11.204";
 const char swarm_id[] =          "27e5a0e7e2e5445c51be56de44f45b19701f36d3";
 const char resource_id[] =       "b75538642bcadbdf4ae6d242d4f492266c11cb44";
 const char participation_key[] = "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b";
@@ -107,10 +121,9 @@ void main(void)
     R_UART2_Start();
     printf(message);
     //Initialize i2c devices, give them time to start up
-    //setup_accel();
-    //setup_light();
+    setup_accel();
+    setup_light();
     delay_ms(100);
-    
     
 //    struct rsi_socketFrame_s *insock = &insock_obj;
 //    struct rsi_socketFrame_s *outsock = &outsock_obj;
@@ -133,8 +146,12 @@ void main(void)
     ret = rsi_wifi_init (strApi.band, &strApi.ScanFrame, &strApi.JoinFrame, &strApi.IPparamFrame);     
     printf("%04x\r\n",ret);
     
-    //TODO, re-implement random port selection
-    insock.lport = 2345;
+    seed = millis&0xFFFF;
+    srand(seed);
+    do {
+        insock.lport = rand();
+    } while (insock.lport < 1024);
+    printf("seed %04X port %04X", seed, insock.lport);
     outsock.rport = 80;
     outsock.lport = insock.lport;
     strcpy(outsock.remote_ip, swarm_server_ip);
@@ -146,7 +163,7 @@ void main(void)
           return;       //If we cannot open a listening socket, do not continue
       }
       do {
-        rsi_delayMs(10);
+        delay_ms(10);
         status = rsi_read_cmd_rsp(&insock.handle);
       } while (status == RSI_ERROR_NO_RX_PENDING);
       if (status != RSI_NOERROR){
@@ -161,30 +178,51 @@ void main(void)
             printf("outsock FAIL\r\n"); 
         }
         do {
-          rsi_delayMs(10);
+          delay_ms(10);
           status = rsi_read_cmd_rsp(&outsock.handle);
         } while (status == RSI_ERROR_NO_RX_PENDING);
         if (status != RSI_NOERROR){
             printf("Can't connect to SWARM, retrying E%X\r\n", (signed int)status);
-            rsi_delayMs(1000);
+            delay_ms(1000);
         }
       } while (status != RSI_NOERROR);
+    
+      printf("Connected to socket\r\n");
+    // open HTTP streaming socket to swarm by sending participation header 
+      swarm_send_produce(swarm_id, resource_id, participation_key, &outsock);
+      delay_ms(50);
+      // Send capabilities message, assuming a webUI is listening for it 
+      capabilities_announce(&outsock);
     printf("Connected to Swarm!\r\n");
     delay_ms(500);
     while (1U)
     {
-	/*toggle(&P5,4);	
+	toggle(&P5,4);	
 	read_accel(&last_accel);
 	read_light(&last_light);
 	
 	printf("%d-%d-%d (%ld) %u (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time, last_light.light, last_light.time);
-	//memset(buff, '\0', 120);
-	//len = sprintf(buff, "%d-%d-%d (%ld) %u (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time, last_light.light, last_light.time);
-	//ret = R_UART0_Send((uint8_t *)buff, len);
-	//if (ret != MD_OK){
-		//P5 &= ~(1 << 5);
-	//}
-	while((millis%1000) != 0) { ; } */
+	dataxRounded = abs(last_accel.x/ACCEL_SCALE);
+        datayRounded = abs(last_accel.y/ACCEL_SCALE);
+	memset(tempbuff, '\0', sizeof(tempbuff));
+        // Create swarm payload for acceleration, and load it into tempbuff.
+        // Integer math to compensate for lack fo floating point formatter: 
+        // -%c is used to display a negative sign if number is negative
+        // -%d. is the whole part of the number
+        // -%04d is the fake floating point portion, to 4 places 
+        sprintf(tempbuff, "{\"Acceleration\":{\"x\":%c%d.%04d,\"y\":%c%d.%04d}}",
+                (last_accel.x < 0)?'-':' ', dataxRounded, 
+                abs((int)((((long)last_accel.x*10000L)/ACCEL_SCALE)-((long)dataxRounded*10000L))),
+                (last_accel.y < 0)?'-':' ', datayRounded, 
+                abs((int)((((long)last_accel.y*10000L)/ACCEL_SCALE)-((long)datayRounded*10000L))));
+        // Send data to swarm and toggle LED2 
+	printf("Sending %s\r\n",tempbuff);
+        swarm_produce(tempbuff,&outsock);
+	
+	while((millis%UPDATE_PERIOD) != 0) { ; }
+	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
+           capabilities_announce(&outsock);
+        }
     }
     /* End user code. Do not edit comment generated here */
 }
