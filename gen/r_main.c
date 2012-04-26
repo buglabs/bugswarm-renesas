@@ -48,6 +48,7 @@ Includes
 /* Start user code for include. Do not edit comment generated here */
 #include <stdio.h>
 #include <string.h>
+//#include <float.h>
 #include "../board/YRDKRL78G13.h"
 #include "../redpine/rsi_data_types.h"
 #include "../redpine/rsi_uart_api.h"
@@ -67,7 +68,8 @@ Global variables and functions
  * Adjust with care and an eye on a swarm console.
  * NOTE - this isn't a precise value, it does not take into effect the time
  * spent retrieving the sample and sending it out to swarm.*/
-#define UPDATE_PERIOD 2000
+//#define UPDATE_PERIOD 2000
+#define UPDATE_PERIOD 500
 /* The number of messages to wait until sending out a swarm capabilities message
  */
 #define CAPABILITIES_PERIOD 10000
@@ -84,6 +86,7 @@ int seed;
 uint16_t ret;
 accelData last_accel;
 lightData last_light;
+tempData last_temp;
 
 api strApi;
 DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
@@ -121,15 +124,16 @@ void main(void)
     R_UART2_Start();
     printf(message);
     //Initialize i2c devices, give them time to start up
-    setup_accel();
-    setup_light();
+    //setup_accel();
+    //setup_light();
+    setup_temp();
     delay_ms(100);
     
 //    struct rsi_socketFrame_s *insock = &insock_obj;
 //    struct rsi_socketFrame_s *outsock = &outsock_obj;
 
     /* Initialize UART and enable Module power and reset pins */  
-    printf("initializing redpine device...");
+    /*printf("initializing redpine device...");
     rsi_init();
     printf("done!\r\n");
     rsi_set_rx_buffer(lib_rx_buffer1, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
@@ -155,7 +159,6 @@ void main(void)
     outsock.rport = 80;
     outsock.lport = insock.lport;
     strcpy(outsock.remote_ip, swarm_server_ip);
-    
     // OPEN listening socket 
       if( rsi_socket_ltcp_open (&insock) != RSI_NOERROR )
       {
@@ -194,15 +197,17 @@ void main(void)
       // Send capabilities message, assuming a webUI is listening for it 
       capabilities_announce(&outsock);
     printf("Connected to Swarm!\r\n");
-    delay_ms(500);
+    delay_ms(500); */
     while (1U)
     {
 	toggle(&P5,4);	
-	read_accel(&last_accel);
-	read_light(&last_light);
+	//read_accel(&last_accel);
+	//read_light(&last_light);
+	read_temp(&last_temp);
 	
-	printf("%d-%d-%d (%ld) %u (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time, last_light.light, last_light.time);
-
+	//printf("%d-%d-%d (%ld) %u (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time, last_light.light, last_light.time);
+	printf("%f (%ld)\r\n",((((float)last_temp.temp)/128.0)*(5.0/9.0))+32.0, last_temp.time);
+	/*
 	dataxRounded = abs(last_accel.x/ACCEL_SCALE);
         datayRounded = abs(last_accel.y/ACCEL_SCALE);
 	memset(tempbuff, '\0', sizeof(tempbuff));
@@ -219,11 +224,11 @@ void main(void)
         // Send data to swarm and toggle LED2 
 	printf("Sending %s\r\n",tempbuff);
         swarm_produce(tempbuff,&outsock);
-	
+	*/
 	while((millis%UPDATE_PERIOD) != 0) { ; }
-	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
-           capabilities_announce(&outsock);
-        } 
+	//if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
+        //   capabilities_announce(&outsock);
+        //} 
     }
     /* End user code. Do not edit comment generated here */
 }

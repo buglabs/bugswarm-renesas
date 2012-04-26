@@ -137,10 +137,41 @@ MD_STATUS read_light(lightData * dat){
 
 MD_STATUS setup_temp(){
 	MD_STATUS ret = MD_OK;
+	while (iica0_busy || IICBSY0){ ; } 	//Make sure bus is ready for xfer
+	i2cbuf[0] = TEMP_BIT_HIRES;
+	iica0_busy = 1;
+	ret = R_IICA0_Master_Send(LIGHT_ADDR, i2cbuf, 1, 0);
+	if (ret != MD_OK){
+		md_err(ret, "temp config res");
+		return ret;
+	}
+	while (iica0_busy || IICBSY0){ ; } 	//Wait until the xfer is complete
 	return ret;
 }
 
 MD_STATUS read_temp(tempData * dat){
 	MD_STATUS ret = MD_OK;
+	dat->temp = 0;
+	
+	while (iica0_busy || IICBSY0){ ; } 	//Make sure bus is ready for xfer
+	i2cbuf[0] = TEMP_REG_DATA;
+	iica0_busy = 1;
+	ret = R_IICA0_Master_Send(TEMP_ADDR, i2cbuf, 1, 0);
+	if (ret != MD_OK){
+		md_err(ret, "temp set reg");
+		return ret;
+	} 
+	while (iica0_busy || IICBSY0){ ; } 	//Wait until the xfer is complete
+	i2cbuf[0] = 0;
+	iica0_busy = 1;
+	ret = R_IICA0_Master_Receive(TEMP_ADDR, i2cbuf, 2, 0);
+	while (iica0_busy || IICBSY0){ ; } 	//Wait until the xfer is complete
+	if (ret != MD_OK){
+		md_err(ret, "temp read");
+		return ret;
+	} else {
+		dat->time = millis;
+		dat->temp = (uint16_t)i2cbuf[1] | ((uint16_t)i2cbuf[0] << 8);
+	}
 	return ret;
 }

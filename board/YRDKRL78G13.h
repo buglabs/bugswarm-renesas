@@ -101,6 +101,15 @@ typedef struct
 
 #define TEMP_ADDR	0x90
 
+#define TEMP_REG_DATA		0x00
+
+#define TEMP_REG_CONFIG		0x03
+#define TEMP_BIT_CONTINUOUS	(0x00 << 5)
+#define TEMP_BIT_ONESHOT	(0x01 << 5)
+#define TEMP_BIT_1SPS		(0x02 << 5)
+#define TEMP_BIT_OFF		(0x03 << 5)
+#define TEMP_BIT_HIRES		(1 << 7)
+
 typedef struct
 {
 	uint16_t temp;
