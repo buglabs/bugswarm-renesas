@@ -53,14 +53,14 @@ Global variables and functions
 /* End user code. Do not edit comment generated here */
 
 /* Start user code for adding. Do not edit comment generated here */
-void toggle(uint8_t * port, char pin){
+void toggle(uint8_t * port, uint8_t pin){
 	if (*port & (1<<pin))
 		*port &= ~(1<<pin);
 	else
 		*port |= (1<<pin);
 }
 
-void set_gpio(uint8_t * port, char pin, char value){
+void set_gpio(uint8_t * port, uint8_t pin, uint8_t value){
 	if (value)
 		*port|= (1<<pin);
 	else

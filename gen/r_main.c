@@ -125,16 +125,15 @@ void main(void)
     R_UART2_Start();
     R_ADC_Start();
     R_ADC_Set_OperationOn();
+    R_INTC0_Start();
+    R_INTC1_Start();
+    R_INTC2_Start();
     printf(message);
     //Initialize i2c devices, give them time to start up
     setup_accel();
     setup_light();
     setup_temp();
     delay_ms(100);
-    
-    R_INTC0_Start();
-    R_INTC1_Start();
-    R_INTC2_Start();
     
 //    struct rsi_socketFrame_s *insock = &insock_obj;
 //    struct rsi_socketFrame_s *outsock = &outsock_obj;
@@ -207,9 +206,8 @@ void main(void)
     delay_ms(500); */
     while (1U)
     {
-	toggle(&P5,4);	
-	//R_ADC_Start();
-    	//R_ADC_Set_OperationOn();
+	//toggle(&P5,4);	
+	toggle_led(5);
 	read_accel(&last_accel);
 	read_light(&last_light);
 	read_temp(&last_temp);

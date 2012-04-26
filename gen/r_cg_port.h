@@ -209,7 +209,7 @@ Global functions
 void R_PORT_Create(void);
 
 /* Start user code for function. Do not edit comment generated here */
-void toggle(uint8_t * port, char pin);
-void set_gpio(uint8_t * port, char pin, char value);
+void toggle(uint8_t * port, uint8_t pin);
+void set_gpio(uint8_t * port, uint8_t pin, uint8_t value);
 /* End user code. Do not edit comment generated here */
 #endif
