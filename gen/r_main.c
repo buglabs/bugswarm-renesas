@@ -95,9 +95,9 @@ rsi_socketFrame_t      outsock;
 
 /* Swarm IDs
  * Edit the following values based on desired BUGSwarm configuration */
-const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
+//const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
 //const char swarm_server_ip = "64.118.81.28";  //test.api.bugswarm.net
-//const char swarm_server_ip[] = "192.168.11.204";
+const char swarm_server_ip[] = "192.168.11.204";
 const char swarm_id[] =          "27e5a0e7e2e5445c51be56de44f45b19701f36d3";
 const char resource_id[] =       "b75538642bcadbdf4ae6d242d4f492266c11cb44";
 const char participation_key[] = "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b";
@@ -202,6 +202,7 @@ void main(void)
 	read_light(&last_light);
 	
 	printf("%d-%d-%d (%ld) %u (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time, last_light.light, last_light.time);
+
 	dataxRounded = abs(last_accel.x/ACCEL_SCALE);
         datayRounded = abs(last_accel.y/ACCEL_SCALE);
 	memset(tempbuff, '\0', sizeof(tempbuff));
@@ -222,7 +223,7 @@ void main(void)
 	while((millis%UPDATE_PERIOD) != 0) { ; }
 	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
            capabilities_announce(&outsock);
-        }
+        } 
     }
     /* End user code. Do not edit comment generated here */
 }

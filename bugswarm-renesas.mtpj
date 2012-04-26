@@ -43,6 +43,12 @@
       <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
       <Property>86c23c8b-f017-4650-b7bd-05f5ac0b6a1c</Property>
     </Instance>
+    <Instance Guid="00849578-7c81-466a-8082-eb168a2eca37">
+      <Name>swarmlibs</Name>
+      <Type>Category</Type>
+      <ParentItem>90b1b4da-565d-4fb2-b38e-b7f1e8dd5a13</ParentItem>
+      <Property>3637144a-6e11-4682-8e31-044b96b1b05f</Property>
+    </Instance>
     <Instance Guid="c50f33e4-823d-4f84-8e80-c8428419599b">
       <Name>r_cg_cgc.c</Name>
       <Type>File</Type>
@@ -322,6 +328,22 @@
       <ParentItem>30356206-f8fc-499c-87a7-974ce391f2ae</ParentItem>
       <Property>b3683ecd-36ee-4ce5-b0ca-984ee0e87992</Property>
     </Instance>
+    <Instance Guid="da9a7650-4fcc-4b5f-8777-667336445cdd">
+      <Name>swarm.c</Name>
+      <Type>File</Type>
+      <RelativePath>swarmlibs\swarm.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>00849578-7c81-466a-8082-eb168a2eca37</ParentItem>
+      <Property>ef821ba7-b4fd-49e9-83f1-8cdf902fb3d3</Property>
+    </Instance>
+    <Instance Guid="4a95e835-f071-47b7-9e5f-d3b9d9e3a035">
+      <Name>swarm.h</Name>
+      <Type>File</Type>
+      <RelativePath>swarmlibs\swarm.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>00849578-7c81-466a-8082-eb168a2eca37</ParentItem>
+      <Property>fe37a2a3-591a-450f-83ea-f55165c7f2e8</Property>
+    </Instance>
   </Class>
   <Class Guid="fb98844b-2c27-4275-9804-f6e63e204da0">
     <Instance Guid="fb98844b-2c27-4275-9804-f6e63e204da0">
@@ -434,6 +456,12 @@
     <Instance Guid="b3683ecd-36ee-4ce5-b0ca-984ee0e87992">
       <MemoCount>0</MemoCount>
     </Instance>
+    <Instance Guid="ef821ba7-b4fd-49e9-83f1-8cdf902fb3d3">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="fe37a2a3-591a-450f-83ea-f55165c7f2e8">
+      <MemoCount>0</MemoCount>
+    </Instance>
   </Class>
   <Class Guid="78a5c5cd-76cb-4bcc-a031-3020011fbc9a">
     <Instance Guid="ac807223-9413-429f-8a61-330cba70ba6c">
@@ -449,6 +477,9 @@
       <MemoCount>0</MemoCount>
     </Instance>
     <Instance Guid="2e45b1ec-751c-41f4-a9e1-fe539d30482f">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="3637144a-6e11-4682-8e31-044b96b1b05f">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -525,7 +556,9 @@
       <SourceItemType19>CSource</SourceItemType19>
       <SourceItemGuid20>86d52c49-614a-42b0-aad7-60be97a9235f</SourceItemGuid20>
       <SourceItemType20>CSource</SourceItemType20>
-      <SourceItemCount>21</SourceItemCount>
+      <SourceItemGuid21>da9a7650-4fcc-4b5f-8777-667336445cdd</SourceItemGuid21>
+      <SourceItemType21>CSource</SourceItemType21>
+      <SourceItemCount>22</SourceItemCount>
       <VfiSourceItemCount>0</VfiSourceItemCount>
     </Instance>
     <Instance Guid="e6d45d58-de50-4ae7-8d7f-320171fa9617">
@@ -646,8 +679,9 @@ cl0rmf.lib
       <NumberOfCharactersPerLine-DefaultValue>132</NumberOfCharactersPerLine-DefaultValue>
       <NumberOfLinesPerPage-DefaultValue>0</NumberOfLinesPerPage-DefaultValue>
       <TabWidth-DefaultValue>8</TabWidth-DefaultValue>
-      <TimeTagModified--0>-8588667475316991984</TimeTagModified--0>
-      <AdditionalIncludePaths-0>redpine
+      <TimeTagModified--0>-8588662962945005822</TimeTagModified--0>
+      <AdditionalIncludePaths-0>swarmlibs
+redpine
 board
 gen
 </AdditionalIncludePaths-0>
@@ -1082,6 +1116,14 @@ gen
       <ItemAddTime>634705225602882992</ItemAddTime>
       <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
+    <Instance Guid="da9a7650-4fcc-4b5f-8777-667336445cdd">
+      <ItemAddTime>634708821833360114</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="4a95e835-f071-47b7-9e5f-d3b9d9e3a035">
+      <ItemAddTime>634708821909970274</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
     <Instance Guid="2317529b-91c1-49b6-8351-6d8f51718b0d">
       <TimeTagModified-SourceItem0--0>-8588668385526850640</TimeTagModified-SourceItem0--0>
       <SourceItem0-BuildingTarget-0>True</SourceItem0-BuildingTarget-0>
@@ -1147,6 +1189,9 @@ gen
       <TimeTagModified-SourceItem20--0>-8588666562585786720</TimeTagModified-SourceItem20--0>
       <SourceItem20-BuildingTarget-0>True</SourceItem20-BuildingTarget-0>
       <SourceItem20-IndividualCompileOption-0>False</SourceItem20-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem21--0>-8588662963021415694</TimeTagModified-SourceItem21--0>
+      <SourceItem21-BuildingTarget-0>True</SourceItem21-BuildingTarget-0>
+      <SourceItem21-IndividualCompileOption-0>False</SourceItem21-IndividualCompileOption-0>
     </Instance>
   </Class>
   <Class Guid="44fa27c9-0aa0-4297-bd3b-2c5c5bdb8881">
