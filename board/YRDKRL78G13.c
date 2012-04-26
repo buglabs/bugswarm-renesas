@@ -62,9 +62,12 @@ MD_STATUS read_accel(accelData * dat){
 	MD_STATUS ret;
 	int i;
 	
-	dat->x = 0;
-	dat->y = 0;
-	dat->z = 0;
+	dat->xraw = 0;
+	dat->yraw = 0;
+	dat->zraw = 0;
+	dat->x = 0.0;
+	dat->y = 0.0;
+	dat->z = 0.0;
 	
 	while (iica0_busy || IICBSY0){ ; } 	//Make sure bus is ready for xfer
 	i2cbuf[0] = ACCEL_REG_DATA;
@@ -84,9 +87,12 @@ MD_STATUS read_accel(accelData * dat){
 		return ret;
 	} else {
 		dat->time = millis;
-		dat->x = (uint16_t)i2cbuf[0] | ((uint16_t)i2cbuf[1] << 8);
-		dat->y = (uint16_t)i2cbuf[2] | ((uint16_t)i2cbuf[3] << 8);
-		dat->z = (uint16_t)i2cbuf[4] | ((uint16_t)i2cbuf[5] << 8);
+		dat->xraw = (signed int)((uint16_t)i2cbuf[0] | ((uint16_t)i2cbuf[1] << 8));
+		dat->yraw = (signed int)((uint16_t)i2cbuf[2] | ((uint16_t)i2cbuf[3] << 8));
+		dat->zraw = (signed int)((uint16_t)i2cbuf[4] | ((uint16_t)i2cbuf[5] << 8));
+		dat->x = (float)dat->xraw/ACCEL_SCALE;
+		dat->y = (float)dat->yraw/ACCEL_SCALE;
+		dat->z = (float)dat->zraw/ACCEL_SCALE;
 	}
 	
 	return ret;
@@ -115,9 +121,8 @@ MD_STATUS read_light(lightData * dat){
 	int len = 0; 
 	int i;
 	
-	dat->light = 0;
-	
 	while (iica0_busy || IICBSY0){ ; } 	//Wait until the xfer is complete
+	dat->light = 0;
 	iica0_busy = 1;
 	ret = R_IICA0_Master_Receive(LIGHT_ADDR, i2cbuf, 2, 0);
 	while (iica0_busy || IICBSY0){ ; } 	//Wait until the xfer is complete
@@ -140,7 +145,7 @@ MD_STATUS setup_temp(){
 	while (iica0_busy || IICBSY0){ ; } 	//Make sure bus is ready for xfer
 	i2cbuf[0] = TEMP_BIT_HIRES;
 	iica0_busy = 1;
-	ret = R_IICA0_Master_Send(LIGHT_ADDR, i2cbuf, 1, 0);
+	ret = R_IICA0_Master_Send(TEMP_ADDR, i2cbuf, 1, 0);
 	if (ret != MD_OK){
 		md_err(ret, "temp config res");
 		return ret;
@@ -151,7 +156,10 @@ MD_STATUS setup_temp(){
 
 MD_STATUS read_temp(tempData * dat){
 	MD_STATUS ret = MD_OK;
-	dat->temp = 0;
+	
+	dat->raw = 0;
+	dat->tempC = 0.0;
+	dat->tempF = 0.0;
 	
 	while (iica0_busy || IICBSY0){ ; } 	//Make sure bus is ready for xfer
 	i2cbuf[0] = TEMP_REG_DATA;
@@ -171,7 +179,15 @@ MD_STATUS read_temp(tempData * dat){
 		return ret;
 	} else {
 		dat->time = millis;
-		dat->temp = (uint16_t)i2cbuf[1] | ((uint16_t)i2cbuf[0] << 8);
+		dat->raw = (uint16_t)i2cbuf[1] | ((uint16_t)i2cbuf[0] << 8);
+		if (dat->raw & 0x80){
+			//Positive temperature
+			dat->tempC = (float)dat->raw/128.0;
+		} else {
+			//Negative temperature
+			dat->tempC = (float)(dat->raw-65536)/128.0;
+		}
+		dat->tempF = ((9.0/5.0)*dat->tempC)+32;
 	}
 	return ret;
 }

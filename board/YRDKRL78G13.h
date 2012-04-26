@@ -52,11 +52,17 @@
 
 #define ACCEL_REG_DATA		0x32
 
+//Accelerometer scale
+#define ACCEL_SCALE 		256.0	//LSB per G force
+
 typedef struct
 {
-	uint16_t x;			//X axis, proportional to G force
-	uint16_t y;			//Y axis, proportional to G force
-	uint16_t z;			//Z axis, proportional to G force
+	signed int xraw;		//X axis, proportional to G force
+	signed int yraw;		//Y axis, proportional to G force
+	signed int zraw;		//Z axis, proportional to G force
+	float x;
+	float y;
+	float z;
 	unsigned long time;	//time offset from CPU start, in ms
 } accelData;
 
@@ -112,7 +118,9 @@ typedef struct
 
 typedef struct
 {
-	uint16_t temp;
+	uint16_t raw;
+	float tempC;
+	float tempF;
 	unsigned long time;	//time offset from CPU start, in ms
 } tempData;
 

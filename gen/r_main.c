@@ -63,7 +63,6 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
-#define ACCEL_SCALE 270
 /* The sample period, in milliseconds.  This will be limited by BUGswarm.
  * Adjust with care and an eye on a swarm console.
  * NOTE - this isn't a precise value, it does not take into effect the time
@@ -124,8 +123,8 @@ void main(void)
     R_UART2_Start();
     printf(message);
     //Initialize i2c devices, give them time to start up
-    //setup_accel();
-    //setup_light();
+    setup_accel();
+    setup_light();
     setup_temp();
     delay_ms(100);
     
@@ -201,12 +200,11 @@ void main(void)
     while (1U)
     {
 	toggle(&P5,4);	
-	//read_accel(&last_accel);
-	//read_light(&last_light);
+	read_accel(&last_accel);
+	read_light(&last_light);
 	read_temp(&last_temp);
 	
-	//printf("%d-%d-%d (%ld) %u (%ld)\r\n", last_accel.x, last_accel.y, last_accel.z, last_accel.time, last_light.light, last_light.time);
-	printf("%f (%ld)\r\n",((((float)last_temp.temp)/128.0)*(5.0/9.0))+32.0, last_temp.time);
+	printf("A(%f,%f,%f) L[%u] T<%f> (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, last_temp.time);
 	/*
 	dataxRounded = abs(last_accel.x/ACCEL_SCALE);
         datayRounded = abs(last_accel.y/ACCEL_SCALE);
