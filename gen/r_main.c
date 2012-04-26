@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements main function.
-* Creation Date: 4/24/2012
+* Creation Date: 4/26/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -43,7 +43,9 @@ Includes
 #include "r_cg_macrodriver.h"
 #include "r_cg_cgc.h"
 #include "r_cg_port.h"
+#include "r_cg_intc.h"
 #include "r_cg_serial.h"
+#include "r_cg_adc.h"
 #include "r_cg_it.h"
 /* Start user code for include. Do not edit comment generated here */
 #include <stdio.h>
@@ -121,12 +123,18 @@ void main(void)
     R_IT_Start();		//Start the interval timer
     R_UART0_Start();		//Start the UART
     R_UART2_Start();
+    R_ADC_Start();
+    R_ADC_Set_OperationOn();
     printf(message);
     //Initialize i2c devices, give them time to start up
     setup_accel();
     setup_light();
     setup_temp();
     delay_ms(100);
+    
+    R_INTC0_Start();
+    R_INTC1_Start();
+    R_INTC2_Start();
     
 //    struct rsi_socketFrame_s *insock = &insock_obj;
 //    struct rsi_socketFrame_s *outsock = &outsock_obj;
@@ -200,11 +208,14 @@ void main(void)
     while (1U)
     {
 	toggle(&P5,4);	
+	//R_ADC_Start();
+    	//R_ADC_Set_OperationOn();
 	read_accel(&last_accel);
 	read_light(&last_light);
 	read_temp(&last_temp);
+	R_ADC_Get_Result(&ret);
 	
-	printf("A(%f,%f,%f) L[%u] T<%f> (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, last_temp.time);
+	printf("A(%f,%f,%f) L[%u] T<%f> {%04x} (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, ret, last_temp.time);
 	/*
 	dataxRounded = abs(last_accel.x/ACCEL_SCALE);
         datayRounded = abs(last_accel.y/ACCEL_SCALE);

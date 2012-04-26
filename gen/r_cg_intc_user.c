@@ -23,68 +23,107 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_macrodriver.h
+* File Name    : r_cg_intc_user.c
 * Version      : CodeGenerator for RL78/G13 V1.03.01 [11 Oct 2011]
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
-* Description  : This file implements general head file.
+* Description  : This file implements device driver for INTC module.
 * Creation Date: 4/26/2012
 ***********************************************************************************************************************/
 
-#ifndef STATUS_H
-#define STATUS_H
+/***********************************************************************************************************************
+Pragma directive
+***********************************************************************************************************************/
+#pragma interrupt INTP0 r_intc0_interrupt
+#pragma interrupt INTP1 r_intc1_interrupt
+#pragma interrupt INTP2 r_intc2_interrupt
+/* Start user code for pragma. Do not edit comment generated here */
+//Number of milliseconds to debounce the switches - ignoring interrupts in between.
+#define DEBOUNCE_TIME		50
+//number of samples to take of switch when determining it's state
+#define DEBOUNCE_SAMPLES	50
+/* End user code. Do not edit comment generated here */
+
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#pragma sfr
-#pragma DI
-#pragma EI
-#pragma NOP
-#pragma HALT
-#pragma STOP
+#include "r_cg_macrodriver.h"
+#include "r_cg_intc.h"
+/* Start user code for include. Do not edit comment generated here */
+#include "r_cg_it.h"
+#include <stdio.h>
+/* End user code. Do not edit comment generated here */
+#include "r_cg_userdefine.h"
 
 /***********************************************************************************************************************
-Macro definitions (Register bit)
+Global variables and functions
 ***********************************************************************************************************************/
+/* Start user code for global. Do not edit comment generated here */
+unsigned long intc0_last = 0;
+unsigned long intc1_last = 0;
+unsigned long intc2_last = 0;
+uint8_t intc0_stat = 1;
+uint8_t intc1_stat = 1;
+uint8_t intc2_stat = 1;
+uint8_t intc0_old = 1;
+uint8_t intc1_old = 1;
+uint8_t intc2_old = 1;
+int sum = 0;
+/* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-Macro definitions
+* Function Name: r_intc0_interrupt
+* Description  : This function is INTP0 interrupt service routine.
+* Arguments    : None
+* Return Value : None
 ***********************************************************************************************************************/
-#ifndef __TYPEDEF__
-/* Status list definition */
-#define MD_STATUSBASE        (0x00U)
-#define MD_OK                (MD_STATUSBASE + 0x00U) /* register setting OK */
-#define MD_SPT               (MD_STATUSBASE + 0x01U) /* IIC stop */
-#define MD_NACK              (MD_STATUSBASE + 0x02U) /* IIC no ACK */
-#define MD_BUSY1             (MD_STATUSBASE + 0x03U) /* busy 1 */
-#define MD_BUSY2             (MD_STATUSBASE + 0x04U) /* busy 2 */
-
-/* Error list definition */
-#define MD_ERRORBASE         (0x80U)
-#define MD_ERROR             (MD_ERRORBASE + 0x00U)  /* error */
-#define MD_ARGERROR          (MD_ERRORBASE + 0x01U)  /* error agrument input error */
-#define MD_ERROR1            (MD_ERRORBASE + 0x02U)  /* error 1 */
-#define MD_ERROR2            (MD_ERRORBASE + 0x03U)  /* error 2 */
-#define MD_ERROR3            (MD_ERRORBASE + 0x04U)  /* error 3 */
-#define MD_ERROR4            (MD_ERRORBASE + 0x05U)  /* error 4 */
-#endif
+__interrupt static void r_intc0_interrupt(void)
+{
+    /* Start user code. Do not edit comment generated here */
+    if (millis > intc0_last + DEBOUNCE_TIME){
+	intc0_stat = !intc0_old | ((P13 & (1 << 7))?1:0);
+	intc0_last = millis;
+	printf("BANG INTC0 %u\r\n", intc0_stat);
+	intc0_old = intc0_stat;
+    }
+    /* End user code. Do not edit comment generated here */
+}
 
 /***********************************************************************************************************************
-Typedef definitions
+* Function Name: r_intc1_interrupt
+* Description  : This function is INTP1 interrupt service routine.
+* Arguments    : None
+* Return Value : None
 ***********************************************************************************************************************/
-#ifndef __TYPEDEF__
-typedef signed char         int8_t;
-typedef unsigned char       uint8_t;
-typedef signed short        int16_t;
-typedef unsigned short      uint16_t;
-typedef signed long         int32_t;
-typedef unsigned long       uint32_t;
-typedef unsigned short      MD_STATUS;
-#define __TYPEDEF__
-#endif
+__interrupt static void r_intc1_interrupt(void)
+{
+    /* Start user code. Do not edit comment generated here */
+    if (millis > intc1_last + DEBOUNCE_TIME){
+	intc1_stat = !intc1_old | ((P5 & (1 << 0))?1:0);
+	intc1_last = millis;
+	printf("BANG INTC1 %u\r\n", intc1_stat);
+	intc1_old = intc1_stat;
+    }
+    /* End user code. Do not edit comment generated here */
+}
 
 /***********************************************************************************************************************
-Global functions
+* Function Name: r_intc2_interrupt
+* Description  : This function is INTP2 interrupt service routine.
+* Arguments    : None
+* Return Value : None
 ***********************************************************************************************************************/
+__interrupt static void r_intc2_interrupt(void)
+{
+    /* Start user code. Do not edit comment generated here */
+    if (millis > intc2_last + DEBOUNCE_TIME){
+	intc2_stat = !intc2_old | ((P5 & (1 << 1))?1:0);
+	intc2_last = millis;
+	printf("BANG INTC2 %u\r\n", intc2_stat);
+	intc2_old = intc2_stat;
+    }
+    /* End user code. Do not edit comment generated here */
+}
 
-#endif
+/* Start user code for adding. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */

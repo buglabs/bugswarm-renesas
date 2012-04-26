@@ -180,12 +180,12 @@ MD_STATUS read_temp(tempData * dat){
 	} else {
 		dat->time = millis;
 		dat->raw = (uint16_t)i2cbuf[1] | ((uint16_t)i2cbuf[0] << 8);
-		if (dat->raw & 0x80){
-			//Positive temperature
-			dat->tempC = (float)dat->raw/128.0;
-		} else {
+		if (dat->raw & 0x8000){
 			//Negative temperature
-			dat->tempC = (float)(dat->raw-65536)/128.0;
+			dat->tempC = ((float)(dat->raw-65536))/128.0;
+		} else {
+			//Positive temperature
+			dat->tempC = ((float)dat->raw)/128.0;
 		}
 		dat->tempF = ((9.0/5.0)*dat->tempC)+32;
 	}

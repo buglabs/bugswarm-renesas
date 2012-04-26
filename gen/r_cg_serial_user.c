@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 4/24/2012
+* Creation Date: 4/26/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -93,7 +93,8 @@ char debugbuff[60];
 __interrupt static void r_uart0_interrupt_receive(void)
 {
     uint8_t rx_data;
-
+    rsi_receive();
+    /*
     rx_data = RXD0;
 
     if (g_uart0_rx_length > g_uart0_rx_count)
@@ -106,7 +107,7 @@ __interrupt static void r_uart0_interrupt_receive(void)
         {
             r_uart0_callback_receiveend();
         }
-    }
+    }*/
 }
 
 /***********************************************************************************************************************
@@ -190,10 +191,8 @@ static void r_uart0_callback_error(uint8_t err_type)
 __interrupt static void r_uart2_interrupt_receive(void)
 {
     uint8_t rx_data;
-    
-    //putchar('N');
-    rsi_receive();
-    /*rx_data = RXD2;
+
+    rx_data = RXD2;
 
     if (g_uart2_rx_length > g_uart2_rx_count)
     {
@@ -205,7 +204,7 @@ __interrupt static void r_uart2_interrupt_receive(void)
         {
             r_uart2_callback_receiveend();
         }
-    }*/
+    }
 }
 
 /***********************************************************************************************************************

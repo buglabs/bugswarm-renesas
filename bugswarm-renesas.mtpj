@@ -176,6 +176,52 @@
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
     </Instance>
+    <Instance Guid="31be49f3-cf01-47a0-b648-9c16d9843579">
+      <Name>r_cg_adc.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_adc.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>9bd22514-9f3a-4e96-87d8-d893fcf8be66</Property>
+    </Instance>
+    <Instance Guid="078f793e-3332-49ff-a2ed-627a1a39508f">
+      <Name>r_cg_adc_user.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_adc_user.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>58371322-c2c8-47b9-863c-d7550bc31b1b</Property>
+    </Instance>
+    <Instance Guid="a832dbd1-53c6-485c-9418-4c9431561e72">
+      <Name>r_cg_adc.h</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_adc.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
+    <Instance Guid="faf96619-d822-43b6-b4db-3dac57d7b19b">
+      <Name>r_cg_intc.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_intc.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>68390edd-c16b-49b9-9a4f-76ae9f9389e1</Property>
+    </Instance>
+    <Instance Guid="3a680cb1-67c3-469f-a57b-5a5c9702ef2d">
+      <Name>r_cg_intc_user.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_intc_user.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>67070694-8f9a-42ef-a8d6-1091168d3470</Property>
+    </Instance>
+    <Instance Guid="7fe16706-dde9-4829-bb00-5a382bd7d01f">
+      <Name>r_cg_intc.h</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_intc.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
     <Instance Guid="9353556a-647d-41ad-9abb-608604ac5736">
       <Name>YRDKRL78G13.c</Name>
       <Type>File</Type>
@@ -462,6 +508,18 @@
     <Instance Guid="fe37a2a3-591a-450f-83ea-f55165c7f2e8">
       <MemoCount>0</MemoCount>
     </Instance>
+    <Instance Guid="9bd22514-9f3a-4e96-87d8-d893fcf8be66">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="58371322-c2c8-47b9-863c-d7550bc31b1b">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="67070694-8f9a-42ef-a8d6-1091168d3470">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="68390edd-c16b-49b9-9a4f-76ae9f9389e1">
+      <MemoCount>0</MemoCount>
+    </Instance>
   </Class>
   <Class Guid="78a5c5cd-76cb-4bcc-a031-3020011fbc9a">
     <Instance Guid="ac807223-9413-429f-8a61-330cba70ba6c">
@@ -476,10 +534,10 @@
     <Instance Guid="86c23c8b-f017-4650-b7bd-05f5ac0b6a1c">
       <MemoCount>0</MemoCount>
     </Instance>
-    <Instance Guid="2e45b1ec-751c-41f4-a9e1-fe539d30482f">
+    <Instance Guid="3637144a-6e11-4682-8e31-044b96b1b05f">
       <MemoCount>0</MemoCount>
     </Instance>
-    <Instance Guid="3637144a-6e11-4682-8e31-044b96b1b05f">
+    <Instance Guid="ba791799-0999-42e6-8fff-2ea3c70cf832">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -558,7 +616,15 @@
       <SourceItemType20>CSource</SourceItemType20>
       <SourceItemGuid21>da9a7650-4fcc-4b5f-8777-667336445cdd</SourceItemGuid21>
       <SourceItemType21>CSource</SourceItemType21>
-      <SourceItemCount>22</SourceItemCount>
+      <SourceItemGuid22>31be49f3-cf01-47a0-b648-9c16d9843579</SourceItemGuid22>
+      <SourceItemType22>CSource</SourceItemType22>
+      <SourceItemGuid23>078f793e-3332-49ff-a2ed-627a1a39508f</SourceItemGuid23>
+      <SourceItemType23>CSource</SourceItemType23>
+      <SourceItemGuid24>faf96619-d822-43b6-b4db-3dac57d7b19b</SourceItemGuid24>
+      <SourceItemType24>CSource</SourceItemType24>
+      <SourceItemGuid25>3a680cb1-67c3-469f-a57b-5a5c9702ef2d</SourceItemGuid25>
+      <SourceItemType25>CSource</SourceItemType25>
+      <SourceItemCount>26</SourceItemCount>
       <VfiSourceItemCount>0</VfiSourceItemCount>
     </Instance>
     <Instance Guid="e6d45d58-de50-4ae7-8d7f-320171fa9617">
@@ -663,8 +729,8 @@
       <ExpansionOfLinePreprocessDirective-DefaultValue>True</ExpansionOfLinePreprocessDirective-DefaultValue>
       <ExternalVariablesToShortAddressing-DefaultValue>NotAllocate</ExternalVariablesToShortAddressing-DefaultValue>
       <StandardLibraryFileNames-DefaultValue>cl0ram.lib
-cl0rm.lib
 cl0rmf.lib
+cl0rm.lib
 </StandardLibraryFileNames-DefaultValue>
       <DestinationAreaOfRomData-DefaultValue>No</DestinationAreaOfRomData-DefaultValue>
       <DisablementOfIntExtensionForFunction-DefaultValue>False</DisablementOfIntExtensionForFunction-DefaultValue>
@@ -679,7 +745,7 @@ cl0rmf.lib
       <NumberOfCharactersPerLine-DefaultValue>132</NumberOfCharactersPerLine-DefaultValue>
       <NumberOfLinesPerPage-DefaultValue>0</NumberOfLinesPerPage-DefaultValue>
       <TabWidth-DefaultValue>8</TabWidth-DefaultValue>
-      <TimeTagModified--0>-8588662962945005822</TimeTagModified--0>
+      <TimeTagModified--0>-8588661527475854176</TimeTagModified--0>
       <AdditionalIncludePaths-0>swarmlibs
 redpine
 board
@@ -706,7 +772,7 @@ gen
       <ExpansionOfDefinePreprocessDirective-0>False</ExpansionOfDefinePreprocessDirective-0>
       <MacroDefinitions-0 />
       <OtherAdditionalOptions-0 />
-      <StandardIOLibrarySupportingFloat-0>False</StandardIOLibrarySupportingFloat-0>
+      <StandardIOLibrarySupportingFloat-0>True</StandardIOLibrarySupportingFloat-0>
       <AnsiNonstandardFeatures-0>False</AnsiNonstandardFeatures-0>
       <ExpansionOfIfPreprocessDirective-0>True</ExpansionOfIfPreprocessDirective-0>
       <MacroUndefinitions-0 />
@@ -1124,6 +1190,30 @@ gen
       <ItemAddTime>634708821909970274</ItemAddTime>
       <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
+    <Instance Guid="31be49f3-cf01-47a0-b648-9c16d9843579">
+      <ItemAddTime>634710296182818896</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="078f793e-3332-49ff-a2ed-627a1a39508f">
+      <ItemAddTime>634710296182818896</ItemAddTime>
+      <ItemAddTimeCount>1</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="a832dbd1-53c6-485c-9418-4c9431561e72">
+      <ItemAddTime>634710296182818896</ItemAddTime>
+      <ItemAddTimeCount>2</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="faf96619-d822-43b6-b4db-3dac57d7b19b">
+      <ItemAddTime>634710369746598416</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="3a680cb1-67c3-469f-a57b-5a5c9702ef2d">
+      <ItemAddTime>634710369746598416</ItemAddTime>
+      <ItemAddTimeCount>1</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="7fe16706-dde9-4829-bb00-5a382bd7d01f">
+      <ItemAddTime>634710369746598416</ItemAddTime>
+      <ItemAddTimeCount>2</ItemAddTimeCount>
+    </Instance>
     <Instance Guid="2317529b-91c1-49b6-8351-6d8f51718b0d">
       <TimeTagModified-SourceItem0--0>-8588668385526850640</TimeTagModified-SourceItem0--0>
       <SourceItem0-BuildingTarget-0>True</SourceItem0-BuildingTarget-0>
@@ -1192,6 +1282,18 @@ gen
       <TimeTagModified-SourceItem21--0>-8588662963021415694</TimeTagModified-SourceItem21--0>
       <SourceItem21-BuildingTarget-0>True</SourceItem21-BuildingTarget-0>
       <SourceItem21-IndividualCompileOption-0>False</SourceItem21-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem22--0>-8588661488671556336</TimeTagModified-SourceItem22--0>
+      <SourceItem22-BuildingTarget-0>True</SourceItem22-BuildingTarget-0>
+      <SourceItem22-IndividualCompileOption-0>False</SourceItem22-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem23--0>-8588661488671155760</TimeTagModified-SourceItem23--0>
+      <SourceItem23-BuildingTarget-0>True</SourceItem23-BuildingTarget-0>
+      <SourceItem23-IndividualCompileOption-0>False</SourceItem23-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem24--0>-8588661415107776816</TimeTagModified-SourceItem24--0>
+      <SourceItem24-BuildingTarget-0>True</SourceItem24-BuildingTarget-0>
+      <SourceItem24-IndividualCompileOption-0>False</SourceItem24-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem25--0>-8588661415107376240</TimeTagModified-SourceItem25--0>
+      <SourceItem25-BuildingTarget-0>True</SourceItem25-BuildingTarget-0>
+      <SourceItem25-IndividualCompileOption-0>False</SourceItem25-IndividualCompileOption-0>
     </Instance>
   </Class>
   <Class Guid="44fa27c9-0aa0-4297-bd3b-2c5c5bdb8881">
@@ -1640,7 +1742,7 @@ gen
       &lt;/Effect&gt;
     &lt;/fINTTM02&gt;
     &lt;fCLKSource Name="fCLKSource" Text="fIH" /&gt;
-    &lt;VDD_MIN Name="VDD_MIN" Value="4" Comment="4.0V" Trigger="VDD"&gt;
+    &lt;VDD_MIN Name="VDD_MIN" Value="2.7" Comment="4.0V" Trigger="VDD"&gt;
       &lt;Effect&gt;
         &lt;PCLBUZ0 /&gt;
         &lt;PCLBUZ1 /&gt;
@@ -1649,7 +1751,7 @@ gen
         &lt;SAU1 /&gt;
       &lt;/Effect&gt;
     &lt;/VDD_MIN&gt;
-    &lt;VDD_MAX Name="VDD_MAX" Value="5.5" Comment="5.5V" /&gt;
+    &lt;VDD_MAX Name="VDD_MAX" Value="4" Comment="5.5V" /&gt;
     &lt;VDD Name="VDD" Text="false" Comment="used" /&gt;
     &lt;IIC00 Name="IIC00" Chip="RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Text="false" Comment="unused" Trigger="IIC00"&gt;
       &lt;Effect&gt;
@@ -1732,6 +1834,7 @@ gen
     &lt;PrjVersion Name="PrjVersion" Text="1.2.0.1" /&gt;
     &lt;UICultureNumberDecimalSeparator Name="UICultureNumberDecimalSeparator" Text="." /&gt;
     &lt;UICultureNumberGroupSeparator Name="UICultureNumberGroupSeparator" Text="," /&gt;
+    &lt;ADPC_AD Name="ADPC_AD" Value="7" /&gt;
   &lt;/VAR&gt;
   &lt;DIR&gt;
     &lt;PIN&gt;
@@ -1765,14 +1868,14 @@ gen
           &lt;P17 Name="P17/TI02/TO02" TTL="true" Nch="true" AltFunc="" Point="I/O" /&gt;
         &lt;/Port1&gt;
         &lt;Port2 ADIN="true"&gt;
-          &lt;P20 Name="P20/ANI0/AVREFP" AltFunc="" Point="I/O" /&gt;
-          &lt;P21 Name="P21/ANI1/AVREFM" AltFunc="" Point="I/O" /&gt;
-          &lt;P22 Name="P22/ANI2" AltFunc="" Point="I/O" /&gt;
-          &lt;P23 Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P23/ANI3" AltFunc="" Point="I/O" /&gt;
-          &lt;P24 Chip="RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P24/ANI4" AltFunc="" Point="I/O" /&gt;
-          &lt;P25 Chip="RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P25/ANI5" AltFunc="" Point="I/O" /&gt;
-          &lt;P26 Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P26/ANI6" AltFunc="" Point="I/O" /&gt;
-          &lt;P27 Chip="RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P27/ANI7" AltFunc="" Point="I/O" /&gt;
+          &lt;P20 Name="P20/ANI0/AVREFP" AltFunc="ANALOG_0" Point="I/O" /&gt;
+          &lt;P21 Name="P21/ANI1/AVREFM" AltFunc="ANALOG_1" Point="I/O" /&gt;
+          &lt;P22 Name="P22/ANI2" AltFunc="ANALOG_2" Point="I/O" /&gt;
+          &lt;P23 Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P23/ANI3" AltFunc="ANALOG_3" Point="I/O" /&gt;
+          &lt;P24 Chip="RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P24/ANI4" AltFunc="ANI4" Point="I/O" /&gt;
+          &lt;P25 Chip="RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P25/ANI5" AltFunc="ANALOG_5" Point="I/O" /&gt;
+          &lt;P26 Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P26/ANI6" AltFunc="ANALOG_6" Point="I/O" /&gt;
+          &lt;P27 Chip="RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P27/ANI7" AltFunc="ANALOG_7" Point="I/O" /&gt;
         &lt;/Port2&gt;
         &lt;Port3 Pullup="true"&gt;
           &lt;P30 Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin" Name="P30/INTP3/RTC1HZ/_SCK11/SCL11" AltFunc="" Point="I/O" /&gt;
@@ -1785,8 +1888,8 @@ gen
           &lt;P43 Chip="R5F100LC,R5F100LD,R5F100LE,R5F100LF,R5F100LG,R5F100LH" Name="P43" AltFunc="P43" Point="I/O" /&gt;
         &lt;/Port4&gt;
         &lt;Port5 Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Pullup="true"&gt;
-          &lt;P50 Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin" Nch="true" Name="P50/INTP1/SI11/SDA11" AltFunc="" Point="I/O" /&gt;
-          &lt;P51 Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin" Name="P51/INTP2/SO11" AltFunc="" Point="I/O" /&gt;
+          &lt;P50 Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin" Nch="true" Name="P50/INTP1/SI11/SDA11" AltFunc="INTP1" Point="I/O" /&gt;
+          &lt;P51 Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin" Name="P51/INTP2/SO11" AltFunc="INTP2" Point="I/O" /&gt;
           &lt;P52 Chip="RL78G13_64pin" Name="P52" AltFunc="P52" Point="I/O" /&gt;
           &lt;P53 Chip="RL78G13_64pin" Name="P53" AltFunc="P53" Point="I/O" /&gt;
           &lt;P54 Chip="RL78G13_64pin" Name="P54" AltFunc="P54" Point="I/O" /&gt;
@@ -1817,7 +1920,7 @@ gen
         &lt;/Port12&gt;
         &lt;Port13&gt;
           &lt;P130 Chip="RL78G13_25pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P130" AltFunc="P130" Point="O" /&gt;
-          &lt;P137 Name="P137/INTP0" AltFunc="" Point="I" /&gt;
+          &lt;P137 Name="P137/INTP0" AltFunc="INTP0" Point="I" /&gt;
         &lt;/Port13&gt;
         &lt;Port14 Pullup="true"&gt;
           &lt;P140 Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" Name="P140/PCLBUZ0/INTP6" AltFunc="" Point="I/O" /&gt;
@@ -2011,9 +2114,9 @@ gen
     &lt;INT&gt;
       &lt;INTC&gt;
         &lt;INTP&gt;
-          &lt;INTP0 InUse="0" ISR="r_intc0_interrupt" /&gt;
-          &lt;INTP1 Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," InUse="0" ISR="r_intc1_interrupt" /&gt;
-          &lt;INTP2 Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," InUse="0" ISR="r_intc2_interrupt" /&gt;
+          &lt;INTP0 InUse="1" ISR="r_intc0_interrupt" /&gt;
+          &lt;INTP1 Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," InUse="1" ISR="r_intc1_interrupt" /&gt;
+          &lt;INTP2 Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," InUse="1" ISR="r_intc2_interrupt" /&gt;
           &lt;INTP3 InUse="0" ISR="r_intc3_interrupt" /&gt;
           &lt;INTP4 Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," InUse="0" ISR="r_intc4_interrupt" /&gt;
           &lt;INTP5 InUse="0" ISR="r_intc5_interrupt" /&gt;
@@ -2068,7 +2171,7 @@ gen
         &lt;/IICA1&gt;
       &lt;/Serial&gt;
       &lt;ADC&gt;
-        &lt;INTAD InUse="0" ISR="r_adc_interrupt" IsDMATrigger="true" /&gt;
+        &lt;INTAD InUse="1" ISR="r_adc_interrupt" IsDMATrigger="true" /&gt;
       &lt;/ADC&gt;
       &lt;TAU&gt;
         &lt;TAU0&gt;
@@ -2199,88 +2302,88 @@ gen
         &lt;r_cg_port.h UserName="r_cg_port.h" LibName=".h" InUse="1" /&gt;
       &lt;/PORT&gt;
       &lt;INTC&gt;
-        &lt;r_cg_intc.c UserName="r_cg_intc.c" LibName=".c" InUse=""&gt;
+        &lt;r_cg_intc.c UserName="r_cg_intc.c" LibName=".c" InUse="1"&gt;
           &lt;Type R_INTC_Create="void R_INTC_Create(void)" R_INTCn_Start="void R_INTCn_Start(void)" R_INTCn_Stop="void R_INTCn_Stop(void)" R_KEY_Create="void R_KEY_Create(void)" R_KEY_Start="void R_KEY_Start(void)" R_KEY_Stop="void R_KEY_Stop(void)" /&gt;
           &lt;INTP&gt;
-            &lt;R_INTC_Create UserName="R_INTC_Create" LibName="R_INTC_Create" InUse="" Init="2" /&gt;
+            &lt;R_INTC_Create UserName="R_INTC_Create" LibName="R_INTC_Create" InUse="1" Init="2" /&gt;
             &lt;INTP0&gt;
-              &lt;R_INTC0_Start UserName="R_INTC0_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC0_Stop UserName="R_INTC0_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC0_Start UserName="R_INTC0_Start" LibName="R_INTCn_Start" InUse="1" /&gt;
+              &lt;R_INTC0_Stop UserName="R_INTC0_Stop" LibName="R_INTCn_Stop" InUse="1" /&gt;
             &lt;/INTP0&gt;
             &lt;INTP1 Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC1_Start UserName="R_INTC1_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC1_Stop UserName="R_INTC1_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC1_Start UserName="R_INTC1_Start" LibName="R_INTCn_Start" InUse="1" /&gt;
+              &lt;R_INTC1_Stop UserName="R_INTC1_Stop" LibName="R_INTCn_Stop" InUse="1" /&gt;
             &lt;/INTP1&gt;
             &lt;INTP2 Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC2_Start UserName="R_INTC2_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC2_Stop UserName="R_INTC2_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC2_Start UserName="R_INTC2_Start" LibName="R_INTCn_Start" InUse="1" /&gt;
+              &lt;R_INTC2_Stop UserName="R_INTC2_Stop" LibName="R_INTCn_Stop" InUse="1" /&gt;
             &lt;/INTP2&gt;
             &lt;INTP3&gt;
-              &lt;R_INTC3_Start UserName="R_INTC3_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC3_Stop UserName="R_INTC3_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC3_Start UserName="R_INTC3_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC3_Stop UserName="R_INTC3_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP3&gt;
             &lt;INTP4 Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC4_Start UserName="R_INTC4_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC4_Stop UserName="R_INTC4_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC4_Start UserName="R_INTC4_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC4_Stop UserName="R_INTC4_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP4&gt;
             &lt;INTP5&gt;
-              &lt;R_INTC5_Start UserName="R_INTC5_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC5_Stop UserName="R_INTC5_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC5_Start UserName="R_INTC5_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC5_Stop UserName="R_INTC5_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP5&gt;
             &lt;INTP6 Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC6_Start UserName="R_INTC6_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC6_Stop UserName="R_INTC6_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC6_Start UserName="R_INTC6_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC6_Stop UserName="R_INTC6_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP6&gt;
             &lt;INTP7 Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC7_Start UserName="R_INTC7_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC7_Stop UserName="R_INTC7_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC7_Start UserName="R_INTC7_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC7_Stop UserName="R_INTC7_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP7&gt;
             &lt;INTP8 Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC8_Start UserName="R_INTC8_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC8_Stop UserName="R_INTC8_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC8_Start UserName="R_INTC8_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC8_Stop UserName="R_INTC8_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP8&gt;
             &lt;INTP9 Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC9_Start UserName="R_INTC9_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC9_Stop UserName="R_INTC9_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC9_Start UserName="R_INTC9_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC9_Stop UserName="R_INTC9_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP9&gt;
             &lt;INTP10 Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC10_Start UserName="R_INTC10_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC10_Stop UserName="R_INTC10_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC10_Start UserName="R_INTC10_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC10_Stop UserName="R_INTC10_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP10&gt;
             &lt;INTP11 Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-              &lt;R_INTC11_Start UserName="R_INTC11_Start" LibName="R_INTCn_Start" InUse="" /&gt;
-              &lt;R_INTC11_Stop UserName="R_INTC11_Stop" LibName="R_INTCn_Stop" InUse="" /&gt;
+              &lt;R_INTC11_Start UserName="R_INTC11_Start" LibName="R_INTCn_Start" InUse="0" /&gt;
+              &lt;R_INTC11_Stop UserName="R_INTC11_Stop" LibName="R_INTCn_Stop" InUse="0" /&gt;
             &lt;/INTP11&gt;
           &lt;/INTP&gt;
           &lt;KEY Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-            &lt;R_KEY_Create UserName="R_KEY_Create" LibName="R_KEY_Create" InUse="" Init="2" /&gt;
-            &lt;R_KEY_Start UserName="R_KEY_Start" LibName="R_KEY_Start" InUse="" /&gt;
-            &lt;R_KEY_Stop UserName="R_KEY_Stop" LibName="R_KEY_Stop" InUse="" /&gt;
+            &lt;R_KEY_Create UserName="R_KEY_Create" LibName="R_KEY_Create" InUse="0" Init="2" /&gt;
+            &lt;R_KEY_Start UserName="R_KEY_Start" LibName="R_KEY_Start" InUse="0" /&gt;
+            &lt;R_KEY_Stop UserName="R_KEY_Stop" LibName="R_KEY_Stop" InUse="0" /&gt;
           &lt;/KEY&gt;
         &lt;/r_cg_intc.c&gt;
-        &lt;r_cg_intc_user.c UserName="r_cg_intc_user.c" LibName="_user.c" InUse=""&gt;
+        &lt;r_cg_intc_user.c UserName="r_cg_intc_user.c" LibName="_user.c" InUse="1"&gt;
           &lt;Type R_INTC_Create_UserInit="void R_INTC_Create_UserInit(void)" R_INTC0_Interrupt="__interrupt static void r_intc0_interrupt(void)" R_INTC1_Interrupt="__interrupt static void r_intc1_interrupt(void)" R_INTC2_Interrupt="__interrupt static void r_intc2_interrupt(void)" R_INTC3_Interrupt="__interrupt static void r_intc3_interrupt(void)" R_INTC4_Interrupt="__interrupt static void r_intc4_interrupt(void)" R_INTC5_Interrupt="__interrupt static void r_intc5_interrupt(void)" R_INTC6_Interrupt="__interrupt static void r_intc6_interrupt(void)" R_INTC7_Interrupt="__interrupt static void r_intc7_interrupt(void)" R_INTC8_Interrupt="__interrupt static void r_intc8_interrupt(void)" R_INTC9_Interrupt="__interrupt static void r_intc9_interrupt(void)" R_INTC10_Interrupt="__interrupt static void r_intc10_interrupt(void)" R_INTC11_Interrupt="__interrupt static void r_intc11_interrupt(void)" R_KEY_Create_UserInit="void R_KEY_Create_UserInit(void)" R_KEY_Interrupt="__interrupt static void r_key_interrupt(void)" /&gt;
           &lt;INTP&gt;
-            &lt;R_INTC_Create_UserInit UserName="R_INTC_Create_UserInit" LibName="R_INTC_Create_UserInit" InUse="" /&gt;
-            &lt;r_intc0_interrupt UserName="r_intc0_interrupt" LibName="R_INTC0_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc1_interrupt Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc1_interrupt" LibName="R_INTC1_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc2_interrupt Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc2_interrupt" LibName="R_INTC2_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc3_interrupt UserName="r_intc3_interrupt" LibName="R_INTC3_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc4_interrupt Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc4_interrupt" LibName="R_INTC4_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc5_interrupt UserName="r_intc5_interrupt" LibName="R_INTC5_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc6_interrupt Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc6_interrupt" LibName="R_INTC6_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc7_interrupt Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc7_interrupt" LibName="R_INTC7_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc8_interrupt Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc8_interrupt" LibName="R_INTC8_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc9_interrupt Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc9_interrupt" LibName="R_INTC9_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc10_interrupt Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc10_interrupt" LibName="R_INTC10_Interrupt" INTHandle="" InUse="" /&gt;
-            &lt;r_intc11_interrupt Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc11_interrupt" LibName="R_INTC11_Interrupt" INTHandle="" InUse="" /&gt;
+            &lt;R_INTC_Create_UserInit UserName="R_INTC_Create_UserInit" LibName="R_INTC_Create_UserInit" InUse="0" /&gt;
+            &lt;r_intc0_interrupt UserName="r_intc0_interrupt" LibName="R_INTC0_Interrupt" INTHandle="" InUse="1" /&gt;
+            &lt;r_intc1_interrupt Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc1_interrupt" LibName="R_INTC1_Interrupt" INTHandle="" InUse="1" /&gt;
+            &lt;r_intc2_interrupt Chip="RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc2_interrupt" LibName="R_INTC2_Interrupt" INTHandle="" InUse="1" /&gt;
+            &lt;r_intc3_interrupt UserName="r_intc3_interrupt" LibName="R_INTC3_Interrupt" INTHandle="" InUse="0" /&gt;
+            &lt;r_intc4_interrupt Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc4_interrupt" LibName="R_INTC4_Interrupt" INTHandle="" InUse="0" /&gt;
+            &lt;r_intc5_interrupt UserName="r_intc5_interrupt" LibName="R_INTC5_Interrupt" INTHandle="" InUse="0" /&gt;
+            &lt;r_intc6_interrupt Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc6_interrupt" LibName="R_INTC6_Interrupt" INTHandle="" InUse="0" /&gt;
+            &lt;r_intc7_interrupt Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc7_interrupt" LibName="R_INTC7_Interrupt" INTHandle="" InUse="0" /&gt;
+            &lt;r_intc8_interrupt Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc8_interrupt" LibName="R_INTC8_Interrupt" INTHandle="" InUse="0" /&gt;
+            &lt;r_intc9_interrupt Chip="RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc9_interrupt" LibName="R_INTC9_Interrupt" INTHandle="" InUse="0" /&gt;
+            &lt;r_intc10_interrupt Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc10_interrupt" LibName="R_INTC10_Interrupt" INTHandle="" InUse="0" /&gt;
+            &lt;r_intc11_interrupt Chip="RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," UserName="r_intc11_interrupt" LibName="R_INTC11_Interrupt" INTHandle="" InUse="0" /&gt;
           &lt;/INTP&gt;
           &lt;KEY Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin,"&gt;
-            &lt;R_KEY_Create_UserInit UserName="R_KEY_Create_UserInit" LibName="R_KEY_Create_UserInit" InUse="" /&gt;
-            &lt;r_key_interrupt UserName="r_key_interrupt" LibName="R_KEY_Interrupt" INTHandle="" InUse="" /&gt;
+            &lt;R_KEY_Create_UserInit UserName="R_KEY_Create_UserInit" LibName="R_KEY_Create_UserInit" InUse="0" /&gt;
+            &lt;r_key_interrupt UserName="r_key_interrupt" LibName="R_KEY_Interrupt" INTHandle="" InUse="0" /&gt;
           &lt;/KEY&gt;
         &lt;/r_cg_intc_user.c&gt;
-        &lt;r_cg_intc.h UserName="r_cg_intc.h" LibName=".h" InUse="" /&gt;
+        &lt;r_cg_intc.h UserName="r_cg_intc.h" LibName=".h" InUse="1" /&gt;
       &lt;/INTC&gt;
       &lt;Serial&gt;
         &lt;r_cg_serial.c UserName="r_cg_serial.c" LibName=".c" InUse="1"&gt;
@@ -2545,27 +2648,27 @@ gen
         &lt;r_cg_serial.h UserName="r_cg_serial.h" LibName=".h" InUse="1" /&gt;
       &lt;/Serial&gt;
       &lt;ADC&gt;
-        &lt;r_cg_adc.c UserName="r_cg_adc.c" LibName=".c" InUse=""&gt;
+        &lt;r_cg_adc.c UserName="r_cg_adc.c" LibName=".c" InUse="1"&gt;
           &lt;Type R_ADC_Create="void R_ADC_Create(void)" R_ADC_Start="void R_ADC_Start(void)" R_ADC_Stop="void R_ADC_Stop(void)" R_ADC_Set_OperationOn="void R_ADC_Set_OperationOn(void)" R_ADC_Set_OperationOff="void R_ADC_Set_OperationOff(void)" R_ADC_Get_Result="void R_ADC_Get_Result(uint16_t * const buffer)" R_ADC_Get_Result_8bit="void R_ADC_Get_Result_8bit(uint8_t * const buffer)" R_ADC_Set_ADChannel="MD_STATUS R_ADC_Set_ADChannel(ad_channel_t channel)" R_ADC_Set_SnoozeOn="void R_ADC_Set_SnoozeOn(void)" R_ADC_Set_SnoozeOff="void R_ADC_Set_SnoozeOff(void)" R_ADC_Set_TestChannel="MD_STATUS R_ADC_Set_TestChannel(test_channel_t channel)" R_ADC_Set_PowerOff="void R_ADC_Set_PowerOff(void)" /&gt;
-          &lt;R_ADC_Create UserName="R_ADC_Create" LibName="R_ADC_Create" InUse="" Init="1" /&gt;
-          &lt;R_ADC_Start UserName="R_ADC_Start" LibName="R_ADC_Start" InUse="" /&gt;
-          &lt;R_ADC_Stop UserName="R_ADC_Stop" LibName="R_ADC_Stop" InUse="" /&gt;
-          &lt;R_ADC_Set_OperationOn UserName="R_ADC_Set_OperationOn" LibName="R_ADC_Set_OperationOn" InUse="" /&gt;
-          &lt;R_ADC_Set_OperationOff UserName="R_ADC_Set_OperationOff" LibName="R_ADC_Set_OperationOff" InUse="" /&gt;
-          &lt;R_ADC_Get_Result UserName="R_ADC_Get_Result" LibName="R_ADC_Get_Result" InUse="" /&gt;
-          &lt;R_ADC_Get_Result_8bit UserName="R_ADC_Get_Result_8bit" LibName="R_ADC_Get_Result_8bit" InUse="" /&gt;
-          &lt;R_ADC_Set_ADChannel UserName="R_ADC_Set_ADChannel" LibName="R_ADC_Set_ADChannel" InUse="" /&gt;
-          &lt;R_ADC_Set_SnoozeOn UserName="R_ADC_Set_SnoozeOn" LibName="R_ADC_Set_SnoozeOn" InUse="" /&gt;
-          &lt;R_ADC_Set_SnoozeOff UserName="R_ADC_Set_SnoozeOff" LibName="R_ADC_Set_SnoozeOff" InUse="" /&gt;
-          &lt;R_ADC_Set_TestChannel UserName="R_ADC_Set_TestChannel" LibName="R_ADC_Set_TestChannel" InUse="" /&gt;
-          &lt;R_ADC_Set_PowerOff UserName="R_ADC_Set_PowerOff" LibName="R_ADC_Set_PowerOff" InUse="" /&gt;
+          &lt;R_ADC_Create UserName="R_ADC_Create" LibName="R_ADC_Create" InUse="1" Init="1" /&gt;
+          &lt;R_ADC_Start UserName="R_ADC_Start" LibName="R_ADC_Start" InUse="1" /&gt;
+          &lt;R_ADC_Stop UserName="R_ADC_Stop" LibName="R_ADC_Stop" InUse="1" /&gt;
+          &lt;R_ADC_Set_OperationOn UserName="R_ADC_Set_OperationOn" LibName="R_ADC_Set_OperationOn" InUse="1" /&gt;
+          &lt;R_ADC_Set_OperationOff UserName="R_ADC_Set_OperationOff" LibName="R_ADC_Set_OperationOff" InUse="1" /&gt;
+          &lt;R_ADC_Get_Result UserName="R_ADC_Get_Result" LibName="R_ADC_Get_Result" InUse="1" /&gt;
+          &lt;R_ADC_Get_Result_8bit UserName="R_ADC_Get_Result_8bit" LibName="R_ADC_Get_Result_8bit" InUse="0" /&gt;
+          &lt;R_ADC_Set_ADChannel UserName="R_ADC_Set_ADChannel" LibName="R_ADC_Set_ADChannel" InUse="0" /&gt;
+          &lt;R_ADC_Set_SnoozeOn UserName="R_ADC_Set_SnoozeOn" LibName="R_ADC_Set_SnoozeOn" InUse="0" /&gt;
+          &lt;R_ADC_Set_SnoozeOff UserName="R_ADC_Set_SnoozeOff" LibName="R_ADC_Set_SnoozeOff" InUse="0" /&gt;
+          &lt;R_ADC_Set_TestChannel UserName="R_ADC_Set_TestChannel" LibName="R_ADC_Set_TestChannel" InUse="0" /&gt;
+          &lt;R_ADC_Set_PowerOff UserName="R_ADC_Set_PowerOff" LibName="R_ADC_Set_PowerOff" InUse="0" /&gt;
         &lt;/r_cg_adc.c&gt;
-        &lt;r_cg_adc_user.c UserName="r_cg_adc_user.c" LibName="_user.c" InUse=""&gt;
+        &lt;r_cg_adc_user.c UserName="r_cg_adc_user.c" LibName="_user.c" InUse="1"&gt;
           &lt;Type R_ADC_Create_UserInit="void R_ADC_Create_UserInit(void)" r_adc_interrupt="__interrupt static void r_adc_interrupt(void)" /&gt;
-          &lt;R_ADC_Create_UserInit UserName="R_ADC_Create_UserInit" LibName="R_ADC_Create_UserInit" InUse="" /&gt;
-          &lt;r_adc_interrupt UserName="r_adc_interrupt" INTHandle="" LibName="r_adc_interrupt" InUse="" /&gt;
+          &lt;R_ADC_Create_UserInit UserName="R_ADC_Create_UserInit" LibName="R_ADC_Create_UserInit" InUse="0" /&gt;
+          &lt;r_adc_interrupt UserName="r_adc_interrupt" INTHandle="" LibName="r_adc_interrupt" InUse="1" /&gt;
         &lt;/r_cg_adc_user.c&gt;
-        &lt;r_cg_adc.h UserName="r_cg_adc.h" LibName=".h" InUse="" /&gt;
+        &lt;r_cg_adc.h UserName="r_cg_adc.h" LibName=".h" InUse="1" /&gt;
       &lt;/ADC&gt;
       &lt;TAU&gt;
         &lt;r_cg_timer.c UserName="r_cg_timer.c" LibName=".c" InUse=""&gt;
@@ -2837,9 +2940,9 @@ gen
     &lt;PORT HelpID="port" SetFlag="True" NeedRefresh="False"&gt;
       &lt;PORT SlowMode="false" MacroName="PORT" SetFlag="True" /&gt;
     &lt;/PORT&gt;
-    &lt;INTC SetFlag="" HelpID="int" NeedRefresh="False"&gt;
-      &lt;INTP Accelerate="No" MacroName="INTP" /&gt;
-      &lt;KEY Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," Accelerate="No" MacroName="KEY" /&gt;
+    &lt;INTC SetFlag="True" HelpID="int" NeedRefresh="False"&gt;
+      &lt;INTP Accelerate="No" MacroName="INTP" SetFlag="True" TabEnable="True" /&gt;
+      &lt;KEY Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," Accelerate="No" MacroName="KEY" TabEnable="True" SetFlag="False" /&gt;
     &lt;/INTC&gt;
     &lt;Serial SetFlag="True" HelpID="serial" NeedRefresh="False"&gt;
       &lt;SAU0 Accelerate="No" MacroName="SAU" Channel="0" SetFlag="True" TabEnable="True"&gt;
@@ -2854,8 +2957,8 @@ gen
       &lt;/SAU1&gt;
       &lt;IICA0 Accelerate="No" Chip="RL78G13_24pin,RL78G13_25pin,RL78G13_30pin,RL78G13_32pin,RL78G13_36pin,RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin" MacroName="IICA" Channel="0" SetFlag="True" TabEnable="True" /&gt;
     &lt;/Serial&gt;
-    &lt;ADC SetFlag="" HelpID="adc" NeedRefresh="False"&gt;
-      &lt;ADC SetFlag="" MacroName="ADC" /&gt;
+    &lt;ADC SetFlag="True" HelpID="adc" NeedRefresh="False"&gt;
+      &lt;ADC SetFlag="True" MacroName="ADC" /&gt;
     &lt;/ADC&gt;
     &lt;TAU SetFlag="false" HelpID="timer" NeedRefresh="False"&gt;
       &lt;TAU0 Accelerate="No" MacroName="TAU" Channel="0" ChannelNum="0,1,2,3,4,5,6,7" /&gt;
@@ -2895,7 +2998,7 @@ gen
       &lt;setting name="PIOR12" value="1" /&gt;
       &lt;setting name="PIOR13" value="1" /&gt;
       &lt;setting name="VDD" value="VDD0" /&gt;
-      &lt;setting name="EVDD" value="EVDD1" /&gt;
+      &lt;setting name="EVDD" value="EVDD2" /&gt;
       &lt;setting name="Main_system_clock" value="high-speed internal clock" /&gt;
       &lt;setting name="High_speed_internal_oscillator" value="operation" /&gt;
       &lt;setting name="High_speed_internal_frequency" value="6" /&gt;
@@ -3518,6 +3621,135 @@ gen
         &lt;setting name="StopBit" value="not generated" /&gt;
       &lt;/Master0&gt;
     &lt;/IICA0&gt;
+    &lt;ADC&gt;
+      &lt;setting name="AD_convertion" value="used" /&gt;
+      &lt;setting name="Comparator_operation" value="enable" /&gt;
+      &lt;setting name="Wakeup_operation" value="off" /&gt;
+      &lt;setting name="Resolution" value="10bit" /&gt;
+      &lt;setting name="AD_Positive" value="VDD" /&gt;
+      &lt;setting name="AD_Negative" value="VSS" /&gt;
+      &lt;setting name="AD_Trigger" value="softtri" /&gt;
+      &lt;setting name="AD_Trigger_Timer" value="0" /&gt;
+      &lt;setting name="Mode" value="CONSELECT" /&gt;
+      &lt;setting name="InputPins" value="0" /&gt;
+      &lt;setting name="AD_Inputpin16" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin17" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin18" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin19" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin20" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin21" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin22" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin23" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin24" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin25" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin26" value="unused" /&gt;
+      &lt;setting name="SelectedChannel" value="4" /&gt;
+      &lt;setting name="ConversionVoltage" value="1" /&gt;
+      &lt;setting name="ConvTimeMode" value="0" /&gt;
+      &lt;setting name="ConversionTime" value="0" /&gt;
+      &lt;setting name="AREAFunction" value="AREA1" /&gt;
+      &lt;setting name="AREAValue_ADUL" value="255" /&gt;
+      &lt;setting name="AREAValue_ADLL" value="0" /&gt;
+      &lt;setting name="Interrput_priority" value="3" /&gt;
+      &lt;setting name="AD_interrupt" value="used" /&gt;
+    &lt;/ADC&gt;
+    &lt;INTP&gt;
+      &lt;INTP0&gt;
+        &lt;setting name="Valid_edge" value="both" /&gt;
+        &lt;setting name="Operation" value="used" /&gt;
+        &lt;setting name="ValidEdge" value="2" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP0&gt;
+      &lt;INTP1&gt;
+        &lt;setting name="Valid_edge" value="both" /&gt;
+        &lt;setting name="Operation" value="used" /&gt;
+        &lt;setting name="ValidEdge" value="2" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP1&gt;
+      &lt;INTP2&gt;
+        &lt;setting name="Valid_edge" value="both" /&gt;
+        &lt;setting name="Operation" value="used" /&gt;
+        &lt;setting name="ValidEdge" value="2" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP2&gt;
+      &lt;INTP3&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP3&gt;
+      &lt;INTP4&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP4&gt;
+      &lt;INTP5&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP5&gt;
+      &lt;INTP6&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP6&gt;
+      &lt;INTP7&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP7&gt;
+      &lt;INTP8&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP8&gt;
+      &lt;INTP9&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP9&gt;
+      &lt;INTP10&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP10&gt;
+      &lt;INTP11&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP11&gt;
+    &lt;/INTP&gt;
+    &lt;KEY&gt;
+      &lt;setting name="Interrupt_priority" value="3" /&gt;
+      &lt;setting name="KR0" value="unused" /&gt;
+      &lt;setting name="KR1" value="unused" /&gt;
+      &lt;setting name="KR2" value="unused" /&gt;
+      &lt;setting name="KR3" value="unused" /&gt;
+      &lt;setting name="KR4" value="unused" /&gt;
+      &lt;setting name="KR5" value="unused" /&gt;
+      &lt;setting name="KR6" value="unused" /&gt;
+      &lt;setting name="KR7" value="unused" /&gt;
+    &lt;/KEY&gt;
   &lt;/SETTING&gt;
   &lt;SETTING&gt;
     &lt;CGC&gt;
