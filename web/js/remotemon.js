@@ -1,4 +1,5 @@
 var API_KEY = "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b";
+var CFG_KEY = "53ebd64e50ed786ef13f3e64f0cdbdd6223013bc";
 var SWARM_ID = "27e5a0e7e2e5445c51be56de44f45b19701f36d3";
 var RESOURCE_ID = "87486e2239df55126a1f14b51a6e7b35e96b2422";
 var WEBUI_RESOURCE = "8f0d348f7163b793cbe0b0f00117540e9339b7f8";
@@ -39,7 +40,7 @@ function onPresence(presence) {
             console.log('Welcome new '+resource);
             resources[resource] = 1;
             $('ul#resources').append('<li id='+resource+
-                '><button class="reslist disabled" id='+resource+'>'+resource+'</button></li>');
+                '><button class="button reslist disabled" id='+resource+'>'+resource+'</button></li>');
             $('button.reslist#'+resource).click(function(e){
                 var resource = e.target.id;
                 console.log('selecting '+resource);
@@ -48,6 +49,16 @@ function onPresence(presence) {
                 selectedResource = resource;
                 startTime = (new Date()).getTime();
             });
+            $.ajax({ url:'http://api.bugswarm.net/resources/'+resource, 
+                type: 'GET',
+                data: null,
+                dataType: 'json',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("x-bugswarmapikey", CFG_KEY);
+                },
+                success: function(data){
+                    $('button.reslist#'+data.id).html(data.name);k
+                }});
         }
     } else {
         //console.log('presence -> ' + JSON.stringify(presence));
