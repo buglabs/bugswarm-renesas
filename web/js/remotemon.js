@@ -48,6 +48,12 @@ function onPresence(presence) {
                 $('button.reslist#'+resource).removeClass('disabled');
                 selectedResource = resource;
                 startTime = (new Date()).getTime();
+                accelX = new Array();
+                accelY = new Array();
+                accelZ = new Array();
+                temp = new Array();
+                light = new Array();
+                pot = new Array();
             });
             $.ajax({ url:'http://api.bugswarm.net/resources/'+resource, 
                 type: 'GET',
@@ -57,7 +63,7 @@ function onPresence(presence) {
                     xhr.setRequestHeader("x-bugswarmapikey", CFG_KEY);
                 },
                 success: function(data){
-                    $('button.reslist#'+data.id).html(data.name);k
+                    $('button.reslist#'+data.id).html(data.name);
                 }});
         }
     } else {
