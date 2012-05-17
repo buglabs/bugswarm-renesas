@@ -31,9 +31,25 @@ ul.reslist li {
 .disabled {
   background: rgba(150,150,150,0.5);
 }
+#buttonTable {
+    margin-left:    auto;
+    margin-right:   auto;
+}
+#buttonTable td {
+    text-align: center;
+}
+#ledTable {
+    margin-left:    auto;
+    margin-right:   auto;
+}
+#ledTable td {
+    text-align: center;
+}
 .chart {
-    width: 700px;
+    width: 800px;
     height: 250px;
+    text-align: center;
+    display: inline-block;
 }
 ul#logos {
   text-align: center;
@@ -93,6 +109,12 @@ ul#logos li {
 .button:active {
     position: relative;
     top: 1px;
+}
+.red {
+    background: red;
+}
+.green {
+    background: green;
 }
 .blue {
     color: #d9eef7;
