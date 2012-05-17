@@ -28,24 +28,24 @@ function onPresence(presence) {
         var resource = presence.from.resource
         if ((resource in resources)&&(!("type" in presence))){
             console.log('Adding one '+resource);
-            resources[resource] += 1;
+            resources[resource].count += 1;
         } else if (resource in resources) {
-            resources[resource] -= 1;
+            resources[resource].count -= 1;
             console.log('Removing one '+resource+', now '+resources[resource]);
-            if (resources[resource] === 0){
+            if (resources[resource].count === 0){
                 $('li#'+resource).remove();
                 delete resources[resource]
             }
         } else {
             console.log('Welcome new '+resource);
-            resources[resource] = 1;
+            resources[resource] = {count:1};
             $('ul#resources').append('<li id='+resource+
                 '><button class="button reslist disabled" id='+resource+'>'+resource+'</button></li>');
-            $('button.reslist#'+resource).click(function(e){
+            $('button').filter('#'+resource).click(function(e){
                 var resource = e.target.id;
                 console.log('selecting '+resource);
                 $('button.reslist').addClass('disabled');
-                $('button.reslist#'+resource).removeClass('disabled');
+                $('button').filter('#'+resource).removeClass('disabled');
                 selectedResource = resource;
                 startTime = (new Date()).getTime();
                 accelX = new Array();
@@ -63,7 +63,8 @@ function onPresence(presence) {
                     xhr.setRequestHeader("x-bugswarmapikey", CFG_KEY);
                 },
                 success: function(data){
-                    $('button.reslist#'+data.id).html(data.name);
+                    console.log(data.id+' is named '+data.name);
+                    $('button').filter('#'+resource).html(data.name);
                 }});
         }
     } else {
