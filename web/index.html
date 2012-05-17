@@ -2,8 +2,7 @@
     <head>
         <meta name="viewport" content="minimum-scale=1.0, maximum-scale=1.0, width=device-width" />
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-        <script type="text/javascript" src="js/swarm-v0.4.0.js"></script>
-        <!--<script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>-->
+        <script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
         <script type="text/javascript" src="http://flot.googlecode.com/svn/trunk/jquery.flot.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/shared.css" type="test/css">
@@ -31,6 +30,30 @@
                 <h3>Select an RL78/G13 board to view:</h3>
                 <ul class=reslist id="resources">
                 </ul>    
+            </div>
+            <div id="accelContainer">
+                <h3>Acceleration</h3>
+                <div class=chart id="accelChart"></div>
+            </div>
+            <div id="tempContainer">
+                <h3>Temperature</h3>
+                <div class=chart id="tempChart"></div>
+            </div>
+            <div id="lightContainer">
+                <h3>Light Level</h3>
+                <div class=chart id="lightChart"></div>
+            </div>
+            <div id="potContainer">
+                <h3>Potentiometer</h3>
+                <div class=chart id="potChart"></div>
+            </div>
+            <div id="buttonContainer">
+                <h3>Button Status</h3>
+                <div class=chart id="buttonChart"></div>
+            </div>
+            <div id="ledContainer">
+                <h3>LED Control</h3>
+                <div class=chart id="ledChart"></div>
             </div>
         </div>
     </body>

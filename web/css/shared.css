@@ -31,6 +31,10 @@ ul.reslist li {
 .disabled {
   background: rgba(150,150,150,0.5);
 }
+.chart {
+    width: 700px;
+    height: 250px;
+}
 ul#logos {
   text-align: center;
   list-style-type: none;

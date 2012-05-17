@@ -4,13 +4,22 @@ var RESOURCE_ID = "87486e2239df55126a1f14b51a6e7b35e96b2422";
 var WEBUI_RESOURCE = "8f0d348f7163b793cbe0b0f00117540e9339b7f8";
 
 var resources = new Object();
+var selectedResource = "";
 
-//var plotOptions = {
-//        series: { shadowSize: 0 }, // drawing is faster without shadows
-//        grid: { color: "#FFF" },
-//        legend: { backgroundColor: "#5C5D60" },
-//        yaxes: [ { position: "left"}, { position: "right"} ]
-//    };
+var xAxisLength = 100;
+var accelX = new Array();
+var accelY = new Array();
+var accelZ = new Array();
+var temp = new Array();
+var light = new Array();
+var pot = new Array();
+
+var plotOptions = {
+    series: { shadowSize: 0 }, // drawing is faster without shadows
+    grid: { color: "#FFF" },
+    legend: { backgroundColor: "#5C5D60" },
+    yaxes: [ { position: "left"}, { position: "right"} ]
+};
 
 function onPresence(presence) {
     if (("swarm" in presence.from)&&(presence.from.resource != RESOURCE_ID)&&
@@ -26,7 +35,7 @@ function onPresence(presence) {
                 $('li#'+resource).remove();
                 delete resources[resource]
             }
-        }else {
+        } else {
             console.log('Welcome new '+resource);
             resources[resource] = 1;
             $('ul#resources').append('<li id='+resource+
@@ -36,6 +45,8 @@ function onPresence(presence) {
                 console.log('selecting '+resource);
                 $('button.reslist').addClass('disabled');
                 $('button.reslist#'+resource).removeClass('disabled');
+                selectedResource = resource;
+                startTime = (new Date()).getTime();
             });
         }
     } else {
@@ -44,14 +55,51 @@ function onPresence(presence) {
 }
 
 function onMessage(message) {
-    //console.log('data -> '+JSON.stringify(message));
+    if (message.from.resource !== selectedResource){
+        return;
+    }
+    var currentTime = (new Date()).getTime();
+    var payload = message.payload;
+    if (!("name" in payload)){
+        console.log('data -> '+JSON.stringify(message));
+    } else if (payload.name === "Acceleration"){
+        //console.log('accel: '+payload.feed.x+','+payload.feed.y+','+payload.feed.z);
+        accelX.push([(currentTime-startTime)/1000,payload.feed.x]);
+        accelY.push([(currentTime-startTime)/1000,payload.feed.y]);
+        accelZ.push([(currentTime-startTime)/1000,payload.feed.z]);
+        if (accelX.length > xAxisLength){
+            accelX.shift();
+            accelY.shift();
+            accelZ.shift();
+        }
+        accelPlot = $.plot($('#accelChart'), [ accelX, accelY, accelZ ], plotOptions);
+    } else if (payload.name === "Temperature"){
+        //console.log('temp: '+payload.feed.TempF);
+        temp.push([(currentTime-startTime)/1000,payload.feed.TempF]);
+        if (temp.length > xAxisLength){
+            temp.shift();
+        }
+        tempPlot = $.plot($('#tempChart'), [ temp ], plotOptions);
+    } else if (payload.name === "Light"){
+        //console.log('light: '+payload.feed.Value);
+        light.push([(currentTime-startTime)/1000,payload.feed.Value]);
+        if (light.length > xAxisLength){
+            light.shift();
+        }
+        lightPlot = $.plot($('#lightChart'), [ light ], plotOptions);
+    } else if (payload.name === "Potentiometer"){
+        //console.log('Potentiometer: '+payload.feed.Raw);
+        pot.push([(currentTime-startTime)/1000,payload.feed.Raw]);
+        if (pot.length > xAxisLength){
+            pot.shift();
+        }
+        potPlot = $.plot($('#potChart'), [ pot ], plotOptions);
+    }
    //var payload = JSON.parse(message).message.payload;
    //console.log('Got data '+JSON.stringify(payload));
-   //var currentTime = (new Date()).getTime();
       //$.each(payload, function(key, value) {
       //   $('span#'+key).text(value);
       //   if (key == "Temperature"){
-      //      tempdata.push([(currentTime-startTime)/1000,value]);
       //      if (tempdata.length > xAxisLength)
       //         tempdata.shift(); 
       //   }
