@@ -715,7 +715,7 @@ void rsi_receive (void)
   {
     *tmp_rx_buf = temp_ch;
     rsi_write_buf->rx_buf_len++;
-    //printf(" G%02x ",temp_ch);
+    //printf("*%c*",temp_ch);
     /* Check for \r\n delimiter */
     if ( ( (*tmp_rx_buf == '\n') && (rsi_write_buf->rx_buf_len > 1) && 
 	    (*(tmp_rx_buf - 1) == '\r') ) ||

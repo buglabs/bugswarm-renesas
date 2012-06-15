@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements main function.
-* Creation Date: 4/26/2012
+* Creation Date: 6/4/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -69,8 +69,8 @@ Global variables and functions
  * Adjust with care and an eye on a swarm console.
  * NOTE - this isn't a precise value, it does not take into effect the time
  * spent retrieving the sample and sending it out to swarm.*/
-//#define UPDATE_PERIOD 2000
-#define UPDATE_PERIOD 500
+#define UPDATE_PERIOD 2000
+//#define UPDATE_PERIOD 500
 /* The number of messages to wait until sending out a swarm capabilities message
  */
 #define CAPABILITIES_PERIOD 10000
@@ -96,12 +96,13 @@ DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
 
 rsi_socketFrame_t      insock;
 rsi_socketFrame_t      outsock;
+rsi_recvSocketFrame_t  frame;
 
 /* Swarm IDs
  * Edit the following values based on desired BUGSwarm configuration */
-//const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
+const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
 //const char swarm_server_ip = "64.118.81.28";  //test.api.bugswarm.net
-const char swarm_server_ip[] = "192.168.11.204";
+//const char swarm_server_ip[] = "192.168.11.204";
 const char swarm_id[] =          "27e5a0e7e2e5445c51be56de44f45b19701f36d3";
 const char resource_id[] =       "b75538642bcadbdf4ae6d242d4f492266c11cb44";
 const char participation_key[] = "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b";
@@ -134,12 +135,9 @@ void main(void)
     setup_light();
     setup_temp();
     delay_ms(100);
-    
-//    struct rsi_socketFrame_s *insock = &insock_obj;
-//    struct rsi_socketFrame_s *outsock = &outsock_obj;
 
     /* Initialize UART and enable Module power and reset pins */  
-    /*printf("initializing redpine device...");
+    printf("initializing redpine device...");
     rsi_init();
     printf("done!\r\n");
     rsi_set_rx_buffer(lib_rx_buffer1, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
@@ -197,13 +195,22 @@ void main(void)
       } while (status != RSI_NOERROR);
     
       printf("Connected to socket\r\n");
+      //required by subsequent calls to the at+rsi_snd function
+      //for TCP sockets, apparently these values need to be 0, after connecting...
+      outsock.rport=0;
+      strcpy(outsock.remote_ip, "0");
     // open HTTP streaming socket to swarm by sending participation header 
       swarm_send_produce(swarm_id, resource_id, participation_key, &outsock);
-      delay_ms(50);
+      //Wait until we get headers and presence messages!
+      //TODO - actually read from the socket for this.
+      delay_ms(2000);
+      ret = rsi_read_data(&frame,RSI_EVENT_RX_DATA);
+      printf("readdata(%04x): %s\r\n",ret,frame.buffer);
+      //delay_ms(2000);
       // Send capabilities message, assuming a webUI is listening for it 
       capabilities_announce(&outsock);
     printf("Connected to Swarm!\r\n");
-    delay_ms(500); */
+    delay_ms(500); 
     while (1U)
     {
 	//toggle(&P5,4);	
@@ -214,28 +221,38 @@ void main(void)
 	R_ADC_Get_Result(&ret);
 	
 	printf("A(%f,%f,%f) L[%u] T<%f> {%04x} (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, ret, last_temp.time);
-	/*
-	dataxRounded = abs(last_accel.x/ACCEL_SCALE);
-        datayRounded = abs(last_accel.y/ACCEL_SCALE);
+	
+	//Send accel:
 	memset(tempbuff, '\0', sizeof(tempbuff));
-        // Create swarm payload for acceleration, and load it into tempbuff.
-        // Integer math to compensate for lack fo floating point formatter: 
-        // -%c is used to display a negative sign if number is negative
-        // -%d. is the whole part of the number
-        // -%04d is the fake floating point portion, to 4 places 
-        sprintf(tempbuff, "{\"Acceleration\":{\"x\":%c%d.%04d,\"y\":%c%d.%04d}}",
-                (last_accel.x < 0)?'-':' ', dataxRounded, 
-                abs((int)((((long)last_accel.x*10000L)/ACCEL_SCALE)-((long)dataxRounded*10000L))),
-                (last_accel.y < 0)?'-':' ', datayRounded, 
-                abs((int)((((long)last_accel.y*10000L)/ACCEL_SCALE)-((long)datayRounded*10000L))));
-        // Send data to swarm and toggle LED2 
+	sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f,\"z\":%f}}",
+		last_accel.x, last_accel.y, last_accel.z);
 	printf("Sending %s\r\n",tempbuff);
         swarm_produce(tempbuff,&outsock);
-	*/
+	
+	delay_ms(333);
+	
+	//Send light:
+	memset(tempbuff, '\0', sizeof(tempbuff));
+	sprintf(tempbuff, "{\"name\":\"Light\",\"feed\":{\"Value\":%u}}",
+		last_accel.x, last_accel.y, last_accel.z);
+	printf("Sending %s\r\n",tempbuff);
+        swarm_produce(tempbuff,&outsock);
+	
+	delay_ms(333);
+	
+	//Send temp:
+	memset(tempbuff, '\0', sizeof(tempbuff));
+	sprintf(tempbuff, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%u}}",
+		last_accel.x, last_accel.y, last_accel.z);
+	printf("Sending %s\r\n",tempbuff);
+        swarm_produce(tempbuff,&outsock);
+	
+	delay_ms(333);
+		
 	while((millis%UPDATE_PERIOD) != 0) { ; }
-	//if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
-        //   capabilities_announce(&outsock);
-        //} 
+	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
+           capabilities_announce(&outsock);
+        } 
     }
     /* End user code. Do not edit comment generated here */
 }

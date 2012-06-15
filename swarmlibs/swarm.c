@@ -15,7 +15,7 @@ const char produce_header[] = "POST /stream?swarm_id=%s&"
   "x-bugswarmapikey:%s\r\ntransfer-encoding:chunked\r\nConnection:keep-alive"
   "\r\nContent-Type: application/json\r\n\r\n1\r\n\n\r\n\r\n";
 //const char feed_request[] = "{\"capabilities\": {\"feeds\": [\"Acceleration\",\"Light\"], \"modules\": {\"slot1\":\"LCD\"}}}";
-const char feed_request[] = "{\"capabilities\": {\"feeds\": [\"Acceleration\"], \"modules\": {\"slot1\":\"LCD\"}}}";
+const char feed_request[] = "{\"capabilities\": {\"feeds\": [\"Acceleration\",\"Temperature\",\"Button\",\"Light\",\"LED\",\"Potentiometer\"]}}";
 const char message_header[] = "%x\r\n{\"message\": {\"payload\":%s}}\r\n\r\n\r\n";
 
 char pktbuff[500];
