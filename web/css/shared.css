@@ -1,0 +1,161 @@
+html {
+  background-color: #5C5D60;
+  background-image: url("../images/bg.gif");
+  background-repeat: repeat-x;
+}
+body {
+  color: #FFF;
+  width: 960px;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Armata', sans-serif;  
+  margin-top: 15px;
+}
+#header {
+  width: 960px;
+  height: 110px;
+  background: rgba(50,50,50,0.5);
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+ul.reslist {
+  text-align: center;
+  list-style-type: none;
+  padding: 0px;
+}
+ul.reslist li {
+  display: inline-block;
+  margin: 0 auto;
+}
+.disabled {
+  background: rgba(150,150,150,0.5);
+}
+#buttonTable {
+    margin-left:    auto;
+    margin-right:   auto;
+}
+#buttonTable td {
+    text-align: center;
+}
+#ledTable {
+    margin-left:    auto;
+    margin-right:   auto;
+}
+#ledTable td {
+    text-align: center;
+}
+.chart {
+    width: 800px;
+    height: 250px;
+    text-align: center;
+    display: inline-block;
+}
+ul#logos {
+  text-align: center;
+  list-style-type: none;
+  padding: 0px;
+}
+ul#logos li {
+  display: inline-block;
+  margin: 0 auto;
+}
+#header #buglabs-logo {
+  float: left;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+#header #bugswarm-logo {
+  float: left;
+  margin-top: 50px;
+  margin-left: 30px;
+}
+#header #arrow-logo {
+  float: left;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+#header #accenture-logo img {
+  background-color: #FFF;
+  border-radius: 3px;  
+  width: 205px;
+  height: 50px;
+}
+#content {
+  width: 960px;
+  background: rgba(50,50,50,0.5);
+  border-radius: 3px;
+  padding: 1px;
+}
+.button {
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    padding: .5em 2em .55em;
+    text-shadow: 1px 1px 1px rgb(75,75,75);
+    /*-webkit-border-radius: .5em; 
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);*/
+}
+.button:hover {
+    text-decoration: none;
+}
+.button:active {
+    position: relative;
+    top: 1px;
+}
+.red {
+    background: red;
+}
+.green {
+    background: green;
+}
+.blue {
+    color: #d9eef7;
+    border: solid 1px #0076a3;
+    background: #0095cd;
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+    background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');*/
+}
+.left{
+    text-align: left;
+}
+.center {
+    text-align: center;
+}
+.right{
+    text-align:right;
+}
+div#motionlog{
+    height: 40%;
+    overflow: scroll;
+    display: none;
+}
+div#rangeplot{
+   display: inline-block;
+   text-align:center;
+   width: 700px;
+   height: 300px;
+}
+div#weatherplot{
+   display: inline-block;
+   text-align:center;
+   width: 700px;
+   height: 300px;
+}
+
+table#weather{
+   display: inline-block;
+   text-align:center;
+}
+th{
+   padding: 5px 20px;
+}
+

@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="minimum-scale=1.0, maximum-scale=1.0, width=device-width" >
+		<meta http-equiv="X-UA-Compatible" content="IE=9" >
+		<script type="text/javascript" src="js/excanvas/excanvas.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
+        <script type="text/javascript" src="http://flot.googlecode.com/svn/trunk/jquery.flot.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/shared.css" type="text/css">
+		<title>Bug Swarm Renesas Demo Portal</title>
+    </head>
+    <body>
+        <script type="text/javascript" src="js/remotemon.js"></script>
+        <div id=wrap>
+        <div id="header">
+          <ul id="logos">
+            <li>
+              <a href="http://buglabs.net" id="buglabs-logo">
+                <img src="images/buglabs.gif" alt="buglabs">
+              </a>
+            </li>
+            <li>
+              <a href="http://buglabs.net/bugswarm" id="bugswarm-logo">
+                <img src="images/bs_logo.png" alt="bugswarm">
+              </a>
+            </li>
+          </ul>
+        </div> <!-- end of header div -->
+        <div id="content" class=center>
+            <h1>Renesas RL78/G13 Network Portal</h1>
+            <div id="resourcelist">
+                <h3>Select an RL78/G13 board to view:</h3>
+                <ul class=reslist id="resources"><li></li></ul> 
+            </div>
+            <div id="accelContainer">
+                <h3>Acceleration</h3>
+                <div class=chart id="accelChart"></div>
+            </div>
+            <div id="tempContainer">
+                <h3>Temperature</h3>
+                <div class=chart id="tempChart"></div>
+            </div>
+            <div id="lightContainer">
+                <h3>Light Level</h3>
+                <div class=chart id="lightChart"></div>
+            </div>
+            <div id="potContainer">
+                <h3>Potentiometer</h3>
+                <div class=chart id="potChart"></div>
+            </div>
+            <div id="buttonContainer">
+                <h3>Button Status</h3>
+                <table id=buttonTable><tr>
+                    <th>Button 1</th><th>Button 2</th><th>Button 3</th></tr>
+                    <tr><td id=b1>0</td><td id=b2>0</td><td id=b3>0</td>
+                </tr></table>
+            </div>
+            <div id="ledContainer">
+                <h3>LED Control</h3>
+                <table id=ledTable>
+                    <tr><th>LED 1</th><th>LED 2</th><th>LED 3</th>
+                        <th>LED 4</th><th>LED 5</th><th>LED 6</th></tr>
+                    <tr><td id=LED1>0</td><td id=LED2>0</td><td id=LED3>0</td>
+                        <td id=LED4>0</td><td id=LED5>0</td><td id=LED6>0</td>
+                </tr></table>
+            </div>
+        </div><!-- end of content div -->
+		</div><!-- end of wrap div -->
+    </body>
+</html>
