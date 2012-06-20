@@ -82,8 +82,8 @@ int dataxRounded;
 int datayRounded;
 int num = 0;
 int len;
-int status;
 int seed;
+uint16_t status;
 uint16_t ret;
 accelData last_accel;
 lightData last_light;
@@ -96,7 +96,7 @@ DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
 
 rsi_socketFrame_t      insock;
 rsi_socketFrame_t      outsock;
-rsi_recvSocketFrame_t  frame;
+rsi_uUartRsp response;
 
 /* Swarm IDs
  * Edit the following values based on desired BUGSwarm configuration */
@@ -204,18 +204,38 @@ void main(void)
       //Wait until we get headers and presence messages!
       //TODO - actually read from the socket for this.
       delay_ms(2000);
-      ret = rsi_read_data(&frame,RSI_EVENT_RX_DATA);
-      printf("readdata(%04x): %s\r\n",ret,frame.buffer);
+      
       //delay_ms(2000);
       // Send capabilities message, assuming a webUI is listening for it 
-      capabilities_announce(&outsock);
+      /***capabilities_announce(&outsock);***/
     printf("Connected to Swarm!\r\n");
-    delay_ms(500); 
+    /***delay_ms(500); ***/
     while (1U)
     {
-	//toggle(&P5,4);	
+	ret = rsi_read_data((uint8*)&response,&status);
+	if (ret == RSI_ERROR_NO_RX_PENDING){
+		continue;
+	}
+	printf("read attempt: ret(%04x), status(%04x) ",ret,status);
+	switch (status) {
+	case RSI_EVENT_CMD_RESPONSE:
+		printf("CMD_RESPONSE");
+		break;
+	case RSI_EVENT_RX_DATA:		         
+		printf("RX_DATA");
+		break;		  
+	case RSI_EVENT_SOCKET_CLOSE:
+		printf("SOCKET_CLOSE");
+		break;
+	case RSI_EVENT_SLEEP:
+		printf("EVENT_SLEEP");
+		break;
+	default:
+		printf("UNKNOWN");
+	}
+	printf("\r\n");
 	toggle_led(5);
-	read_accel(&last_accel);
+	/***read_accel(&last_accel);
 	read_light(&last_light);
 	read_temp(&last_temp);
 	R_ADC_Get_Result(&ret);
@@ -252,7 +272,7 @@ void main(void)
 	while((millis%UPDATE_PERIOD) != 0) { ; }
 	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
            capabilities_announce(&outsock);
-        } 
+        } ***/
     }
     /* End user code. Do not edit comment generated here */
 }
