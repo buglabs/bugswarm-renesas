@@ -308,7 +308,7 @@ void  main(void)
         // -%c is used to display a negative sign if number is negative
         // -%d. is the whole part of the number
         // -%04d is the fake floating point portion, to 4 places 
-        sprintf(tempbuff, "{\"Acceleration\":{\"x\":%c%d.%04d,\"y\":%c%d.%04d}}",
+        sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%c%d.%04d,\"y\":%c%d.%04d}}",
                 (datax < 0)?'-':' ', dataxRounded, 
                 abs((int)((((long)datax*10000L)/ACCEL_SCALE)-((long)dataxRounded*10000L))),
                 (datay < 0)?'-':' ', datayRounded, 
