@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 4/26/2012
+* Creation Date: 6/4/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -82,6 +82,7 @@ extern volatile uint8_t * gp_iica0_tx_address;         /* iica0 send buffer addr
 extern volatile uint16_t  g_iica0_tx_cnt;              /* iica0 send data count */
 /* Start user code for global. Do not edit comment generated here */
 char debugbuff[60];
+//rsi_receive();
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -93,8 +94,7 @@ char debugbuff[60];
 __interrupt static void r_uart0_interrupt_receive(void)
 {
     uint8_t rx_data;
-    rsi_receive();
-    /*
+
     rx_data = RXD0;
 
     if (g_uart0_rx_length > g_uart0_rx_count)
@@ -107,7 +107,7 @@ __interrupt static void r_uart0_interrupt_receive(void)
         {
             r_uart0_callback_receiveend();
         }
-    }*/
+    }
 }
 
 /***********************************************************************************************************************
@@ -192,6 +192,7 @@ __interrupt static void r_uart2_interrupt_receive(void)
 {
     uint8_t rx_data;
 
+    rsi_receive();
     rx_data = RXD2;
 
     if (g_uart2_rx_length > g_uart2_rx_count)
@@ -275,6 +276,7 @@ static void r_uart2_callback_sendend(void)
 static void r_uart2_callback_error(uint8_t err_type)
 {
     /* Start user code. Do not edit comment generated here */
+    printf("###UARTERROR(%02x)###\r\n",err_type);
     /* End user code. Do not edit comment generated here */
 }
 

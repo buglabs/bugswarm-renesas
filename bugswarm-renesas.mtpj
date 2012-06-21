@@ -198,6 +198,7 @@
       <RelativePath>gen\r_cg_adc.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>1f68b0e3-6a81-40e8-b2e4-01b0e3f449ff</Property>
     </Instance>
     <Instance Guid="faf96619-d822-43b6-b4db-3dac57d7b19b">
       <Name>r_cg_intc.c</Name>
@@ -445,6 +446,18 @@
     <Instance Guid="151e2b26-e286-4e1f-8bfd-400b798c56dd">
       <MemoCount>0</MemoCount>
     </Instance>
+    <Instance Guid="9bd22514-9f3a-4e96-87d8-d893fcf8be66">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="58371322-c2c8-47b9-863c-d7550bc31b1b">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="68390edd-c16b-49b9-9a4f-76ae9f9389e1">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="67070694-8f9a-42ef-a8d6-1091168d3470">
+      <MemoCount>0</MemoCount>
+    </Instance>
     <Instance Guid="db523d1b-c913-4c7e-b917-0a7e87860754">
       <MemoCount>0</MemoCount>
     </Instance>
@@ -508,16 +521,7 @@
     <Instance Guid="fe37a2a3-591a-450f-83ea-f55165c7f2e8">
       <MemoCount>0</MemoCount>
     </Instance>
-    <Instance Guid="9bd22514-9f3a-4e96-87d8-d893fcf8be66">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="58371322-c2c8-47b9-863c-d7550bc31b1b">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="67070694-8f9a-42ef-a8d6-1091168d3470">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="68390edd-c16b-49b9-9a4f-76ae9f9389e1">
+    <Instance Guid="1f68b0e3-6a81-40e8-b2e4-01b0e3f449ff">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -535,9 +539,6 @@
       <MemoCount>0</MemoCount>
     </Instance>
     <Instance Guid="3637144a-6e11-4682-8e31-044b96b1b05f">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="ba791799-0999-42e6-8fff-2ea3c70cf832">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -594,35 +595,35 @@
       <SourceItemType9>CSource</SourceItemType9>
       <SourceItemGuid10>79a0e099-91af-41f1-bef8-4e68455a3e75</SourceItemGuid10>
       <SourceItemType10>CSource</SourceItemType10>
-      <SourceItemGuid11>9353556a-647d-41ad-9abb-608604ac5736</SourceItemGuid11>
+      <SourceItemGuid11>31be49f3-cf01-47a0-b648-9c16d9843579</SourceItemGuid11>
       <SourceItemType11>CSource</SourceItemType11>
-      <SourceItemGuid12>ae970344-5134-40ff-b7e0-22e62da78404</SourceItemGuid12>
+      <SourceItemGuid12>078f793e-3332-49ff-a2ed-627a1a39508f</SourceItemGuid12>
       <SourceItemType12>CSource</SourceItemType12>
-      <SourceItemGuid13>3af5e18e-53e6-43cc-9606-212d4dc54f10</SourceItemGuid13>
+      <SourceItemGuid13>faf96619-d822-43b6-b4db-3dac57d7b19b</SourceItemGuid13>
       <SourceItemType13>CSource</SourceItemType13>
-      <SourceItemGuid14>edd0d6d2-1eda-4a99-9b60-256f016544ca</SourceItemGuid14>
+      <SourceItemGuid14>3a680cb1-67c3-469f-a57b-5a5c9702ef2d</SourceItemGuid14>
       <SourceItemType14>CSource</SourceItemType14>
-      <SourceItemGuid15>a2727bf6-dbe1-4b9d-89a8-a864dfa910cb</SourceItemGuid15>
+      <SourceItemGuid15>9353556a-647d-41ad-9abb-608604ac5736</SourceItemGuid15>
       <SourceItemType15>CSource</SourceItemType15>
-      <SourceItemGuid16>d44970bc-5dac-4c2c-afe9-90d6aa4191d7</SourceItemGuid16>
+      <SourceItemGuid16>ae970344-5134-40ff-b7e0-22e62da78404</SourceItemGuid16>
       <SourceItemType16>CSource</SourceItemType16>
-      <SourceItemGuid17>253ff673-e1ce-43f3-8bfa-8f80fabb317d</SourceItemGuid17>
+      <SourceItemGuid17>3af5e18e-53e6-43cc-9606-212d4dc54f10</SourceItemGuid17>
       <SourceItemType17>CSource</SourceItemType17>
-      <SourceItemGuid18>2205cde2-afd2-45fb-ae9c-cac364d52d9d</SourceItemGuid18>
+      <SourceItemGuid18>edd0d6d2-1eda-4a99-9b60-256f016544ca</SourceItemGuid18>
       <SourceItemType18>CSource</SourceItemType18>
-      <SourceItemGuid19>fe8d5a8e-bb38-4ee6-917b-5be3457ed036</SourceItemGuid19>
+      <SourceItemGuid19>a2727bf6-dbe1-4b9d-89a8-a864dfa910cb</SourceItemGuid19>
       <SourceItemType19>CSource</SourceItemType19>
-      <SourceItemGuid20>86d52c49-614a-42b0-aad7-60be97a9235f</SourceItemGuid20>
+      <SourceItemGuid20>d44970bc-5dac-4c2c-afe9-90d6aa4191d7</SourceItemGuid20>
       <SourceItemType20>CSource</SourceItemType20>
-      <SourceItemGuid21>da9a7650-4fcc-4b5f-8777-667336445cdd</SourceItemGuid21>
+      <SourceItemGuid21>253ff673-e1ce-43f3-8bfa-8f80fabb317d</SourceItemGuid21>
       <SourceItemType21>CSource</SourceItemType21>
-      <SourceItemGuid22>31be49f3-cf01-47a0-b648-9c16d9843579</SourceItemGuid22>
+      <SourceItemGuid22>2205cde2-afd2-45fb-ae9c-cac364d52d9d</SourceItemGuid22>
       <SourceItemType22>CSource</SourceItemType22>
-      <SourceItemGuid23>078f793e-3332-49ff-a2ed-627a1a39508f</SourceItemGuid23>
+      <SourceItemGuid23>fe8d5a8e-bb38-4ee6-917b-5be3457ed036</SourceItemGuid23>
       <SourceItemType23>CSource</SourceItemType23>
-      <SourceItemGuid24>faf96619-d822-43b6-b4db-3dac57d7b19b</SourceItemGuid24>
+      <SourceItemGuid24>86d52c49-614a-42b0-aad7-60be97a9235f</SourceItemGuid24>
       <SourceItemType24>CSource</SourceItemType24>
-      <SourceItemGuid25>3a680cb1-67c3-469f-a57b-5a5c9702ef2d</SourceItemGuid25>
+      <SourceItemGuid25>da9a7650-4fcc-4b5f-8777-667336445cdd</SourceItemGuid25>
       <SourceItemType25>CSource</SourceItemType25>
       <SourceItemCount>26</SourceItemCount>
       <VfiSourceItemCount>0</VfiSourceItemCount>
@@ -1249,49 +1250,49 @@ gen
       <TimeTagModified-SourceItem10--0>-8588668386212336320</TimeTagModified-SourceItem10--0>
       <SourceItem10-BuildingTarget-0>True</SourceItem10-BuildingTarget-0>
       <SourceItem10-IndividualCompileOption-0>False</SourceItem10-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem11--0>-8588669276433353635</TimeTagModified-SourceItem11--0>
+      <TimeTagModified-SourceItem11--0>-8588661488671556336</TimeTagModified-SourceItem11--0>
       <SourceItem11-BuildingTarget-0>True</SourceItem11-BuildingTarget-0>
       <SourceItem11-IndividualCompileOption-0>False</SourceItem11-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem12--0>-8588667475558739600</TimeTagModified-SourceItem12--0>
+      <TimeTagModified-SourceItem12--0>-8588661488671155760</TimeTagModified-SourceItem12--0>
       <SourceItem12-BuildingTarget-0>True</SourceItem12-BuildingTarget-0>
       <SourceItem12-IndividualCompileOption-0>False</SourceItem12-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem13--0>-8588667475558739600</TimeTagModified-SourceItem13--0>
+      <TimeTagModified-SourceItem13--0>-8588661415107776816</TimeTagModified-SourceItem13--0>
       <SourceItem13-BuildingTarget-0>True</SourceItem13-BuildingTarget-0>
       <SourceItem13-IndividualCompileOption-0>False</SourceItem13-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem14--0>-8588667475558739600</TimeTagModified-SourceItem14--0>
+      <TimeTagModified-SourceItem14--0>-8588661415107376240</TimeTagModified-SourceItem14--0>
       <SourceItem14-BuildingTarget-0>True</SourceItem14-BuildingTarget-0>
       <SourceItem14-IndividualCompileOption-0>False</SourceItem14-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem15--0>-8588667475558739600</TimeTagModified-SourceItem15--0>
+      <TimeTagModified-SourceItem15--0>-8588669276433353635</TimeTagModified-SourceItem15--0>
       <SourceItem15-BuildingTarget-0>True</SourceItem15-BuildingTarget-0>
       <SourceItem15-IndividualCompileOption-0>False</SourceItem15-IndividualCompileOption-0>
       <TimeTagModified-SourceItem16--0>-8588667475558739600</TimeTagModified-SourceItem16--0>
       <SourceItem16-BuildingTarget-0>True</SourceItem16-BuildingTarget-0>
       <SourceItem16-IndividualCompileOption-0>False</SourceItem16-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem17--0>-8588667475558639456</TimeTagModified-SourceItem17--0>
+      <TimeTagModified-SourceItem17--0>-8588667475558739600</TimeTagModified-SourceItem17--0>
       <SourceItem17-BuildingTarget-0>True</SourceItem17-BuildingTarget-0>
       <SourceItem17-IndividualCompileOption-0>False</SourceItem17-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem18--0>-8588667475558639456</TimeTagModified-SourceItem18--0>
+      <TimeTagModified-SourceItem18--0>-8588667475558739600</TimeTagModified-SourceItem18--0>
       <SourceItem18-BuildingTarget-0>True</SourceItem18-BuildingTarget-0>
       <SourceItem18-IndividualCompileOption-0>False</SourceItem18-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem19--0>-8588666562896533552</TimeTagModified-SourceItem19--0>
+      <TimeTagModified-SourceItem19--0>-8588667475558739600</TimeTagModified-SourceItem19--0>
       <SourceItem19-BuildingTarget-0>True</SourceItem19-BuildingTarget-0>
       <SourceItem19-IndividualCompileOption-0>False</SourceItem19-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem20--0>-8588666562585786720</TimeTagModified-SourceItem20--0>
+      <TimeTagModified-SourceItem20--0>-8588667475558739600</TimeTagModified-SourceItem20--0>
       <SourceItem20-BuildingTarget-0>True</SourceItem20-BuildingTarget-0>
       <SourceItem20-IndividualCompileOption-0>False</SourceItem20-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem21--0>-8588662963021415694</TimeTagModified-SourceItem21--0>
+      <TimeTagModified-SourceItem21--0>-8588667475558639456</TimeTagModified-SourceItem21--0>
       <SourceItem21-BuildingTarget-0>True</SourceItem21-BuildingTarget-0>
       <SourceItem21-IndividualCompileOption-0>False</SourceItem21-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem22--0>-8588661488671556336</TimeTagModified-SourceItem22--0>
+      <TimeTagModified-SourceItem22--0>-8588667475558639456</TimeTagModified-SourceItem22--0>
       <SourceItem22-BuildingTarget-0>True</SourceItem22-BuildingTarget-0>
       <SourceItem22-IndividualCompileOption-0>False</SourceItem22-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem23--0>-8588661488671155760</TimeTagModified-SourceItem23--0>
+      <TimeTagModified-SourceItem23--0>-8588666562896533552</TimeTagModified-SourceItem23--0>
       <SourceItem23-BuildingTarget-0>True</SourceItem23-BuildingTarget-0>
       <SourceItem23-IndividualCompileOption-0>False</SourceItem23-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem24--0>-8588661415107776816</TimeTagModified-SourceItem24--0>
+      <TimeTagModified-SourceItem24--0>-8588666562585786720</TimeTagModified-SourceItem24--0>
       <SourceItem24-BuildingTarget-0>True</SourceItem24-BuildingTarget-0>
       <SourceItem24-IndividualCompileOption-0>False</SourceItem24-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem25--0>-8588661415107376240</TimeTagModified-SourceItem25--0>
+      <TimeTagModified-SourceItem25--0>-8588662963021415694</TimeTagModified-SourceItem25--0>
       <SourceItem25-BuildingTarget-0>True</SourceItem25-BuildingTarget-0>
       <SourceItem25-IndividualCompileOption-0>False</SourceItem25-IndividualCompileOption-0>
     </Instance>
@@ -1826,6 +1827,7 @@ gen
     &lt;RAMEndAddress Name="RAMEndAddress" Fixed="" Text="000FFEFF" /&gt;
     &lt;ROMEndAddress Chip="R5F1006E,R5F1007E,R5F1008E,R5F100AE,R5F100BE,R5F100CE,R5F100EE,R5F100FE,R5F100GE,R5F100JE,R5F100LE" Name="ROMEndAddress" Fixed="" Text="0000FFFF" /&gt;
     &lt;MirrorROM Name="MirrorROM" Fixed="" Text="53.75" /&gt;
+    &lt;ADPC_AD Name="ADPC_AD" Value="7" /&gt;
     &lt;CodePath Name="CodePath" Text="gen\" /&gt;
     &lt;ReportType Name="ReportType" Text="Html" /&gt;
     &lt;GenerateType Name="GenerateType" Text="Merge" /&gt;
@@ -1834,7 +1836,6 @@ gen
     &lt;PrjVersion Name="PrjVersion" Text="1.2.0.1" /&gt;
     &lt;UICultureNumberDecimalSeparator Name="UICultureNumberDecimalSeparator" Text="." /&gt;
     &lt;UICultureNumberGroupSeparator Name="UICultureNumberGroupSeparator" Text="," /&gt;
-    &lt;ADPC_AD Name="ADPC_AD" Value="7" /&gt;
   &lt;/VAR&gt;
   &lt;DIR&gt;
     &lt;PIN&gt;
@@ -2942,7 +2943,7 @@ gen
     &lt;/PORT&gt;
     &lt;INTC SetFlag="True" HelpID="int" NeedRefresh="False"&gt;
       &lt;INTP Accelerate="No" MacroName="INTP" SetFlag="True" TabEnable="True" /&gt;
-      &lt;KEY Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," Accelerate="No" MacroName="KEY" TabEnable="True" SetFlag="False" /&gt;
+      &lt;KEY Chip="RL78G13_40pin,RL78G13_44pin,RL78G13_48pin,RL78G13_52pin,RL78G13_64pin,RL78G13_80pin,RL78G13_100pin,RL78G13_128pin," Accelerate="No" MacroName="KEY" SetFlag="False" TabEnable="True" /&gt;
     &lt;/INTC&gt;
     &lt;Serial SetFlag="True" HelpID="serial" NeedRefresh="False"&gt;
       &lt;SAU0 Accelerate="No" MacroName="SAU" Channel="0" SetFlag="True" TabEnable="True"&gt;
@@ -3765,7 +3766,7 @@ gen
       &lt;setting name="PIOR12" value="1" /&gt;
       &lt;setting name="PIOR13" value="1" /&gt;
       &lt;setting name="VDD" value="VDD0" /&gt;
-      &lt;setting name="EVDD" value="EVDD1" /&gt;
+      &lt;setting name="EVDD" value="EVDD2" /&gt;
       &lt;setting name="Main_system_clock" value="high-speed internal clock" /&gt;
       &lt;setting name="High_speed_internal_oscillator" value="operation" /&gt;
       &lt;setting name="High_speed_internal_frequency" value="6" /&gt;
@@ -4328,7 +4329,7 @@ gen
           &lt;setting name="Receive_data_direction" value="LSB" /&gt;
           &lt;setting name="Receive_data_length" value="8 bits" /&gt;
           &lt;setting name="Receive_parity" value="none" /&gt;
-          &lt;setting name="RecBaudrate" value="19200" /&gt;
+          &lt;setting name="RecBaudrate" value="115200" /&gt;
           &lt;setting name="Receive_end_callback_function" value="generated" /&gt;
           &lt;setting name="Receive_error_callback_function" value="generated" /&gt;
           &lt;setting name="Transfer_mode" value="single" /&gt;
@@ -4337,7 +4338,7 @@ gen
           &lt;setting name="Transmit_data_length" value="8 bits" /&gt;
           &lt;setting name="Transmit_parity" value="none" /&gt;
           &lt;setting name="Transmit_stop_length" value="1 bit" /&gt;
-          &lt;setting name="TranBaudrate" value="19200" /&gt;
+          &lt;setting name="TranBaudrate" value="115200" /&gt;
           &lt;setting name="Transmit_end_callback_function" value="generated" /&gt;
           &lt;setting name="Transmit_end_interrupt_priority" value="3" /&gt;
           &lt;setting name="Receive_error_interrupt_priority" value="3" /&gt;
@@ -4388,6 +4389,135 @@ gen
         &lt;setting name="StopBit" value="not generated" /&gt;
       &lt;/Master0&gt;
     &lt;/IICA0&gt;
+    &lt;ADC&gt;
+      &lt;setting name="AD_convertion" value="used" /&gt;
+      &lt;setting name="Comparator_operation" value="enable" /&gt;
+      &lt;setting name="Wakeup_operation" value="off" /&gt;
+      &lt;setting name="Resolution" value="10bit" /&gt;
+      &lt;setting name="AD_Positive" value="VDD" /&gt;
+      &lt;setting name="AD_Negative" value="VSS" /&gt;
+      &lt;setting name="AD_Trigger" value="softtri" /&gt;
+      &lt;setting name="AD_Trigger_Timer" value="0" /&gt;
+      &lt;setting name="Mode" value="CONSELECT" /&gt;
+      &lt;setting name="InputPins" value="0" /&gt;
+      &lt;setting name="AD_Inputpin16" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin17" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin18" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin19" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin20" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin21" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin22" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin23" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin24" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin25" value="unused" /&gt;
+      &lt;setting name="AD_Inputpin26" value="unused" /&gt;
+      &lt;setting name="SelectedChannel" value="4" /&gt;
+      &lt;setting name="ConversionVoltage" value="1" /&gt;
+      &lt;setting name="ConvTimeMode" value="0" /&gt;
+      &lt;setting name="ConversionTime" value="0" /&gt;
+      &lt;setting name="AREAFunction" value="AREA1" /&gt;
+      &lt;setting name="AREAValue_ADUL" value="255" /&gt;
+      &lt;setting name="AREAValue_ADLL" value="0" /&gt;
+      &lt;setting name="Interrput_priority" value="3" /&gt;
+      &lt;setting name="AD_interrupt" value="used" /&gt;
+    &lt;/ADC&gt;
+    &lt;INTP&gt;
+      &lt;INTP0&gt;
+        &lt;setting name="Valid_edge" value="both" /&gt;
+        &lt;setting name="Operation" value="used" /&gt;
+        &lt;setting name="ValidEdge" value="2" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP0&gt;
+      &lt;INTP1&gt;
+        &lt;setting name="Valid_edge" value="both" /&gt;
+        &lt;setting name="Operation" value="used" /&gt;
+        &lt;setting name="ValidEdge" value="2" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP1&gt;
+      &lt;INTP2&gt;
+        &lt;setting name="Valid_edge" value="both" /&gt;
+        &lt;setting name="Operation" value="used" /&gt;
+        &lt;setting name="ValidEdge" value="2" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP2&gt;
+      &lt;INTP3&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP3&gt;
+      &lt;INTP4&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP4&gt;
+      &lt;INTP5&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP5&gt;
+      &lt;INTP6&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP6&gt;
+      &lt;INTP7&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP7&gt;
+      &lt;INTP8&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP8&gt;
+      &lt;INTP9&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP9&gt;
+      &lt;INTP10&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP10&gt;
+      &lt;INTP11&gt;
+        &lt;setting name="Valid_edge" value="falling" /&gt;
+        &lt;setting name="Operation" value="unused" /&gt;
+        &lt;setting name="ValidEdge" value="0" /&gt;
+        &lt;setting name="Interrupt_priority" value="3" /&gt;
+        &lt;setting name="pinsel" value="-1" /&gt;
+      &lt;/INTP11&gt;
+    &lt;/INTP&gt;
+    &lt;KEY&gt;
+      &lt;setting name="Interrupt_priority" value="3" /&gt;
+      &lt;setting name="KR0" value="unused" /&gt;
+      &lt;setting name="KR1" value="unused" /&gt;
+      &lt;setting name="KR2" value="unused" /&gt;
+      &lt;setting name="KR3" value="unused" /&gt;
+      &lt;setting name="KR4" value="unused" /&gt;
+      &lt;setting name="KR5" value="unused" /&gt;
+      &lt;setting name="KR6" value="unused" /&gt;
+      &lt;setting name="KR7" value="unused" /&gt;
+    &lt;/KEY&gt;
   &lt;/SETTING&gt;
 &lt;/RL78G13&gt;</CodeGenerator>
       <FormatVersion>1.0</FormatVersion>

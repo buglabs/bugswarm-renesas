@@ -128,6 +128,7 @@ typedef struct
 * Functions:
 ***********************************************************************************************************************/
 
+//Sensor access
 MD_STATUS setup_accel();
 MD_STATUS read_accel(accelData * dat);
 MD_STATUS setup_light();
@@ -135,4 +136,7 @@ MD_STATUS read_light(lightData * dat);
 MD_STATUS setup_temp();
 MD_STATUS read_temp(tempData * dat);
 
+//LED manipulation
+void set_led(uint8_t num, uint8_t val);
+void toggle_led(uint8_t num);
 #endif

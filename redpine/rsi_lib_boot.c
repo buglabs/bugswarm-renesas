@@ -131,6 +131,7 @@ rsi_uart_welcome (void)
    * Receive "WELCOME TO REDPINE SIGNALS\r\n" message 
    */
   retval = rsi_getLine (tBuf, &maxLen);
+ 
 
   if (retval == UART_NOERROR)
   {

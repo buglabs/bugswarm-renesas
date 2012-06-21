@@ -16,6 +16,8 @@
 #include <string.h>
 
 uint8_t i2cbuf[10];
+const uint8_t * led_portmap[6] = {&P5, &P6, &P6, &P5, &P5, &P5};
+const uint8_t led_pinmap[6] = {5, 2, 3, 2, 3, 4};
 
 //Handle error reporting here, to spare r_main the complexity.
 void md_err(MD_STATUS ret, const char * where){
@@ -190,4 +192,16 @@ MD_STATUS read_temp(tempData * dat){
 		dat->tempF = ((9.0/5.0)*dat->tempC)+32;
 	}
 	return ret;
+}
+
+void set_led(uint8_t num, uint8_t val){
+	if (num < 6){
+		set_gpio(led_portmap[num], led_pinmap[num], !val);
+	}
+}
+
+void toggle_led(uint8_t num){
+	if (num < 6){
+		toggle(led_portmap[num], led_pinmap[num]);
+	}
 }
