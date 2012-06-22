@@ -12,12 +12,20 @@
 #include "r_cg_it.h"
 #include "r_cg_serial.h"
 #include "YRDKRL78G13.h"
+#include "../swarmlibs/swarm.h"
 #include <stdio.h>
 #include <string.h>
 
 uint8_t i2cbuf[10];
+char butbuff[100];
 const uint8_t * led_portmap[6] = {&P5, &P6, &P6, &P5, &P5, &P5};
 const uint8_t led_pinmap[6] = {5, 2, 3, 2, 3, 4};
+uint8_t button_status[3] = {0, 0, 0};
+boolean button_changed;
+uint16_t stat;
+int remaining;
+rsi_uUartRsp response;
+uint16_t result;
 
 //Handle error reporting here, to spare r_main the complexity.
 void md_err(MD_STATUS ret, const char * where){
@@ -203,5 +211,74 @@ void set_led(uint8_t num, uint8_t val){
 void toggle_led(uint8_t num){
 	if (num < 6){
 		toggle(led_portmap[num], led_pinmap[num]);
+	}
+}
+
+void sendButtonInfo(){
+	memset(butbuff, '\0', sizeof(butbuff));
+	sprintf(butbuff, "{\"name\":\"Button\",\"feed\":{\"b1\":%u,\"b2\":%u,\"b3\":%u}}",
+		button_status[0],button_status[1],button_status[2]);
+	printf("Sending %s\r\n",butbuff);
+        swarm_produce(butbuff,&outsock);
+}
+
+void doWork(uint16_t duration){
+	uint16_t endTime = millis+duration;
+	while(millis < endTime){
+		readData();
+		if (button_changed) {
+			sendButtonInfo();
+			button_changed = 0;
+		}
+	}
+}
+
+void readData(){
+	struct rsi_recv_s * next;
+	do {
+		result = rsi_read_data((uint8*)&response,&stat);
+		if (result == RSI_ERROR_NO_RX_PENDING){
+			continue;
+		}
+		//printf("read attempt: ret(%04x), status(%04x) ",ret,status);
+		switch (stat) {
+		case RSI_EVENT_CMD_RESPONSE:
+			printf("CMD\r\n");
+			break;
+		case RSI_EVENT_RX_DATA:		         
+			remaining = response.rcv_data.buf_len-strlen(response.rcv_data.buffer);
+			//printf("(%d)\r\n",remaining);
+			//printf("(%d)%.40s\r\n",remaining,response.rcv_data.buffer);
+			//printf("RSI_EVENT_RX_DATA length: %04x\r\n",response.rcv_data.buf_len);
+			//if (strlen(response.rcv_data.buffer) > 0)
+			//	printf("NEW_RX_DATA %d->%d %s",response.rcv_data.buf_len,remaining,response.rcv_data.buffer);
+			//memset(response.rcv_data.buffer, '\0', strlen(response.rcv_data.buffer));
+			break;		  
+		case RSI_EVENT_SOCKET_CLOSE:
+			printf("SOCK\r\n");
+			break;
+		case RSI_EVENT_SLEEP:
+			printf("SLEEP\r\n");
+			break;
+		default:
+			remaining -= strlen(response.rcv_data.buffer);
+			//printf("(%d)%.40s\r\n",remaining,response.rcv_data.buffer);
+			//if (strlen(response.rcv_data.buffer) > 0)
+			//	printf("RX_DATA %d) %s",remaining,response.rcv_data.buffer);
+			//memset(response.rcv_data.buffer, '\0', strlen(response.rcv_data.buffer));
+		}
+		//printf("\r\n");
+	}while (result != RSI_ERROR_NO_RX_PENDING);
+}
+
+void button_callback(uint8_t num, uint8_t value){
+	button_status[num] = !value;
+	button_changed = 1;
+}
+
+void getButtons(uint8_t * buttons){
+	int i;
+	for (i=0;i<3;i++){
+		buttons[i] = button_status[i];
 	}
 }

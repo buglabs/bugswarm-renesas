@@ -11,6 +11,8 @@
 #define YRDKRL78G13
 
 #include "../gen/r_cg_macrodriver.h"
+#include "../redpine/rsi_data_types.h"
+#include "../redpine/rsi_uart_api.h"
 
 /***********************************************************************************************************************
 * Sensor specific defines and structures
@@ -136,7 +138,17 @@ MD_STATUS read_light(lightData * dat);
 MD_STATUS setup_temp();
 MD_STATUS read_temp(tempData * dat);
 
+extern rsi_socketFrame_t      outsock;
+extern uint8 lib_rx_buffer1[250];
+extern uint8 lib_rx_buffer2[250];
+
 //LED manipulation
 void set_led(uint8_t num, uint8_t val);
 void toggle_led(uint8_t num);
+
+void sendButtonInfo();
+void doWork(uint16_t duration);
+void readData();
+void button_callback(uint8_t num, uint8_t value);
+void getButtons(uint8_t * buttons);
 #endif

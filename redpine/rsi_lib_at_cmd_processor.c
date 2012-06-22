@@ -187,6 +187,7 @@ rsi_read_data(void *rsp, uint16 *event)
   /* Handle receive data */
   if (strncmp ((char*)tmp_rx_buf, rsi_at_read_str, RSI_AT_READ_CMD_LEN) == 0)
   {
+	  //printf("rcv ");
     *event = RSI_EVENT_RX_DATA;
     rsi_process_recv_data(tmp_rx_buf + RSI_AT_READ_CMD_LEN, rsp);
     status = RSI_NOERROR;
@@ -194,6 +195,7 @@ rsi_read_data(void *rsp, uint16 *event)
   /* process socket close at command */
   else if (strncmp ((char*)tmp_rx_buf, rsi_at_sk_cls_str, RSI_AT_CLOSE_CMD_LEN) == 0)
   {
+	  //printf("sock ");
     *event =  RSI_EVENT_SOCKET_CLOSE;
     lib_sock_id = tmp_rx_buf[RSI_AT_CLOSE_CMD_LEN];
     if (lib_sock_id <= MAX_SOCKET_ID)
@@ -207,24 +209,31 @@ rsi_read_data(void *rsp, uint16 *event)
   {
     *event =  RSI_EVENT_SLEEP;
      status = RSI_NOERROR;
+     //printf("sleep ");
   }
   else /* Command response */
   {
      status  = rsi_read_cmd_rsp(rsp);
      if (status != RSI_ERROR_NO_CMD_RSP_PENDING)
      {
+	     //printf("cmd ");
        *event = RSI_EVENT_CMD_RESPONSE;
      }
      else
      {
+	//printf("oth ");
        status = RSI_ERROR_JUNK_PKT_RECVD;
+       rsi_process_raw_data(tmp_rx_buf, rsp);
+       rsi_update_read_buf();
+       //printf("(ot) ");
      }
      return status;
   }
-
+  
   if (*event)
   {
     rsi_update_read_buf();
+    //printf("(ev) ");
   }
 
   return status;
@@ -239,7 +248,7 @@ void rsi_update_read_buf(void)
   rsi_read_buf->pending = 0;
   rsi_read_buf->rx_buf_len = 0;
   rsi_read_buf = rsi_read_buf->next;
-  
+  //printf("CLR ");
   //READ_CHAR(); /*TODO Add code to flush UART RX FIFO */
   //ENABLE_RX_UART_INTERRUPT();
 }
@@ -289,7 +298,11 @@ rsi_read_cmd_rsp (void *rsp)
        ((tmp_rx_buf[0] == 'E') && (tmp_rx_buf[1] == 'R')) )
   {
     status = rsi_process_cmd_resp (tmp_rx_buf, rsi_read_buf->rx_buf_len, rsp);
+  //printf("(rcr) ");
   }
+  //TODO - ARG, this needs to be above, but it breaks normal AT command responses!
+  //More specfically, this needs to be in the if above
+  //But then it causes mysterious race conditions when initalizing the WIFI card.
   rsi_update_read_buf(); 
   
   return status;
@@ -692,6 +705,15 @@ rsi_process_recv_data(uint8 *at_cmd, void *rsp)
   return;
 }
 
+void rsi_process_raw_data(uint8 *at_cmd, void *rsp)
+{
+  rsi_recvSocketFrame_t * rcv = (rsi_recvSocketFrame_t*)rsp;
+
+  rcv->buffer = at_cmd;
+
+  return;
+}
+
 /*! @brief Initializes the Library
  */
 void rsi_lib_init(void)
@@ -722,7 +744,8 @@ void rsi_receive (void)
             (rsi_write_buf->rx_buf_len == rsi_write_buf->rx_buf_max_size)  )
     {
       rsi_write_buf->pending = 1;
-      rsi_write_buf = rsi_write_buf->next;           
+      rsi_write_buf = rsi_write_buf->next;     
+      //printf("NEW ");
     }
     tmp_rx_buf++;
   }
@@ -815,7 +838,9 @@ int16 rsi_getLine (uint8 * buffer, uint16 * maxLen)
     }
     else
     {
+	    
       rsi_update_read_buf();
+      //printf("(gl) ");
     }
     retval = RSI_NOERROR;
   }

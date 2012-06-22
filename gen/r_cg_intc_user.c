@@ -51,6 +51,7 @@ Includes
 #include "r_cg_intc.h"
 /* Start user code for include. Do not edit comment generated here */
 #include "r_cg_it.h"
+#include "../board/YRDKRL78G13.h"
 #include <stdio.h>
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -84,6 +85,7 @@ __interrupt static void r_intc0_interrupt(void)
 	intc0_stat = !intc0_old | ((P13 & (1 << 7))?1:0);
 	intc0_last = millis;
 	printf("BANG INTC0 %u\r\n", intc0_stat);
+	button_callback(0, intc0_stat);
 	intc0_old = intc0_stat;
     }
     /* End user code. Do not edit comment generated here */
@@ -102,6 +104,7 @@ __interrupt static void r_intc1_interrupt(void)
 	intc1_stat = !intc1_old | ((P5 & (1 << 0))?1:0);
 	intc1_last = millis;
 	printf("BANG INTC1 %u\r\n", intc1_stat);
+	button_callback(1, intc1_stat);
 	intc1_old = intc1_stat;
     }
     /* End user code. Do not edit comment generated here */
@@ -120,6 +123,7 @@ __interrupt static void r_intc2_interrupt(void)
 	intc2_stat = !intc2_old | ((P5 & (1 << 1))?1:0);
 	intc2_last = millis;
 	printf("BANG INTC2 %u\r\n", intc2_stat);
+	button_callback(2, intc2_stat);
 	intc2_old = intc2_stat;
     }
     /* End user code. Do not edit comment generated here */

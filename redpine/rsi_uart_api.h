@@ -424,6 +424,7 @@ enum RSI_MODULE_MODE
 #define  RSI_EVENT_RX_DATA          0x02
 #define  RSI_EVENT_SOCKET_CLOSE     0x04
 #define  RSI_EVENT_SLEEP            0x08
+#define	 RSI_EVENT_RAW_DATA	    0x10
 
 #endif
 

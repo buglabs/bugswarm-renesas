@@ -69,15 +69,15 @@ Global variables and functions
  * Adjust with care and an eye on a swarm console.
  * NOTE - this isn't a precise value, it does not take into effect the time
  * spent retrieving the sample and sending it out to swarm.*/
-#define UPDATE_PERIOD 2000
-//#define UPDATE_PERIOD 500
+#define UPDATE_PERIOD 1000
+#define NUM_SENSOR 5
 /* The number of messages to wait until sending out a swarm capabilities message
  */
 #define CAPABILITIES_PERIOD 10000
 
 const uint8_t * message = (const uint8_t *)"Hello World\r\n";
 
-char tempbuff[50];
+char tempbuff[200];
 int dataxRounded;
 int datayRounded;
 int num = 0;
@@ -85,18 +85,21 @@ int len;
 int seed;
 uint16_t status;
 uint16_t ret;
+uint16_t pot;
+uint16_t period;
+
 accelData last_accel;
 lightData last_light;
 tempData last_temp;
 
 api strApi;
 DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
-#define LIB_RX_BUF_SIZE       100
+#define LIB_RX_BUF_SIZE       200
 #define LIB_NETWORK_HDR_LEN   50
 
 rsi_socketFrame_t      insock;
 rsi_socketFrame_t      outsock;
-rsi_uUartRsp response;
+
 
 /* Swarm IDs
  * Edit the following values based on desired BUGSwarm configuration */
@@ -118,6 +121,7 @@ uint8 lib_rx_buffer2[LIB_RX_BUF_SIZE+LIB_NETWORK_HDR_LEN];
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
+
 void main(void)
 {
     /* Start user code. Do not edit comment generated here */
@@ -131,6 +135,7 @@ void main(void)
     R_INTC2_Start();
     printf(message);
     //Initialize i2c devices, give them time to start up
+    period = UPDATE_PERIOD;
     setup_accel();
     setup_light();
     setup_temp();
@@ -154,7 +159,10 @@ void main(void)
     ret = rsi_wifi_init (strApi.band, &strApi.ScanFrame, &strApi.JoinFrame, &strApi.IPparamFrame);     
     printf("%04x\r\n",ret);
     
-    seed = millis&0xFFFF;
+    read_accel(&last_accel);
+    read_light(&last_light);
+    read_temp(&last_temp);
+    seed = (millis+last_accel.xraw+last_accel.yraw+last_accel.zraw+last_light.light+last_temp.raw)&0xFFFF;
     srand(seed);
     do {
         insock.lport = rand();
@@ -202,77 +210,97 @@ void main(void)
     // open HTTP streaming socket to swarm by sending participation header 
       swarm_send_produce(swarm_id, resource_id, participation_key, &outsock);
       //Wait until we get headers and presence messages!
-      //TODO - actually read from the socket for this.
-      delay_ms(2000);
+      /*NOTE - the following does not work, this succeeds in waiting for the first line of data
+      	BUT it does not succeed in waiting until the *LAST* line of data
+	This causes us to send our 
+	The problem:
+	The rsi_uUartRsp struct doesn't expose the total byte length of the recieved packet!
+	Ideally, we would read this value, and then subtract the actual read amount each iteration
+	until we have read everything.
+	In theory we could just keep reading until the UART buffer is empty, but in practice the buffer clears
+	before the module sends the next line
+	We could:
+	A) Add a delay to readData to give the module time to send the next line
+	B) Try to reach into the raw uart buffer to snag the packet length
+	C) Totally rewrite the rsi_read_data functionality for our uses.
+      
+      status = 0;
+      while (status != 0x02){
+		readData();
+      }
+      */
+      doWork(2000);
       
       //delay_ms(2000);
       // Send capabilities message, assuming a webUI is listening for it 
-      /***capabilities_announce(&outsock);***/
+      //return;
+      capabilities_announce(&outsock);
     printf("Connected to Swarm!\r\n");
     /***delay_ms(500); ***/
     while (1U)
     {
-	ret = rsi_read_data((uint8*)&response,&status);
-	if (ret == RSI_ERROR_NO_RX_PENDING){
-		continue;
-	}
-	printf("read attempt: ret(%04x), status(%04x) ",ret,status);
-	switch (status) {
-	case RSI_EVENT_CMD_RESPONSE:
-		printf("CMD_RESPONSE");
-		break;
-	case RSI_EVENT_RX_DATA:		         
-		printf("RX_DATA");
-		break;		  
-	case RSI_EVENT_SOCKET_CLOSE:
-		printf("SOCKET_CLOSE");
-		break;
-	case RSI_EVENT_SLEEP:
-		printf("EVENT_SLEEP");
-		break;
-	default:
-		printf("UNKNOWN");
-	}
-	printf("\r\n");
 	toggle_led(5);
-	/***read_accel(&last_accel);
+	read_accel(&last_accel);
 	read_light(&last_light);
 	read_temp(&last_temp);
-	R_ADC_Get_Result(&ret);
+	R_ADC_Get_Result(&pot);
 	
-	printf("A(%f,%f,%f) L[%u] T<%f> {%04x} (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, ret, last_temp.time);
+	printf("A(%f,%f,%f) L[%u] T<%f> {%04x} (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, pot, last_temp.time);
+	
+	doWork(period/NUM_SENSOR);
 	
 	//Send accel:
 	memset(tempbuff, '\0', sizeof(tempbuff));
+	//sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f}}",
 	sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f,\"z\":%f}}",
 		last_accel.x, last_accel.y, last_accel.z);
 	printf("Sending %s\r\n",tempbuff);
+	readData();
         swarm_produce(tempbuff,&outsock);
+	readData();
 	
-	delay_ms(333);
+	doWork(period/NUM_SENSOR);
 	
 	//Send light:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Light\",\"feed\":{\"Value\":%u}}",
-		last_accel.x, last_accel.y, last_accel.z);
+		last_light.light);
 	printf("Sending %s\r\n",tempbuff);
+	readData();
         swarm_produce(tempbuff,&outsock);
+	readData();
 	
-	delay_ms(333);
+	doWork(period/NUM_SENSOR);
 	
 	//Send temp:
 	memset(tempbuff, '\0', sizeof(tempbuff));
-	sprintf(tempbuff, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%u}}",
-		last_accel.x, last_accel.y, last_accel.z);
+	sprintf(tempbuff, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%f}}",
+		last_temp.tempF);
 	printf("Sending %s\r\n",tempbuff);
+	readData();
         swarm_produce(tempbuff,&outsock);
+	readData();
 	
-	delay_ms(333);
+	doWork(period/NUM_SENSOR);
+	
+	//Send pot:
+	memset(tempbuff, '\0', sizeof(tempbuff));
+	sprintf(tempbuff, "{\"name\":\"Potentiometer\",\"feed\":{\"Raw\":%u}}",
+		pot);
+	printf("Sending %s\r\n",tempbuff);
+	readData();
+        swarm_produce(tempbuff,&outsock);
+	readData();
+	
+	//Send button:
+	//TODO - do this way better, move button checking to a work handler so it can be done OFTEN
 		
-	while((millis%UPDATE_PERIOD) != 0) { ; }
+	//while((millis%UPDATE_PERIOD) != 0) { ; }
 	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
+		readData();
            capabilities_announce(&outsock);
-        } ***/
+	   readData();
+        }
     }
     /* End user code. Do not edit comment generated here */
 }

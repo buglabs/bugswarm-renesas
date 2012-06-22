@@ -149,6 +149,7 @@ int16 rsi_process_cmd_resp (uint8 *rsp, uint16 len, uint8 *drsp);
 int16 rsi_process_at_cmd(rsi_recvSocketFrame_t *rcv, uint16 timeout);
 void  rsi_update_read_buf(void);
 void  rsi_process_recv_data(uint8 *at_cmd, void *rsp);
+void  rsi_process_raw_data(uint8 *at_cmd, void *rsp);
 
 #endif 
 
