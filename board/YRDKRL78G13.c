@@ -19,6 +19,7 @@
 #include <string.h>
 
 uint8_t i2cbuf[10];
+uint8_t mac_addr[6];
 char butbuff[100];
 const uint8_t * led_portmap[6] = {&P5, &P6, &P6, &P5, &P5, &P5};
 const uint8_t led_pinmap[6] = {5, 2, 3, 2, 3, 4};
@@ -28,6 +29,9 @@ uint16_t stat;
 int remaining;
 rsi_uUartRsp response;
 uint16_t result;
+
+rsi_socketFrame_t      insock;
+rsi_socketFrame_t      outsock;
 
 //Handle error reporting here, to spare r_main the complexity.
 void md_err(MD_STATUS ret, const char * where){
@@ -285,4 +289,65 @@ void getButtons(uint8_t * buttons){
 	for (i=0;i<3;i++){
 		buttons[i] = button_status[i];
 	}
+}
+
+boolean read_mac_addr(){
+    int i=0;
+    if( rsi_query_mac_addr() != RSI_NOERROR ) {
+          printf("Can't get MAC address\r\n"); 
+          return 0;       //If we cannot open a listening socket, do not continue    
+    }
+    do {
+        delay_ms(10);
+        stat = rsi_read_cmd_rsp(mac_addr);
+    } while (stat == RSI_ERROR_NO_RX_PENDING);
+    if (stat != RSI_NOERROR){
+          printf("Error retrieving MAC address %d\r\n", (signed int)stat); 
+          return 0;
+    }
+    printf("MAC address is ");
+    for (i=0;i<6;i++) {
+	printf("%02x",mac_addr[i]);    
+    }
+    printf("\r\n");	
+    return 1;
+}
+
+boolean openHTTPConnection(const char * hostname){
+	do {
+		insock.lport = rand();
+	} while (insock.lport < 1024);
+	outsock.rport = 80;
+	outsock.lport = insock.lport;
+	strcpy(outsock.remote_ip, hostname);
+	// OPEN listening socket 
+	if( rsi_socket_ltcp_open (&insock) != RSI_NOERROR ) {
+		printf("insock error\r\n"); 
+		return 0;       //If we cannot open a listening socket, do not continue
+	}
+	do {
+		delay_ms(10);
+		stat = rsi_read_cmd_rsp(&insock.handle);
+	} while (stat == RSI_ERROR_NO_RX_PENDING);
+	if (stat != RSI_NOERROR) {
+		printf("insock %X\r\n", (signed int)stat); 
+		return 0;       //If we cannot open a listening socket, do not continue
+	}
+
+	// Repeately try to connect to the swarm server until successful 
+	do {
+		if( rsi_socket_tcp_open (&outsock) != RSI_NOERROR ) {
+			printf("Outsock error\r\n"); 
+		}
+		do {
+	  		delay_ms(10);
+	  		stat = rsi_read_cmd_rsp(&outsock.handle);
+		} while (stat == RSI_ERROR_NO_RX_PENDING);
+		if (stat != RSI_NOERROR) {
+			printf("Can't connect to %s, retrying E%X\r\n", hostname, (signed int)stat);
+			delay_ms(1000);
+		}
+	} while (stat != RSI_NOERROR);	
+
+	return 1;
 }

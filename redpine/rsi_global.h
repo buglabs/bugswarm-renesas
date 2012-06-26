@@ -118,7 +118,7 @@
 #define POWER_LEVEL           POWER_LEVEL_HIGH
 
 /* Set the mac address of the module to this value */
-#define MAC_ADDRESS           "00:17:34:51:68:85" 
+#define MAC_ADDRESS           "00:01:02:03:04:05" 
 
 
   

@@ -149,4 +149,6 @@ boolean doWork(unsigned long duration);
 boolean readData();
 void button_callback(uint8_t num, uint8_t value);
 void getButtons(uint8_t * buttons);
+boolean read_mac_addr();
+boolean openHTTPConnection(const char *);
 #endif

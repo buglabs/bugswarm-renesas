@@ -97,15 +97,9 @@ DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
 #define LIB_RX_BUF_SIZE       200
 #define LIB_NETWORK_HDR_LEN   50
 
-rsi_socketFrame_t      insock;
-rsi_socketFrame_t      outsock;
-
-
 /* Swarm IDs
  * Edit the following values based on desired BUGSwarm configuration */
 const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
-//const char swarm_server_ip = "64.118.81.28";  //test.api.bugswarm.net
-//const char swarm_server_ip[] = "192.168.11.204";
 const char swarm_id[] =          "27e5a0e7e2e5445c51be56de44f45b19701f36d3";
 const char resource_id[] =       "b75538642bcadbdf4ae6d242d4f492266c11cb44";
 const char participation_key[] = "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b";
@@ -157,89 +151,32 @@ void main(void)
 	return;
     }
     printf("done!\r\n");
-    
+       
     printf("connecting to wifi ap...");
     ret = rsi_wifi_init (strApi.band, &strApi.ScanFrame, &strApi.JoinFrame, &strApi.IPparamFrame);     
     printf("%04x\r\n",ret);
+    
+    read_mac_addr();
     
     read_accel(&last_accel);
     read_light(&last_light);
     read_temp(&last_temp);
     seed = (millis+last_accel.xraw+last_accel.yraw+last_accel.zraw+last_light.light+last_temp.raw)&0xFFFF;
     srand(seed);
-    do {
-        insock.lport = rand();
-    } while (insock.lport < 1024);
-    printf("seed %04X port %04X", seed, insock.lport);
-    outsock.rport = 80;
-    outsock.lport = insock.lport;
-    strcpy(outsock.remote_ip, swarm_server_ip);
-    // OPEN listening socket 
-      if( rsi_socket_ltcp_open (&insock) != RSI_NOERROR )
-      {
-          printf("insock FAIL\r\n"); 
-          return;       //If we cannot open a listening socket, do not continue
-      }
-      do {
-        delay_ms(10);
-        status = rsi_read_cmd_rsp(&insock.handle);
-      } while (status == RSI_ERROR_NO_RX_PENDING);
-      if (status != RSI_NOERROR){
-          printf("insock %X\r\n", (signed int)status); 
-          return;       //If we cannot open a listening socket, do not continue
-      }
-      
-      // Repeately try to connect to the swarm server until successful 
-      do {
-        if( rsi_socket_tcp_open (&outsock) != RSI_NOERROR )
-        {
-            printf("outsock FAIL\r\n"); 
-        }
-        do {
-          delay_ms(10);
-          status = rsi_read_cmd_rsp(&outsock.handle);
-        } while (status == RSI_ERROR_NO_RX_PENDING);
-        if (status != RSI_NOERROR){
-            printf("Can't connect to SWARM, retrying E%X\r\n", (signed int)status);
-            delay_ms(1000);
-        }
-      } while (status != RSI_NOERROR);
     
-      printf("Connected to socket\r\n");
-      //required by subsequent calls to the at+rsi_snd function
-      //for TCP sockets, apparently these values need to be 0, after connecting...
-      outsock.rport=0;
-      strcpy(outsock.remote_ip, "0");
+    if (!openHTTPConnection(swarm_server_ip))
+    	goto reconnect;
+    
+    printf("Connected to socket\r\n");
+    strcpy(outsock.remote_ip, "0");
     // open HTTP streaming socket to swarm by sending participation header 
-      swarm_send_produce(swarm_id, resource_id, participation_key, &outsock);
-      //Wait until we get headers and presence messages!
-      /*NOTE - the following does not work, this succeeds in waiting for the first line of data
-      	BUT it does not succeed in waiting until the *LAST* line of data
-	This causes us to send our 
-	The problem:
-	The rsi_uUartRsp struct doesn't expose the total byte length of the recieved packet!
-	Ideally, we would read this value, and then subtract the actual read amount each iteration
-	until we have read everything.
-	In theory we could just keep reading until the UART buffer is empty, but in practice the buffer clears
-	before the module sends the next line
-	We could:
-	A) Add a delay to readData to give the module time to send the next line
-	B) Try to reach into the raw uart buffer to snag the packet length
-	C) Totally rewrite the rsi_read_data functionality for our uses.
+    swarm_send_produce(swarm_id, resource_id, participation_key, &outsock);
       
-      status = 0;
-      while (status != 0x02){
-		readData();
-      }
-      */
-      doWork(2000);
+    doWork(2000);
       
-      //delay_ms(2000);
-      // Send capabilities message, assuming a webUI is listening for it 
-      //return;
-      capabilities_announce(&outsock);
+    // Send capabilities message, assuming a webUI is listening for it 
+    capabilities_announce(&outsock);
     printf("Connected to Swarm!\r\n");
-    /***delay_ms(500); ***/
     while (1U)
     {
 	toggle_led(5);
@@ -258,11 +195,8 @@ void main(void)
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f,\"z\":%f}}",
 		last_accel.x, last_accel.y, last_accel.z);
-	//printf("Sending %s\r\n",tempbuff);
-	readData();
 	if (!swarm_produce(tempbuff,&outsock))
 		goto reconnect;
-	readData();
 	
 	if (!doWork(period/NUM_SENSOR))
 		goto reconnect;
@@ -271,11 +205,8 @@ void main(void)
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Light\",\"feed\":{\"Value\":%u}}",
 		last_light.light);
-	//printf("Sending %s\r\n",tempbuff);
-	readData();
         if (!swarm_produce(tempbuff,&outsock))
 		goto reconnect;
-	readData();
 	
 	if (!doWork(period/NUM_SENSOR))
 		goto reconnect;
@@ -284,11 +215,8 @@ void main(void)
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%f}}",
 		last_temp.tempF);
-	//printf("Sending %s\r\n",tempbuff);
-	readData();
         if (!swarm_produce(tempbuff,&outsock))
 		goto reconnect;
-	readData();
 	
 	if (!doWork(period/NUM_SENSOR))
 		goto reconnect;
@@ -297,11 +225,8 @@ void main(void)
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Potentiometer\",\"feed\":{\"Raw\":%u}}",
 		an4_last);
-	//printf("Sending %s\r\n",tempbuff);
-	readData();
         if (!swarm_produce(tempbuff,&outsock))
 		goto reconnect;
-	readData();
 	
 	if (!doWork(period/NUM_SENSOR))
 		goto reconnect;
@@ -310,17 +235,11 @@ void main(void)
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Sound Level\",\"feed\":{\"Raw\":%u}}",
 		mic_level);
-	//printf("Sending %s\r\n",tempbuff);
-	readData();
         if (!swarm_produce(tempbuff,&outsock))
 		goto reconnect;
-	readData();
-	
 		
 	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
-	   readData();
            capabilities_announce(&outsock);
-	   readData();
         }
     }
     /* End user code. Do not edit comment generated here */
