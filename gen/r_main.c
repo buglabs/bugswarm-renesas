@@ -85,7 +85,7 @@ int len;
 int seed;
 uint16_t status;
 uint16_t ret;
-uint16_t pot;
+uint16_t mic_level;
 uint16_t period;
 
 accelData last_accel;
@@ -141,12 +141,15 @@ void main(void)
     setup_temp();
     delay_ms(100);
 
+    reconnect:
+    
     /* Initialize UART and enable Module power and reset pins */  
     printf("initializing redpine device...");
     rsi_init();
     printf("done!\r\n");
     rsi_set_rx_buffer(lib_rx_buffer1, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
     rsi_set_rx_buffer(lib_rx_buffer2, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
+    
     printf("booting redpine device...");
     ret = rsi_boot_device();
     if (ret != RSI_NOERROR){
@@ -243,53 +246,62 @@ void main(void)
 	read_accel(&last_accel);
 	read_light(&last_light);
 	read_temp(&last_temp);
-	R_ADC_Get_Result(&pot);
 	
-	printf("A(%f,%f,%f) L[%u] T<%f> {%04x} (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, pot, last_temp.time);
+	mic_level = an5_max - 0x0200;
+	an5_max = 0;
+	printf("A(%f,%f,%f) L[%u] T<%f> {%04x} {%04x} (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, an4_last, mic_level, last_temp.time);
 	
-	doWork(period/NUM_SENSOR);
+	if (!doWork(period/NUM_SENSOR))
+		goto reconnect;
 	
 	//Send accel:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	//sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f}}",
 	sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f,\"z\":%f}}",
 		last_accel.x, last_accel.y, last_accel.z);
-	printf("Sending %s\r\n",tempbuff);
+	//printf("Sending %s\r\n",tempbuff);
 	readData();
-        swarm_produce(tempbuff,&outsock);
+	if (!swarm_produce(tempbuff,&outsock))
+		goto reconnect;
 	readData();
 	
-	doWork(period/NUM_SENSOR);
+	if (!doWork(period/NUM_SENSOR))
+		goto reconnect;
 	
 	//Send light:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Light\",\"feed\":{\"Value\":%u}}",
 		last_light.light);
-	printf("Sending %s\r\n",tempbuff);
+	//printf("Sending %s\r\n",tempbuff);
 	readData();
-        swarm_produce(tempbuff,&outsock);
+        if (!swarm_produce(tempbuff,&outsock))
+		goto reconnect;
 	readData();
 	
-	doWork(period/NUM_SENSOR);
+	if (!doWork(period/NUM_SENSOR))
+		goto reconnect;
 	
 	//Send temp:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%f}}",
 		last_temp.tempF);
-	printf("Sending %s\r\n",tempbuff);
+	//printf("Sending %s\r\n",tempbuff);
 	readData();
-        swarm_produce(tempbuff,&outsock);
+        if (!swarm_produce(tempbuff,&outsock))
+		goto reconnect;
 	readData();
 	
-	doWork(period/NUM_SENSOR);
+	if (!doWork(period/NUM_SENSOR))
+		goto reconnect;
 	
 	//Send pot:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Potentiometer\",\"feed\":{\"Raw\":%u}}",
-		pot);
-	printf("Sending %s\r\n",tempbuff);
+		an4_last);
+	//printf("Sending %s\r\n",tempbuff);
 	readData();
-        swarm_produce(tempbuff,&outsock);
+        if (!swarm_produce(tempbuff,&outsock))
+		goto reconnect;
 	readData();
 	
 	//Send button:

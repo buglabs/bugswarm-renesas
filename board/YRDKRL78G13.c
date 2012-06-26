@@ -13,6 +13,8 @@
 #include "r_cg_serial.h"
 #include "YRDKRL78G13.h"
 #include "../swarmlibs/swarm.h"
+#include "../redpine/rsi_uart_api.h"
+#include "../redpine/rsi_at_command_processor.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -222,53 +224,55 @@ void sendButtonInfo(){
         swarm_produce(butbuff,&outsock);
 }
 
-void doWork(uint16_t duration){
+boolean doWork(uint16_t duration){
 	uint16_t endTime = millis+duration;
 	while(millis < endTime){
-		readData();
+		if (!readData()){
+			return 0;
+		}
 		if (button_changed) {
 			sendButtonInfo();
 			button_changed = 0;
 		}
 	}
+	return 1;
 }
 
-void readData(){
-	struct rsi_recv_s * next;
+boolean readData(){
 	do {
-		result = rsi_read_data((uint8*)&response,&stat);
+		result = rsi_read_all_data((uint8*)&response,&stat);
 		if (result == RSI_ERROR_NO_RX_PENDING){
 			continue;
 		}
-		//printf("read attempt: ret(%04x), status(%04x) ",ret,status);
 		switch (stat) {
 		case RSI_EVENT_CMD_RESPONSE:
-			printf("CMD\r\n");
+			printf("CMD result(%04x), stat(%04x)\r\n",result,stat);
 			break;
 		case RSI_EVENT_RX_DATA:		         
 			remaining = response.rcv_data.buf_len-strlen(response.rcv_data.buffer);
-			//printf("(%d)\r\n",remaining);
-			//printf("(%d)%.40s\r\n",remaining,response.rcv_data.buffer);
-			//printf("RSI_EVENT_RX_DATA length: %04x\r\n",response.rcv_data.buf_len);
-			//if (strlen(response.rcv_data.buffer) > 0)
-			//	printf("NEW_RX_DATA %d->%d %s",response.rcv_data.buf_len,remaining,response.rcv_data.buffer);
-			//memset(response.rcv_data.buffer, '\0', strlen(response.rcv_data.buffer));
+			//printf("NEWD%s",response.rcv_data.buffer);
+			//printf("NEWD(%d)\r\n",remaining);
+			//printf("\r\n(%d)%s",remaining,response.rcv_data.buffer);
+			memset(response.rcv_data.buffer, '\0', 200);
 			break;		  
 		case RSI_EVENT_SOCKET_CLOSE:
-			printf("SOCK\r\n");
-			break;
+			printf("WARN: Socket closed!\r\n");
+			return 0;
 		case RSI_EVENT_SLEEP:
 			printf("SLEEP\r\n");
 			break;
-		default:
+		case RSI_EVENT_RAW_DATA:
 			remaining -= strlen(response.rcv_data.buffer);
-			//printf("(%d)%.40s\r\n",remaining,response.rcv_data.buffer);
-			//if (strlen(response.rcv_data.buffer) > 0)
-			//	printf("RX_DATA %d) %s",remaining,response.rcv_data.buffer);
-			//memset(response.rcv_data.buffer, '\0', strlen(response.rcv_data.buffer));
+			//printf("DATA%s",response.rcv_data.buffer);
+			//printf("DATA(%d)\r\n",remaining);
+			//printf("\r\n(%d)%s",remaining,response.rcv_data.buffer);
+			memset(response.rcv_data.buffer, '\0', 200);
+			break;
+		default:
+			printf("UNKNOWN DATA RECEIVED\r\n");
 		}
-		//printf("\r\n");
 	}while (result != RSI_ERROR_NO_RX_PENDING);
+	return 1;
 }
 
 void button_callback(uint8_t num, uint8_t value){

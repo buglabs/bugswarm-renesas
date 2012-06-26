@@ -190,5 +190,8 @@ void R_ADC_Set_OperationOff(void);
 void R_ADC_Get_Result(uint16_t * const buffer);
 
 /* Start user code for function. Do not edit comment generated here */
+extern uint16_t an4_last;
+extern uint16_t an5_last;
+extern uint16_t an5_max;
 /* End user code. Do not edit comment generated here */
 #endif

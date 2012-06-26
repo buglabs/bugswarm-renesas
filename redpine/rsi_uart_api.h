@@ -375,6 +375,7 @@ int16 rsi_cfg_get(void);
 
 int16  rsi_read_cmd_rsp (void *rsp);
 int16  rsi_read_data(void *rsp, uint16 *event);
+int16  rsi_read_all_data(void *rsp, uint16 *event);
 void   rsi_set_rx_buffer (uint8 *buffer, uint16 buf_size);
 
 int8 *bytes4ToAsciiDotAddr(uint8 *hexAddr, uint8 *strBuf);

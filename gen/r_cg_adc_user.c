@@ -51,6 +51,9 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
+uint16_t an4_last;
+uint16_t an5_last;
+uint16_t an5_max = 0;
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -62,6 +65,16 @@ Global variables and functions
 __interrupt static void r_adc_interrupt(void)
 {
     /* Start user code. Do not edit comment generated here */
+    if (ADS == _05_AD_INPUT_CHANNEL_5){
+	R_ADC_Get_Result(&an5_last);
+	if (an5_last > an5_max){
+		an5_max = an5_last;
+	}
+	ADS = _04_AD_INPUT_CHANNEL_4;    
+    } else {
+	R_ADC_Get_Result(&an4_last);
+	ADS = _05_AD_INPUT_CHANNEL_5;
+    }
     ADCS = 1U;  /* enable AD conversion */
     /* End user code. Do not edit comment generated here */
 }

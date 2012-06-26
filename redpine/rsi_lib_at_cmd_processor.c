@@ -139,8 +139,9 @@ rsi_send_cmd_to_device (uint8 * tx_buf, uint16 cmd_len)
   int16 status = 0;
   for (ii = 0; (ii < cmd_len) && (status == UART_NOERROR); ii++)
   {
-      if ((tx_buf[ii] == '\r') && (tx_buf[ii + 1] == '\n')
-          && (ii != (cmd_len - 2)))
+      //if ((tx_buf[ii] == '\r') && (tx_buf[ii + 1] == '\n')
+      //    && (ii != (cmd_len - 2)))
+      if ((tx_buf[ii] == '\r') && (tx_buf[ii + 1] == '\n'))
       {
           status = rsi_rputchar (0xDB);
           status = rsi_rputchar (0xDC);
@@ -170,6 +171,70 @@ rsi_send_cmd_to_device (uint8 * tx_buf, uint16 cmd_len)
  *  @retval RSI_ERROR_JUNK_PKT_RECVD if junk packet is received
  *
  */
+int16
+rsi_read_all_data(void *rsp, uint16 *event)
+{
+  int16 status = RSI_ERROR;
+  uint8 *tmp_rx_buf;
+  uint8 lib_sock_id;
+
+  if (!IS_RX_PENDING())
+    return RSI_ERROR_NO_RX_PENDING;
+
+  tmp_rx_buf = rsi_read_buf->rx_buf;
+  rsi_process_raw_data(tmp_rx_buf, rsp);
+  *event = RSI_EVENT_RAW_DATA;
+  rsi_update_read_buf();
+  return RSI_NOERROR;
+  
+  *event = 0;
+
+  /* Handle receive data (AT+RSI_READ) */
+  if (strncmp ((char*)tmp_rx_buf, rsi_at_read_str, RSI_AT_READ_CMD_LEN) == 0)
+  {
+    *event = RSI_EVENT_RX_DATA;
+    rsi_process_recv_data(tmp_rx_buf + RSI_AT_READ_CMD_LEN, rsp);
+    status = RSI_NOERROR;
+  }
+  /* process socket close at command (AT+RSI_CLOSE) */
+  else if (strncmp ((char*)tmp_rx_buf, rsi_at_sk_cls_str, RSI_AT_CLOSE_CMD_LEN) == 0)
+  {
+    *event =  RSI_EVENT_SOCKET_CLOSE;
+    lib_sock_id = tmp_rx_buf[RSI_AT_CLOSE_CMD_LEN];
+    if (lib_sock_id <= MAX_SOCKET_ID)
+    {
+      rsi_lib_sock_array[lib_sock_id] = LIB_PROTO_CLOSED;
+    }
+    *(uint8*)rsp = lib_sock_id;
+    status = RSI_NOERROR;
+  }
+  /* process sleep at command (AT+RSI_SLEEP) */
+  else if (strncmp ((char*)tmp_rx_buf, "SLEEP", 5) == 0)
+  {
+    *event =  RSI_EVENT_SLEEP;
+     status = RSI_NOERROR;
+  }
+  else /* Could either be an AT command response, or miscellaneous data */
+  {
+	/* Detect the command response */
+	if ( ((tmp_rx_buf[0] == 'O') && (tmp_rx_buf[1] == 'K')) ||
+	     ((tmp_rx_buf[0] == 'E') && (tmp_rx_buf[1] == 'R')) )
+	{
+	  *event = RSI_EVENT_CMD_RESPONSE;
+	  status = rsi_process_cmd_resp (tmp_rx_buf, rsi_read_buf->rx_buf_len, rsp);
+	} /* If it doesn't match the AT command response signature, this must be data */
+	else
+	{
+		*event = RSI_EVENT_RAW_DATA;
+		status = RSI_NOERROR;
+		rsi_process_raw_data(tmp_rx_buf, rsp);
+	}
+  }
+  
+  rsi_update_read_buf();
+  return status;
+}
+
 int16
 rsi_read_data(void *rsp, uint16 *event)
 {

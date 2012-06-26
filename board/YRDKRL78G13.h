@@ -139,16 +139,14 @@ MD_STATUS setup_temp();
 MD_STATUS read_temp(tempData * dat);
 
 extern rsi_socketFrame_t      outsock;
-extern uint8 lib_rx_buffer1[250];
-extern uint8 lib_rx_buffer2[250];
 
 //LED manipulation
 void set_led(uint8_t num, uint8_t val);
 void toggle_led(uint8_t num);
 
 void sendButtonInfo();
-void doWork(uint16_t duration);
-void readData();
+boolean doWork(uint16_t duration);
+boolean readData();
 void button_callback(uint8_t num, uint8_t value);
 void getButtons(uint8_t * buttons);
 #endif
