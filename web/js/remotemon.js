@@ -21,6 +21,19 @@ var plotOptions = {
     legend: { backgroundColor: "#5C5D60" },
     yaxes: [ { position: "left"}, { position: "right"} ]
 };
+    var gauge;
+    var gaugeData;
+    var gaugeOptions = {
+          width: 240,
+		  min: 0,
+          max: 120,
+          yellowFrom: 80,
+          yellowTo: 90,
+          redFrom: 90,
+          redTo: 120,
+          minorTicks: 5
+      }
+
 
 function onPresence(presence) {
     if (("swarm" in presence.from)&&(presence.from.resource != RESOURCE_ID)&&
@@ -39,14 +52,11 @@ function onPresence(presence) {
         } else {
             //console.log('Welcome new '+resource);
             resources[resource] = {count:1};
-            $('ul#resources').append('<li id='+resource+
-                '><button class="button reslist disabled" id='+resource+'>'+resource+'</button></li>');
-            $('button').filter('#'+resource).click(function(e){
-                var resource = e.target.id;
-                //console.log('selecting '+resource);
-                $('button.reslist').addClass('disabled');
-                $('button').filter('#'+resource).removeClass('disabled');
-                selectedResource = resource;
+            $('select#droplist').append('<OPTION VALUE='+resource+' id='+resource+'>'+resource+'</OPTION>');
+            $('button').click(function(e){
+                var resource = $("#droplist option:selected").val();
+                console.log('selecting '+resource);
+                selectedResource = resource
                 startTime = (new Date()).getTime();
                 accelX = new Array();
                 accelY = new Array();
@@ -63,14 +73,38 @@ function onPresence(presence) {
                     xhr.setRequestHeader("x-bugswarmapikey", CFG_KEY);
                 },
                 success: function(data){
-                    //console.log(data.id+' is named '+data.name);
-                    $('button').filter('#'+resource).html(data.name);
+                    console.log(data.id+' is named '+data.name);
+					$('option').filter('#'+resource).html(data.name);
                 }});
         }
     } else {
         //console.log('presence -> ' + JSON.stringify(presence));
     }
 }
+
+
+	function drawGauge() {
+      gaugeData = google.visualization.arrayToDataTable([
+        ['Temperature'],
+        [0]
+      ]);
+	 	gauge = new google.visualization.Gauge(document.getElementById('temp'));
+		//gauge.draw(gaugeData, gaugeOptions);
+	}
+	
+	  
+	  
+    
+
+    
+    function changeTemp(temp) {
+      gaugeData.setValue(0, 0, temp);
+      gauge.draw(gaugeData, gaugeOptions);
+    }
+    
+    
+    google.setOnLoadCallback(drawGauge);
+
 
 function onMessage(message) {
     if (message.from.resource !== selectedResource){
@@ -81,6 +115,7 @@ function onMessage(message) {
     if (!("name" in payload)){
         //console.log('data -> '+JSON.stringify(message));
     } else if (payload.name === "Acceleration"){
+		
         //console.log('accel: '+payload.feed.x+','+payload.feed.y+','+payload.feed.z);
         accelX.push([(currentTime-startTime)/1000,payload.feed.x]);
         accelY.push([(currentTime-startTime)/1000,payload.feed.y]);
@@ -94,10 +129,13 @@ function onMessage(message) {
     } else if (payload.name === "Temperature"){
         //console.log('temp: '+payload.feed.TempF);
         temp.push([(currentTime-startTime)/1000,payload.feed.TempF]);
-        if (temp.length > xAxisLength){
+/*        if (temp.length > xAxisLength){
             temp.shift();
         }
-        tempPlot = $.plot($('#tempChart'), [ temp ], plotOptions);
+*/		
+		changeTemp(Math.round(payload.feed.TempF*100)/100);
+		
+        //tempPlot = $.plot($('#tempChart'), [ temp ], plotOptions);
     } else if (payload.name === "Light"){
         //console.log('light: '+payload.feed.Value);
         light.push([(currentTime-startTime)/1000,payload.feed.Value]);
@@ -157,6 +195,11 @@ function onMessage(message) {
       //         tempdata.shift(); 
       //   }
 }
+
+
+
+
+
 function onError(error) {
 	alert(JSON.stringify(error));
    //console.log('error! -> ' + JSON.stringify(error));
