@@ -224,8 +224,8 @@ void sendButtonInfo(){
         swarm_produce(butbuff,&outsock);
 }
 
-boolean doWork(uint16_t duration){
-	uint16_t endTime = millis+duration;
+boolean doWork(unsigned long duration){
+	unsigned long endTime = millis+duration;
 	while(millis < endTime){
 		if (!readData()){
 			return 0;

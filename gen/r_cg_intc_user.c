@@ -84,7 +84,7 @@ __interrupt static void r_intc0_interrupt(void)
     if (millis > intc0_last + DEBOUNCE_TIME){
 	intc0_stat = !intc0_old | ((P13 & (1 << 7))?1:0);
 	intc0_last = millis;
-	printf("BANG INTC0 %u\r\n", intc0_stat);
+	//printf("BANG INTC0 %u\r\n", intc0_stat);
 	button_callback(0, intc0_stat);
 	intc0_old = intc0_stat;
     }
@@ -103,7 +103,7 @@ __interrupt static void r_intc1_interrupt(void)
     if (millis > intc1_last + DEBOUNCE_TIME){
 	intc1_stat = !intc1_old | ((P5 & (1 << 0))?1:0);
 	intc1_last = millis;
-	printf("BANG INTC1 %u\r\n", intc1_stat);
+	//printf("BANG INTC1 %u\r\n", intc1_stat);
 	button_callback(1, intc1_stat);
 	intc1_old = intc1_stat;
     }
@@ -122,7 +122,7 @@ __interrupt static void r_intc2_interrupt(void)
     if (millis > intc2_last + DEBOUNCE_TIME){
 	intc2_stat = !intc2_old | ((P5 & (1 << 1))?1:0);
 	intc2_last = millis;
-	printf("BANG INTC2 %u\r\n", intc2_stat);
+	//printf("BANG INTC2 %u\r\n", intc2_stat);
 	button_callback(2, intc2_stat);
 	intc2_old = intc2_stat;
     }

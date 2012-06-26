@@ -145,7 +145,7 @@ void set_led(uint8_t num, uint8_t val);
 void toggle_led(uint8_t num);
 
 void sendButtonInfo();
-boolean doWork(uint16_t duration);
+boolean doWork(unsigned long duration);
 boolean readData();
 void button_callback(uint8_t num, uint8_t value);
 void getButtons(uint8_t * buttons);
