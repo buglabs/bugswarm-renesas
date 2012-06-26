@@ -256,7 +256,6 @@ void main(void)
 	
 	//Send accel:
 	memset(tempbuff, '\0', sizeof(tempbuff));
-	//sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f}}",
 	sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f,\"z\":%f}}",
 		last_accel.x, last_accel.y, last_accel.z);
 	//printf("Sending %s\r\n",tempbuff);
@@ -304,12 +303,22 @@ void main(void)
 		goto reconnect;
 	readData();
 	
-	//Send button:
-	//TODO - do this way better, move button checking to a work handler so it can be done OFTEN
+	if (!doWork(period/NUM_SENSOR))
+		goto reconnect;
+	
+	//Send pot:
+	memset(tempbuff, '\0', sizeof(tempbuff));
+	sprintf(tempbuff, "{\"name\":\"Sound Level\",\"feed\":{\"Raw\":%u}}",
+		mic_level);
+	//printf("Sending %s\r\n",tempbuff);
+	readData();
+        if (!swarm_produce(tempbuff,&outsock))
+		goto reconnect;
+	readData();
+	
 		
-	//while((millis%UPDATE_PERIOD) != 0) { ; }
 	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
-		readData();
+	   readData();
            capabilities_announce(&outsock);
 	   readData();
         }

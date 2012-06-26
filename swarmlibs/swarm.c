@@ -43,7 +43,7 @@ boolean swarm_produce(char *message, struct rsi_socketFrame_s *sock){
   sock->buf_len = strlen((const char *)sock->buf);
   rsi_send(sock);
   okcode = rsi_read_cmd_rsp((char *)0);
-  if ((okcode == 0x0)||(okcode == 0x1)){
+  if ((okcode != 0xfe)&&(okcode != 0xf8)){
 	 rsi_update_read_buf();
   } else {
   	printf("produce returned %04x\r\n",okcode);
