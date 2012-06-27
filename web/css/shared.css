@@ -205,4 +205,9 @@ table#weather{
 th{
    padding: 3px 12px;
 }
+meter {
+    width: 300px;
+    height: 20px;
+    margin: 6px;
+}
 

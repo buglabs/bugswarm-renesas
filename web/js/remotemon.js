@@ -55,7 +55,7 @@ function onPresence(presence) {
             $('select#droplist').append('<OPTION VALUE='+resource+' id='+resource+'>'+resource+'</OPTION>');
             $('button').click(function(e){
                 var resource = $("#droplist option:selected").val();
-                console.log('selecting '+resource);
+                //console.log('selecting '+resource);
                 selectedResource = resource
                 startTime = (new Date()).getTime();
                 accelX = new Array();
@@ -73,7 +73,7 @@ function onPresence(presence) {
                     xhr.setRequestHeader("x-bugswarmapikey", CFG_KEY);
                 },
                 success: function(data){
-                    console.log(data.id+' is named '+data.name);
+                    //console.log(data.id+' is named '+data.name);
 					$('option').filter('#'+resource).html(data.name);
                 }});
         }
@@ -92,11 +92,6 @@ function onPresence(presence) {
 		//gauge.draw(gaugeData, gaugeOptions);
 	}
 	
-	  
-	  
-    
-
-    
     function changeTemp(temp) {
       gaugeData.setValue(0, 0, temp);
       gauge.draw(gaugeData, gaugeOptions);
@@ -154,37 +149,10 @@ function onMessage(message) {
         $('#b1').html(payload.feed.b1);
         $('#b2').html(payload.feed.b2);
         $('#b3').html(payload.feed.b3);
-    } else if (payload.name === "LED"){
-        $('#LED1').html(payload.feed.led1);
-        if (payload.feed.led1)
-            $('#LED1').addClass('red');
-        else
-            $('#LED1').removeClass('red');
-        $('#LED2').html(payload.feed.led2);
-        if (payload.feed.led2)
-            $('#LED2').addClass('red');
-        else
-            $('#LED2').removeClass('red');
-        $('#LED3').html(payload.feed.led3);
-        if (payload.feed.led3)
-            $('#LED3').addClass('red');
-        else
-            $('#LED3').removeClass('red');
-        $('#LED4').html(payload.feed.led4);
-        if (payload.feed.led4)
-            $('#LED4').addClass('green');
-        else
-            $('#LED4').removeClass('green');
-        $('#LED5').html(payload.feed.led5);
-        if (payload.feed.led5)
-            $('#LED5').addClass('green');
-        else
-            $('#LED5').removeClass('green');
-        $('#LED6').html(payload.feed.led6);
-        if (payload.feed.led6)
-            $('#LED6').addClass('green');
-        else
-            $('#LED6').removeClass('green');
+    } else if (payload.name === "Sound Level"){
+        //console.log(JSON.stringify(payload));
+        $('span#soundlevel').html(payload.feed.Raw);
+        $('meter').attr('value',parseInt(payload.feed.Raw));
     }
    //var payload = JSON.parse(message).message.payload;
    //console.log('Got data '+JSON.stringify(payload));

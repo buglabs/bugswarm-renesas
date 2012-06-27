@@ -5,6 +5,9 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="minimum-scale=1.0, maximum-scale=1.0, width=device-width" >
 <meta http-equiv="X-UA-Compatible" content="IE=9" >
+<!--[if lt IE 9]>
+<script src="dist/html5shiv.js"></script>
+<![endif]-->
 <script type="text/javascript" src="js/json2.js"></script>
 <script type="text/javascript" src="js/excanvas/excanvas.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -73,25 +76,9 @@
     <div class=chart id="potChart"></div>
   </div>
   <div id="ledContainer">
-    <h3>LED Control</h3>
-    <table id=ledTable>
-      <tr>
-        <th>LED 1</th>
-        <th>LED 2</th>
-        <th>LED 3</th>
-        <th>LED 4</th>
-        <th>LED 5</th>
-        <th>LED 6</th>
-      </tr>
-      <tr>
-        <td id=LED1>0</td>
-        <td id=LED2>0</td>
-        <td id=LED3>0</td>
-        <td id=LED4>0</td>
-        <td id=LED5>0</td>
-        <td id=LED6>0</td>
-      </tr>
-    </table>
+      <h3>Sound Level</h3>
+      <span id=soundlevel class=center>0</span></br>
+      <meter value="0" min="0" max="320"></meter>
   </div>
   </table>
 </div>
