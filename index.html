@@ -1,70 +1,90 @@
-<!doctype html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Bugswarm-renesas by buglabs</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-  </head>
-  <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/buglabs/bugswarm-renesas">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/buglabs/bugswarm-renesas/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/buglabs/bugswarm-renesas/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Bugswarm-renesas</h1>
-          <p>A BUGswarm connector for Renesas 8- and 16-bit microcontrollers.</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/buglabs">buglabs</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
-        </div>
-
-        <h2>bugswarm-renesas:</h2>
-
-<p>A bugswarm connector for Renesas 8- and 16-bit microcontrollers.</p>
-
-<h3>Supported Boards</h3>
-
-<ul>
-<li> RL78/G13 Demonstration Kit (YRDKRL78G13) with the Redpine companion WiFi Card (RS-RL78G13-2200CC)</li>
-</ul><h3>Status</h3>
-
-<ul>
-<li> The following sensors are exposed:
-
-<ol>
-<li>3-axis Accelerometer</li>
-<li>Temperature</li>
-<li>Ambient Light</li>
-<li>Potentiometer Position</li>
-<li>Sound Level</li>
-<li>Button status.</li>
-</ol>
-</li>
-</ul>
-      </section>
-
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-    
-  </body>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="minimum-scale=1.0, maximum-scale=1.0, width=device-width" >
+<meta http-equiv="X-UA-Compatible" content="IE=9" >
+<!--[if lt IE 9]>
+<script src="dist/html5shiv.js"></script>
+<![endif]-->
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/excanvas/excanvas.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
+<script type="text/javascript" src="http://flot.googlecode.com/svn/trunk/jquery.flot.js"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['gauge']});
+    </script>
+<link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/shared.css" type="text/css">
+<title>Bug Swarm Renesas Demo Portal</title>
+</head>
+<body>
+<script type="text/javascript" src="js/remotemon.js"></script>
+<div id=wrap>
+<div id="header">
+  <ul id="logos">
+    <li> <a href="http://buglabs.net" id="buglabs-logo"> <img src="images/buglabs.gif" alt="buglabs"> </a> </li>
+    <li> <a href="http://buglabs.net/bugswarm" id="bugswarm-logo"> <img src="images/bs_logo.png" alt="bugswarm"> </a> </li>
+  </ul>
+</div>
+<!-- end of header div -->
+<div id="content" class=center>
+<h1>Renesas RL78/G13 Network Portal</h1>
+<div id="resourcelist" class=left>
+<SELECT NAME="droplist" id="droplist">
+  <OPTION SELECTED="SELECTED" VALUE=" ">Select an RL78/G13 board to view:</OPTION>
+</SELECT>
+<button type="button" id="populate">Go!</button>
+<ul class=reslist id="resources"><li></li></ul>
+</div>
+<div id="leftContent">
+  <div id="accelContainer">
+    <h3>Acceleration</h3>
+    <div class=chart id="accelChart"></div>
+  </div>
+  <div id="lightContainer">
+    <h3>Light Level</h3>
+    <div class=chart id="lightChart"></div>
+  </div>
+  <div id="buttonContainer">
+    <h3>Button Status</h3>
+    <table id=buttonTable>
+      <tr>
+        <th>Button 1</th>
+        <th>Button 2</th>
+        <th>Button 3</th>
+      </tr>
+      <tr>
+        <td id=b1>0</td>
+        <td id=b2>0</td>
+        <td id=b3>0</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div id="rightContent">
+  <div id="tempContainer">
+    <h3>Temperature</h3>
+    <div class="guage" id="temp"></div>
+<!--    <div class=chart id="tempChart"></div>-->
+  </div>
+  <div id="potContainer">
+    <h3>Potentiometer</h3>
+    <div class=chart id="potChart"></div>
+  </div>
+  <div id="ledContainer">
+      <h3>Sound Level</h3>
+      <span id=soundlevel class=center>0</span></br>
+      <meter value="0" min="0" max="320"></meter>
+  </div>
+  </table>
+</div>
+</div>
+<!-- end of content div -->
+</div>
+<!-- end of wrap div -->
+</body>
 </html>
