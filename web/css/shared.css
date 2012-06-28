@@ -15,7 +15,7 @@ body {
 #header {
   width: 960px;
   height: 110px;
-  background: rgba(50,50,50,0.5);
+  /*background: rgba(50,50,50,0.5);*/
   border-radius: 3px;
   margin-bottom: 10px;
 }
@@ -46,10 +46,16 @@ ul.reslist li {
     text-align: center;
 }
 .chart {
-    width: 800px;
+    width: 450px;
     height: 250px;
-    text-align: center;
-    display: inline-block;
+    display: inline-table;
+}
+.guage {
+	text-align: center;
+	width: 450px; 
+	height: 250px;
+	position: relative;
+	left: 100px;
 }
 ul#logos {
   text-align: center;
@@ -62,11 +68,15 @@ ul#logos li {
 }
 #header #buglabs-logo {
   float: left;
+  position: relative;
+  right: 300px;
   margin-top: 10px;
   margin-left: 30px;
 }
 #header #bugswarm-logo {
   float: left;
+  position: relative ;
+  left: 280px;
   margin-top: 50px;
   margin-left: 30px;
 }
@@ -83,10 +93,45 @@ ul#logos li {
 }
 #content {
   width: 960px;
-  background: rgba(50,50,50,0.5);
+  /*background: rgba(50,50,50,0.5);*/
   border-radius: 3px;
   padding: 1px;
+  text-align:center;
 }
+
+h1 {text-align: left;}
+h3 {text-align: left; background-color:#333; padding-left:7px; padding-top:5px; padding-bottom:5px;}
+
+#guage{text-align: center;
+	width: 300px; 
+	height: 250px;
+	}
+
+#leftContent {
+	float: left;
+  position: relative ;
+  left: 10px;
+
+	/*position: absolute;
+	left: 250px;*/
+}
+#accelContainer {background: rgba(50,50,50,0.5); padding:0px 0px 0px 0px;}
+#lightContainer {background: rgba(50,50,50,0.5); padding:.5px 0px 0px 0px;}
+#buttonContainer {background: rgba(50,50,50,0.5); padding:.5px 0px 0px 0px;}
+#tempContainer{background: rgba(50,50,50,0.5); padding:.5px 0px 0px 0px;}
+#potContainer{background: rgba(50,50,50,0.5); padding:.5px 0px 0px 0px;}
+#ledContainer {background: rgba(50,50,50,0.5); padding:.5px 0px 0px 0px;}
+
+#rightContent {
+  float: left;
+  position: relative ;
+  left: 75px;
+
+	/*position: absolute;
+	right: 250px;*/
+	}
+
+/*
 .button {
     display: inline-block;
     outline: none;
@@ -102,14 +147,16 @@ ul#logos li {
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     box-shadow: 0 1px 2px rgba(0,0,0,.2);*/
-}
-.button:hover {
+
+
+/*.button:hover {
     text-decoration: none;
-}
+}*/
+/*
 .button:active {
     position: relative;
     top: 1px;
-}
+}*/
 .red {
     background: red;
 }
@@ -156,6 +203,11 @@ table#weather{
    text-align:center;
 }
 th{
-   padding: 5px 20px;
+   padding: 3px 12px;
+}
+meter {
+    width: 300px;
+    height: 20px;
+    margin: 6px;
 }
 
