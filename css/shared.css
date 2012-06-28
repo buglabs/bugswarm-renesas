@@ -64,7 +64,7 @@ ul#logos {
 }
 ul#logos li {
   display: inline-block;
-  margin: 0 auto;
+  margin: 0;
 }
 #header #buglabs-logo {
   float: left;
@@ -72,6 +72,7 @@ ul#logos li {
   right: 300px;
   margin-top: 10px;
   margin-left: 30px;
+  overflow: hidden;
 }
 #header #bugswarm-logo {
   float: left;

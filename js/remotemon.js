@@ -19,7 +19,23 @@ var plotOptions = {
     series: { shadowSize: 0 }, // drawing is faster without shadows
     grid: { color: "#FFF" },
     legend: { backgroundColor: "#5C5D60" },
-    yaxes: [ { position: "left"}, { position: "right"} ]
+    yaxis: { position: "left"}
+};
+var accelOptions = {
+    series: { shadowSize: 0 }, // drawing is faster without shadows
+    grid: { color: "#FFF" },
+    legend: { backgroundColor: "#5C5D60" },
+    yaxis: { position: "left",
+			 min: -1.5,
+			 max: 1.5 }
+};
+var potOptions = {
+    series: { shadowSize: 0 }, // drawing is faster without shadows
+    grid: { color: "#FFF" },
+    legend: { backgroundColor: "#5C5D60" },
+    yaxis: { position: "left",
+			 min: -10,
+			 max: 1200 }
 };
     var gauge;
     var gaugeData;
@@ -120,7 +136,7 @@ function onMessage(message) {
             accelY.shift();
             accelZ.shift();
         }
-        accelPlot = $.plot($('#accelChart'), [ accelX, accelY, accelZ ], plotOptions);
+        accelPlot = $.plot($('#accelChart'), [ accelX, accelY, accelZ ], accelOptions);
     } else if (payload.name === "Temperature"){
         //console.log('temp: '+payload.feed.TempF);
         temp.push([(currentTime-startTime)/1000,payload.feed.TempF]);
@@ -144,14 +160,14 @@ function onMessage(message) {
         if (pot.length > xAxisLength){
             pot.shift();
         }
-        potPlot = $.plot($('#potChart'), [ pot ], plotOptions);
+        potPlot = $.plot($('#potChart'), [ pot ], potOptions);
     } else if (payload.name === "Button"){
         $('#b1').html(payload.feed.b1);
         $('#b2').html(payload.feed.b2);
         $('#b3').html(payload.feed.b3);
     } else if (payload.name === "Sound Level"){
         //console.log(JSON.stringify(payload));
-        $('span#soundlevel').html(payload.feed.Raw);
+        $('span#soundlevel').html((parseInt(payload.feed.Raw)/5)+20);
         $('meter').attr('value',parseInt(payload.feed.Raw));
     }
    //var payload = JSON.parse(message).message.payload;
