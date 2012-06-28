@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for WDT module.
-* Creation Date: 4/16/2012
+* Creation Date: 6/28/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -62,9 +62,9 @@ void R_WDT_Create(void)
 {
     WDTIMK = 1U;    /* disable INTWDTI interrupt */
     WDTIIF = 0U;    /* clear INTWDTI interrupt flag */
-    /* Set INTWDTI low priority */
-    WDTIPR1 = 1U;
-    WDTIPR0 = 1U;
+    /* Set INTWDTI high priority */
+    WDTIPR1 = 0U;
+    WDTIPR0 = 0U;
     WDTIMK = 0U;    /* enable INTWDTI interrupt */
 }
 

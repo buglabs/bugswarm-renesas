@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements system initializing function.
-* Creation Date: 6/4/2012
+* Creation Date: 6/28/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -46,6 +46,7 @@ Includes
 #include "r_cg_intc.h"
 #include "r_cg_serial.h"
 #include "r_cg_adc.h"
+#include "r_cg_wdt.h"
 #include "r_cg_it.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
@@ -73,6 +74,7 @@ void R_Systeminit(void)
     R_SAU1_Create();
     R_IICA0_Create();
     R_ADC_Create();
+    R_WDT_Create();
     R_IT_Create();
     R_INTC_Create();
     CRC0CTL = 0x00U;

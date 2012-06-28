@@ -21,6 +21,7 @@
 uint8_t i2cbuf[10];
 uint8_t mac_addr[6];
 char butbuff[100];
+char compbuff[250];
 const uint8_t * led_portmap[6] = {&P5, &P6, &P6, &P5, &P5, &P5};
 const uint8_t led_pinmap[6] = {5, 2, 3, 2, 3, 4};
 uint8_t button_status[3] = {0, 0, 0};
@@ -29,6 +30,7 @@ uint16_t stat;
 int remaining;
 rsi_uUartRsp response;
 uint16_t result;
+uint8_t errcounter;
 
 rsi_socketFrame_t      insock;
 rsi_socketFrame_t      outsock;
@@ -244,20 +246,28 @@ boolean doWork(unsigned long duration){
 
 boolean readData(){
 	do {
-		result = rsi_read_all_data((uint8*)&response,&stat);
+		result = rsi_read_data((uint8*)&response,&stat);
 		if (result == RSI_ERROR_NO_RX_PENDING){
 			continue;
 		}
 		switch (stat) {
 		case RSI_EVENT_CMD_RESPONSE:
-			printf("CMD result(%04x), stat(%04x)\r\n",result,stat);
+			//printf("CMD result(%04x), stat(%04x)\r\n",result,stat);
+			if (result > 0x00f0U){
+				errcounter++;
+			} else {
+				errcounter = 0;
+			}
+			if (errcounter > 10){
+				printf("Multiple error responses returned, restarting\r\n");
+				return 0;
+			}
 			break;
-		case RSI_EVENT_RX_DATA:		         
-			remaining = response.rcv_data.buf_len-strlen(response.rcv_data.buffer);
-			//printf("NEWD%s",response.rcv_data.buffer);
-			//printf("NEWD(%d)\r\n",remaining);
-			//printf("\r\n(%d)%s",remaining,response.rcv_data.buffer);
-			memset(response.rcv_data.buffer, '\0', 200);
+		case RSI_EVENT_RX_DATA:	
+			//remaining = response.rcv_data.buf_len-len;
+			//lookFor(response.rcv_data.buffer,"Renesas01");
+			//memset(response.rcv_data.buffer, '\0', 200);
+			delay_ms(20);
 			break;		  
 		case RSI_EVENT_SOCKET_CLOSE:
 			printf("WARN: Socket closed!\r\n");
@@ -266,17 +276,41 @@ boolean readData(){
 			printf("SLEEP\r\n");
 			break;
 		case RSI_EVENT_RAW_DATA:
-			remaining -= strlen(response.rcv_data.buffer);
-			//printf("DATA%s",response.rcv_data.buffer);
-			//printf("DATA(%d)\r\n",remaining);
-			//printf("\r\n(%d)%s",remaining,response.rcv_data.buffer);
-			memset(response.rcv_data.buffer, '\0', 200);
+			delay_ms(20);
+			//remaining -= strlen(response.rcv_data.buffer);
+			//lookFor(response.rcv_data.buffer,"Renesas01");
+			//memset(response.rcv_data.buffer, '\0', 200);
 			break;
 		default:
-			printf("UNKNOWN DATA RECEIVED\r\n");
+			delay_ms(20);
+			//printf("UNKNOWN DATA RECEIVED\r\n");
 		}
 	}while (result != RSI_ERROR_NO_RX_PENDING);
 	return 1;
+}
+
+void lookFor(char * line, const char * key) {
+	int i;
+	int j;
+	int len;
+	int keylen;
+	keylen = strlen(key);
+	if (strcmp(line,key) > 0 ){
+		printf("!");
+		strcpy(compbuff, line);
+		len = strlen(compbuff);		
+		//strstr() isn't working for me here, my quick n dirty version:
+		for (i=0;i<len;i++){
+			for (j=0;j<keylen;j++){
+				if (compbuff[i] != key[j]){
+					break;
+				}
+			}
+			printf("Found: %s\r\n",compbuff+i);
+		}
+		
+	}
+	memset(compbuff, '\0', len);
 }
 
 void button_callback(uint8_t num, uint8_t value){
@@ -313,6 +347,11 @@ boolean read_mac_addr(){
     return 1;
 }
 
+boolean closeConnection(){
+	rsi_socket_close(outsock.handle);
+	return (rsi_socket_close(insock.handle) > 0);
+}
+
 boolean openHTTPConnection(const char * hostname){
 	do {
 		insock.lport = rand();
@@ -325,6 +364,7 @@ boolean openHTTPConnection(const char * hostname){
 		printf("insock error\r\n"); 
 		return 0;       //If we cannot open a listening socket, do not continue
 	}
+	printf("insock open sent, waiting for response...");
 	do {
 		delay_ms(10);
 		stat = rsi_read_cmd_rsp(&insock.handle);
@@ -333,16 +373,19 @@ boolean openHTTPConnection(const char * hostname){
 		printf("insock %X\r\n", (signed int)stat); 
 		return 0;       //If we cannot open a listening socket, do not continue
 	}
+	printf("...insock open.\r\n");
 
 	// Repeately try to connect to the swarm server until successful 
 	do {
 		if( rsi_socket_tcp_open (&outsock) != RSI_NOERROR ) {
 			printf("Outsock error\r\n"); 
 		}
+		printf("outsock open sent, waiting for response...");
 		do {
 	  		delay_ms(10);
 	  		stat = rsi_read_cmd_rsp(&outsock.handle);
 		} while (stat == RSI_ERROR_NO_RX_PENDING);
+		printf("...response recieved\r\n");
 		if (stat != RSI_NOERROR) {
 			printf("Can't connect to %s, retrying E%X\r\n", hostname, (signed int)stat);
 			delay_ms(1000);

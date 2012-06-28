@@ -223,6 +223,29 @@
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
     </Instance>
+    <Instance Guid="63762536-93e5-4cf3-97b1-a5bfb49effce">
+      <Name>r_cg_wdt.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_wdt.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>4a0d0585-2fe6-4c51-b6ef-bf3dced6b045</Property>
+    </Instance>
+    <Instance Guid="40750d31-9e79-4746-a1e3-76b2184c73fb">
+      <Name>r_cg_wdt_user.c</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_wdt_user.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>9427ad4d-098a-4bbb-bc06-43c463ea3d89</Property>
+    </Instance>
+    <Instance Guid="a9b9df95-693d-4692-ae5b-d6e4be5eaa82">
+      <Name>r_cg_wdt.h</Name>
+      <Type>File</Type>
+      <RelativePath>gen\r_cg_wdt.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+    </Instance>
     <Instance Guid="9353556a-647d-41ad-9abb-608604ac5736">
       <Name>YRDKRL78G13.c</Name>
       <Type>File</Type>
@@ -452,6 +475,9 @@
     <Instance Guid="58371322-c2c8-47b9-863c-d7550bc31b1b">
       <MemoCount>0</MemoCount>
     </Instance>
+    <Instance Guid="1f68b0e3-6a81-40e8-b2e4-01b0e3f449ff">
+      <MemoCount>0</MemoCount>
+    </Instance>
     <Instance Guid="68390edd-c16b-49b9-9a4f-76ae9f9389e1">
       <MemoCount>0</MemoCount>
     </Instance>
@@ -521,7 +547,10 @@
     <Instance Guid="fe37a2a3-591a-450f-83ea-f55165c7f2e8">
       <MemoCount>0</MemoCount>
     </Instance>
-    <Instance Guid="1f68b0e3-6a81-40e8-b2e4-01b0e3f449ff">
+    <Instance Guid="9427ad4d-098a-4bbb-bc06-43c463ea3d89">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="4a0d0585-2fe6-4c51-b6ef-bf3dced6b045">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -625,7 +654,11 @@
       <SourceItemType24>CSource</SourceItemType24>
       <SourceItemGuid25>da9a7650-4fcc-4b5f-8777-667336445cdd</SourceItemGuid25>
       <SourceItemType25>CSource</SourceItemType25>
-      <SourceItemCount>26</SourceItemCount>
+      <SourceItemGuid26>63762536-93e5-4cf3-97b1-a5bfb49effce</SourceItemGuid26>
+      <SourceItemType26>CSource</SourceItemType26>
+      <SourceItemGuid27>40750d31-9e79-4746-a1e3-76b2184c73fb</SourceItemGuid27>
+      <SourceItemType27>CSource</SourceItemType27>
+      <SourceItemCount>28</SourceItemCount>
       <VfiSourceItemCount>0</VfiSourceItemCount>
     </Instance>
     <Instance Guid="e6d45d58-de50-4ae7-8d7f-320171fa9617">
@@ -897,7 +930,7 @@ gen
       <FlashStartAddress-DefaultValue />
       <BootAreaModuleFile-DefaultValue />
       <AllocationControlOfSelfRandomAccessMemory-DefaultValue>No</AllocationControlOfSelfRandomAccessMemory-DefaultValue>
-      <TimeTagModified--0>-8588667469648340864</TimeTagModified--0>
+      <TimeTagModified--0>-8588607063078420384</TimeTagModified--0>
       <DebugInformation-0>True</DebugInformation-0>
       <ErrorListFile-0>False</ErrorListFile-0>
       <LibraryFiles-0 />
@@ -924,7 +957,7 @@ gen
       <StartAddressOfOnChipDebugOptionBytes-0>FE00</StartAddressOfOnChipDebugOptionBytes-0>
       <SizeOfOnChipDebugOptionBytesArea-0>512</SizeOfOnChipDebugOptionBytesArea-0>
       <UserOptionBytes-0>True</UserOptionBytes-0>
-      <UserOptionBytesValue-0>EFFFE8</UserOptionBytesValue-0>
+      <UserOptionBytesValue-0>7FFFE8</UserOptionBytesValue-0>
       <MirrorSourceArea-0>Maa0</MirrorSourceArea-0>
       <NumberOfLinesPerPage-0>0</NumberOfLinesPerPage-0>
       <SegmentInfoBottomOf64Kbytes-0>False</SegmentInfoBottomOf64Kbytes-0>
@@ -1032,7 +1065,7 @@ gen
       <VariableInformationFile-DefaultValue>False</VariableInformationFile-DefaultValue>
       <VariableInformationFolder-DefaultValue>%BuildModeName%</VariableInformationFolder-DefaultValue>
       <VariableInformationFileName-DefaultValue>%ProjectName%.vfi</VariableInformationFileName-DefaultValue>
-      <TimeTagModified--0>-8588667469648340864</TimeTagModified--0>
+      <TimeTagModified--0>-8588607063078420384</TimeTagModified--0>
       <Margin-0>0</Margin-0>
       <OutputRomRamUsage-0>False</OutputRomRamUsage-0>
       <VariableInformationFile-0>False</VariableInformationFile-0>
@@ -1215,6 +1248,18 @@ gen
       <ItemAddTime>634710369746598416</ItemAddTime>
       <ItemAddTimeCount>2</ItemAddTimeCount>
     </Instance>
+    <Instance Guid="63762536-93e5-4cf3-97b1-a5bfb49effce">
+      <ItemAddTime>634764722287189968</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="40750d31-9e79-4746-a1e3-76b2184c73fb">
+      <ItemAddTime>634764722287189968</ItemAddTime>
+      <ItemAddTimeCount>1</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="a9b9df95-693d-4692-ae5b-d6e4be5eaa82">
+      <ItemAddTime>634764722287189968</ItemAddTime>
+      <ItemAddTimeCount>2</ItemAddTimeCount>
+    </Instance>
     <Instance Guid="2317529b-91c1-49b6-8351-6d8f51718b0d">
       <TimeTagModified-SourceItem0--0>-8588668385526850640</TimeTagModified-SourceItem0--0>
       <SourceItem0-BuildingTarget-0>True</SourceItem0-BuildingTarget-0>
@@ -1295,6 +1340,12 @@ gen
       <TimeTagModified-SourceItem25--0>-8588662963021415694</TimeTagModified-SourceItem25--0>
       <SourceItem25-BuildingTarget-0>True</SourceItem25-BuildingTarget-0>
       <SourceItem25-IndividualCompileOption-0>False</SourceItem25-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem26--0>-8588607062567185264</TimeTagModified-SourceItem26--0>
+      <SourceItem26-BuildingTarget-0>True</SourceItem26-BuildingTarget-0>
+      <SourceItem26-IndividualCompileOption-0>False</SourceItem26-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem27--0>-8588607062566584400</TimeTagModified-SourceItem27--0>
+      <SourceItem27-BuildingTarget-0>True</SourceItem27-BuildingTarget-0>
+      <SourceItem27-IndividualCompileOption-0>False</SourceItem27-IndividualCompileOption-0>
     </Instance>
   </Class>
   <Class Guid="44fa27c9-0aa0-4297-bd3b-2c5c5bdb8881">
@@ -1822,7 +1873,7 @@ gen
     &lt;StartAddressOfOnChipDebugOptionBytes Name="GOStart" Text="FE00" /&gt;
     &lt;SizeOfOnChipDebugOptionBytesArea Name="GOSizeValue" Text="512" /&gt;
     &lt;UserOptionBytes Name="GB" Text="1" /&gt;
-    &lt;UserOptionBytesValue Name="GBValue" Text="EFFFE8" /&gt;
+    &lt;UserOptionBytesValue Name="GBValue" Text="FFFFE8" /&gt;
     &lt;RAMStartAddress Chip="R5F1006E,R5F1007E,R5F1008E,R5F100AE,R5F100BE,R5F100CE,R5F100EE,R5F100FE,R5F100GE,R5F100JE,R5F100LE" Name="RAMStartAddress" Fixed="" Text="000FEF00" /&gt;
     &lt;RAMEndAddress Name="RAMEndAddress" Fixed="" Text="000FFEFF" /&gt;
     &lt;ROMEndAddress Chip="R5F1006E,R5F1007E,R5F1008E,R5F100AE,R5F100BE,R5F100CE,R5F100EE,R5F100FE,R5F100GE,R5F100JE,R5F100LE" Name="ROMEndAddress" Fixed="" Text="0000FFFF" /&gt;
@@ -2251,7 +2302,7 @@ gen
         &lt;/DMA3&gt;
       &lt;/DMAC&gt;
       &lt;WDT&gt;
-        &lt;INTWDTI InUse="0" ISR="r_wdt_interrupt" /&gt;
+        &lt;INTWDTI InUse="1" ISR="r_wdt_interrupt" /&gt;
       &lt;/WDT&gt;
       &lt;LVD&gt;
         &lt;INTLVI InUse="0" ISR="r_lvd_interrupt" IsDMATrigger="true" /&gt;
@@ -2766,17 +2817,17 @@ gen
         &lt;r_cg_timer.h UserName="r_cg_timer.h" LibName=".h" InUse="" /&gt;
       &lt;/TAU&gt;
       &lt;WDT&gt;
-        &lt;r_cg_wdt.c UserName="r_cg_wdt.c" LibName=".c" InUse="0"&gt;
+        &lt;r_cg_wdt.c UserName="r_cg_wdt.c" LibName=".c" InUse="1"&gt;
           &lt;Type R_WDT_Create="void R_WDT_Create(void)" R_WDT_Restart="void R_WDT_Restart(void)" /&gt;
-          &lt;R_WDT_Create UserName="R_WDT_Create" LibName="R_WDT_Create" InUse="0" Init="1" /&gt;
-          &lt;R_WDT_Restart UserName="R_WDT_Restart" LibName="R_WDT_Restart" InUse="0" /&gt;
+          &lt;R_WDT_Create UserName="R_WDT_Create" LibName="R_WDT_Create" InUse="1" Init="1" /&gt;
+          &lt;R_WDT_Restart UserName="R_WDT_Restart" LibName="R_WDT_Restart" InUse="1" /&gt;
         &lt;/r_cg_wdt.c&gt;
-        &lt;r_cg_wdt_user.c UserName="r_cg_wdt_user.c" LibName="_user.c" InUse="0"&gt;
+        &lt;r_cg_wdt_user.c UserName="r_cg_wdt_user.c" LibName="_user.c" InUse="1"&gt;
           &lt;Type R_WDT_Create_UserInit="void R_WDT_Create_UserInit(void)" r_wdt_interrupt="__interrupt static void r_wdt_interrupt(void)" /&gt;
           &lt;R_WDT_Create_UserInit UserName="R_WDT_Create_UserInit" LibName="R_WDT_Create_UserInit" InUse="0" /&gt;
-          &lt;r_wdt_interrupt UserName="r_wdt_interrupt" INTHandle="" LibName="r_wdt_interrupt" InUse="0" /&gt;
+          &lt;r_wdt_interrupt UserName="r_wdt_interrupt" INTHandle="" LibName="r_wdt_interrupt" InUse="1" /&gt;
         &lt;/r_cg_wdt_user.c&gt;
-        &lt;r_cg_wdt.h UserName="r_cg_wdt.h" LibName=".h" InUse="0" /&gt;
+        &lt;r_cg_wdt.h UserName="r_cg_wdt.h" LibName=".h" InUse="1" /&gt;
       &lt;/WDT&gt;
       &lt;RTC&gt;
         &lt;r_cg_rtc.c UserName="r_cg_rtc.c" LibName=".c" InUse=""&gt;
@@ -2893,7 +2944,7 @@ gen
       &lt;GlobleUserTag&gt;
         &lt;cg_security4 Name="cg_security4" Value="00" /&gt;
         &lt;cg_security7 Name="cg_security7" Value="00" /&gt;
-        &lt;wdt_option Name="wdt_option" Value="EF" /&gt;
+        &lt;wdt_option Name="wdt_option" Value="FF" /&gt;
         &lt;cg_security6 Name="cg_security6" Value="00" /&gt;
         &lt;cg_security1 Name="cg_security1" Value="00" /&gt;
         &lt;lvi_option Name="lvi_option" Value="FF" /&gt;
@@ -2964,8 +3015,8 @@ gen
     &lt;TAU SetFlag="false" HelpID="timer" NeedRefresh="False"&gt;
       &lt;TAU0 Accelerate="No" MacroName="TAU" Channel="0" ChannelNum="0,1,2,3,4,5,6,7" /&gt;
     &lt;/TAU&gt;
-    &lt;WDT Prepared="true" SetFlag="False" HelpID="watchdogtimer" NeedRefresh="False"&gt;
-      &lt;WDT SetFlag="False" MacroName="WDT" /&gt;
+    &lt;WDT Prepared="true" SetFlag="True" HelpID="watchdogtimer" NeedRefresh="False"&gt;
+      &lt;WDT SetFlag="True" MacroName="WDT" /&gt;
     &lt;/WDT&gt;
     &lt;RTC SetFlag="" HelpID="rtc" NeedRefresh="False"&gt;
       &lt;RTC MacroName="RTC" /&gt;
@@ -3032,12 +3083,12 @@ gen
       &lt;setting name="PMS" value="Pmn value" /&gt;
     &lt;/CGC&gt;
     &lt;WDT&gt;
-      &lt;setting name="Operation" value="unused" /&gt;
+      &lt;setting name="Operation" value="used" /&gt;
       &lt;setting name="Overflow_time" value="7" /&gt;
       &lt;setting name="Window_opening_time" value="2" /&gt;
       &lt;setting name="Standby_operation" value="enable" /&gt;
       &lt;setting name="Interval_interrupt" value="use" /&gt;
-      &lt;setting name="Interval_interrupt_priority" value="3" /&gt;
+      &lt;setting name="Interval_interrupt_priority" value="0" /&gt;
     &lt;/WDT&gt;
     &lt;LVD&gt;
       &lt;setting name="Operation" value="unused" /&gt;
@@ -4329,7 +4380,7 @@ gen
           &lt;setting name="Receive_data_direction" value="LSB" /&gt;
           &lt;setting name="Receive_data_length" value="8 bits" /&gt;
           &lt;setting name="Receive_parity" value="none" /&gt;
-          &lt;setting name="RecBaudrate" value="115200" /&gt;
+          &lt;setting name="RecBaudrate" value="19200" /&gt;
           &lt;setting name="Receive_end_callback_function" value="generated" /&gt;
           &lt;setting name="Receive_error_callback_function" value="generated" /&gt;
           &lt;setting name="Transfer_mode" value="single" /&gt;
@@ -4338,7 +4389,7 @@ gen
           &lt;setting name="Transmit_data_length" value="8 bits" /&gt;
           &lt;setting name="Transmit_parity" value="none" /&gt;
           &lt;setting name="Transmit_stop_length" value="1 bit" /&gt;
-          &lt;setting name="TranBaudrate" value="115200" /&gt;
+          &lt;setting name="TranBaudrate" value="19200" /&gt;
           &lt;setting name="Transmit_end_callback_function" value="generated" /&gt;
           &lt;setting name="Transmit_end_interrupt_priority" value="3" /&gt;
           &lt;setting name="Receive_error_interrupt_priority" value="3" /&gt;

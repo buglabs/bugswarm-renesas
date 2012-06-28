@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements main function.
-* Creation Date: 6/4/2012
+* Creation Date: 6/28/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -46,6 +46,7 @@ Includes
 #include "r_cg_intc.h"
 #include "r_cg_serial.h"
 #include "r_cg_adc.h"
+#include "r_cg_wdt.h"
 #include "r_cg_it.h"
 /* Start user code for include. Do not edit comment generated here */
 #include <stdio.h>
@@ -115,7 +116,6 @@ uint8 lib_rx_buffer2[LIB_RX_BUF_SIZE+LIB_NETWORK_HDR_LEN];
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-
 void main(void)
 {
     /* Start user code. Do not edit comment generated here */
@@ -127,6 +127,7 @@ void main(void)
     R_INTC0_Start();
     R_INTC1_Start();
     R_INTC2_Start();
+    R_WDT_Create();
     printf(message);
     //Initialize i2c devices, give them time to start up
     period = UPDATE_PERIOD;
@@ -134,17 +135,17 @@ void main(void)
     setup_light();
     setup_temp();
     delay_ms(100);
-
-    reconnect:
-    
+  
     /* Initialize UART and enable Module power and reset pins */  
     printf("initializing redpine device...");
+    R_WDT_Restart();
     rsi_init();
     printf("done!\r\n");
     rsi_set_rx_buffer(lib_rx_buffer1, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
     rsi_set_rx_buffer(lib_rx_buffer2, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
     
     printf("booting redpine device...");
+    R_WDT_Restart();
     ret = rsi_boot_device();
     if (ret != RSI_NOERROR){
 	printf("ERROR: %02x\r\n",ret);
@@ -153,8 +154,12 @@ void main(void)
     printf("done!\r\n");
        
     printf("connecting to wifi ap...");
+    R_WDT_Restart();
     ret = rsi_wifi_init (strApi.band, &strApi.ScanFrame, &strApi.JoinFrame, &strApi.IPparamFrame);     
     printf("%04x\r\n",ret);
+    
+    reconnect:
+    R_WDT_Restart();
     
     read_mac_addr();
     
@@ -164,11 +169,17 @@ void main(void)
     seed = (millis+last_accel.xraw+last_accel.yraw+last_accel.zraw+last_light.light+last_temp.raw)&0xFFFF;
     srand(seed);
     
+    R_WDT_Restart();
     if (!openHTTPConnection(swarm_server_ip))
     	goto reconnect;
-    
     printf("Connected to socket\r\n");
-    strcpy(outsock.remote_ip, "0");
+    //swarm_get_resources(&outsock);
+    //doWork(5000);
+    //closeConnection();
+    //doWork(500);
+    //if (!openHTTPConnection(swarm_server_ip))
+    //	goto reconnect;
+    
     // open HTTP streaming socket to swarm by sending participation header 
     swarm_send_produce(swarm_id, resource_id, participation_key, &outsock);
       
@@ -179,6 +190,7 @@ void main(void)
     printf("Connected to Swarm!\r\n");
     while (1U)
     {
+	R_WDT_Restart();
 	toggle_led(5);
 	read_accel(&last_accel);
 	read_light(&last_light);
@@ -188,55 +200,75 @@ void main(void)
 	an5_max = 0;
 	printf("A(%f,%f,%f) L[%u] T<%f> {%04x} {%04x} (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, an4_last, mic_level, last_temp.time);
 	
-	if (!doWork(period/NUM_SENSOR))
+	if (!doWork(period/NUM_SENSOR)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
 	//Send accel:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Acceleration\",\"feed\":{\"x\":%f,\"y\":%f,\"z\":%f}}",
 		last_accel.x, last_accel.y, last_accel.z);
-	if (!swarm_produce(tempbuff,&outsock))
+	if (!swarm_produce(tempbuff,&outsock)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
-	if (!doWork(period/NUM_SENSOR))
+	if (!doWork(period/NUM_SENSOR)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
 	//Send light:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Light\",\"feed\":{\"Value\":%u}}",
 		last_light.light);
-        if (!swarm_produce(tempbuff,&outsock))
+        if (!swarm_produce(tempbuff,&outsock)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
-	if (!doWork(period/NUM_SENSOR))
+	if (!doWork(period/NUM_SENSOR)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
 	//Send temp:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%f}}",
 		last_temp.tempF);
-        if (!swarm_produce(tempbuff,&outsock))
+        if (!swarm_produce(tempbuff,&outsock)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
-	if (!doWork(period/NUM_SENSOR))
+	if (!doWork(period/NUM_SENSOR)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
 	//Send pot:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Potentiometer\",\"feed\":{\"Raw\":%u}}",
 		an4_last);
-        if (!swarm_produce(tempbuff,&outsock))
+        if (!swarm_produce(tempbuff,&outsock)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
-	if (!doWork(period/NUM_SENSOR))
+	if (!doWork(period/NUM_SENSOR)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 	
 	//Send pot:
 	memset(tempbuff, '\0', sizeof(tempbuff));
 	sprintf(tempbuff, "{\"name\":\"Sound Level\",\"feed\":{\"Raw\":%u}}",
 		mic_level);
-        if (!swarm_produce(tempbuff,&outsock))
+        if (!swarm_produce(tempbuff,&outsock)) {
+		delay_ms(1000);
 		goto reconnect;
+	}
 		
 	if (millis%CAPABILITIES_PERIOD < UPDATE_PERIOD){
            capabilities_announce(&outsock);
