@@ -1,8 +1,8 @@
-var API_KEY = "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b";
-var CFG_KEY = "53ebd64e50ed786ef13f3e64f0cdbdd6223013bc";
-var SWARM_ID = "27e5a0e7e2e5445c51be56de44f45b19701f36d3";
-var RESOURCE_ID = "87486e2239df55126a1f14b51a6e7b35e96b2422";
-var WEBUI_RESOURCE = "8f0d348f7163b793cbe0b0f00117540e9339b7f8";
+var API_KEY = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
+var CFG_KEY = "359aff0298658552ec987b9354ea754b684a4047P";
+var SWARM_ID = "f8427a047583dfa2a68ddf3467723ad3659fe2bb";
+var RESOURCE_ID = "5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf";
+var WEBUI_RESOURCE = "5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf";
 
 var resources = new Object();
 var selectedResource = "";
