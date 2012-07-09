@@ -21,7 +21,6 @@ A bugswarm connector for Renesas 8- and 16-bit microcontrollers.  This code turn
 
 See the troubleshooting section below if board does not appear in the list, or data is not produced.
 
-
 ### How to Deploy the connector to an RL78/G13 demo board
 
 1. Download and install the newest version of CubeSuite+ from [the following link](http://am.renesas.com/support/downloads/download_results/C1000000-C9999999/tools/evaluation_cubesuite_plus.jsp)
@@ -50,6 +49,29 @@ See the troubleshooting section below if board does not appear in the list, or d
 1. Within CubeSuite, press the <F6> button.  The project should compile and deploy to the demo board.
 1. When the download has completed, the screen should change and should highlight a single line in ```r_main.c``` in yellow.  When this happens, press the <F5> key.
 1. The application should start running.
+
+### Implementation Details
+
+This bugswarm connector works by opening a socket to api.bugswarm.net, creating a new production session, and continually publishing sensor data.  This application currently requires the following credentials to be acquired and inserted into the source code before use:
+
+* Wireless ESSID
+    * default: "renesasdemo"
+* Wireless password (if applicable)
+    * default: "renesaspsk"
+* Swarm Producer API Key
+    * default: ""
+* A valid Swarm ID
+    * default: ""
+* A valid Resource ID, having already been added to the supplied swarm.
+
+All Renesas devices will share the same producer API Key - this is linked to the Renesas account.  In order for all of the Renesas RL78/G13 demo boards to be listed together, they all need to be added to the same swarm.  Devices should use the default swarm ID above, unless they are being configured for a custom application.
+Resource IDs, on the other hand, MUST be unique for each demo board.  When provisioning a new demo board, a new resource ID will need to be generated.  We suggest that the resource ID have a unique name, such as the MAC address of the wireless module, but the resource ID will always be a unique 40 character string.  
+
+#### Known Issues
+
+* The Redpine device cannot send data at the same time that data is being recieved.  Data reception is fully asynchronous, and could occur at any time.  The current libraries do not successfully detect that data reception is in progress while sending.  When this occurs, depending on the timing, it may cause the redpine device to abruptly close the socket.  The current code will automatically attempt to reconnect.  In the future, we should aggressively check that the UART is not in the middle of reading a line before sending any new AT commands.  This needs to occur at the UART API level of the redpine libraries.
+* The current Redpine libraries cannot reliably read a multi-line response from an open socket.  The first line of a repsonse is prefixed with ```AT+RSI_READ``` and is successfully detected.  However, since the response is not byte-stuffed, subsequent lines within the same packet are detected as junk data (since they are not prefixed with ```AT+RSI_READ```).  This requires a larger overhaul of the rsi_read() function. 
+* Even with a modified rsi_read() function, no mechanism exists to ensure that an entire packet-worth of data has been successfully read.  The total packet size is returned in the initial AT+RSI_READ command, but very often data is either lost or read twice while reading.  Data is being read successfully by the rsi_receive() function, but a valid state machine has not been created for the rsi_read() function with multi-line packets.  
 
 ### Troubleshooting
 
