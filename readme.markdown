@@ -52,17 +52,17 @@ See the troubleshooting section below if board does not appear in the list, or d
 
 ### Implementation Details
 
-This bugswarm connector works by opening a socket to api.bugswarm.net, creating a new production session, and continually publishing sensor data.  This application currently requires the following credentials to be acquired and inserted into the source code before use:
+This bugswarm connector works by opening a socket to api.bugswarm.net, creating a new production session, and continually publishing sensor data (See [the swarm API documentation](http://developer.bugswarm.net/participation_api.html)).  This application currently requires the following credentials to be acquired and inserted into the source code before use:
 
-* Wireless ESSID
+* Wireless ESSID ([rsi_global.h](https://github.com/buglabs/bugswarm-renesas/blob/master/redpine/rsi_global.h#L114))
     * default: "renesasdemo"
-* Wireless password (if applicable)
+* Wireless password (if applicable) ([rsi_global.h](https://github.com/buglabs/bugswarm-renesas/blob/master/redpine/rsi_global.h#L102))
     * default: "renesaspsk"
-* Swarm Producer API Key
-    * default: ""
-* A valid Swarm ID
-    * default: ""
-* A valid Resource ID, having already been added to the supplied swarm.
+* Swarm Producer API Key ([r_main.c](https://github.com/buglabs/bugswarm-renesas/blob/master/gen/r_main.c#L106))
+    * default: "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b"
+* A valid Swarm ID ([r_main.c](https://github.com/buglabs/bugswarm-renesas/blob/master/gen/r_main.c#L104))
+    * default: "27e5a0e7e2e5445c51be56de44f45b19701f36d3"
+* A valid Resource ID, having already been added to the supplied swarm. ([r_main.c](https://github.com/buglabs/bugswarm-renesas/blob/master/gen/r_main.c#L105))
 
 All Renesas devices will share the same producer API Key - this is linked to the Renesas account.  In order for all of the Renesas RL78/G13 demo boards to be listed together, they all need to be added to the same swarm.  Devices should use the default swarm ID above, unless they are being configured for a custom application.
 Resource IDs, on the other hand, MUST be unique for each demo board.  When provisioning a new demo board, a new resource ID will need to be generated.  We suggest that the resource ID have a unique name, such as the MAC address of the wireless module, but the resource ID will always be a unique 40 character string.  
