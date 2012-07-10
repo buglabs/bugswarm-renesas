@@ -1,0 +1,67 @@
+<html>
+    <head>
+	    <script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
+    </head>
+	<body>
+			<script>
+			var selectedID = "";
+			function onMessage(message) {
+				if ((message.from.resource == selectedID)&&("name" in message.payload)){
+					var payload = message.payload;
+					if (payload.name == "Acceleration"){
+						document.getElementById("accelx").innerHTML = payload.feed.x;
+						document.getElementById("accely").innerHTML = payload.feed.y;
+						document.getElementById("accelz").innerHTML = payload.feed.z;
+					} else if (payload.name == "Temperature"){
+						document.getElementById("temp").innerHTML = payload.feed.TempF;
+					} else if (payload.name == "Light"){
+						document.getElementById("light").innerHTML = payload.feed.Value;
+					} else if (payload.name == "Potentiometer"){
+						document.getElementById("pot").innerHTML = payload.feed.Raw;
+					} else if (payload.name == "Sound Level"){
+						document.getElementById("sound").innerHTML = payload.feed.Raw;
+					} else if (payload.name == "Button"){
+						document.getElementById("but1").innerHTML = payload.feed.b1;
+						document.getElementById("but2").innerHTML = payload.feed.b2;
+						document.getElementById("but3").innerHTML = payload.feed.b3;
+					}
+				}
+            }
+
+            function onError(error) {
+                console.log('error! -> ' + JSON.stringify(error));
+			}
+
+			function selectResource(id) {
+				console.log('setting ID to '+id);
+				selectedID = id;
+			}
+
+            SWARM.debug = true;
+            SWARM.connect({ apikey: 'bc60aa60d80f7c104ad1e028a5223e7660da5f8c',
+                            resource: '5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf',
+                            swarms: ['2eaf3f05cd0dd4becc74d30857caf03adb85281e'],
+                            onmessage: onMessage,
+                            onerror: onError,
+                            onconnect: 
+            function onConnect() {
+                console.log('connected!');
+            }});
+	</script>
+	Enter SwarmID to follow: 
+	<form action="" onsubmit="selectResource(this.resourceid.value); return false;">
+			<input type="text" id="resourceid" name="resourceid" />
+			<input type="submit" value="Submit" />
+	</form></br>
+	Acceleration: ( <span id=accelx>0</span>,
+					<span id=accely>0</span>,
+					<span id=accelz>0</span>)</br>
+	Temperature: <span id=temp>0</span> &deg;F </br>
+	Light Level: <span id=light>0</span> lux </br>
+	Potentiometer: <span id=pot>0</span> </br>
+	Sound Level: <span id=sound>0</span> </br>
+	Buttons: button1:   <span id=but1>0</span> 
+		 	 button2:	<span id=but2>0</span>
+			 button3:	<span id=but3>0</span> </br >
+    </body>
+</html>

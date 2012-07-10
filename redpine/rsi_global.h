@@ -106,12 +106,12 @@
 /*scan info */
   
 /* SCAN_SSID Macro must be enabled to scan an hidden SSID */ 
-#define SCAN_SSID             "renesas" 
+#define SCAN_SSID             "renesasdemo" 
 
 #define SCAN_CHANNEL          0                     /* 0 scans all channels */
   
 /*join info */
-#define JOIN_SSID 	      "renesas"              /* SSID We will join to */
+#define JOIN_SSID 	      "renesasdemo"              /* SSID We will join to */
 
 #define DATA_RATE             DATA_RATE_5P5
 
