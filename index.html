@@ -13,75 +13,108 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
 <script type="text/javascript" src="http://flot.googlecode.com/svn/trunk/jquery.flot.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load('visualization', '1', {packages: ['gauge']});
     </script>
-<link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="css/shared.css" type="text/css">
+ <script type="text/javascript" src="js/remotemon.js">
+</script>
+
+<link id='font' href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
+<link id='style' rel='stylesheet' href='css/Default.css' type="text/css">
 <title>Bug Swarm Renesas Demo Portal</title>
 </head>
-<body>
-<script type="text/javascript" src="js/remotemon.js"></script>
+<body onload="loadThemes();">
+<script>
+  $(document).ready(function() {
+/*    $("#accelContainer").draggable();
+   // $("#accelContainer").sortable({containment: 'parent'});
+    $("#lightContainer").draggable();
+    //$("#lightContainer").sortable({ connectWith: '#accelContainer' });
+	$("#buttonContainer").draggable();
+	$("#tempContainer").draggable({stop: function() { console.log('dragging stopped');}});
+	$("#potContainer").draggable();
+	$("#ledContainer").draggable();*/	
+	
+	$("#sortableLeft").sortable({axis: 'y', containment:'document', stop: drawGuager, connectWith:".connectedSortable"}).disableSelection();
+	$("#sortableRight").sortable({axis: 'y', containment:'document', stop: drawGuager, connectWith: ".connectedSortable"}).disableSelection();
+
+  });
+  </script>
+
 <div id=wrap>
 <div id="header">
   <ul id="logos">
     <li> <a href="http://buglabs.net" id="buglabs-logo"> <img src="images/buglabs.gif" alt="buglabs"> </a> </li>
     <li> <a href="http://buglabs.net/bugswarm" id="bugswarm-logo"> <img src="images/bs_logo.png" alt="bugswarm"> </a> </li>
   </ul>
+
 </div>
 <!-- end of header div -->
-<div id="content" class=center>
+<div id="content">
 <h1>Renesas RL78/G13 Network Portal</h1>
-<div id="resourcelist" class=left>
-<SELECT NAME="droplist" id="droplist">
-  <OPTION SELECTED="SELECTED" VALUE=" ">Select an RL78/G13 board to view:</OPTION>
-</SELECT>
-<button type="button" id="populate">Go!</button>
-<ul class=reslist id="resources"><li></li></ul>
-</div>
-<div id="leftContent">
-  <div id="accelContainer">
-    <h3>Acceleration</h3>
-    <div class=chart id="accelChart"></div>
-  </div>
-  <div id="lightContainer">
-    <h3>Light Level</h3>
-    <div class=chart id="lightChart"></div>
-  </div>
-  <div id="buttonContainer">
-    <h3>Button Status</h3>
-    <table id=buttonTable>
-      <tr>
-        <th>Button 1</th>
-        <th>Button 2</th>
-        <th>Button 3</th>
-      </tr>
-      <tr>
-        <td id=b1>0</td>
-        <td id=b2>0</td>
-        <td id=b3>0</td>
-      </tr>
-    </table>
+ 
+	<div id="resourcelist">
+    <SELECT NAME="droplist" id="droplist">
+      <OPTION SELECTED="SELECTED" VALUE=" ">Select an RL78/G13 board to view: </OPTION>
+    </SELECT>
+    <button type="button" id="populate">Go!</button>
+    
+   </div>
+   <div id="themechoose">
+  Choose a theme:
+  <SELECT NAME="themeselect" id="themeselect" onChange="changeTheme();">
+      <OPTION SELECTED="SELECTED" VALUE="Default">Default</OPTION>
+      </SELECT>
   </div>
 </div>
-<div id="rightContent">
-  <div id="tempContainer">
+<!--end of content div -->
+
+<div id="content2">
+  <ul id="sortableLeft" class="connectedSortable">
+    <li>
+      <h3>Acceleration</h3>
+      <div class=chart id="accelChart"></div>
+    </li>
+    <li>
+      <h3>Light Level</h3>
+      <div class=chart id="lightChart"></div>
+    </li>
+    <li>
+      <h3>Button Status</h3>
+      <table id=buttonTable>
+        <tr>
+          <th>Button 1</th>
+          <th>Button 2</th>
+          <th>Button 3</th>
+        </tr>
+        <tr>
+          <td id=b1>0</td>
+          <td id=b2>0</td>
+          <td id=b3>0</td>
+        </tr>
+      </table>
+    </li>
+    </ul>
+
+<!--  <div id="rightContent">-->
+<ul id="sortableRight" class="connectedSortable">
+  <li>
     <h3>Temperature</h3>
-    <div class="guage" id="temp"></div>
+    <div class=guage id="temp"></div>
 <!--    <div class=chart id="tempChart"></div>-->
-  </div>
-  <div id="potContainer">
+  </li>
+  <li>
     <h3>Potentiometer</h3>
     <div class=chart id="potChart"></div>
-  </div>
-  <div id="ledContainer">
-      <h3>Sound Level</h3>
-      <span id=soundlevel class=center>0</span> dB</br>
-      <meter value="0" min="0" max="320"></meter>
-  </div>
-  </table>
-</div>
+  </li>
+  <li>
+    <h3>Sound Level</h3>
+    <span id=soundlevel class=center>0</span> dB</br>
+    <meter value="0" min="0" max="320"></meter>
+  </li>
+</ul>
 </div>
 <!-- end of content div -->
 </div>

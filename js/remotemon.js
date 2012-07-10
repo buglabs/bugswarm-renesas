@@ -15,6 +15,8 @@ var temp = new Array();
 var light = new Array();
 var pot = new Array();
 
+var myThemes = new Array("Grey" );
+
 var plotOptions = {
     series: { shadowSize: 0 }, // drawing is faster without shadows
     grid: { color: "#FFF" },
@@ -51,6 +53,22 @@ var potOptions = {
       }
 
 
+function loadThemes() {
+	//console.log('in function');
+	for (i in myThemes) {
+		$('option#default').remove();
+		$('select#themeselect').append('<OPTION VALUE='+myThemes[i]+' id='+myThemes[i]+'>'+myThemes[i]+'</OPTION>');
+	}	
+}
+
+function changeTheme() {
+
+				var theme = $("#themeselect option:selected").val();
+                console.log('selecting '+theme );
+				$("link[id=style]").attr({href : 'css/'+theme+'.css'});
+       
+}
+
 function onPresence(presence) {
     if (("swarm" in presence.from)&&(presence.from.resource != RESOURCE_ID)&&
             (presence.from.resource != WEBUI_RESOURCE)){
@@ -69,7 +87,7 @@ function onPresence(presence) {
             //console.log('Welcome new '+resource);
             resources[resource] = {count:1};
             $('select#droplist').append('<OPTION VALUE='+resource+' id='+resource+'>'+resource+'</OPTION>');
-            $('button').click(function(e){
+            $('button#populate').click(function(e){
                 var resource = $("#droplist option:selected").val();
                 //console.log('selecting '+resource);
                 selectedResource = resource
@@ -99,22 +117,32 @@ function onPresence(presence) {
 }
 
 
-	function drawGauge() {
-      gaugeData = google.visualization.arrayToDataTable([
-        ['Temperature'],
-        [0]
-      ]);
-	 	gauge = new google.visualization.Gauge(document.getElementById('temp'));
-		//gauge.draw(gaugeData, gaugeOptions);
-	}
+
+
+(function($){
+  drawGuager = function(){  gaugeData = google.visualization.arrayToDataTable([
+	['Temperature'],
+	[0]
+  ]);
+	gauge = new google.visualization.Gauge(document.getElementById('temp'));};
+})(jQuery);
+
+function drawGauge() {
+  gaugeData = google.visualization.arrayToDataTable([
+	['Temperature'],
+	[0]
+  ]);
+	gauge = new google.visualization.Gauge(document.getElementById('temp'));
+	//gauge.draw(gaugeData, gaugeOptions);
+}
 	
-    function changeTemp(temp) {
-      gaugeData.setValue(0, 0, temp);
-      gauge.draw(gaugeData, gaugeOptions);
-    }
+function changeTemp(temp) {
+  gaugeData.setValue(0, 0, temp);
+  gauge.draw(gaugeData, gaugeOptions);
+}
     
     
-    google.setOnLoadCallback(drawGauge);
+google.setOnLoadCallback(drawGauge);
 
 
 function onMessage(message) {
@@ -145,6 +173,7 @@ function onMessage(message) {
         }
 */		
 		changeTemp(Math.round(payload.feed.TempF*100)/100);
+		
 		
         //tempPlot = $.plot($('#tempChart'), [ temp ], plotOptions);
     } else if (payload.name === "Light"){
@@ -182,6 +211,23 @@ function onMessage(message) {
 
 
 
+
+/*function switch_style ( css_title )
+{
+  var i, link_tag ;
+  for (i = 0, link_tag = document.getElementsByTagName("link") ;
+    i < link_tag.length ; i++ ) {
+    if ((link_tag[i].rel.indexOf( "stylesheet" ) != -1) &&
+      link_tag[i].title) {
+      link_tag[i].disabled = true ;
+      if (link_tag[i].title == css_title) {
+        link_tag[i].disabled = false ;
+      }
+    }
+    set_cookie( style_cookie_name, css_title,
+      style_cookie_duration );
+  }
+}*/
 
 
 function onError(error) {
