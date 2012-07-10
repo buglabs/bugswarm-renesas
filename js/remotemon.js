@@ -2,7 +2,7 @@ var API_KEY = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 var CFG_KEY = "359aff0298658552ec987b9354ea754b684a4047";
 var SWARM_ID = "2eaf3f05cd0dd4becc74d30857caf03adb85281e";
 var RESOURCE_ID = "5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf";
-var WEBUI_RESOURCE = "5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf";
+var WEBUI_RESOURCE = "c907c8bb15914a829b256c908aab2c54af48f5f3";
 
 var resources = new Object();
 var selectedResource = "";
