@@ -99,19 +99,19 @@
   
 #define SECURITY_TYPE         SECURITY_WPA2	
 
-#define PSK                   "fuckshoes"
+#define PSK                   "renesaspsk"
 
 #define AUTH_MODE             0                     /* 0- OPEN , 1 - SHARED */
   
 /*scan info */
   
 /* SCAN_SSID Macro must be enabled to scan an hidden SSID */ 
-#define SCAN_SSID             "roastbeefcurtains" 
+#define SCAN_SSID             "renesas" 
 
 #define SCAN_CHANNEL          0                     /* 0 scans all channels */
   
 /*join info */
-#define JOIN_SSID 	      "roastbeefcurtains"              /* SSID We will join to */
+#define JOIN_SSID 	      "renesas"              /* SSID We will join to */
 
 #define DATA_RATE             DATA_RATE_5P5
 

@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file includes user definition.
-* Creation Date: 6/28/2012
+* Creation Date: 7/10/2012
 ***********************************************************************************************************************/
 
 #ifndef _USER_DEF_H

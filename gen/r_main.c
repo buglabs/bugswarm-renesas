@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements main function.
-* Creation Date: 6/28/2012
+* Creation Date: 7/10/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -101,9 +101,9 @@ DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
 /* Swarm IDs
  * Edit the following values based on desired BUGSwarm configuration */
 const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
-const char swarm_id[] =          "27e5a0e7e2e5445c51be56de44f45b19701f36d3";
-const char resource_id[] =       "b75538642bcadbdf4ae6d242d4f492266c11cb44";
-const char participation_key[] = "7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b";
+const char swarm_id[] =          "2eaf3f05cd0dd4becc74d30857caf03adb85281e";
+const char resource_id[] =       "4eb26cb102ef569513c9a736af918d1e6ae546e8";
+const char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 
 char rxbyte;
 uint8 lib_rx_buffer1[LIB_RX_BUF_SIZE+LIB_NETWORK_HDR_LEN]; 
@@ -138,14 +138,14 @@ void main(void)
   
     /* Initialize UART and enable Module power and reset pins */  
     printf("initializing redpine device...");
-    R_WDT_Restart();
+    MY_WDT_Restart();
     rsi_init();
     printf("done!\r\n");
     rsi_set_rx_buffer(lib_rx_buffer1, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
     rsi_set_rx_buffer(lib_rx_buffer2, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
     
     printf("booting redpine device...");
-    R_WDT_Restart();
+    MY_WDT_Restart();
     ret = rsi_boot_device();
     if (ret != RSI_NOERROR){
 	printf("ERROR: %02x\r\n",ret);
@@ -154,12 +154,12 @@ void main(void)
     printf("done!\r\n");
        
     printf("connecting to wifi ap...");
-    R_WDT_Restart();
+    MY_WDT_Restart();
     ret = rsi_wifi_init (strApi.band, &strApi.ScanFrame, &strApi.JoinFrame, &strApi.IPparamFrame);     
     printf("%04x\r\n",ret);
     
     reconnect:
-    R_WDT_Restart();
+    MY_WDT_Restart();
     
     read_mac_addr();
     
@@ -169,7 +169,7 @@ void main(void)
     seed = (millis+last_accel.xraw+last_accel.yraw+last_accel.zraw+last_light.light+last_temp.raw)&0xFFFF;
     srand(seed);
     
-    R_WDT_Restart();
+    MY_WDT_Restart();
     if (!openHTTPConnection(swarm_server_ip))
     	goto reconnect;
     printf("Connected to socket\r\n");
@@ -190,7 +190,7 @@ void main(void)
     printf("Connected to Swarm!\r\n");
     while (1U)
     {
-	R_WDT_Restart();
+	MY_WDT_Restart();
 	toggle_led(5);
 	read_accel(&last_accel);
 	read_light(&last_light);

@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for WDT module.
-* Creation Date: 6/28/2012
+* Creation Date: 7/10/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -36,7 +36,7 @@ Pragma directive
 ***********************************************************************************************************************/
 #pragma interrupt INTWDTI r_wdt_interrupt
 /* Start user code for pragma. Do not edit comment generated here */
-#define WDT_MULTIPLIER 5
+#define WDT_MULTIPLIER 14
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -45,6 +45,7 @@ Includes
 #include "r_cg_macrodriver.h"
 #include "r_cg_wdt.h"
 /* Start user code for include. Do not edit comment generated here */
+#include <stdio.h>
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -67,9 +68,13 @@ __interrupt static void r_wdt_interrupt(void)
     if (wdt_trips < WDT_MULTIPLIER){
 	wdt_trips++;
 	R_WDT_Restart();
-    }
+    } 
     /* End user code. Do not edit comment generated here */
 }
 
 /* Start user code for adding. Do not edit comment generated here */
+void MY_WDT_Restart(){
+	R_WDT_Restart();
+	wdt_trips = 0;
+}
 /* End user code. Do not edit comment generated here */

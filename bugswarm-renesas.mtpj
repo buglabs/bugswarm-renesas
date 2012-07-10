@@ -245,6 +245,7 @@
       <RelativePath>gen\r_cg_wdt.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>783b22ad-71fb-4394-ba06-220a812ffb4e</ParentItem>
+      <Property>4d629e8b-64c4-4d38-8495-cbaec14ef1ce</Property>
     </Instance>
     <Instance Guid="9353556a-647d-41ad-9abb-608604ac5736">
       <Name>YRDKRL78G13.c</Name>
@@ -484,6 +485,12 @@
     <Instance Guid="67070694-8f9a-42ef-a8d6-1091168d3470">
       <MemoCount>0</MemoCount>
     </Instance>
+    <Instance Guid="4a0d0585-2fe6-4c51-b6ef-bf3dced6b045">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="9427ad4d-098a-4bbb-bc06-43c463ea3d89">
+      <MemoCount>0</MemoCount>
+    </Instance>
     <Instance Guid="db523d1b-c913-4c7e-b917-0a7e87860754">
       <MemoCount>0</MemoCount>
     </Instance>
@@ -547,10 +554,7 @@
     <Instance Guid="fe37a2a3-591a-450f-83ea-f55165c7f2e8">
       <MemoCount>0</MemoCount>
     </Instance>
-    <Instance Guid="9427ad4d-098a-4bbb-bc06-43c463ea3d89">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="4a0d0585-2fe6-4c51-b6ef-bf3dced6b045">
+    <Instance Guid="4d629e8b-64c4-4d38-8495-cbaec14ef1ce">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -632,31 +636,31 @@
       <SourceItemType13>CSource</SourceItemType13>
       <SourceItemGuid14>3a680cb1-67c3-469f-a57b-5a5c9702ef2d</SourceItemGuid14>
       <SourceItemType14>CSource</SourceItemType14>
-      <SourceItemGuid15>9353556a-647d-41ad-9abb-608604ac5736</SourceItemGuid15>
+      <SourceItemGuid15>63762536-93e5-4cf3-97b1-a5bfb49effce</SourceItemGuid15>
       <SourceItemType15>CSource</SourceItemType15>
-      <SourceItemGuid16>ae970344-5134-40ff-b7e0-22e62da78404</SourceItemGuid16>
+      <SourceItemGuid16>40750d31-9e79-4746-a1e3-76b2184c73fb</SourceItemGuid16>
       <SourceItemType16>CSource</SourceItemType16>
-      <SourceItemGuid17>3af5e18e-53e6-43cc-9606-212d4dc54f10</SourceItemGuid17>
+      <SourceItemGuid17>9353556a-647d-41ad-9abb-608604ac5736</SourceItemGuid17>
       <SourceItemType17>CSource</SourceItemType17>
-      <SourceItemGuid18>edd0d6d2-1eda-4a99-9b60-256f016544ca</SourceItemGuid18>
+      <SourceItemGuid18>ae970344-5134-40ff-b7e0-22e62da78404</SourceItemGuid18>
       <SourceItemType18>CSource</SourceItemType18>
-      <SourceItemGuid19>a2727bf6-dbe1-4b9d-89a8-a864dfa910cb</SourceItemGuid19>
+      <SourceItemGuid19>3af5e18e-53e6-43cc-9606-212d4dc54f10</SourceItemGuid19>
       <SourceItemType19>CSource</SourceItemType19>
-      <SourceItemGuid20>d44970bc-5dac-4c2c-afe9-90d6aa4191d7</SourceItemGuid20>
+      <SourceItemGuid20>edd0d6d2-1eda-4a99-9b60-256f016544ca</SourceItemGuid20>
       <SourceItemType20>CSource</SourceItemType20>
-      <SourceItemGuid21>253ff673-e1ce-43f3-8bfa-8f80fabb317d</SourceItemGuid21>
+      <SourceItemGuid21>a2727bf6-dbe1-4b9d-89a8-a864dfa910cb</SourceItemGuid21>
       <SourceItemType21>CSource</SourceItemType21>
-      <SourceItemGuid22>2205cde2-afd2-45fb-ae9c-cac364d52d9d</SourceItemGuid22>
+      <SourceItemGuid22>d44970bc-5dac-4c2c-afe9-90d6aa4191d7</SourceItemGuid22>
       <SourceItemType22>CSource</SourceItemType22>
-      <SourceItemGuid23>fe8d5a8e-bb38-4ee6-917b-5be3457ed036</SourceItemGuid23>
+      <SourceItemGuid23>253ff673-e1ce-43f3-8bfa-8f80fabb317d</SourceItemGuid23>
       <SourceItemType23>CSource</SourceItemType23>
-      <SourceItemGuid24>86d52c49-614a-42b0-aad7-60be97a9235f</SourceItemGuid24>
+      <SourceItemGuid24>2205cde2-afd2-45fb-ae9c-cac364d52d9d</SourceItemGuid24>
       <SourceItemType24>CSource</SourceItemType24>
-      <SourceItemGuid25>da9a7650-4fcc-4b5f-8777-667336445cdd</SourceItemGuid25>
+      <SourceItemGuid25>fe8d5a8e-bb38-4ee6-917b-5be3457ed036</SourceItemGuid25>
       <SourceItemType25>CSource</SourceItemType25>
-      <SourceItemGuid26>63762536-93e5-4cf3-97b1-a5bfb49effce</SourceItemGuid26>
+      <SourceItemGuid26>86d52c49-614a-42b0-aad7-60be97a9235f</SourceItemGuid26>
       <SourceItemType26>CSource</SourceItemType26>
-      <SourceItemGuid27>40750d31-9e79-4746-a1e3-76b2184c73fb</SourceItemGuid27>
+      <SourceItemGuid27>da9a7650-4fcc-4b5f-8777-667336445cdd</SourceItemGuid27>
       <SourceItemType27>CSource</SourceItemType27>
       <SourceItemCount>28</SourceItemCount>
       <VfiSourceItemCount>0</VfiSourceItemCount>
@@ -1307,13 +1311,13 @@ gen
       <TimeTagModified-SourceItem14--0>-8588661415107376240</TimeTagModified-SourceItem14--0>
       <SourceItem14-BuildingTarget-0>True</SourceItem14-BuildingTarget-0>
       <SourceItem14-IndividualCompileOption-0>False</SourceItem14-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem15--0>-8588669276433353635</TimeTagModified-SourceItem15--0>
+      <TimeTagModified-SourceItem15--0>-8588607062567185264</TimeTagModified-SourceItem15--0>
       <SourceItem15-BuildingTarget-0>True</SourceItem15-BuildingTarget-0>
       <SourceItem15-IndividualCompileOption-0>False</SourceItem15-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem16--0>-8588667475558739600</TimeTagModified-SourceItem16--0>
+      <TimeTagModified-SourceItem16--0>-8588607062566584400</TimeTagModified-SourceItem16--0>
       <SourceItem16-BuildingTarget-0>True</SourceItem16-BuildingTarget-0>
       <SourceItem16-IndividualCompileOption-0>False</SourceItem16-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem17--0>-8588667475558739600</TimeTagModified-SourceItem17--0>
+      <TimeTagModified-SourceItem17--0>-8588669276433353635</TimeTagModified-SourceItem17--0>
       <SourceItem17-BuildingTarget-0>True</SourceItem17-BuildingTarget-0>
       <SourceItem17-IndividualCompileOption-0>False</SourceItem17-IndividualCompileOption-0>
       <TimeTagModified-SourceItem18--0>-8588667475558739600</TimeTagModified-SourceItem18--0>
@@ -1325,25 +1329,25 @@ gen
       <TimeTagModified-SourceItem20--0>-8588667475558739600</TimeTagModified-SourceItem20--0>
       <SourceItem20-BuildingTarget-0>True</SourceItem20-BuildingTarget-0>
       <SourceItem20-IndividualCompileOption-0>False</SourceItem20-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem21--0>-8588667475558639456</TimeTagModified-SourceItem21--0>
+      <TimeTagModified-SourceItem21--0>-8588667475558739600</TimeTagModified-SourceItem21--0>
       <SourceItem21-BuildingTarget-0>True</SourceItem21-BuildingTarget-0>
       <SourceItem21-IndividualCompileOption-0>False</SourceItem21-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem22--0>-8588667475558639456</TimeTagModified-SourceItem22--0>
+      <TimeTagModified-SourceItem22--0>-8588667475558739600</TimeTagModified-SourceItem22--0>
       <SourceItem22-BuildingTarget-0>True</SourceItem22-BuildingTarget-0>
       <SourceItem22-IndividualCompileOption-0>False</SourceItem22-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem23--0>-8588666562896533552</TimeTagModified-SourceItem23--0>
+      <TimeTagModified-SourceItem23--0>-8588667475558639456</TimeTagModified-SourceItem23--0>
       <SourceItem23-BuildingTarget-0>True</SourceItem23-BuildingTarget-0>
       <SourceItem23-IndividualCompileOption-0>False</SourceItem23-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem24--0>-8588666562585786720</TimeTagModified-SourceItem24--0>
+      <TimeTagModified-SourceItem24--0>-8588667475558639456</TimeTagModified-SourceItem24--0>
       <SourceItem24-BuildingTarget-0>True</SourceItem24-BuildingTarget-0>
       <SourceItem24-IndividualCompileOption-0>False</SourceItem24-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem25--0>-8588662963021415694</TimeTagModified-SourceItem25--0>
+      <TimeTagModified-SourceItem25--0>-8588666562896533552</TimeTagModified-SourceItem25--0>
       <SourceItem25-BuildingTarget-0>True</SourceItem25-BuildingTarget-0>
       <SourceItem25-IndividualCompileOption-0>False</SourceItem25-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem26--0>-8588607062567185264</TimeTagModified-SourceItem26--0>
+      <TimeTagModified-SourceItem26--0>-8588666562585786720</TimeTagModified-SourceItem26--0>
       <SourceItem26-BuildingTarget-0>True</SourceItem26-BuildingTarget-0>
       <SourceItem26-IndividualCompileOption-0>False</SourceItem26-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem27--0>-8588607062566584400</TimeTagModified-SourceItem27--0>
+      <TimeTagModified-SourceItem27--0>-8588662963021415694</TimeTagModified-SourceItem27--0>
       <SourceItem27-BuildingTarget-0>True</SourceItem27-BuildingTarget-0>
       <SourceItem27-IndividualCompileOption-0>False</SourceItem27-IndividualCompileOption-0>
     </Instance>
@@ -2927,17 +2931,17 @@ gen
         &lt;r_cg_dmac.h UserName="r_cg_dmac.h" LibName=".h" InUse="" /&gt;
       &lt;/DMAC&gt;
       &lt;LVD&gt;
-        &lt;r_cg_lvd.c UserName="r_cg_lvd.c" LibName=".c" InUse=""&gt;
+        &lt;r_cg_lvd.c UserName="r_cg_lvd.c" LibName=".c" InUse="0"&gt;
           &lt;Type R_LVD_Create="void R_LVD_Create(void)" R_LVD_InterruptMode_Start="void R_LVD_InterruptMode_Start(void)" /&gt;
-          &lt;R_LVD_Create UserName="R_LVD_Create" LibName="R_LVD_Create" InUse="" Init="1" /&gt;
-          &lt;R_LVD_InterruptMode_Start UserName="R_LVD_InterruptMode_Start" LibName="R_LVD_InterruptMode_Start" InUse="" /&gt;
+          &lt;R_LVD_Create UserName="R_LVD_Create" LibName="R_LVD_Create" InUse="0" Init="1" /&gt;
+          &lt;R_LVD_InterruptMode_Start UserName="R_LVD_InterruptMode_Start" LibName="R_LVD_InterruptMode_Start" InUse="0" /&gt;
         &lt;/r_cg_lvd.c&gt;
-        &lt;r_cg_lvd_user.c UserName="r_cg_lvd_user.c" LibName="_user.c" InUse=""&gt;
+        &lt;r_cg_lvd_user.c UserName="r_cg_lvd_user.c" LibName="_user.c" InUse="0"&gt;
           &lt;Type R_LVD_Creat_UserInit="void R_LVD_Creat_UserInit(void)" r_lvd_interrupt="__interrupt static void r_lvd_interrupt(void)" /&gt;
-          &lt;R_LVD_Creat_UserInit UserName="R_LVD_Creat_UserInit" LibName="R_LVD_Creat_UserInit" InUse="" /&gt;
-          &lt;r_lvd_interrupt UserName="r_lvd_interrupt" INTHandle="" LibName="r_lvd_interrupt" InUse="" /&gt;
+          &lt;R_LVD_Creat_UserInit UserName="R_LVD_Creat_UserInit" LibName="R_LVD_Creat_UserInit" InUse="0" /&gt;
+          &lt;r_lvd_interrupt UserName="r_lvd_interrupt" INTHandle="" LibName="r_lvd_interrupt" InUse="0" /&gt;
         &lt;/r_cg_lvd_user.c&gt;
-        &lt;r_cg_lvd.h UserName="r_cg_lvd.h" LibName=".h" InUse="" /&gt;
+        &lt;r_cg_lvd.h UserName="r_cg_lvd.h" LibName=".h" InUse="0" /&gt;
       &lt;/LVD&gt;
     &lt;/FUNC&gt;
     &lt;TAG&gt;
@@ -2966,7 +2970,7 @@ gen
       &lt;GlobleUserTag&gt;
         &lt;cg_security4 Name="cg_security4" Value="00" /&gt;
         &lt;cg_security7 Name="cg_security7" Value="00" /&gt;
-        &lt;wdt_option Name="wdt_option" Value="EF" /&gt;
+        &lt;wdt_option Name="wdt_option" Value="FF" /&gt;
         &lt;cg_security6 Name="cg_security6" Value="00" /&gt;
         &lt;cg_security1 Name="cg_security1" Value="00" /&gt;
         &lt;lvi_option Name="lvi_option" Value="FF" /&gt;
@@ -3033,7 +3037,7 @@ gen
       &lt;DMA1 MacroName="DMAC" Channel="1" /&gt;
     &lt;/DMAC&gt;
     &lt;LVD SetFlag="" Prepared="true" NeedRefresh="False"&gt;
-      &lt;LVD MacroName="LVD" /&gt;
+      &lt;LVD MacroName="LVD" SetFlag="False" /&gt;
     &lt;/LVD&gt;
   &lt;/MACRO&gt;
   &lt;SETTING&gt;
@@ -3850,12 +3854,12 @@ gen
       &lt;setting name="PMS" value="Pmn value" /&gt;
     &lt;/CGC&gt;
     &lt;WDT&gt;
-      &lt;setting name="Operation" value="unused" /&gt;
+      &lt;setting name="Operation" value="used" /&gt;
       &lt;setting name="Overflow_time" value="7" /&gt;
       &lt;setting name="Window_opening_time" value="2" /&gt;
       &lt;setting name="Standby_operation" value="enable" /&gt;
       &lt;setting name="Interval_interrupt" value="use" /&gt;
-      &lt;setting name="Interval_interrupt_priority" value="3" /&gt;
+      &lt;setting name="Interval_interrupt_priority" value="0" /&gt;
     &lt;/WDT&gt;
     &lt;LVD&gt;
       &lt;setting name="Operation" value="unused" /&gt;

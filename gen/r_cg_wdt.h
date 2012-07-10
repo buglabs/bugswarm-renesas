@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for WDT module.
-* Creation Date: 6/28/2012
+* Creation Date: 7/10/2012
 ***********************************************************************************************************************/
 
 #ifndef WDT_H
@@ -53,5 +53,6 @@ void R_WDT_Create(void);
 void R_WDT_Restart(void);
 
 /* Start user code for function. Do not edit comment generated here */
+void MY_WDT_Restart();
 /* End user code. Do not edit comment generated here */
 #endif
