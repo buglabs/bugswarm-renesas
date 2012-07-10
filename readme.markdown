@@ -73,8 +73,8 @@ See the troubleshooting section below if board does not appear in the list, or d
 
 1. On the RL78G13 demo board, make sure that switch 2 on SW5 is in the downward (or 'Off') position.  [See the quick start guide](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_Quick_Start_Guide.pdf) for more details.
 1. Connect the RL78G13 demo board to the PC using a USB cable
-1. Within CubeSuite, press the <F6> button.  The project should compile and deploy to the demo board.
-1. When the download has completed, the screen should change and should highlight a single line in ```r_main.c``` in yellow.  When this happens, press the <F5> key.
+1. Within CubeSuite, press the ```<F6>``` button.  The project should compile and deploy to the demo board.
+1. When the download has completed, the screen should change and should highlight a single line in ```r_main.c``` in yellow.  When this happens, press the ```<F5>``` key.
 
 	![debugger waiting at top of main](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/debugger_waiting_at_main.png)
 
