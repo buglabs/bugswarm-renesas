@@ -37,8 +37,8 @@
 	$("#potContainer").draggable();
 	$("#ledContainer").draggable();*/	
 	
-	$("#sortableLeft").sortable({axis: 'y', containment:'document', stop: drawGuager, connectWith:".connectedSortable"}).disableSelection();
-	$("#sortableRight").sortable({axis: 'y', containment:'document', stop: drawGuager, connectWith: ".connectedSortable"}).disableSelection();
+	$("#sortableLeft").sortable({containment:'document', stop: drawGuager, connectWith:".connectedSortable"}).disableSelection();
+	$("#sortableRight").sortable({containment:'document', stop: drawGuager, connectWith: ".connectedSortable"}).disableSelection();
 
   });
   </script>
