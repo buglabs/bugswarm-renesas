@@ -1,0 +1,41 @@
+<html>
+    <head>
+	    <script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
+    </head>
+	<body>
+			<script>
+			var selectedID = "";
+			function onMessage(message) {
+				if (message.from.resource == selectedID){
+					console.log('message -> ' + Date.now() + ': ' + JSON.stringify(message));
+				}
+            }
+
+            function onError(error) {
+                console.log('error! -> ' + JSON.stringify(error));
+			}
+
+			function onConnect() {
+                console.log('connected!');
+            }
+
+            SWARM.connect({ apikey: 'bc60aa60d80f7c104ad1e028a5223e7660da5f8c',
+                            resource: '5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf',
+                            swarms: ['2eaf3f05cd0dd4becc74d30857caf03adb85281e'],
+                            onmessage: onMessage,
+                            onerror: onError,
+                            onconnect: onConnect 
+			});
+			
+			function selectResource(id) {
+				console.log('setting ID to '+id);
+				selectedID = id;
+			}
+	</script>
+	Enter ResourceID to follow: 
+	<form action="" onsubmit="selectResource(this.resourceid.value); return false;">
+			<input type="text" id="resourceid" name="resourceid" />
+			<input type="submit" value="Submit" />
+	</form></br>
+    </body>
+</html>
