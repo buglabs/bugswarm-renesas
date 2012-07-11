@@ -1,0 +1,124 @@
+<html>
+    <head>
+	    <script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
+    </head>
+	<body>
+			<script>
+			var selectedID = "";
+			var tempstats = {
+				history: new Array(),
+				sum: 0,
+				max: undefined,
+				min: undefined,
+				avg: 0,
+				avglen: 1000
+			};
+			//NOTE - this is an inefficient way to copy an object, used for brevity.
+			var lightstats = JSON.parse(JSON.stringify(tempstats));
+			var potstats = JSON.parse(JSON.stringify(tempstats));
+			var soundstats = JSON.parse(JSON.stringify(tempstats));
+
+			function onMessage(message) {
+				if ((message.from.resource == selectedID)&&("name" in message.payload)){
+					var payload = message.payload;
+					if (payload.name == "Acceleration"){
+						document.getElementById("accelx").innerHTML = payload.feed.x;
+						document.getElementById("accely").innerHTML = payload.feed.y;
+						document.getElementById("accelz").innerHTML = payload.feed.z;
+					} else if (payload.name == "Temperature"){
+						document.getElementById("temp").innerHTML = payload.feed.TempF;
+						generateStatistics(tempstats, payload.feed.TempF);
+						document.getElementById("tempavg").innerHTML = tempstats.avg;
+						document.getElementById("tempmax").innerHTML = tempstats.max;
+						document.getElementById("tempmin").innerHTML = tempstats.min;
+					} else if (payload.name == "Light"){
+						document.getElementById("light").innerHTML = payload.feed.Value;
+						generateStatistics(lightstats, payload.feed.Value);
+						document.getElementById("lightavg").innerHTML = lightstats.avg;
+						document.getElementById("lightmax").innerHTML = lightstats.max;
+						document.getElementById("lightmin").innerHTML = lightstats.min;
+					} else if (payload.name == "Potentiometer"){
+						document.getElementById("pot").innerHTML = payload.feed.Raw;
+						generateStatistics(potstats, payload.feed.Raw);
+						document.getElementById("potavg").innerHTML = potstats.avg;
+						document.getElementById("potmax").innerHTML = potstats.max;
+						document.getElementById("potmin").innerHTML = potstats.min;
+					} else if (payload.name == "Sound Level"){
+						document.getElementById("sound").innerHTML = payload.feed.Raw;
+						generateStatistics(soundstats, payload.feed.Raw);
+						document.getElementById("soundavg").innerHTML = soundstats.avg;
+						document.getElementById("soundmax").innerHTML = soundstats.max;
+						document.getElementById("soundmin").innerHTML = soundstats.min;
+					} else if (payload.name == "Button"){
+						document.getElementById("but1").innerHTML = payload.feed.b1;
+						document.getElementById("but2").innerHTML = payload.feed.b2;
+						document.getElementById("but3").innerHTML = payload.feed.b3;
+					}
+				}
+            }
+
+            function onError(error) {
+                console.log('error! -> ' + JSON.stringify(error));
+			}
+
+			function selectResource(id) {
+				console.log('setting ID to '+id);
+				selectedID = id;
+			}
+            
+			function onConnect() {
+                console.log('connected!');
+            }
+
+			function generateStatistics(stat_obj, value) {
+				//Calculate maximum value
+				if ((stat_obj.max == undefined)||(value > stat_obj.max))
+					stat_obj.max = value;
+				//Calculate minimum value
+				if ((stat_obj.min == undefined)||(value < stat_obj.min))
+					stat_obj.min = value;
+				//Calculate running average
+				stat_obj.history.push(value);
+				stat_obj.sum += value;
+				if (stat_obj.history.length > stat_obj.avglen) 
+					stat_obj.sum -= stat_obj.history.shift();
+				stat_obj.avg = (stat_obj.sum/stat_obj.history.length);
+			}
+
+            SWARM.connect({ apikey: 'bc60aa60d80f7c104ad1e028a5223e7660da5f8c',
+                            resource: '5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf',
+                            swarms: ['2eaf3f05cd0dd4becc74d30857caf03adb85281e'],
+                            onmessage: onMessage,
+                            onerror: onError,
+                            onconnect: onConnect 
+			});
+	</script>
+	Enter ResourceID to follow: 
+	<form action="" onsubmit="selectResource(this.resourceid.value); return false;">
+			<input type="text" id="resourceid" name="resourceid" />
+			<input type="submit" value="Submit" />
+	</form></br>
+	Acceleration: ( <span id=accelx>0</span>,
+					<span id=accely>0</span>,
+					<span id=accelz>0</span>)</br></br>
+	Temperature: <span id=temp>0</span> &deg;F </br>
+	--Stats: Min: <span id=tempmin>0</span>
+			 Avg: <span id=tempavg>0</span>
+			 Max: <span id=tempmax>0</span></br></br>
+	Light Level: <span id=light>0</span> lux </br>
+	--Stats: Min: <span id=lightmin>0</span>
+			 Avg: <span id=lightavg>0</span>
+			 Max: <span id=lightmax>0</span></br></br>
+	Potentiometer: <span id=pot>0</span> </br>
+	--Stats: Min: <span id=potmin>0</span>
+			 Avg: <span id=potavg>0</span>
+			 Max: <span id=potmax>0</span></br></br>
+	Sound Level: <span id=sound>0</span> </br>
+	--Stats: Min: <span id=soundmin>0</span>
+			 Avg: <span id=soundavg>0</span>
+			 Max: <span id=soundmax>0</span></br></br>
+	Buttons: button1:   <span id=but1>0</span> 
+		 	 button2:	<span id=but2>0</span>
+			 button3:	<span id=but3>0</span> </br >
+    </body>
+</html>
