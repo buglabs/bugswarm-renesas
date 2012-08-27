@@ -17,7 +17,7 @@ const char produce_header[] = "POST /stream?swarm_id=%s&"
 const char list_resource_header[] = "GET /resources HTTP/1.1\r\n"
 	"Host: api.bugswarm.net\r\n"
 	"Accept-Encoding: identity\r\n"
-	"x-bugswarmapikey: 53ebd64e50ed786ef13f3e64f0cdbdd6223013bc\r\n\r\n";
+	"x-bugswarmapikey: %s\r\n\r\n";
 const char feed_request[] = "{\"capabilities\": {\"feeds\": [\"Acceleration\",\"Temperature\",\"Button\",\"Light\",\"Sound Level\",\"Potentiometer\"]}}";
 const char message_header[] = "%x\r\n{\"message\": {\"payload\":%s}}\r\n\r\n";
 
@@ -37,9 +37,9 @@ void swarm_send_produce(const char *swarm_id, const char *resource_id, const cha
   rsi_send(sock);
 }
 
-void swarm_get_resources(struct rsi_socketFrame_s *sock){
+void swarm_get_resources(const char *participation_key, struct rsi_socketFrame_s *sock){
   memset(pktbuff, '\0', sizeof(pktbuff));
-  sprintf(pktbuff, list_resource_header);
+  sprintf(pktbuff, list_resource_header, participation_key);
   sock->buf = (uint8 *)pktbuff;
   sock->buf_len = strlen((const char *)sock->buf);
   rsi_send(sock);

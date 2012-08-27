@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for WDT module.
-* Creation Date: 7/10/2012
+* Creation Date: 8/26/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -36,7 +36,8 @@ Pragma directive
 ***********************************************************************************************************************/
 #pragma interrupt INTWDTI r_wdt_interrupt
 /* Start user code for pragma. Do not edit comment generated here */
-#define WDT_MULTIPLIER 14
+#define WDT_MS 4369
+#define WDT_MULT_DEFAULT 3	//~13 seconds
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -54,6 +55,7 @@ Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
 uint8_t wdt_trips;
+uint8_t wdt_multiplier = 10;
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -65,7 +67,8 @@ uint8_t wdt_trips;
 __interrupt static void r_wdt_interrupt(void)
 {
     /* Start user code. Do not edit comment generated here */
-    if (wdt_trips < WDT_MULTIPLIER){
+    printf("*WDT%d*",wdt_trips);
+    if (wdt_trips < wdt_multiplier){
 	wdt_trips++;
 	R_WDT_Restart();
     } 
@@ -76,5 +79,11 @@ __interrupt static void r_wdt_interrupt(void)
 void MY_WDT_Restart(){
 	R_WDT_Restart();
 	wdt_trips = 0;
+	wdt_multiplier = WDT_MULT_DEFAULT;
+}
+void MY_WDT_Restart_For(long ms){
+	R_WDT_Restart();
+	wdt_trips = 0;
+	wdt_multiplier = (uint8_t)(ms/WDT_MS);
 }
 /* End user code. Do not edit comment generated here */

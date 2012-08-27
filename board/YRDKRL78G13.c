@@ -253,7 +253,7 @@ boolean readData(){
 		switch (stat) {
 		case RSI_EVENT_CMD_RESPONSE:
 			//printf("CMD result(%04x), stat(%04x)\r\n",result,stat);
-			if (result > 0x00f0U){
+			if (result > 0x0080U){
 				errcounter++;
 			} else {
 				errcounter = 0;
@@ -290,27 +290,7 @@ boolean readData(){
 }
 
 void lookFor(char * line, const char * key) {
-	int i;
-	int j;
-	int len;
-	int keylen;
-	keylen = strlen(key);
-	if (strcmp(line,key) > 0 ){
-		printf("!");
-		strcpy(compbuff, line);
-		len = strlen(compbuff);		
-		//strstr() isn't working for me here, my quick n dirty version:
-		for (i=0;i<len;i++){
-			for (j=0;j<keylen;j++){
-				if (compbuff[i] != key[j]){
-					break;
-				}
-			}
-			printf("Found: %s\r\n",compbuff+i);
-		}
-		
-	}
-	memset(compbuff, '\0', len);
+	printf("RECV: %s\r\n",line);
 }
 
 void button_callback(uint8_t num, uint8_t value){
@@ -357,6 +337,49 @@ boolean openHTTPConnection(const char * hostname){
 		insock.lport = rand();
 	} while (insock.lport < 1024);
 	outsock.rport = 80;
+	outsock.lport = insock.lport;
+	strcpy(outsock.remote_ip, hostname);
+	// OPEN listening socket 
+	if( rsi_socket_ltcp_open (&insock) != RSI_NOERROR ) {
+		printf("insock error\r\n"); 
+		return 0;       //If we cannot open a listening socket, do not continue
+	}
+	printf("insock open sent, waiting for response...");
+	do {
+		delay_ms(10);
+		stat = rsi_read_cmd_rsp(&insock.handle);
+	} while (stat == RSI_ERROR_NO_RX_PENDING);
+	if (stat != RSI_NOERROR) {
+		printf("insock %X\r\n", (signed int)stat); 
+		return 0;       //If we cannot open a listening socket, do not continue
+	}
+	printf("...insock open.\r\n");
+
+	// Repeately try to connect to the swarm server until successful 
+	do {
+		if( rsi_socket_tcp_open (&outsock) != RSI_NOERROR ) {
+			printf("Outsock error\r\n"); 
+		}
+		printf("outsock open sent, waiting for response...");
+		do {
+	  		delay_ms(10);
+	  		stat = rsi_read_cmd_rsp(&outsock.handle);
+		} while (stat == RSI_ERROR_NO_RX_PENDING);
+		printf("...response recieved\r\n");
+		if (stat != RSI_NOERROR) {
+			printf("Can't connect to %s, retrying E%X\r\n", hostname, (signed int)stat);
+			delay_ms(1000);
+		}
+	} while (stat != RSI_NOERROR);	
+
+	return 1;
+}
+
+boolean openRAWConnection(const char * hostname, int port){
+	do {
+		insock.lport = rand();
+	} while (insock.lport < 1024);
+	outsock.rport = port;
 	outsock.lport = insock.lport;
 	strcpy(outsock.remote_ip, hostname);
 	// OPEN listening socket 

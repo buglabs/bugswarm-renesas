@@ -491,6 +491,9 @@
     <Instance Guid="9427ad4d-098a-4bbb-bc06-43c463ea3d89">
       <MemoCount>0</MemoCount>
     </Instance>
+    <Instance Guid="4d629e8b-64c4-4d38-8495-cbaec14ef1ce">
+      <MemoCount>0</MemoCount>
+    </Instance>
     <Instance Guid="db523d1b-c913-4c7e-b917-0a7e87860754">
       <MemoCount>0</MemoCount>
     </Instance>
@@ -552,9 +555,6 @@
       <MemoCount>0</MemoCount>
     </Instance>
     <Instance Guid="fe37a2a3-591a-450f-83ea-f55165c7f2e8">
-      <MemoCount>0</MemoCount>
-    </Instance>
-    <Instance Guid="4d629e8b-64c4-4d38-8495-cbaec14ef1ce">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -1877,7 +1877,7 @@ gen
     &lt;StartAddressOfOnChipDebugOptionBytes Name="GOStart" Text="FE00" /&gt;
     &lt;SizeOfOnChipDebugOptionBytesArea Name="GOSizeValue" Text="512" /&gt;
     &lt;UserOptionBytes Name="GB" Text="1" /&gt;
-    &lt;UserOptionBytesValue Name="GBValue" Text="FFFFE8" /&gt;
+    &lt;UserOptionBytesValue Name="GBValue" Text="7FFFE8" /&gt;
     &lt;RAMStartAddress Chip="R5F1006E,R5F1007E,R5F1008E,R5F100AE,R5F100BE,R5F100CE,R5F100EE,R5F100FE,R5F100GE,R5F100JE,R5F100LE" Name="RAMStartAddress" Fixed="" Text="000FEF00" /&gt;
     &lt;RAMEndAddress Name="RAMEndAddress" Fixed="" Text="000FFEFF" /&gt;
     &lt;ROMEndAddress Chip="R5F1006E,R5F1007E,R5F1008E,R5F100AE,R5F100BE,R5F100CE,R5F100EE,R5F100FE,R5F100GE,R5F100JE,R5F100LE" Name="ROMEndAddress" Fixed="" Text="0000FFFF" /&gt;
@@ -2306,7 +2306,7 @@ gen
         &lt;/DMA3&gt;
       &lt;/DMAC&gt;
       &lt;WDT&gt;
-        &lt;INTWDTI InUse="1" ISR="r_wdt_interrupt" /&gt;
+        &lt;INTWDTI InUse="0" ISR="r_wdt_interrupt" /&gt;
       &lt;/WDT&gt;
       &lt;LVD&gt;
         &lt;INTLVI InUse="0" ISR="r_lvd_interrupt" IsDMATrigger="true" /&gt;
@@ -2829,7 +2829,7 @@ gen
         &lt;r_cg_wdt_user.c UserName="r_cg_wdt_user.c" LibName="_user.c" InUse="1"&gt;
           &lt;Type R_WDT_Create_UserInit="void R_WDT_Create_UserInit(void)" r_wdt_interrupt="__interrupt static void r_wdt_interrupt(void)" /&gt;
           &lt;R_WDT_Create_UserInit UserName="R_WDT_Create_UserInit" LibName="R_WDT_Create_UserInit" InUse="0" /&gt;
-          &lt;r_wdt_interrupt UserName="r_wdt_interrupt" INTHandle="" LibName="r_wdt_interrupt" InUse="1" /&gt;
+          &lt;r_wdt_interrupt UserName="r_wdt_interrupt" INTHandle="" LibName="r_wdt_interrupt" InUse="0" /&gt;
         &lt;/r_cg_wdt_user.c&gt;
         &lt;r_cg_wdt.h UserName="r_cg_wdt.h" LibName=".h" InUse="1" /&gt;
       &lt;/WDT&gt;
@@ -2948,7 +2948,7 @@ gen
       &lt;GlobleUserTag&gt;
         &lt;cg_security4 Name="cg_security4" Value="00" /&gt;
         &lt;cg_security7 Name="cg_security7" Value="00" /&gt;
-        &lt;wdt_option Name="wdt_option" Value="FF" /&gt;
+        &lt;wdt_option Name="wdt_option" Value="7F" /&gt;
         &lt;cg_security6 Name="cg_security6" Value="00" /&gt;
         &lt;cg_security1 Name="cg_security1" Value="00" /&gt;
         &lt;lvi_option Name="lvi_option" Value="FF" /&gt;
@@ -3091,7 +3091,7 @@ gen
       &lt;setting name="Overflow_time" value="7" /&gt;
       &lt;setting name="Window_opening_time" value="2" /&gt;
       &lt;setting name="Standby_operation" value="enable" /&gt;
-      &lt;setting name="Interval_interrupt" value="use" /&gt;
+      &lt;setting name="Interval_interrupt" value="not use" /&gt;
       &lt;setting name="Interval_interrupt_priority" value="0" /&gt;
     &lt;/WDT&gt;
     &lt;LVD&gt;

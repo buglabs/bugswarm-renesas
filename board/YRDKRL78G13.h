@@ -151,6 +151,7 @@ void button_callback(uint8_t num, uint8_t value);
 void getButtons(uint8_t * buttons);
 boolean read_mac_addr();
 boolean openHTTPConnection(const char *);
+boolean openRAWConnection(const char *, int port);
 boolean closeConnection();
 void lookFor(char * line, const char * key);
 #endif

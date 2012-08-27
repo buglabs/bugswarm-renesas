@@ -28,7 +28,7 @@
 * Device(s)    : R5F100LE
 * Tool-Chain   : CA78K0R
 * Description  : This file implements main function.
-* Creation Date: 7/10/2012
+* Creation Date: 8/26/2012
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -102,7 +102,7 @@ DECLARE_AND_INIT_GLOBAL_STRUCT(api, strApi);
  * Edit the following values based on desired BUGSwarm configuration */
 const char swarm_server_ip[] = "107.20.250.52";  //api.bugswarm.net
 const char swarm_id[] =          "2eaf3f05cd0dd4becc74d30857caf03adb85281e";
-const char resource_id[] =       "4eb26cb102ef569513c9a736af918d1e6ae546e8";
+const char resource_id[] =       "ff5e5cb493f4e7fd2b3a17fbce183925e76094c8";
 const char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 
 char rxbyte;
@@ -119,8 +119,10 @@ uint8 lib_rx_buffer2[LIB_RX_BUF_SIZE+LIB_NETWORK_HDR_LEN];
 void main(void)
 {
     /* Start user code. Do not edit comment generated here */
-    R_IT_Start();		//Start the interval timer
-    R_UART0_Start();		//Start the UART
+    period = UPDATE_PERIOD;
+    //Initialize RL78 peripherals
+    R_IT_Start();
+    R_UART0_Start();
     R_UART2_Start();
     R_ADC_Start();
     R_ADC_Set_OperationOn();
@@ -128,22 +130,27 @@ void main(void)
     R_INTC1_Start();
     R_INTC2_Start();
     R_WDT_Create();
+    
     printf(message);
+    
     //Initialize i2c devices, give them time to start up
-    period = UPDATE_PERIOD;
     setup_accel();
     setup_light();
     setup_temp();
     delay_ms(100);
-  
-    /* Initialize UART and enable Module power and reset pins */  
+    
+    reconnect:
+    //Initialize UART and enable Module power and reset pins
     printf("initializing redpine device...");
     MY_WDT_Restart();
     rsi_init();
     printf("done!\r\n");
+    
+    //We are enabling two buffers for use with the redpine device
     rsi_set_rx_buffer(lib_rx_buffer1, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
     rsi_set_rx_buffer(lib_rx_buffer2, (LIB_RX_BUF_SIZE + LIB_NETWORK_HDR_LEN));
     
+    //Preform preform autobaud procedure and initialize redpine device
     printf("booting redpine device...");
     MY_WDT_Restart();
     ret = rsi_boot_device();
@@ -153,53 +160,59 @@ void main(void)
     }
     printf("done!\r\n");
        
+    //Attempt to connect to wifi AP, watchdog will restart if this takes longer than 60s
     printf("connecting to wifi ap...");
-    MY_WDT_Restart();
+    MY_WDT_Restart_For(60000);	//Allow this operation to take at most approximately 60 seconds
     ret = rsi_wifi_init (strApi.band, &strApi.ScanFrame, &strApi.JoinFrame, &strApi.IPparamFrame);     
     printf("%04x\r\n",ret);
     
-    reconnect:
     MY_WDT_Restart();
     
     read_mac_addr();
     
+    //Initial sensor readings used to seed random number generator
+    //This needs to be truly random so that we don't accidentally try to recycle the same port
+    //Attempting to re-open an existing port will fail unless the TCP timeout has been exceeded
     read_accel(&last_accel);
     read_light(&last_light);
     read_temp(&last_temp);
     seed = (millis+last_accel.xraw+last_accel.yraw+last_accel.zraw+last_light.light+last_temp.raw)&0xFFFF;
     srand(seed);
     
+    //Open a socket to swarm server (defined above), port 80.
     MY_WDT_Restart();
     if (!openHTTPConnection(swarm_server_ip))
     	goto reconnect;
     printf("Connected to socket\r\n");
-    //swarm_get_resources(&outsock);
-    //doWork(5000);
-    //closeConnection();
-    //doWork(500);
-    //if (!openHTTPConnection(swarm_server_ip))
-    //	goto reconnect;
     
-    // open HTTP streaming socket to swarm by sending participation header 
+    // open HTTP streaming socket to swarm by sending HTTP participation header 
     swarm_send_produce(swarm_id, resource_id, participation_key, &outsock);
       
-    doWork(2000);
+    // TODO - read from socket until we see headers back from the server
+    // This delay is dependent on swarm service latency.
+    if (!doWork(8000)) {
+	delay_ms(1000);
+	goto reconnect;
+    }
       
     // Send capabilities message, assuming a webUI is listening for it 
     capabilities_announce(&outsock);
     printf("Connected to Swarm!\r\n");
     while (1U)
     {
+	//Retrieve new samples from all sensors, first.
 	MY_WDT_Restart();
 	toggle_led(5);
 	read_accel(&last_accel);
 	read_light(&last_light);
 	read_temp(&last_temp);
 	
+	//Mic signal is balanced to VCC/2, subtracting this DC offset.
 	mic_level = an5_max - 0x0200;
 	an5_max = 0;
 	printf("A(%f,%f,%f) L[%u] T<%f> {%04x} {%04x} (%lu)\r\n", last_accel.x, last_accel.y, last_accel.z, last_light.light, last_temp.tempF, an4_last, mic_level, last_temp.time);
 	
+	//Delay at least (period/NUM_SENSOR) ms, reading from socket and buttons in the meantime.
 	if (!doWork(period/NUM_SENSOR)) {
 		delay_ms(1000);
 		goto reconnect;
@@ -214,6 +227,7 @@ void main(void)
 		goto reconnect;
 	}
 	
+	//Delay at least (period/NUM_SENSOR) ms, reading from socket and buttons in the meantime.
 	if (!doWork(period/NUM_SENSOR)) {
 		delay_ms(1000);
 		goto reconnect;
@@ -228,6 +242,7 @@ void main(void)
 		goto reconnect;
 	}
 	
+	//Delay at least (period/NUM_SENSOR) ms, reading from socket and buttons in the meantime.
 	if (!doWork(period/NUM_SENSOR)) {
 		delay_ms(1000);
 		goto reconnect;
@@ -242,6 +257,7 @@ void main(void)
 		goto reconnect;
 	}
 	
+	//Delay at least (period/NUM_SENSOR) ms, reading from socket and buttons in the meantime.
 	if (!doWork(period/NUM_SENSOR)) {
 		delay_ms(1000);
 		goto reconnect;
@@ -256,6 +272,7 @@ void main(void)
 		goto reconnect;
 	}
 	
+	//Delay at least (period/NUM_SENSOR) ms, reading from socket and buttons in the meantime.
 	if (!doWork(period/NUM_SENSOR)) {
 		delay_ms(1000);
 		goto reconnect;
