@@ -36,19 +36,20 @@
 				console.log('setting ID to '+id);
 				selectedID = id;
 			}
+            
+			function onConnect() {
+                console.log('connected!');
+            }
 
-            SWARM.debug = true;
             SWARM.connect({ apikey: 'bc60aa60d80f7c104ad1e028a5223e7660da5f8c',
                             resource: '5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf',
                             swarms: ['2eaf3f05cd0dd4becc74d30857caf03adb85281e'],
                             onmessage: onMessage,
                             onerror: onError,
-                            onconnect: 
-            function onConnect() {
-                console.log('connected!');
-            }});
+                            onconnect: onConnect 
+			});
 	</script>
-	Enter SwarmID to follow: 
+	Enter ResourceID to follow: 
 	<form action="" onsubmit="selectResource(this.resourceid.value); return false;">
 			<input type="text" id="resourceid" name="resourceid" />
 			<input type="submit" value="Submit" />
