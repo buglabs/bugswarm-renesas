@@ -136,13 +136,12 @@ int  main(void)
     if(AppMode == SWARM_CONN_MODE) {
         LCDDisplayLogo();
         LCDSelectFont(FONT_SMALL);
-        DisplayLCD(LCD_LINE3, "RL78G14 RDK    V2.0");
-        DisplayLCD(LCD_LINE4, "   Wi-Fi & Cloud   ");
+        DisplayLCD(LCD_LINE3, "bugswarm-renesasg14");
+        DisplayLCD(LCD_LINE4, " BETA R0.1         ");
         DisplayLCD(LCD_LINE5, "     demos by:     ");
         DisplayLCD(LCD_LINE6, "Gainspan           ");
-        DisplayLCD(LCD_LINE8, "Buglabs swarm      ");
-        //MSTimerDelay(1000);
-		MSTimerDelay(100);
+        DisplayLCD(LCD_LINE8, "Buglabs bugswarm   ");
+        MSTimerDelay(1000);
         ClearLCD();
         DisplayLCD(LCD_LINE1, "Booting:           ");
 		DisplayLCD(LCD_LINE2, " bugswarm connector");
@@ -157,8 +156,7 @@ int  main(void)
         //DisplayLCD(LCD_LINE5, "-RST + SW2:        ");
         //DisplayLCD(LCD_LINE6, "   AP Provisioning ");
         //DisplayLCD(LCD_LINE7, "-RST + SW3: OTA    ");
-        //MSTimerDelay(4000);
-		MSTimerDelay(100);
+        MSTimerDelay(4000);
         ClearLCD();
         
         LCDSelectFont(FONT_SMALL);
@@ -201,6 +199,8 @@ int  main(void)
     else if(AppMode == RUN_PROVISIONING)
     {
       ConsolePrintf("Begin App_WebProvisioning();\r\n");
+	  DisplayLCD(LCD_LINE1, "*SSID CONFIG");
+	  DisplayLCD(LCD_LINE3, "Initializing");
       App_WebProvisioning();
     }
      else if(AppMode == RUN_OVER_AIR_DOWNLOAD)

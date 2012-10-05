@@ -102,9 +102,9 @@ void App_InitModule(void)
 void App_StartupLimitedAP(char *mySSID)
 {
     ATLIBGS_MSG_ID_E r;
-
-    DisplayLCD(LCD_LINE3, "Limited AP:");
-    DisplayLCD(LCD_LINE4, (uint8_t const *)mySSID);
+	
+	//DisplayLCD(LCD_LINE3, "Limited AP:");
+	//DisplayLCD(LCD_LINE4, (uint8_t const *)mySSID);
 
 #ifdef ATLIBGS_DEBUG_ENABLE
     ConsolePrintf("Starting Limited AP: %s\n", ATLIBGS_LIMITED_AP_SSID);
@@ -194,7 +194,10 @@ void App_WebProvisioning(void)
       AtLibGs_ParseGetMacResponse(WiFiMACStr);    
     strcpy(str_config_ssid, (char const*)ATLIBGS_ADK_SSID); 
     strcat(str_config_ssid, &WiFiMACStr[6]);                     // concatenate last 6 digis of MAC as SSID  
-    
+
+	DisplayLCD(LCD_LINE2, "   Connect  ");    
+	DisplayLCD(LCD_LINE3, "to Wifi SSID");
+    DisplayLCD(LCD_LINE4, (uint8_t const *)str_config_ssid);
     App_StartupLimitedAP(str_config_ssid);
     
     /* Before going into web provisioning, provide DNS to give a link. */
@@ -218,7 +221,8 @@ void App_WebProvisioning(void)
         }
         break;
     }
-    DisplayLCD(LCD_LINE6, "WebProv ON");
+	DisplayLCD(LCD_LINE5, "   And     ");	
+    DisplayLCD(LCD_LINE6, "Open Page: ");
     DisplayLCD(LCD_LINE7, (const uint8_t *) "192.168.240.");
     DisplayLCD(LCD_LINE8, (const uint8_t *) "1/prov.html");  
 #if 0
@@ -251,9 +255,10 @@ void App_WebProvisioning(void)
     ConsolePrintf("Web provisioning complete.\n");
 #endif
 
-    DisplayLCD(LCD_LINE6, "WebProv Done");
-    DisplayLCD(LCD_LINE7, "");
-    DisplayLCD(LCD_LINE8, "Press RESET");
+	ClearLCD();
+	DisplayLCD(LCD_LINE1, "*SSID CONFIG");
+    DisplayLCD(LCD_LINE4, "  COMPLETE  ");
+    DisplayLCD(LCD_LINE7, "Press RESET");
     //while (1)
     //    {}
 }
