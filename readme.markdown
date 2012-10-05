@@ -1,5 +1,23 @@
 # bugswarm-renesas: 
 
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [bugswarm-renesas:](#bugswarm-renesas)
+	- [Supported Boards](#supported-boards)
+	- [The RL78/G14 board with built-in Gainspan module](#the-rl78g14-board-with-built-in-gainspan-module)
+		- [Usage Instructions](#usage-instructions)
+		- [Programming Instructions](#programming-instructions)
+		- [Implementation Details](#implementation-details)
+			- [Known Issues](#known-issues)
+		- [Troubleshooting](#troubleshooting)
+	- [The RL78/G13 board with Redpine companion card](#the-rl78g13-board-with-redpine-companion-card)
+		- [Usage Instructions](#usage-instructions-1)
+		- [Programming Instructions](#programming-instructions-1)
+		- [Implementation Details](#implementation-details-1)
+			- [Known Issues](#known-issues-1)
+		- [Troubleshooting](#troubleshooting-1)
+		- [Relevant Documentation](#relevant-documentation)
+
 A bugswarm connector for Renesas 8- and 16-bit microcontrollers.  This code turns a compatible evaluation board into a real-time internet enabled device.  Once the connector is deployed to a device, the device will automatically connect to the bugswarm platform and share it's peripherals using a standardized API.  This enables developers to create applications for the evaluation board in a wide variety of languages, without needing to download an SDK or physical access to the device.  
 
 ## Supported Boards
@@ -33,6 +51,7 @@ Forthcoming.
 ### Implementation Details
 
 Pseudocode for the firmware:
+
 1.  Check status of switches.  If SW1 is held down, enter Gainspan web demo.  If SW2 is held down, enter web provisioning mode
 1.  Initialize hardware and read wireless AP data from nonvolatile storage.  If no SSID has been saved, enter web provisioning mode
 1.  Read wifi MAC address and execute API call to swarm server.  Swarm credentials will be created if the device is new, and then returned.
