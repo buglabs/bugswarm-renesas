@@ -2,12 +2,62 @@
 
 A bugswarm connector for Renesas 8- and 16-bit microcontrollers.  This code turns a compatible evaluation board into a real-time internet enabled device.  Once the connector is deployed to a device, the device will automatically connect to the bugswarm platform and share it's peripherals using a standardized API.  This enables developers to create applications for the evaluation board in a wide variety of languages, without needing to download an SDK or physical access to the device.  
 
-### Supported Boards
+## Supported Boards
 
 *  RL78/G13 Demonstration Kit (YRDKRL78G13) 
     *  Redpine companion WiFi Card (RS-RL78G13-2200CC)
+*  RL78/G14 Demonstration Kit (YRDKRL78G14)
+    *  Built-in Gainspan GS1011-MIPS module
 
-### How to use an RL78/G13 board that has already been programmed
+## The RL78/G14 board with built-in Gainspan module
+
+This is the most recent bugswarm-enabled device.  The firmware is currently in beta, using the IAR RL78 Workbench development environment.  For the final firmware release, the code will be ported to the CubeSuite+ environment and Applilet3 driver generation tool.  Notable improvements:
+*  Swarm credentials are automatically generated based on the device mac address, no user intervention required
+*  Wifi access point can be set using the web provisioning feature of the gainspan module
+*  A single firmware can be used for all RL78G14 development boards.
+
+### Usage Instructions
+
+1.  Connect the RDK board to a USB power source using a USB-Mini cable.
+1.  The RL78 will enter web provisioning mode on first boot.  Using a smartphone, tablet, or laptop, connect to the wireless access point indicated on the LCD screen.
+1.  Open a web browser and go to the URL indicated on the LCD screen.  Follow the instructions to configure the device for your wireless AP or Mifi device.  When prompted, press the RESET switch on the RDK board.
+1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
+1.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://buglabs.github.com/bugswarm-renesas/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
+1.  Click on the second dropdown box.  You should see the ```ID``` from the LCD screen in the list.  Select that entry and click "Go!".
+1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/) for examples of how to use this data in your own application.
+
+### Programming Instructions
+
+Forthcoming.
+
+### Implementation Details
+
+Pseudocode for the firmware:
+1.  Check status of switches.  If SW1 is held down, enter Gainspan web demo.  If SW2 is held down, enter web provisioning mode
+1.  Initialize hardware and read wireless AP data from nonvolatile storage.  If no SSID has been saved, enter web provisioning mode
+1.  Read wifi MAC address and execute API call to swarm server.  Swarm credentials will be created if the device is new, and then returned.
+1.  If Swarm credentials could not be retreived from server, use default ID of "UnknownDevice".
+1.  Open a streaming "producer" session with the swarm API, and wait for message from server acknowledging the "presence" of the module.
+1.  Enter production loop, in which each sensor on the board is sampled and transmitted to the server, every second.
+
+#### Known Issues
+
+1.  The watchdog timer has not been enabled in the beta release, adding this will improve reliability when the module is suddenly disconnected from the internet.
+1.  Serial debugging occurs over UART0 (at 115200 baud) which is used by the debugger.  We haven't been able to use the USB debugger tool to read this data, we instead used a seperate USB->Serial converter connected to pins 54 and 55.  
+
+### Troubleshooting
+
+1.  If the device appears on the Renesas Web Portal as "UnknownDevice", try rebooting it.  Occasionally the first API call can fail if the wireless access point has not finished opening the connection.
+1.  If an error is printed to the LCD screen on line 4 or line 8, and the error does not go away for a few minutes, try manually resetting the board.
+1.  If the RDK board never appears on the web portal, use a smartphone or laptop to verify that the selected wireless access point has an internet connection, particularly to demo.bugswarm.com or developer.bugswarm.net.
+
+## The RL78/G13 board with Redpine companion card
+
+This was the first board to receive a bugswarm connector.  The development environment is the Renesas CubeSuite+ compiler with Applilet3 driver generation toolkit.  Notable limitations:
+*  Swarm credentials must be pre-programmed into the firmware of each board, using a development environment
+*  Wifi AP credentials must be pre-programmed as well, defaulting to SSID "renesasdemo" Password "renesaspsk"
+
+### Usage Instructions
 
 1. Set up a wireless access point, or Mifi tether with the SSID ```renesasdemo``` and password ```renesaspsk```.  The wireless security can be WPA1 or WPA2 Personal.  See the deployment instructions below to connect to a different ESSID.
 1. (Optional) Connect a laptop or cellphone to this wireless access point, verify it can connect and verify that it has internet connectivity.
@@ -24,7 +74,7 @@ A bugswarm connector for Renesas 8- and 16-bit microcontrollers.  This code turn
 
 See the troubleshooting section below if board does not appear in the list, or data is not produced.
 
-### How to Deploy the connector to an RL78/G13 demo board
+### Programming Instructions
 
 1. Download and install the newest version of CubeSuite+ from [the following link](http://am.renesas.com/support/downloads/download_results/C1000000-C9999999/tools/evaluation_cubesuite_plus.jsp)
 1. Open CubeSuite
