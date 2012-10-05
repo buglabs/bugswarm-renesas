@@ -72,6 +72,7 @@ function changeTheme() {
 function onPresence(presence) {
     if (("swarm" in presence.from)&&(presence.from.resource != RESOURCE_ID)&&
             (presence.from.resource != WEBUI_RESOURCE)){
+			console.log('Resource '+presence.from.resource);
         var resource = presence.from.resource
         if ((resource in resources)&&(!("type" in presence))){
             //console.log('Adding one '+resource);
@@ -238,10 +239,27 @@ function onConnect() {
    //console.log('connected');
    startTime = (new Date()).getTime();
 }
-SWARM.connect({ apikey: API_KEY, 
-               resource: RESOURCE_ID, 
-               swarms: [SWARM_ID], 
-               onmessage: onMessage, 
-               onpresence: onPresence,
-               onerror: onError,
-               onconnect: onConnect});
+
+$(document).ready(function() {
+	$('button#swarm_select').click(function(e){
+		var swarmid = $("#boardlist option:selected").val();
+		//console.log('Changing to swarm '+swarmid);
+		if (swarmid.length == 40) {
+			SWARM_ID = swarmid;
+			if (SWARM.online) {
+				console.log('Disconnecting');
+				SWARM.disconnect();
+			}
+			setTimeout(function() {
+				console.log('Connecting');
+				SWARM.connect({ apikey: API_KEY, 
+							   resource: RESOURCE_ID, 
+							   swarms: [SWARM_ID], 
+							   onmessage: onMessage, 
+							   onpresence: onPresence,
+							   onerror: onError,
+							   onconnect: onConnect});
+			}, 1000);
+		}
+	});
+});
