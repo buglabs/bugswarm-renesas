@@ -103,17 +103,30 @@ void App_RunConnector(void)
 			ConsolePrintf("Connecting to %s...",G_nvsettings.webprov.ssid);
 			r = App_Connect(&G_nvsettings.webprov);
 			ConsolePrintf(" %d\r\n",r);        
+			if (r != ATLIBGS_MSG_ID_OK) {
+				DisplayLCD(LCD_LINE4, "WIFI ERR: RESET");
+				MSTimerDelay(1000);
+				void (*reset) (void) = (void (*)(void)) (0xFFFF);
+			}
 			//TODO - verify connection attempt against enum
 		}
+		DisplayLCD(LCD_LINE3, "Obtaining Swarm ID");
                 
 		//r = getAPIKey(pkt, sizeof(pkt), configuration_key);    
 		r = getResourceID(MACstr, pkt, sizeof(pkt), resource_id);
+		if (r != ATLIBGS_MSG_ID_OK){
+			DisplayLCD(LCD_LINE3, "ID: UnknownDevice");
+		} else {
+			sprintf(msg, "ID: %s",MACstr);
+			DisplayLCD(LCD_LINE3, msg);
+		}
 		
 		//TODO DELETEME!
 		//ConsolePrintf("Test complete, quit\r\n");
 		//return;
         MSTimerDelay(250);
 		ConsolePrintf("Creating a production session\r\n");
+		DisplayLCD(LCD_LINE8, "Opening Connection");
 		r = createProductionSession(&cid, 
                                          (char *)SwarmHost,
                                          (char *)swarm_id,
@@ -121,18 +134,25 @@ void App_RunConnector(void)
                                          (char *)participation_key);
    		if (r > 1){
 			ConsolePrintf("Unable to open production session, retrying\r\n");
+			DisplayLCD(LCD_LINE8, "Couldn't open socket");
 			connected = false;
+			DisplayLCD(LCD_LINE4, "SOCKET ERR: RESET");
 			MSTimerDelay(2000);
-			continue;
+			void (*reset) (void) = (void (*)(void)) (0xFFFF);
+			//continue;
 		}
 		connected = true;
 		while(connected) {
+			DisplayLCD(LCD_LINE8, "Connected!");
 			r = App_SwarmProducer(cid);
 			if (r > 1){
 				ConsolePrintf("Error producing to swarm, retrying\r\n");
+				DisplayLCD(LCD_LINE8, "Production err");
+				DisplayLCD(LCD_LINE4, "PROD ERR: RESET");
 				MSTimerDelay(2000);
+				void (*reset) (void) = (void (*)(void)) (0xFFFF);
 				connected = false;
-				continue;
+				//continue;
 			} else if (r == 0) {
 				ConsolePrintf("Production session complete\r\n");
 				return;
@@ -169,6 +189,7 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 	r = readOnePacket(buff, bufflen, &len, 5000);
 	if (r != ATLIBGS_MSG_ID_OK){
 		ConsolePrintf("Error retrieving response %d\r\n", r);
+		DisplayLCD(LCD_LINE8, "swarm readcfg err");
 		return r;
 	}
 	ConsolePrintf("Got %d bytes\r\n",len);
@@ -178,6 +199,7 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 	} else {
 		ConsolePrintf("Invalid resource id from server, using default "
 					  "\"UnknownDevice\"\r\n");
+		DisplayLCD(LCD_LINE8, "invalid cfg resp");
 	}
 	ConsolePrintf("Using resource id: %s\r\n",resource_id);
 //	AtLibGs_Close(cid);
@@ -278,6 +300,7 @@ ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...
 	ConsolePrintf("Opened a socket:  %d,%d\r\n",r,*cid);
 	if ((r != ATLIBGS_MSG_ID_OK) || (*cid == ATLIBGS_INVALID_CID)){
 		ConsolePrintf("Unable to connect to TCP socket\r\n");
+		DisplayLCD(LCD_LINE8, "API socket err");
 		return r;
 	}
 	App_PrepareIncomingData();      
@@ -289,6 +312,7 @@ ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...
 	//ConsolePrintf("Sent headers: %d\r\n", r);
 	if (r != ATLIBGS_MSG_ID_OK) {
 		ConsolePrintf("Error transmitting headers to server (%d)%s\r\n", r, buff);
+		DisplayLCD(LCD_LINE8, "API send err");
 		return r;
 	}
 	return ATLIBGS_MSG_ID_OK;
@@ -297,6 +321,7 @@ ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...
 ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	ATLIBGS_MSG_ID_E r;
 	uint16_t value;
+	uint16_t mic_level;
 	float temp, tempF;
 	extern int16_t	gAccData[3];
 	int idx = 0;
@@ -322,6 +347,8 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 					value);
 		if (r > 1)
 			return r;
+		sprintf(msg, "T: %0.2fF, L: %u",tempF, value);
+		DisplayLCD(LCD_LINE5, msg);
 		readForAtLeast(cid, 200);
 		
 		ConsolePrintf("Accel: ");
@@ -332,9 +359,23 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 					(float)gAccData[0]/33.0, (float)gAccData[1]/33.0, (float)gAccData[2]/30.0);
 		if (r > 1)
 			return r;
+		sprintf(msg, "A(%0.2f,%0.2f,%0.2f)",
+				(float)gAccData[0]/33.0, (float)gAccData[1]/33.0, (float)gAccData[2]/30.0);
+		DisplayLCD(LCD_LINE6, msg);
 		readForAtLeast(cid, 200);
-                
-        ConsolePrintf("Pot: ");
+		
+		ConsolePrintf("Mic: ");
+		value = Microphone_Get();
+		value = Microphone_Get();	
+		mic_level = abs((int)(value/4)-493);
+		ConsolePrintf("%u, %04x\r\n", mic_level, value);		
+		r = produce(cid, "{\"name\":\"Sound Level\",\"feed\":{\"Raw\":%u}}",
+					mic_level);
+		if (r > 1)
+			return r;
+		readForAtLeast(cid, 200);		
+		
+		ConsolePrintf("Pot: ");
 		value = Potentiometer_Get();
 		value = Potentiometer_Get();
 		ConsolePrintf("%u, %04x\r\n", value/4, value);
@@ -342,18 +383,9 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 					value/4);
 		if (r > 1)
 			return r;
+		sprintf(msg, "P: %u M: %u", value/4, mic_level);
+		DisplayLCD(LCD_LINE7, msg);
 		readForAtLeast(cid, 200);
-		
-		ConsolePrintf("Mic: ");
-		value = Microphone_Get();
-		value = Microphone_Get();	
-		value = abs((int)(value/4)-493);
-		ConsolePrintf("%u, %04x\r\n", value, value);		
-		r = produce(cid, "{\"name\":\"Sound Level\",\"feed\":{\"Raw\":%u}}",
-					value/4);
-		if (r > 1)
-			return r;
-		readForAtLeast(cid, 200);		
 		
 		if (idx++%5 == 0){
            produce(cid, feed_request);
@@ -392,6 +424,7 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	ConsolePrintf(" %d,%d\r\n",r,cid);
 	if ((r != ATLIBGS_MSG_ID_OK) || ((*cid) == ATLIBGS_INVALID_CID)){
 		ConsolePrintf("Unable to connect to TCP socket\r\n");
+		DisplayLCD(LCD_LINE8, "produce socket err");
 		return r;
 	}
 	App_PrepareIncomingData();      
@@ -403,8 +436,10 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	ConsolePrintf(" %d\r\n", r);
 	if (r != ATLIBGS_MSG_ID_OK) {
 		ConsolePrintf("Error transmitting headers to server\r\n");
+		DisplayLCD(LCD_LINE8, "produce header err");
 		return r;
 	}
+	DisplayLCD(LCD_LINE8, "waiting for presence");
  
 	//Wait up to 5 seconds for presence messages.
 	readForAtLeast(*cid, 5000);
