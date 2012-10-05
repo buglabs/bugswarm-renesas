@@ -106,7 +106,6 @@ void App_RunConnector(void)
 			if (r != ATLIBGS_MSG_ID_OK) {
 				DisplayLCD(LCD_LINE4, "WIFI ERR: RESET");
 				MSTimerDelay(1000);
-				void (*reset) (void) = (void (*)(void)) (0xFFFF);
 			}
 			//TODO - verify connection attempt against enum
 		}
@@ -127,6 +126,7 @@ void App_RunConnector(void)
         MSTimerDelay(250);
 		ConsolePrintf("Creating a production session\r\n");
 		DisplayLCD(LCD_LINE8, "Opening Connection");
+		DisplayLCD(LCD_LINE4, "                  ");
 		r = createProductionSession(&cid, 
                                          (char *)SwarmHost,
                                          (char *)swarm_id,
@@ -138,8 +138,7 @@ void App_RunConnector(void)
 			connected = false;
 			DisplayLCD(LCD_LINE4, "SOCKET ERR: RESET");
 			MSTimerDelay(2000);
-			void (*reset) (void) = (void (*)(void)) (0xFFFF);
-			//continue;
+			continue;
 		}
 		connected = true;
 		while(connected) {
@@ -150,9 +149,8 @@ void App_RunConnector(void)
 				DisplayLCD(LCD_LINE8, "Production err");
 				DisplayLCD(LCD_LINE4, "PROD ERR: RESET");
 				MSTimerDelay(2000);
-				void (*reset) (void) = (void (*)(void)) (0xFFFF);
 				connected = false;
-				//continue;
+				continue;
 			} else if (r == 0) {
 				ConsolePrintf("Production session complete\r\n");
 				return;
@@ -445,6 +443,7 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	readForAtLeast(*cid, 5000);
 	
 	ConsolePrintf("Done waiting for presence, connected to swarm!\r\n");
+	DisplayLCD(LCD_LINE4, "                  ");
 	return ATLIBGS_MSG_ID_OK;
 }
 
