@@ -37,9 +37,42 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 ### Usage Instructions
 
 1.  Connect the RDK board to a USB power source using a USB-Mini cable.
+
+	![USB Power connection](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
+
 1.  The RL78 will enter web provisioning mode on first boot.  Using a smartphone, tablet, or laptop, connect to the wireless access point indicated on the LCD screen.
-1.  Open a web browser and go to the URL indicated on the LCD screen.  Follow the instructions to configure the device for your wireless AP or Mifi device.  When prompted, press the RESET switch on the RDK board.
+
+	![LCD Screen Provisioning Message](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/Provision\_Message.JPG)
+	![Provisioning Wireless AP](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/webprovisionAP.png)
+
+1.  Open a web browser and go to the URL indicated on the LCD screen.  Click on the ```Wireless and Network Configuration``` link.
+
+	![Provisioning Wireless Frontpage](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/webprovisionFrontpage.png)
+
+1.  To scan for an access point to connect to, click on ```Select an Existing Network```
+
+	![Provisioning Wireless Existing Network](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/webprovisionExisting.png)
+
+1.  Pick a wireless AP from the list and click on it's ```Select``` button:
+
+	![Provisioning Wireless Network List](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/webprovisionList.png)
+
+1.  Enter the wireless password, leaving the other fields at default values.  Click on ```next```:
+
+	![Provisioning Wireless Network Settings](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/webprovisionSettings.png)
+
+1.  Click on ```Save And Apply``` to confirm the selection.
+
+	![Provisioning Wireless Confirmation](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/webprovisionConfirmation.png)
+
+1.  You should see the following message displayed on the LCD screen.  Press the ```RESET``` button.
+
+	![LCD Screen Provisioning Done](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/Provision\_Done.JPG)
+
 1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
+
+	![LCD Screen when Running](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/connectorRunning.JPG)
+
 1.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://buglabs.github.com/bugswarm-renesas/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
 1.  Click on the second dropdown box.  You should see the ```ID``` from the LCD screen in the list.  Select that entry and click "Go!".
 1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/) for examples of how to use this data in your own application.
