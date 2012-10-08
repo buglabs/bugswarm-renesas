@@ -38,52 +38,52 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 1.  Connect the RDK board to a USB power source using a USB-Mini cable.
 
-	![USB Power connection](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
+	![USB Power connection](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
 
 1.  The RL78 will enter web provisioning mode on first boot.  Using a smartphone, tablet, or laptop, connect to the wireless access point indicated on the LCD screen.
 
-	![LCD Screen Provisioning Message](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/Provision\_Message.JPG)
-	![Provisioning Wireless AP](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/webprovisionAP.png)
+	![LCD Screen Provisioning Message](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/Provision\_Message.JPG)
+	![Provisioning Wireless AP](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionAP.png)
 
 1.  Open a web browser and go to the URL indicated on the LCD screen.  Click on the ```Wireless and Network Configuration``` link.
 
-	![Provisioning Wireless Frontpage](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/webprovisionFrontpage.png)
+	![Provisioning Wireless Frontpage](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionFrontpage.png)
 
 1.  To scan for an access point to connect to, click on ```Select an Existing Network```
 
-	![Provisioning Wireless Existing Network](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/webprovisionExisting.png)
+	![Provisioning Wireless Existing Network](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionExisting.png)
 
 1.  Pick a wireless AP from the list and click on it's ```Select``` button:
 
-	![Provisioning Wireless Network List](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/webprovisionList.png)
+	![Provisioning Wireless Network List](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionList.png)
 
 1.  Enter the wireless password, leaving the other fields at default values.  Click on ```next```:
 
-	![Provisioning Wireless Network Settings](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/webprovisionSettings.png)
+	![Provisioning Wireless Network Settings](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionSettings.png)
 
 1.  Click on ```Save And Apply``` to confirm the selection.
 
-	![Provisioning Wireless Confirmation](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/webprovisionConfirmation.png)
+	![Provisioning Wireless Confirmation](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionConfirmation.png)
 
 1.  You should see the following message displayed on the LCD screen.  Press the ```RESET``` button.
 
-	![LCD Screen Provisioning Done](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/Provision\_Done.JPG)
+	![LCD Screen Provisioning Done](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/Provision\_Done.JPG)
 
 1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
 
-	![LCD Screen when Running](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/connectorRunning.JPG)
+	![LCD Screen when Running](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/connectorRunning.JPG)
 
 1.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://buglabs.github.com/bugswarm-renesas/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
 
-	![Select Board](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/swarmSelectBoard.png)
+	![Select Board](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/swarmSelectBoard.png)
 
 1.  Click on the second dropdown box.  You should see the ```ID``` from the LCD screen in the list.  Select that entry and click "Go!".
 
-	![Select Device](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/swarmSelectDevice.png)
+	![Select Device](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/swarmSelectDevice.png)
 
-1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/) for examples of how to use this data in your own application.
+1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/) for examples of how to use this data in your own application.
 
-	![Running demo](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/swarmRunning.png)
+	![Running demo](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/swarmRunning.png)
 
 
 ### Programming Instructions
@@ -124,7 +124,7 @@ This was the first board to receive a bugswarm connector.  The development envir
 1. (Optional) Connect a laptop or cellphone to this wireless access point, verify it can connect and verify that it has internet connectivity.
 1. Make sure that Switch 2 of SW5 is set to the up or 'On' position.  [See the quick start guide](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_Quick_Start_Guide.pdf) for more details.
 
-	![Switch 5 Location on YRDKRL78G13 board](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/RL78\_SW5\_location.jpg)
+	![Switch 5 Location on YRDKRL78G13 board](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/RL78\_SW5\_location.jpg)
 
 1. Using a USB Micro cable, connect the RL78 board to a USB power source.  This can be a PC, Laptop, or USB wall charger.
 1. The demo board will take several seconds to connect to the wireless access point.  When it has successfully connected, LED6 (the green led to the left of the LCD screen) will blink.
@@ -144,11 +144,11 @@ See the troubleshooting section below if board does not appear in the list, or d
 1. Within CubeSuite, select ```File -> Open``` and navigate to ```bugswarm-renesas.Buglabs.mtud``` within the directory from the previous step.
 1. In the pane on the left hand side of the application, double click on the file ```rsi_global.h``` within the ```redpine``` folder.  
 
-	![rsi_global](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/rsi_global.png)
+	![rsi_global](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/rsi_global.png)
 
 1. The board is configured to connect to ESSID ```renesasdemo``` with password ```renesaspsk```.  If you would like to change these settings, modify the variables ```PSK```, ```SCAN_SSID```, and ```JOIN_SSID``` accordingly
 
-	![rsi_global variables](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/rsi_global_variables.png)
+	![rsi_global variables](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/rsi_global_variables.png)
 
 1. Log in to [demo.bugswarm.com](http://demo.bugswarm.com)
 1. Click on the New Resource button
@@ -156,38 +156,38 @@ See the troubleshooting section below if board does not appear in the list, or d
 1. Fill out the "Description" field with "RL78/G13 Demonstration Board"
 1. Click on "Create"
 
-	![create a new resource process](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/new_resource.png)
+	![create a new resource process](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/new_resource.png)
 
 1. Click on the "My Swarms" tab.
 1. Select the "rl78\_web\_portal" swarm.
 1. Click the "Edit" button.
 
-	![swarm edit button](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/Swarm_edit.png)
+	![swarm edit button](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/Swarm_edit.png)
 
 1. Find the resource that was created previously in the right hand side of the screen, and click on the grey "producer" button (do NOT select the "consumer" button).
 1. Click on the "Update" button.
 
-	![add resource to swarm](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/add_resource_to_swarm.png)
+	![add resource to swarm](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/add_resource_to_swarm.png)
 
 1. In the next screen, find the resource we just created and copy the text next to the ```ID:``` label.
 
-	![swarm config panel](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/swarm_config_panel.png)
+	![swarm config panel](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/swarm_config_panel.png)
 
 1. In the CubeSuite IDE, double click on the file ```r_main.c``` within the ```gen``` folder.
 1. Replace the text immediately following ```const char resource_id[] = ``` with the ID copied from the bugswarm webpage, similarly in quotes.
 
-	![add resource to source code](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/add_resource_to_code.png)
+	![add resource to source code](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/add_resource_to_code.png)
 
 1. Connect the Redpine Wifi Card to the App header slot on the RL78/G13 board ([See this Diagram](http://am.renesas.com/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/sub/layout_child.jsp)).  The components on the wifi card should be facing inwards.
 
-	![Redpine wifi code location](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/RL78_redpine_card.jpg)
+	![Redpine wifi code location](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/RL78_redpine_card.jpg)
 
 1. On the RL78G13 demo board, make sure that switch 2 on SW5 is in the downward (or 'Off') position.  [See the quick start guide](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_Quick_Start_Guide.pdf) for more details.
 1. Connect the RL78G13 demo board to the PC using a USB cable
 1. Within CubeSuite, press the ```<F6>``` button.  The project should compile and deploy to the demo board.
 1. When the download has completed, the screen should change and should highlight a single line in ```r_main.c``` in yellow.  When this happens, press the ```<F5>``` key.
 
-	![debugger waiting at top of main](https://raw.github.com/buglabs/bugswarm-renesas-g14/master/tutorial/images/debugger_waiting_at_main.png)
+	![debugger waiting at top of main](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/debugger_waiting_at_main.png)
 
 1. The application should start running.
 
