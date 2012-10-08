@@ -74,8 +74,17 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 	![LCD Screen when Running](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/connectorRunning.JPG)
 
 1.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://buglabs.github.com/bugswarm-renesas/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
+
+	![Select Board](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/swarmSelectBoard.png)
+
 1.  Click on the second dropdown box.  You should see the ```ID``` from the LCD screen in the list.  Select that entry and click "Go!".
+
+	![Select Device](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/swarmSelectDevice.png)
+
 1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/) for examples of how to use this data in your own application.
+
+	![Running demo](https://raw.github.com/buglabs/bugswarm-renesas/master/tutorial/images/swarmRunning.png)
+
 
 ### Programming Instructions
 
