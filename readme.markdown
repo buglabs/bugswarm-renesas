@@ -31,52 +31,52 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 1.  Connect the RDK board to a USB power source using a USB-Mini cable.
 
-	![USB Power connection](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
+	![USB Power connection](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
 
 1.  The RL78 will enter web provisioning mode on first boot.  Using a smartphone, tablet, or laptop, connect to the wireless access point indicated on the LCD screen.
 
-	![LCD Screen Provisioning Message](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/Provision\_Message.JPG)
-	![Provisioning Wireless AP](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionAP.png)
+	![LCD Screen Provisioning Message](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/Provision\_Message.JPG)
+	![Provisioning Wireless AP](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionAP.png)
 
 1.  Open a web browser and go to the URL indicated on the LCD screen.  Click on the ```Wireless and Network Configuration``` link.
 
-	![Provisioning Wireless Frontpage](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionFrontpage.png)
+	![Provisioning Wireless Frontpage](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionFrontpage.png)
 
 1.  To scan for an access point to connect to, click on ```Select an Existing Network```
 
-	![Provisioning Wireless Existing Network](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionExisting.png)
+	![Provisioning Wireless Existing Network](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionExisting.png)
 
 1.  Pick a wireless AP from the list and click on it's ```Select``` button:
 
-	![Provisioning Wireless Network List](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionList.png)
+	![Provisioning Wireless Network List](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionList.png)
 
 1.  Enter the wireless password, leaving the other fields at default values.  Click on ```next```:
 
-	![Provisioning Wireless Network Settings](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionSettings.png)
+	![Provisioning Wireless Network Settings](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionSettings.png)
 
 1.  Click on ```Save And Apply``` to confirm the selection.
 
-	![Provisioning Wireless Confirmation](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/webprovisionConfirmation.png)
+	![Provisioning Wireless Confirmation](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionConfirmation.png)
 
 1.  You should see the following message displayed on the LCD screen.  Press the ```RESET``` button.
 
-	![LCD Screen Provisioning Done](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/Provision\_Done.JPG)
+	![LCD Screen Provisioning Done](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/Provision\_Done.JPG)
 
 1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
 
-	![LCD Screen when Running](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/connectorRunning.JPG)
+	![LCD Screen when Running](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/connectorRunning.JPG)
 
 1.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://buglabs.github.com/bugswarm-renesas/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
 
-	![Select Board](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/swarmSelectBoard.png)
+	![Select Board](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectBoard.png)
 
 1.  Click on the second dropdown box.  You should see the ```ID``` from the LCD screen in the list.  Select that entry and click "Go!".
 
-	![Select Device](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/swarmSelectDevice.png)
+	![Select Device](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectDevice.png)
 
-1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/) for examples of how to use this data in your own application.
+1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/) for examples of how to use this data in your own application.
 
-	![Running demo](https://raw.github.com/theterg/bugswarm-renesas-g14/master/tutorial/images/swarmRunning.png)
+	![Running demo](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmRunning.png)
 
 
 ### Programming Instructions
@@ -110,10 +110,6 @@ Pseudocode for the firmware:
 * [bugswarm API documentation](http://developer.bugswarm.net/)
 * [bugswarm javascript library](https://github.com/buglabs/bugswarm-js)
 * [bugswarm preliminary configuration interface](http://demo.bugswarm.com/)
-* [Redpine Signals Companion Card resources](http://www.redpinesignals.com/Renesas/Wi-Fi_with%20_RL78.html)
-* [Renesas RL78G13 Demo Kit resources](http://am.renesas.com/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/index.jsp)
 * [YRDKRL78G13 Quick Start Guide (how to install the SDK)](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_Quick_Start_Guide.pdf)
 * [YRDKRL78G13 Getting Started DVD](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_DVD10.zip)
-* [RL78G13 CPU Hardware Manual](http://documentation.renesas.com/doc/products/mpumcu/doc/rl78/r01uh0146ej0200_rl78g13.pdf)
-* Further redpine documenation only available by contacting redpine suppport.
 
