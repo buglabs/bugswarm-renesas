@@ -74,7 +74,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 	![Select Device](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectDevice.png)
 
-1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/) for examples of how to use this data in your own application.
+1.  You should now see live data from your Renesas device.  See the [tutorial folder](https://github.com/buglabs/bugswarm-renesas/tree/yrdkrl78g14/tutorial) for examples of how to use this data in your own application.
 
 	![Running demo](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmRunning.png)
 
