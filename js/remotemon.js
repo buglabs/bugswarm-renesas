@@ -1,11 +1,14 @@
 var API_KEY = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 var CFG_KEY = "359aff0298658552ec987b9354ea754b684a4047";
-var SWARM_ID = "2eaf3f05cd0dd4becc74d30857caf03adb85281e";
+var SWARM_ID = "";
+var swarms = [ 	"2eaf3f05cd0dd4becc74d30857caf03adb85281e",
+				"69df1aea11433b3f85d2ca6e9c3575a9c86f8182" ];
 var RESOURCE_ID = "5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf";
 var WEBUI_RESOURCE = "c907c8bb15914a829b256c908aab2c54af48f5f3";
 
 var resources = new Object();
 var selectedResource = "";
+var selectedSwarm = "";
 
 var xAxisLength = 100;
 var accelX = new Array();
@@ -64,54 +67,50 @@ function loadThemes() {
 function changeTheme() {
 
 				var theme = $("#themeselect option:selected").val();
-                console.log('selecting '+theme );
+                //console.log('selecting '+theme );
 				$("link[id=style]").attr({href : 'css/'+theme+'.css'});
        
+}
+
+function populateResourceList() {
+	$('option.reslistitem').remove();
+	for (resource in resources[selectedSwarm]){
+		$('select#droplist').append('<OPTION class=reslistitem VALUE='+resource+' id='+resource+'>'+resources[selectedSwarm][resource]+'</OPTION>');
+	}
 }
 
 function onPresence(presence) {
     if (("swarm" in presence.from)&&(presence.from.resource != RESOURCE_ID)&&
             (presence.from.resource != WEBUI_RESOURCE)){
-			console.log('Resource '+presence.from.resource);
-        var resource = presence.from.resource
-        if ((resource in resources)&&(!("type" in presence))){
-            //console.log('Adding one '+resource);
-            resources[resource].count += 1;
-        } else if (resource in resources) {
-            resources[resource].count -= 1;
-            //console.log('Removing one '+resource+', now '+resources[resource]);
-            if (resources[resource].count === 0){
-                $('li#'+resource).remove();
-                delete resources[resource]
-            }
-        } else {
-            //console.log('Welcome new '+resource);
-            resources[resource] = {count:1};
-            $('select#droplist').append('<OPTION VALUE='+resource+' id='+resource+'>'+resource+'</OPTION>');
-            $('button#populate').click(function(e){
-                var resource = $("#droplist option:selected").val();
-                //console.log('selecting '+resource);
-                selectedResource = resource
-                startTime = (new Date()).getTime();
-                accelX = new Array();
-                accelY = new Array();
-                accelZ = new Array();
-                temp = new Array();
-                light = new Array();
-                pot = new Array();
-            });
-            $.ajax({ url:'http://api.bugswarm.net/resources/'+resource, 
-                type: 'GET',
-                data: null,
-                dataType: 'json',
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("x-bugswarmapikey", CFG_KEY);
-                },
-                success: function(data){
-                    //console.log(data.id+' is named '+data.name);
+        var resource = presence.from.resource;
+        var swarm = presence.from.swarm;
+		if (presence.type === "unavailable"){
+			delete resources[swarm][resource];
+			//console.log('Presence ('+resource+'): REMOVE');
+			if (swarm === selectedSwarm){
+				$('option#'+resource).remove();
+			}
+		} else {
+			resources[swarm][resource] = resource;
+			//console.log('Presence ('+resource+'): ADD');
+			$.ajax({ 	url:'http://api.bugswarm.net/resources/'+resource, 
+			    type: 'GET',
+			    data: null,
+			    dataType: 'json',
+			    beforeSend: function(xhr) {
+			        xhr.setRequestHeader("x-bugswarmapikey", CFG_KEY);
+			    },
+			    success: function(data){
+			        //console.log(data.id+' is named '+data.name);
+					//$('option').filter('#'+resource).html(data.name);
+					resources[swarm][resource] = data.name;
 					$('option').filter('#'+resource).html(data.name);
-                }});
-        }
+		    }});
+		    //console.log('Resources, ',resources);
+			if (swarm === selectedSwarm){
+				populateResourceList();
+			}
+		}
     } else {
         //console.log('presence -> ' + JSON.stringify(presence));
     }
@@ -241,25 +240,34 @@ function onConnect() {
 }
 
 $(document).ready(function() {
+	for (var i=0;i<swarms.length;i++) {
+		resources[swarms[i]] = new Object();
+	}
 	$('button#swarm_select').click(function(e){
 		var swarmid = $("#boardlist option:selected").val();
-		//console.log('Changing to swarm '+swarmid);
 		if (swarmid.length == 40) {
-			SWARM_ID = swarmid;
-			if (SWARM.online) {
-				console.log('Disconnecting');
-				SWARM.disconnect();
-			}
-			setTimeout(function() {
-				console.log('Connecting');
-				SWARM.connect({ apikey: API_KEY, 
-							   resource: RESOURCE_ID, 
-							   swarms: [SWARM_ID], 
-							   onmessage: onMessage, 
-							   onpresence: onPresence,
-							   onerror: onError,
-							   onconnect: onConnect});
-			}, 1000);
+			console.log('Changing to swarm '+swarmid);
+			selectedSwarm = swarmid;
+			populateResourceList();
 		}
 	});
+	$('button#populate').click(function(e){
+        var resource = $("#droplist option:selected").val();
+        console.log('selecting '+resource);
+        selectedResource = resource
+        startTime = (new Date()).getTime();
+        accelX = new Array();
+        accelY = new Array();
+        accelZ = new Array();
+        temp = new Array();
+        light = new Array();
+        pot = new Array();
+    });
+    SWARM.connect({ apikey: API_KEY, 
+					resource: RESOURCE_ID, 
+					swarms: swarms, 
+					onmessage: onMessage, 
+					onpresence: onPresence,
+					onerror: onError,
+					onconnect: onConnect});
 });
