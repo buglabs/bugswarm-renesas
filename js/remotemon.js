@@ -246,14 +246,14 @@ $(document).ready(function() {
 	$('button#swarm_select').click(function(e){
 		var swarmid = $("#boardlist option:selected").val();
 		if (swarmid.length == 40) {
-			console.log('Changing to swarm '+swarmid);
+			//console.log('Changing to swarm '+swarmid);
 			selectedSwarm = swarmid;
 			populateResourceList();
 		}
 	});
 	$('button#populate').click(function(e){
         var resource = $("#droplist option:selected").val();
-        console.log('selecting '+resource);
+        //console.log('selecting '+resource);
         selectedResource = resource
         startTime = (new Date()).getTime();
         accelX = new Array();
