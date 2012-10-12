@@ -81,7 +81,59 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 ### Programming Instructions
 
-Forthcoming.
+1.  Download and install the [Renesas Flash Programmer V2](http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#) from [http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#](http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#)
+1.  Locate SW5 in the middle of the RL78G14 RDK board.  Move Switch 2 of SW5 in the Off position, or towards the green square in this photo:
+
+	![RL78G14 RDK Debug Enabled](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G14debugenabled.JPG)
+
+1.  Connect the RDK board to the PC using a USB-Mini cable.
+
+	![USB Power connection](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
+
+1.  The PC should recognise and automatically load drivers for the RL78 debug IC.  Follow the prompts for your operating system to automatically install drivers - they should have been installed to the system with the Renesas Flash Programmer bundle.
+
+	![programming device detected by system](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashBoardDetected.png)
+
+1.  Open ```Renesas Flash Programmer V2.00``` from the start menu.  Click on Next to create a new workspace for the RL78G14.
+ 
+	![programming create new workspace](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashNewWorkspace.png)
+
+1.  Select ```RL78``` from the Microcontroller dropdown.  Then select the ```R5F104PJ``` MCU from the Device Name Column.  Finally, enter ```YRDKRL78G14``` as the worksapce and project name, then click Next.
+ 
+	![programming select the MCU](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashSelectMCU.png)
+
+1.  In the next dialog, open the Tool dropdown list, and select the lowermost COM port.  This should correspond to the COM port listed when the device was first added to the system.  Then click Next.
+ 
+	![programming select the port](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashSelectProgrammer.png)
+
+1.  Click next through the following two dialog boxes, leaving the default values intact.
+ 
+	![programming power supply](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashPowerSupply.png)
+	![programming confirmation](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashSettingsConfirmation.png)
+
+1.  Select ```Erase``` from the Microcontroller drop down menu, then click the large Start button.  If successful, the ```PASS``` text should be visible in green.
+
+	![programming select erase](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashSelectErase.png)
+	![programming erase complete](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashEraseComplete.png)
+
+1.  Select ```Program``` from the Microcontroller drop down menu.
+
+	![programming select program](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashSelectProgram.png)
+
+1.  Download the newest software release [from this link](https://github.com/buglabs/bugswarm-renesas/tags).  Each release is a snapshot of the entire repository.  Extract the downloaded zip file to the PC, then click on the ```Browse``` button on the Renesas Flash Progreammer, and select the .mot file that corresponds to the software release you would like to deploy:
+
+	![programming select firmware file](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashSelectFirmware.png)
+
+1.  Click on the large Start button.  The firmware will be deployed to the device, displaying a progress bar and percentage readout.  If successful, the ```PASS``` text should be visible in green.
+
+	![programming in progress](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashProgrammingProgress.png)
+	![programming complete](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashProgrammingComplete.png)
+
+1.  Move Switch 2 of SW5 in the On position, or towards the green square in this photo:
+
+	![RL78G14 RDK Debug Disabled](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G14debugdisabled.JPG)
+
+1.  The new software should begin running on the device, see the user guide above.  Repeat the Erase and Program steps for each board to be programmed.
 
 ### Implementation Details
 
