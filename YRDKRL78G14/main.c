@@ -96,18 +96,19 @@ extern void SPI_Init(uint32_t bitsPerSecond);
 extern void App_Exosite(void);
 extern void App_WebProvisioning(void);
 extern void App_OverTheAirProgrammingPushMetheod(void);
-int  main(void)
+int  main(void) 
 {
     AppMode_T AppMode; APP_STATE_E state=UPDATE_TEMPERATURE; 
     char LCDString[30], temp_char[2]; uint16_t temp; float ftemp;
     
+	//UART0 will be used for debug messaging (pins 54 and 55 on RDK board)
     UART0_Start(GAINSPAN_CONSOLE_BAUD);
     
     HardwareSetup();
     
     ConsolePrintf("\r\n***PROGRAMSTART***\r\n");
     
-        /* Default app mode */
+        /* Default app mode to bugswarm connector */
     AppMode = SWARM_CONN_MODE;
     
     /* Determine if SW1 & SW3 is pressed at power up to enter programming mode */
@@ -151,11 +152,6 @@ int  main(void)
 		DisplayLCD(LCD_LINE6, "and press RESET:   ");
 		DisplayLCD(LCD_LINE7, " SW1 Gainspan Demo ");
 		DisplayLCD(LCD_LINE8, " SW2 Change Wifi AP");		
-        //DisplayLCD(LCD_LINE2, "-RST no key:       ");
-        //DisplayLCD(LCD_LINE3, "   bugswarm app    ");
-        //DisplayLCD(LCD_LINE5, "-RST + SW2:        ");
-        //DisplayLCD(LCD_LINE6, "   AP Provisioning ");
-        //DisplayLCD(LCD_LINE7, "-RST + SW3: OTA    ");
         MSTimerDelay(4000);
         ClearLCD();
         
@@ -178,22 +174,28 @@ int  main(void)
     else if (AppMode == SWARM_CONN_MODE)
     {          
         DisplayLCD(LCD_LINE1, "BUGSWARM Connector");
-	Temperature_Init();
+		Temperature_Init();
         Potentiometer_Init();
         App_InitModule();
-	Accelerometer_Init();
+		Accelerometer_Init();
+		
+		//Read wifi parameters from flash memory, if available
         if(NVSettingsLoad(&G_nvsettings))
           NVSettingsSave(&G_nvsettings);
 
         ConsolePrintf("Existing webprov SSID: %s\r\n",G_nvsettings.webprov.ssid);
+		//If no ESSID resides in memory, automatically enter provisioning mode
         //TODO - better check if we have webprov data in nvram
         if (strlen(G_nvsettings.webprov.ssid)<1){
           ConsolePrintf("No SSID in memory: Running App_WebProvisioning!\r\n");
-          DisplayLCD(LCD_LINE2, "Provisioning");
+		  LCDSelectFont(FONT_LARGE);
+          DisplayLCD(LCD_LINE1, "Provisioning");
+		  //This will never exit, user will reset the device.
           App_WebProvisioning();
         }
         DisplayLCD(LCD_LINE2, G_nvsettings.webprov.ssid);
         ConsolePrintf("\r\nBegin swarm test app\r\n");
+		//This should never exit
         App_RunConnector();
     }
     else if(AppMode == RUN_PROVISIONING)

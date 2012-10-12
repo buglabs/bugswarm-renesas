@@ -32,7 +32,7 @@
 #define ATLIBGS_GS_NODE_MAC_ID      "00:1D:C9:01:01:D0"
 
 #if 1 // Demo configuration
-#define ATLIBGS_AP_SSID             "GuLou"
+#define ATLIBGS_AP_SSID             ""
 /* Access Point (AP) channel here. For auto channel, AP channel is NULL  */
 #define ATLIBGS_AP_CHANNEL          NULL //  "6"
 /* Uncomment the following macro to enable WPA PSK security */

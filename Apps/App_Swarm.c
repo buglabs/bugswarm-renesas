@@ -33,18 +33,28 @@
 #define UPDATE_PERIOD 1000
 #define NUM_SENSOR 3
 #define CAPABILITIES_PERIOD 10000
+#define MAX_PROD_ERRORS 5
 
 /*-------------------------------------------------------------------------*
  * Constants:
  *-------------------------------------------------------------------------*/
 uint16_t period = NUM_SENSOR;
-//const char SwarmHost[] = "192.168.11.231";
-const char SwarmHost[] = "107.20.250.52";  //api.bugswarm.net
-char resource_id[] = "14f762c59815e24973165668aff677659b973d62";
-const char swarm_id[] = "69df1aea11433b3f85d2ca6e9c3575a9c86f8182";
+
+/*  Default swarm connection parameters  */
+
+const char SwarmHost[] = "107.20.250.52";  //api.bugswarm.
+//These parameters must be hardcoded, are not retrieved.
 const char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 const char configuration_key[] = "359aff0298658552ec987b9354ea754b684a4047";
+const char swarm_id[] = "69df1aea11433b3f85d2ca6e9c3575a9c86f8182";
+//In the future, all of the above parameters can be retrieved with only this:
 const char password_hash[] = "cmVuZXNhczpyZW5lc2FzcHNr";
+//This is the default resource id, "UnknownDevice".
+//It will be overwritten by getResourceID()
+char resource_id[] = "14f762c59815e24973165668aff677659b973d62";
+
+
+/*  Swarm API Call message headers and payload formatting:  */
 
 const char configure_resource_header[] = "POST /renesas/configure HTTP/1.1\r\n"
     "Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n"
@@ -78,28 +88,24 @@ char 	msg[512];
 bool    connected;
 ATLIBGS_TCPMessage tcp_pkt;
 
+/* RunConnector - the *main loop* of the swarm client  */
 void App_RunConnector(void)
 {
 	ATLIBGS_MSG_ID_E r;
+	uint8_t errcount = 0;
 	uint8_t cid = 0;
 
-	while(1) {
-		r = AtLibGs_GetMAC(MACaddr);
-		if(r != ATLIBGS_MSG_ID_OK) {
-			DisplayLCD(LCD_LINE6, "Get MAC Failed!");
-			MSTimerDelay(2000);
-			continue;
-			} 
-		break;
-	}; 
-  
-	if(r == ATLIBGS_MSG_ID_OK)
+	r = AtLibGs_GetMAC(MACaddr);
+	if(r != ATLIBGS_MSG_ID_OK) {
+		DisplayLCD(LCD_LINE6, "Get MAC Failed!");
+		DisplayLCD(LCD_LINE3, "ID: UnknownDevice");
+		ConsolePrintf("WARN: MAC Address not found, using default swarm ID\r\n");
+		MSTimerDelay(1000);
+	} else {
 		AtLibGs_ParseGetMacResponse(MACstr);    
-	ConsolePrintf("Module MAC Address: %s\r\n", MACstr);
-        
-	connected = false;
-	while(1){
-		if (!AtLibGs_IsNodeAssociated()) {
+		ConsolePrintf("Module MAC Address: %s\r\n", MACstr);
+		//Connect to Wifi in order to retrieve resource ID from MAC address
+		while (!AtLibGs_IsNodeAssociated()) {
 			ConsolePrintf("Connecting to %s...",G_nvsettings.webprov.ssid);
 			r = App_Connect(&G_nvsettings.webprov);
 			ConsolePrintf(" %d\r\n",r);        
@@ -109,21 +115,34 @@ void App_RunConnector(void)
 			}
 			//TODO - verify connection attempt against enum
 		}
-		DisplayLCD(LCD_LINE3, "Obtaining Swarm ID");
-                
-		//r = getAPIKey(pkt, sizeof(pkt), configuration_key);    
+		DisplayLCD(LCD_LINE3, "Obtaining Swarm ID");          
+		//Make an API call to configure and retrieve our resource id
 		r = getResourceID(MACstr, pkt, sizeof(pkt), resource_id);
 		if (r != ATLIBGS_MSG_ID_OK){
+			//If we couldn't get a resource id, we will be using this:
 			DisplayLCD(LCD_LINE3, "ID: UnknownDevice");
 		} else {
 			sprintf(msg, "ID: %s",MACstr);
 			DisplayLCD(LCD_LINE3, msg);
 		}
+	}
+	
+	MSTimerDelay(250);
+        
+	connected = false;
+	while(1){
+		//If we became disconnected, we must reconnect before continuing.
+		while (!AtLibGs_IsNodeAssociated()) {
+			ConsolePrintf("Connecting to %s...",G_nvsettings.webprov.ssid);
+			r = App_Connect(&G_nvsettings.webprov);
+			ConsolePrintf(" %d\r\n",r);        
+			if (r != ATLIBGS_MSG_ID_OK) {
+				DisplayLCD(LCD_LINE4, "WIFI ERR: RESET");
+				MSTimerDelay(1000);
+			}
+			//TODO - verify connection attempt against enum
+		}
 		
-		//TODO DELETEME!
-		//ConsolePrintf("Test complete, quit\r\n");
-		//return;
-        MSTimerDelay(250);
 		ConsolePrintf("Creating a production session\r\n");
 		DisplayLCD(LCD_LINE8, "Opening Connection");
 		DisplayLCD(LCD_LINE4, "                  ");
@@ -133,23 +152,41 @@ void App_RunConnector(void)
                                          (char *)resource_id,
                                          (char *)participation_key);
    		if (r > 1){
+			//We likely had trouble opening a socket
+			//Swarm could be down, could be a firewall issue
+			//Wait a short while and try again.
 			ConsolePrintf("Unable to open production session, retrying\r\n");
 			DisplayLCD(LCD_LINE8, "Couldn't open socket");
-			connected = false;
 			DisplayLCD(LCD_LINE4, "SOCKET ERR: RESET");
+			//NOTE - this command can time out, which takes ATLIB_RESPONSE_HANDLE_TIMEOUT ms
+			//So this function can either take 2 seconds, or more like 50+ seconds.
+			//TODO - Figure out why, Do something more effective.
+			AtLibGs_CloseAll();
+			connected = false;
 			MSTimerDelay(2000);
 			continue;
 		}
 		connected = true;
 		while(connected) {
 			DisplayLCD(LCD_LINE8, "Connected!");
+			//SwarmProducer will only exit upon error, or when a "done" condition is created.
 			r = App_SwarmProducer(cid);
-			if (r > 1){
+			//If an error has occurred, tolerate up to MAX_PROD_ERRORS before resetting the connection
+			if ((r > 1)&&(errcount < MAX_PROD_ERRORS)) {
+				errcount++;
+				ConsolePrintf("WARN, production error %d/%d\r\n",errcount,MAX_PROD_ERRORS);
+				//Spend some time clearing out the RX buffer, this often causes errors
+				readForAtLeast(cid, 500);
+				continue;
+			} else if (r > 1) {
+				//Too many errors, close the connection and reopen.
+				errcount = 0;
 				ConsolePrintf("Error producing to swarm, retrying\r\n");
 				DisplayLCD(LCD_LINE8, "Production err");
 				DisplayLCD(LCD_LINE4, "PROD ERR: RESET");
-				MSTimerDelay(2000);
+				AtLibGs_CloseAll();
 				connected = false;
+				MSTimerDelay(2000);
 				continue;
 			} else if (r == 0) {
 				ConsolePrintf("Production session complete\r\n");
@@ -159,23 +196,17 @@ void App_RunConnector(void)
 	}  
 }
 
+/*  given a MAC address, check to see if a resource ID is associated.
+	If no resource ID is associated, create one and add it to the swarm.
+	this is currently handled by one swarm API call, could be more in the future
+	result will only be written upon successful response.
+	buff used as a scratchpad, saving memory */
 ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, char * result){
 	ATLIBGS_MSG_ID_E r;
 	uint8_t cid = 0;
 	int len;
-//	jsmn_parser parser;
-//	jsmntok_t tokens[20];
-//	jsmnerr_t jr;
-//	
-//	jsmn_init(&parser);
-//        const char configure_resource_header[] = "POST /renesas/configure HTTP/1.1\r\n"
-//            "Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n"
-//            "content-type: application/json\r\nContent-Length: %d\r\n\r\n%s\r\n";
-//        const char configure_resource_body[] = 
-//            "{\"name\":\"%s\",\"swarmid\":\"%s\",\"description\":"
-//            "\"an RL78G14 board running bugswarm-renesasG14 1.0\"}";
-        
-	//r = makeAPICall(&cid, buff, list_resources_header, configuration_key);
+
+	//See const char[] configure_resource_body above for the structure
 	len = sprintf(msg, configure_resource_body, mac_addr_str, swarm_id);
 	r = makeAPICall(&cid, buff, configure_resource_header, 
 					configuration_key, len, msg);
@@ -184,6 +215,7 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 		return r;
 	}
  
+	//Read the response into the provided buffer, waiting 5 seconds
 	r = readOnePacket(buff, bufflen, &len, 5000);
 	if (r != ATLIBGS_MSG_ID_OK){
 		ConsolePrintf("Error retrieving response %d\r\n", r);
@@ -191,7 +223,10 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 		return r;
 	}
 	ConsolePrintf("Got %d bytes\r\n",len);
+	//respos - the end of HTTP headers and beginning of response
+	//marked by a double CRLF (one blank line always follows headers)
 	char * respos = strstr(buff, "\r\n\r\n")+4;
+	//valid resource IDs are always 40 characters in width.
 	if (strlen(respos) == 40) {
 		memcpy(resource_id, respos, 40);
 	} else {
@@ -200,39 +235,11 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 		DisplayLCD(LCD_LINE8, "invalid cfg resp");
 	}
 	ConsolePrintf("Using resource id: %s\r\n",resource_id);
-//	AtLibGs_Close(cid);
-//	char * jsonpos = strstr(buff, "\r\n\r\n")+4;
-//	if (jsonpos >= buff+strlen(buff)){
-//		ConsolePrintf("Could not find a body to the response: %s\r\n", buff);
-//		return ATLIBGS_MSG_ID_INVALID_INPUT;
-//	}
-//	ConsolePrintf("APIkey JSON: %s\r\n",jsonpos);
-//	jr = jsmn_parse(&parser, jsonpos, tokens, 20);
-//	if (jr != JSMN_SUCCESS){
-//		ConsolePrintf("Error parsing json: %d\r\n", jr);
-//		return ATLIBGS_MSG_ID_INVALID_INPUT;
-//	}
-//	
-//	r = ATLIBGS_MSG_ID_INVALID_INPUT;
-//	
-//	for (int i=0;i<20;i++){
-//		ConsolePrintf("  Token type: %d, Size: %d, Range: (%d-%d)\r\n",
-//					  tokens[i].type, tokens[i].size, tokens[i].start, tokens[i].end);
-//	}
-//	for (int i=0;i<20;i++){
-//		if ((tokens[i].type == 3) && (tokens[i].size == 0) && 
-//					(tokens[i].end-tokens[i].start == 3)){
-//			if (strncmp(jsonpos + tokens[i].start, "key", 3) == 0){
-//				ConsolePrintf("Found APIKEY \"%.40s\"\r\n",jsonpos+tokens[i+1].start);
-//				r = ATLIBGS_MSG_ID_OK;
-//				break;
-//			}
-//		} 
-//	}
 	
 	return r;
 }
 
+/*  Retrieve the configuration API key associated with password_hash  */
 ATLIBGS_MSG_ID_E getAPIKey(char * buff, int bufflen, char * result){
 	ATLIBGS_MSG_ID_E r;
 	uint8_t cid = 0;
@@ -288,12 +295,15 @@ ATLIBGS_MSG_ID_E getAPIKey(char * buff, int bufflen, char * result){
 	return r;
 }
 
+/*  Helper function for all HTTP requests agaisnt api.bugswarm.net
+	Can be used like sprintf, using buff as scratchpad space for the packet  */
 ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...){
 	ATLIBGS_MSG_ID_E r;
 	int len;
 	va_list args;
     va_start(args, format);
 	
+	//Open a new socket only, will not send any request
 	r = AtLibGs_TCPClientStart((char *)SwarmHost, 80, cid);
 	ConsolePrintf("Opened a socket:  %d,%d\r\n",r,*cid);
 	if ((r != ATLIBGS_MSG_ID_OK) || (*cid == ATLIBGS_INVALID_CID)){
@@ -301,11 +311,13 @@ ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...
 		DisplayLCD(LCD_LINE8, "API socket err");
 		return r;
 	}
-	App_PrepareIncomingData();      
+	
 	ConsolePrintf("Socket open, sending headers\r\n");
   
 	len = vsprintf((char *)buff, format, args);
 	//ConsolePrintf("Attempting to send: %s", buff);
+	//Reset the RX buffer in anticipation of the response packet.
+	App_PrepareIncomingData();      
 	r = AtLibGs_SendTCPData(*cid, (uint8_t *)buff, len);
 	//ConsolePrintf("Sent headers: %d\r\n", r);
 	if (r != ATLIBGS_MSG_ID_OK) {
@@ -315,7 +327,11 @@ ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...
 	}
 	return ATLIBGS_MSG_ID_OK;
 }
-						
+	
+/*  The production loop for the swarm connector
+	reads sensor data and transmits it to bugswarm
+	will exit on error, otherwise will continue forever
+	needs the cid of a valid production session			*/
 ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	ATLIBGS_MSG_ID_E r;
 	uint16_t value;
@@ -324,13 +340,18 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	extern int16_t	gAccData[3];
 	int idx = 0;
 	
+	/*  Read from each sensor and transmit data to swarm
+		Make sure to readForAtLeast inbetween each transmission to the server
+		all waiting data must be read before transmitting a packet.
+		We stagger each sensor to reduce server load  */		
 	while(1) {
 		ConsolePrintf("Temp: ");
 		value = Temperature_Get();
-                //2.5 is an approximate measure of board self-heating...
+		//value returned is in celcius, needs to be scaled to make floating pt
+        //2.5 is an approximate measure of board self-heating, tested
+		//with a temperature probe above the IC...
 		temp = (((float)value)/128.0)-2.5;  
-	        //tempF = ((temp/5)*9)/128 + 22;
-                tempF = (temp*1.8)+32.0;
+        tempF = (temp*1.8)+32.0;
 		ConsolePrintf("%0.1fC %0.1fF\r\n", temp, tempF);
 		r = produce(cid, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%0.2f}}",
 					tempF);
@@ -385,12 +406,16 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 		DisplayLCD(LCD_LINE7, msg);
 		readForAtLeast(cid, 200);
 		
+		//Every 5th iteration of the loop, send a capabilities message
+		//Not necessary for network portal, but for demo.bugswarm.net
 		if (idx++%5 == 0){
            produce(cid, feed_request);
         }
 	}
 }
 
+/*  Produce a piece of data to swarm
+	NOTE, the message produced MUST be valid JSON.  */
 ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...) {
 	va_list args;
 	int len;
@@ -403,6 +428,8 @@ ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...) {
 	return AtLibGs_SendTCPData(cid, (uint8_t *)pkt, len);
 }
 
+/*  Open a new socket to the swarm server and establish a streaming connection.
+	requires a valid resource id, along with other swarm parameters  */
 ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid, 
                                          char * hostIP,
                                          char * swarm_id,
@@ -411,12 +438,15 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	ATLIBGS_MSG_ID_E r;
 	int len;
 	
+	//Connect to Wifi if we are not connected.
 	if (!AtLibGs_IsNodeAssociated()) {
 		ConsolePrintf("Connecting to %s...",G_nvsettings.webprov.ssid);
 		r = App_Connect(&G_nvsettings.webprov);
 		ConsolePrintf(" %d\r\n",r);
 		//TODO - verify connection attempt against enum
 	}
+	
+	//Open a new socket to the swarm server
 	ConsolePrintf("Attempting to connect to %s:%d ...",hostIP, 80);
 	r = AtLibGs_TCPClientStart(hostIP, 80, cid);
 	ConsolePrintf(" %d,%d\r\n",r,cid);
@@ -425,9 +455,11 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 		DisplayLCD(LCD_LINE8, "produce socket err");
 		return r;
 	}
+	//Clear the RX buffer in anticipation of the response
 	App_PrepareIncomingData();      
 	ConsolePrintf("Socket open, sending headers\r\n");
   
+	//Transmit the swarm API request header to open a production session
 	len = sprintf(pkt, produce_header, swarm_id, resource_id, participation_key);
 	ConsolePrintf("Attempting to send: %s ...", pkt);
 	r = AtLibGs_SendTCPData((*cid), (uint8_t *)pkt, len);
@@ -437,9 +469,12 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 		DisplayLCD(LCD_LINE8, "produce header err");
 		return r;
 	}
+	
 	DisplayLCD(LCD_LINE8, "waiting for presence");
  
 	//Wait up to 5 seconds for presence messages.
+	//If we do not wait, the swarm server will have not opened a connection to
+	//the message passing layer and an error will be thrown on production.
 	readForAtLeast(*cid, 5000);
 	
 	ConsolePrintf("Done waiting for presence, connected to swarm!\r\n");
@@ -447,6 +482,9 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	return ATLIBGS_MSG_ID_OK;
 }
 
+/*  Read a single packet from the wifi chipset into buff, waiting at least ms  
+	If response is greater than len, it will be concatenated and the rest lost!
+	resulting length written to 'written' */
 ATLIBGS_MSG_ID_E readOnePacket(char * buff, int len, int * written, uint32_t ms){
 	ATLIBGS_MSG_ID_E r;
 	
@@ -456,7 +494,7 @@ ATLIBGS_MSG_ID_E readOnePacket(char * buff, int len, int * written, uint32_t ms)
 		return r;
 	}
 	AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
-	//ConsolePrintf("*(%u)%s*",tcp_pkt.numBytes,tcp_pkt.message);                
+	//ConsolePrintf("*(%u)%s*",tcp_pkt.numBytes,tcp_pkt.message);    
 	if (tcp_pkt.numBytes >= len){
 		tcp_pkt.numBytes = len-1;
 		ConsolePrintf("WARN: message greater than %d bytes, concatenated\r\n",len);
@@ -464,10 +502,16 @@ ATLIBGS_MSG_ID_E readOnePacket(char * buff, int len, int * written, uint32_t ms)
 	memset(buff, '\0', tcp_pkt.numBytes+1);
 	memcpy(buff, tcp_pkt.message, tcp_pkt.numBytes);
 	*written = tcp_pkt.numBytes;
+	//Clear the RX buffer for the next reception.
 	App_PrepareIncomingData();      
 	return ATLIBGS_MSG_ID_OK;
 }
 
+/*  read TCP packets from the wifi chipset for at least ms
+	This is a necessary worker loop to keep the RX buffer clear while still
+	allowing for other tasks to run on the MCU.
+	Make sure to run readForAtLeast in place of a sleep or delay whenever the
+	device has an active TCP connection.  */
 void readForAtLeast(uint8_t cid, uint32_t ms){
   	uint32_t end = MSTimerGet()+ms;
 	char * switches;
@@ -496,5 +540,5 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 		ConsolePrintf("*(%u)%s*",tcp_pkt.numBytes,pkt);
 		App_PrepareIncomingData();
 	} 
-}
+} 
 

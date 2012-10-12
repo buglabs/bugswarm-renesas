@@ -25,7 +25,7 @@
 /*-------------------------------------------------------------------------*
  * Constants:
  *-------------------------------------------------------------------------*/
-#define ATLIB_RESPONSE_HANDLE_TIMEOUT   100000 /* ms */
+#define ATLIB_RESPONSE_HANDLE_TIMEOUT   50000 /* ms */
 
 #ifndef ATLIBGS_TX_CMD_MAX_SIZE
 #error "ATLIBGS_TX_CMD_MAX_SIZE must be defined in platform.h"
