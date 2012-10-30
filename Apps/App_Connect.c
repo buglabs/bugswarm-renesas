@@ -38,6 +38,7 @@ ATLIBGS_MSG_ID_E App_Connect(ATLIBGS_WEB_PROV_SETTINGS *wp)
     char ip[20];
     char subnet[20];
     char gateway[20];
+    char authmode = ATLIBGS_AUTHMODE_OPEN_WEP;
 
     while (1) {
         DisplayLCD(LCD_LINE7, " Connecting ");
@@ -89,7 +90,39 @@ ATLIBGS_MSG_ID_E App_Connect(ATLIBGS_WEB_PROV_SETTINGS *wp)
             }
         }
 
-        if (wp->security != ATLIBGS_SMOPEN) {
+		if (wp->security == ATLIBGS_SMWEP) {
+			//Authmode initialized as AUTHMODE_OPEN_WEP
+			//on failure, authmode is toggled to SHARED_WEP
+			rxMsgId = AtLibGs_SetAuthentictionMode(authmode);
+			if (rxMsgId != ATLIBGS_MSG_ID_OK) {
+				DisplayLCD(LCD_LINE8, "Bad MODE!");
+				MSTimerDelay(2000);
+				DisplayLCD(LCD_LINE8, "");
+				continue;
+			}
+            /* Store the PSK value. This call takes might take few seconds to return */
+            do {
+                DisplayLCD(LCD_LINE8, "Setting WEP");
+                //TODO - avoid hardcoding the wep key number...
+                rxMsgId = AtLibGs_SetWEPKey(1, wp->password);
+                //rxMsgId = AtLibGs_SetWEPKey(wp->wep_id, wp->password);
+                if (rxMsgId != ATLIBGS_MSG_ID_OK) {
+                    DisplayLCD(LCD_LINE8, "Bad WEP KEY!");
+                    MSTimerDelay(2000);
+                    DisplayLCD(LCD_LINE8, "");
+                    continue;
+                }
+            } while (ATLIBGS_MSG_ID_OK != rxMsgId);
+
+		} else if (wp->security != ATLIBGS_SMOPEN) {
+			rxMsgId = AtLibGs_SetAuthentictionMode(ATLIBGS_AUTHMODE_NONE_WPA);
+			if (rxMsgId != ATLIBGS_MSG_ID_OK) {
+				DisplayLCD(LCD_LINE8, "Bad MODE!");
+				MSTimerDelay(2000);
+				DisplayLCD(LCD_LINE8, "");
+				continue;
+			}
+
             /* Store the PSK value. This call takes might take few seconds to return */
             do {
                 DisplayLCD(LCD_LINE8, "Setting PSK");
@@ -115,6 +148,11 @@ ATLIBGS_MSG_ID_E App_Connect(ATLIBGS_WEB_PROV_SETTINGS *wp)
             DisplayLCD(LCD_LINE7, "** Failed **");
             MSTimerDelay(2000);
             DisplayLCD(LCD_LINE7, "");
+            //If we failed, try toggling the WEP auth mode
+            if (authmode == ATLIBGS_AUTHMODE_OPEN_WEP)
+                authmode = ATLIBGS_AUTHMODE_SHARED_WEP;
+            else
+                authmode = ATLIBGS_AUTHMODE_OPEN_WEP;
             continue;
         } else {
             /* Association success */
