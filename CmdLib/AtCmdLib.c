@@ -3967,9 +3967,9 @@ ATLIBGS_MSG_ID_E AtLibGs_SetAuthentictionMode(ATLIBGS_AUTHMODE_E authmode)
  *---------------------------------------------------------------------------*/
 ATLIBGS_MSG_ID_E AtLibGs_SetWEPKey(ATLIBGS_WEPKEY_E keynum, char key[])
 {
-    char cmd[20];
+    char cmd[40];
 
-    sprintf(cmd, "AT+WWEP" _F8_ "=%s\r\n", keynum, key);
+    sprintf(cmd, "AT+WWEP%d=%s\r\n", keynum, key);
     return AtLibGs_CommandSendString(cmd);
 }
 

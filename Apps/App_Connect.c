@@ -153,6 +153,7 @@ ATLIBGS_MSG_ID_E App_Connect(ATLIBGS_WEB_PROV_SETTINGS *wp)
                 authmode = ATLIBGS_AUTHMODE_SHARED_WEP;
             else
                 authmode = ATLIBGS_AUTHMODE_OPEN_WEP;
+			ConsolePrintf("AuthMode now %d\r\n",authmode);
             continue;
         } else {
             /* Association success */

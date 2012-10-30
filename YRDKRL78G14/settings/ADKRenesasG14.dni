@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-2126496392
+Checksum=323295920
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 1
@@ -91,6 +91,15 @@ ShowArgs=0
 MixedMode=1
 [watch_formats]
 Fmt0={W}0:temp	3	0
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.209.19" 0 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.83.5" 0 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.88.9" 0 0 0 0 "" 0 ""
+Bp3=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.564.3" 0 0 0 0 "" 0 ""
+Bp4=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.755.7" 0 0 0 0 "" 0 ""
+Bp5=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.779.9" 0 0 0 0 "" 0 ""
+Bp6=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.793.9" 0 0 0 0 "" 0 ""
+Count=7
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -98,6 +107,11 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Aliases]
+A0=_ "C:\FDI\SVN\Renesas\YRDKRL78G13\GlyphLib\GlyphLib\glyph\Drivers\ST7579_LCD.c" ""
+A1=_ "C:\WorkSpace\YRDKRL78G14\ADK_G14_08_23_2012\YRDKRL78G14\drv\led.c" ""
+Count=2
+SuppressDialog=1
 [TraceHelper]
 Enabled=0
 ShowSource=1
@@ -109,17 +123,3 @@ Mode=0
 Graph=0
 Symbiont=0
 Exclusions=
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.209.19" 0 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.83.5" 0 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.88.9" 0 0 0 0 "" 0 ""
-Bp3=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.564.3" 0 0 0 0 "" 0 ""
-Bp4=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.755.7" 0 0 0 0 "" 0 ""
-Bp5=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.779.9" 0 0 0 0 "" 0 ""
-Bp6=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.793.9" 0 0 0 0 "" 0 ""
-Count=7
-[Aliases]
-A0=_ "C:\FDI\SVN\Renesas\YRDKRL78G13\GlyphLib\GlyphLib\glyph\Drivers\ST7579_LCD.c" ""
-A1=_ "C:\WorkSpace\YRDKRL78G14\ADK_G14_08_23_2012\YRDKRL78G14\drv\led.c" ""
-Count=2
-SuppressDialog=1
