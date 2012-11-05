@@ -257,7 +257,12 @@ void App_WebProvisioning(void)
 
 	ClearLCD();
 	DisplayLCD(LCD_LINE1, "*SSID CONFIG");
-    DisplayLCD(LCD_LINE4, "  COMPLETE  ");
+    DisplayLCD(LCD_LINE2, "  COMPLETE  ");
+	if (!G_nvsettings.webprov.dhcp_enable) {
+		DisplayLCD(LCD_LINE4, "WARN:       ");
+		DisplayLCD(LCD_LINE5, "DHCP IS OFF ");
+		DisplayLCD(LCD_LINE6, "CHK SETTINGS");
+	}
     DisplayLCD(LCD_LINE7, "Press RESET");
     //while (1)
     //    {}

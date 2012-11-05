@@ -30,8 +30,8 @@
 #include "Apps.h"
 #include <jsmn/jsmn.h>
 
-#define UPDATE_PERIOD 1000
-#define NUM_SENSOR 3
+#define UPDATE_PERIOD 5000
+#define NUM_SENSOR 5
 #define CAPABILITIES_PERIOD 10000
 #define MAX_PROD_ERRORS 5
 
@@ -357,7 +357,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 					tempF);
 		if (r > 1)
 			return r;
-		readForAtLeast(cid, 200);
+		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 		
 		ConsolePrintf("Light: ");
 		value = LightSensor_Get();
@@ -368,7 +368,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 			return r;
 		sprintf(msg, "T: %0.2fF, L: %u",tempF, value);
 		DisplayLCD(LCD_LINE5, msg);
-		readForAtLeast(cid, 200);
+		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 		
 		ConsolePrintf("Accel: ");
 		Accelerometer_Get();
@@ -381,7 +381,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 		sprintf(msg, "A(%0.2f,%0.2f,%0.2f)",
 				(float)gAccData[0]/33.0, (float)gAccData[1]/33.0, (float)gAccData[2]/30.0);
 		DisplayLCD(LCD_LINE6, msg);
-		readForAtLeast(cid, 200);
+		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 		
 		ConsolePrintf("Mic: ");
 		value = Microphone_Get();
@@ -392,7 +392,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 					mic_level);
 		if (r > 1)
 			return r;
-		readForAtLeast(cid, 200);		
+		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 		
 		ConsolePrintf("Pot: ");
 		value = Potentiometer_Get();
@@ -404,7 +404,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 			return r;
 		sprintf(msg, "P: %u M: %u", value/4, mic_level);
 		DisplayLCD(LCD_LINE7, msg);
-		readForAtLeast(cid, 200);
+		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 		
 		//Every 5th iteration of the loop, send a capabilities message
 		//Not necessary for network portal, but for demo.bugswarm.net

@@ -5516,7 +5516,7 @@ ATLIBGS_MSG_ID_E AtLibGs_GetWebProvSettings(
                             if (wp->dhcp_enable) {
                                 done = true;
                                 break;
-                            }
+                            } 
                         } else if (strcmp(line, "STATIC_IP") == 0) {
                             AtLibGs_ParseIPv4Address(p, &wp->ip);
                         } else if (strcmp(line, "SUBNT_MASK") == 0) {
