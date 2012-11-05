@@ -33,7 +33,8 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 	![USB Power connection](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
 
-1.  The RL78 will enter web provisioning mode on first boot.  Using a smartphone, tablet, or laptop, connect to the wireless access point indicated on the LCD screen.
+1.  The RDK board now needs to be configured for an active wireless access point with an internet connection.  Hold down ```Switch 2```, Press and release the ```Reset``` button, and then release the ```Switch 2``` button.  See this video for a demonstration: [Enter Wifi Provisioning Mode](https://docs.google.com/open?id=0B_kD7ktKdpaQeTdfT3YtZERMNXM).
+1.  Using a smartphone, tablet, or laptop, connect to the wireless access point indicated on the LCD screen.
 
 	![LCD Screen Provisioning Message](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/Provision\_Message.JPG)
 	![Provisioning Wireless AP](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionAP.png)
