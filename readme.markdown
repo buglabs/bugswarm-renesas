@@ -83,6 +83,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 ### Programming Instructions
 
 1.  Download and install the [Renesas Flash Programmer V2](http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#) from [http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#](http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#)
+1.  You will also need to download the following ZIP file and extract it to a known location (like the Desktop) [Renesas USB Drivers](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrpbrl78g13/USB_Drivers.zip)
 1.  Locate SW5 in the middle of the RL78G14 RDK board.  Move Switch 2 of SW5 in the Off position, or towards the green square in this photo:
 
 	![RL78G14 RDK Debug Enabled](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G14debugenabled.JPG)
@@ -91,7 +92,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 	![USB Power connection](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
 
-1.  The PC should recognise and automatically load drivers for the RL78 debug IC.  Follow the prompts for your operating system to automatically install drivers - they should have been installed to the system with the Renesas Flash Programmer bundle.
+1.  The PC should recognise and automatically load drivers for the RL78 debug IC. Follow the prompts for your operating system to automatically install drivers - they should have been installed to the system with the Renesas Flash Programmer bundle.
 
 	![programming device detected by system](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashBoardDetected.png)
 
