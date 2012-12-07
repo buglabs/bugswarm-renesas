@@ -7,6 +7,7 @@
 	- [The RL78/G14 board with built-in Gainspan module](#the-rl78g14-board-with-built-in-gainspan-module)
 		- [Usage Instructions](#usage-instructions)
 		- [Programming Instructions](#programming-instructions)
+		- [Install the Driver](#install-the-driver)
 		- [Implementation Details](#implementation-details)
 			- [Known Issues](#known-issues)
 		- [Troubleshooting](#troubleshooting)
@@ -83,7 +84,6 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 ### Programming Instructions
 
 1.  Download and install the [Renesas Flash Programmer V2](http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#) from [http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#](http://am.renesas.com/products/tools/flash_prom_programming/rfp/downloads.jsp#)
-1.  You will also need to download the following ZIP file and extract it to a known location (like the Desktop) [Renesas USB Drivers](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrpbrl78g13/USB_Drivers.zip)
 1.  Locate SW5 in the middle of the RL78G14 RDK board.  Move Switch 2 of SW5 in the Off position, or towards the green square in this photo:
 
 	![RL78G14 RDK Debug Enabled](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G14debugenabled.JPG)
@@ -92,7 +92,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 	![USB Power connection](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G13\_RDK\_PC\_connection.jpg)
 
-1.  The PC should recognise and automatically load drivers for the RL78 debug IC. Follow the prompts for your operating system to automatically install drivers - they should have been installed to the system with the Renesas Flash Programmer bundle.
+1.  The PC should detect a new device.  If you see the following message, the driver was installed successfully and you can continue.  Otherwise, you must click the following link to [Install the Driver](#install-the-driver).
 
 	![programming device detected by system](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/flashBoardDetected.png)
 
@@ -136,6 +136,36 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 	![RL78G14 RDK Debug Disabled](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/RL78G14debugdisabled.JPG)
 
 1.  The new software should begin running on the device, see the user guide above.  Repeat the Erase and Program steps for each board to be programmed.
+
+### Install the Driver
+
+Follow these instructions to install the Virtual USB Com Port driver, required ONLY to deploy firmware to the board.  This is not required to use the board.
+
+1.  After following the programming instructions above, and after plugging in the RL78 board to your PC, you may have seen the following error:
+
+	![Driver Not Found](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/DriverNotFound.png)
+
+1.  Download the following ZIP file and extract it to a known location (like the Desktop) [Renesas USB Drivers](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrpbrl78g13/USB_Drivers.zip)	
+1.  Open the Device Manager on your PC.  If you are unsure of how to do this, see [this tutorial](http://www.computerhope.com/issues/ch000833.htm)
+1.  Find the RL78 board in your list of devices.  It should appear with a small yellow exclaimation point under the heading ```Other Devices``` or ```USB Devices```.  Right click on the ```Unknown Device``` and click ```Update Driver Software...```
+
+	![Update the driver software](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/DriverUpdateSoftware.png)
+	
+1.  On the next screen, direct Windows to install the driver manually by clicking on the ```Browse my computer for driver software``` button.
+
+	![Install the driver Manually](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/DriverInstallManually.png)
+	
+1.  Click on the ```Browse``` button and navigate to the folder in which you extracted the USB Drivers earlier.  In this case, they were extracted to the Desktop.  Then click ```Next```.
+
+	![Select the driver folder](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/DriverSelectLocation.png)
+	
+1.  Windows will now install the drivers.  You should be greeted by the following success screen:
+
+	![Driver installation complete](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/DriverInstallComplete.png)
+
+1.  You can now delete the driver files you extracted earlier.  If you open up the Device Manager again, you will see the RL78 board correctly installed.  Note the COM Port number:
+
+	![The correct RL78 driver entry](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/DriverCorrectInstall.png)
 
 ### Implementation Details
 
