@@ -463,6 +463,14 @@ Macro definitions (Register bit)
 #define _80_SAU_SSI00_USED               (0x80U)      /* enables SSI00 pin input */
 
 
+/******************************************************************************
+**  Macro define
+*******************************************************************************
+*/
+#define _CE00_UART1_RECEIVE_DIVISOR		0xCE00U
+#define _CE00_UART1_TRANSMIT_DIVISOR	        0xCE00U
+#define _CE00_UART0_RECEIVE_DIVISOR		0xCE00U
+#define _CE00_UART0_TRANSMIT_DIVISOR	        0xCE00U
 #endif // _SAU_H
 /*-------------------------------------------------------------------------*
  * End of File:  SAU.h

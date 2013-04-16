@@ -19,13 +19,6 @@
  * Constants:
  *-------------------------------------------------------------------------*/
 
-typedef enum {
-    UPDATE_LIGHT,
-    UPDATE_TEMPERATURE,
-    UPDATE_POTENIOMETER,
-    UPDATE_ACCELEROMETER
-} APP_STATE_E;
-
 /*-------------------------------------------------------------------------*
  * Globals:
  *-------------------------------------------------------------------------*/
@@ -52,29 +45,23 @@ bool App_Read(uint8_t *rxData, uint16_t dataLength, uint8_t blockFlag);
 void App_PrepareIncomingData(void);
 void App_ProcessIncomingData(uint8_t rxData);
 void App_PotentiometerUpdate(int16_t * G_adc_int, bool updateLCD);
-void App_TemperatureReadingUpdate(uint16_t * G_temp_int, bool updateLCD);
-void App_LightSensorReadingUpdate(uint16_t * G_light_int, bool updateLCD);
-int16_t App_RSSIReading(int16_t * rssi, bool updateLCD);
+void App_TemperatureReadingUpdate(char * G_temp_int, bool updateLCD);
+void App_LightSensorReadingUpdate(char * G_light_int, bool updateLCD);
+int16_t App_RSSIReading(bool updateLCD);
 void App_Update(void);
-void readSensor(APP_STATE_E state);
 ATLIBGS_MSG_ID_E App_Connect(ATLIBGS_WEB_PROV_SETTINGS *webprov);
-
-void App_RunConnector(void);
-ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid);
-ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...);
-ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid, 
-                                         char * hostIP,
-                                         char * swarm_id,
-                                         char * resource_id,
-                                         char * participation_key);
-void readForAtLeast(uint8_t cid, uint32_t ms);
-ATLIBGS_MSG_ID_E readOnePacket(char * buff, int len, int * written, uint32_t ms);
-ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...);
-ATLIBGS_MSG_ID_E getAPIKey(char * buff, int bufflen, char * result);
-ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, char * result);
 
 void App_InitModule(void);
 void App_StartupLimitedAP(char *mySSID);
+void App_aClientConnection(void);
+void App_WebProvisioning_OverAirPush(void);
+void App_StartWPS(void);
+void App_StartupADKDemo(uint8_t isLimiteAPmode);
+void App_StartupProbeDemo(uint8_t isLimiteAPmode);
+void App_OverTheAirProgramming(void);
+void App_OverTheAirProgrammingPushMetheod(void);
+void App_StartupTCPClinet(void);
+int LimitedAP_TCP_SereverBulkMode(void);
 
 #endif // APPS_H_
 /*-------------------------------------------------------------------------*

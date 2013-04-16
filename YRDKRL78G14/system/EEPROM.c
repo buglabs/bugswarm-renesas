@@ -6,7 +6,7 @@
  *     the internal EEPROM.  Used to store non-volatile information.
  *-------------------------------------------------------------------------*/
 #include <stdint.h>
-#include <system/mstimer.h>
+#include "../GSHAL/mstimer.h"
 #include "drv/I2C.h"
 
 #define EEPROM_SIZE     64000   // 64KB (512Kb)

@@ -13,28 +13,32 @@
 #include <HostApp.h>
 #include <init/hwsetup.h>
 #include <drv\Glyph\lcd.h>
-#include <system\mstimer.h>
+#include <mstimer.h>
 #include <system/Switch.h>
 #include <sensors\Potentiometer.h>
 #include <sensors\Temperature.h>
 //#include <Tests\Tests.h>
 #include <system\console.h>
-#include <drv\UART0.h>
-#include <drv\UART2.h>
+#include <drv\UART.h>
 #include <Sensors\LightSensor.h>
 #include <drv\SPI.h>
-#include <CmdLib\GainSpan_SPI.h>
-#include <Apps/NVSettings.h>
+#include <GainSpan_SPI.h>
+#include <NVSettings.h>
 #include <Apps/Apps.h>
+#include <Apps/App_Swarm.h>
 #include "stdio.h"
 #include "string.h"
 #include "led.h"
+#include "system/Switch.h"
+#include <includes.h>                                           /* Micrium firmware.                                    */
+
 extern void LEDFlash(uint32_t timeout);
 extern void led_task(void);
 extern void DisplayLCD(uint8_t, const uint8_t *);
 extern int16_t *Accelerometer_Get(void);
 extern void Accelerometer_Init(void);
 extern int16_t	gAccData[3];
+extern void App_ProbeDemo(void);
 /*-------------------------------------------------------------------------*
  * Macros:
  *-------------------------------------------------------------------------*/
@@ -60,19 +64,21 @@ __root const uint8_t secuid[10] =
 typedef enum {
     PROGRAM_MODE,
     UART_PT_MODE,
-    SWARM_CONN_MODE,
-    RUN_EXOSITE,
+    SPI_PT_MODE,
+    RUN_MY_TEST,
     RUN_PROVISIONING,
     RUN_OVER_AIR_DOWNLOAD,
-    GAINSPAN_DEMO
+    GAINSPAN_DEMO,
+    RUN_PROBE,
+    SWARM_CONN_MODE     // RUN_BugLab
 }AppMode_T;
 
-//typedef enum {
-//    UPDATE_LIGHT,
-//    UPDATE_TEMPERATURE,
-//    UPDATE_POTENIOMETER,
-//    UPDATE_ACCELEROMETER
-//} APP_STATE_E;
+typedef enum {
+    UPDATE_LIGHT,
+    UPDATE_TEMPERATURE,
+    UPDATE_POTENIOMETER,
+    UPDATE_ACCELEROMETER
+} APP_STATE_E;
 
 /*---------------------------------------------------------------------------*
  * Routine:  main
@@ -91,33 +97,45 @@ typedef union {
 	int16_t		temp;
 	uint8_t		T_tempValue[2];
 } temp_u;
-extern void SPI2_Init();
+extern void SPI2_Init(void);
 extern void SPI_Init(uint32_t bitsPerSecond);
-extern void App_Exosite(void);
-extern void App_WebProvisioning(void);
-extern void App_OverTheAirProgrammingPushMetheod(void);
-int  main(void) 
+
+extern void App_WebProvisioning_OverAirPush(void);
+extern void App_StartupADKDemo(uint8_t isLimiteAPmode);
+extern int LimitedAP_TCP_SereverBulkMode(void);
+
+int  main(void)
 {
     AppMode_T AppMode; APP_STATE_E state=UPDATE_TEMPERATURE; 
     char LCDString[30], temp_char[2]; uint16_t temp; float ftemp;
+    uint8_t isLimiteAPmode=1, rxData; uint32_t start;  
+  
+    HardwareSetup();  
+
+    /* Default app mode */
+    //AppMode = GAINSPAN_DEMO;
+	AppMode = SWARM_CONN_MODE;
     
-	//UART0 will be used for debug messaging (pins 54 and 55 on RDK board)
-    UART0_Start(GAINSPAN_CONSOLE_BAUD);
-    
-    HardwareSetup();
-    
-    ConsolePrintf("\r\n***PROGRAMSTART***\r\n");
-    
-        /* Default app mode to bugswarm connector */
-    AppMode = SWARM_CONN_MODE;
-    
-    /* Determine if SW1 & SW3 is pressed at power up to enter programming mode */
-    if (Switch1IsPressed() && Switch3IsPressed()) {
+    /* Determine SW1, SW2 & SW3 is pressed at power up to dertmine which demo will run  */
+    if(Switch1IsPressed() && Switch2IsPressed() && Switch3IsPressed()) 
+    {
+         AppMode = SWARM_CONN_MODE;
+    }
+    else if(Switch1IsPressed() && Switch2IsPressed()) 
+    {
          AppMode = PROGRAM_MODE;
+    }
+    else if(Switch1IsPressed() && Switch3IsPressed())
+    {
+        isLimiteAPmode=0;                            // run the WiFi client demo
+    }
+    else if(Switch2IsPressed() && Switch3IsPressed())
+    {
+        AppMode = SPI_PT_MODE;                      // run as the Gainspan Eval board
     }
     else if(Switch1IsPressed())
     {
-        AppMode = GAINSPAN_DEMO;
+        AppMode = RUN_MY_TEST;
     }
     else if(Switch2IsPressed())
     {
@@ -125,7 +143,7 @@ int  main(void)
     }
     else if(Switch3IsPressed())
     {
-        AppMode = RUN_OVER_AIR_DOWNLOAD;
+        AppMode = RUN_PROBE;
     }
     
     /************************initializa LCD module********************************/
@@ -134,108 +152,90 @@ int  main(void)
     led_init();
     MSTimerInit();
     
-    if(AppMode == SWARM_CONN_MODE) {
-        LCDDisplayLogo();
-        LCDSelectFont(FONT_SMALL);
-        DisplayLCD(LCD_LINE3, "bugswarm-renesasg14");
-        DisplayLCD(LCD_LINE4, " BETA R0.1         ");
-        DisplayLCD(LCD_LINE5, "     demos by:     ");
-        DisplayLCD(LCD_LINE6, "Gainspan           ");
-        DisplayLCD(LCD_LINE8, "Buglabs bugswarm   ");
-        MSTimerDelay(1000);
-        ClearLCD();
-        DisplayLCD(LCD_LINE1, "Booting:           ");
-		DisplayLCD(LCD_LINE2, " bugswarm connector");
-		DisplayLCD(LCD_LINE3, "                   ");
-		DisplayLCD(LCD_LINE4, "For other modes:   ");
-		DisplayLCD(LCD_LINE5, "Hold down other key");
-		DisplayLCD(LCD_LINE6, "and press RESET:   ");
-		DisplayLCD(LCD_LINE7, " SW1 Gainspan Demo ");
-		DisplayLCD(LCD_LINE8, " SW2 Change Wifi AP");		
-        MSTimerDelay(4000);
-        ClearLCD();
-        
-        LCDSelectFont(FONT_SMALL);
-    }
-    
     DisplayLCD(LCD_LINE1, "Starting..."); 
     /*****************************************************************************/  
     SPI_Init(GAINSPAN_SPI_RATE);  
    /* Setup LCD SPI channel for Chip Select P10, active low, active per byte  */
     SPI_ChannelSetup(GAINSPAN_SPI_CHANNEL, false, true);
     GainSpan_SPI_Start();
-
-    PM15 &= ~(1 << 2);
+        
+    // Set SAU0 enable and UART0/UART1 baud rate
+    RL78G14RDK_UART_Start(GAINSPAN_CONSOLE_BAUD, GAINSPAN_CONSOLE_BAUD);
+    PM15 &= ~(1 << 2);       //EInk hand
     P15 &= ~(1 << 2);
-    
-    if(AppMode == PROGRAM_MODE) {
-        App_ProgramMode();
-    }
-    else if (AppMode == SWARM_CONN_MODE)
-    {          
-        DisplayLCD(LCD_LINE1, "BUGSWARM Connector");
-		Temperature_Init();
-        Potentiometer_Init();
-        App_InitModule();
-		Accelerometer_Init();
-		
-		//Read wifi parameters from flash memory, if available
-        if(NVSettingsLoad(&G_nvsettings))
-          NVSettingsSave(&G_nvsettings);
 
-        ConsolePrintf("Existing webprov SSID: %s\r\n",G_nvsettings.webprov.ssid);
-		//If no ESSID resides in memory, automatically enter provisioning mode
-        //TODO - better check if we have webprov data in nvram
-        if (strlen(G_nvsettings.webprov.ssid)<1){
-          ConsolePrintf("No SSID in memory: Running App_WebProvisioning!\r\n");
-		  LCDSelectFont(FONT_LARGE);
-          DisplayLCD(LCD_LINE1, "Provisioning");
-		  //This will never exit, user will reset the device.
-          App_WebProvisioning();
-        }
-        DisplayLCD(LCD_LINE2, G_nvsettings.webprov.ssid);
-        ConsolePrintf("\r\nBegin swarm test app\r\n");
-		//This should never exit
-        App_RunConnector();
+    if(AppMode == SPI_PT_MODE)
+      App_PassThroughSPI();                             // run SPI pass through, so the board can be used as a GS eval board
+   
+    if(AppMode == PROGRAM_MODE) {
+        App_ProgramMode();                              // Program GS1011 firmware and external flash
+    }    
+    if(AppMode == GAINSPAN_DEMO) {
+        LCDDisplayLogo();
+        LCDSelectFont(FONT_SMALL);
+        DisplayLCD(LCD_LINE3, "RL78G14 RDK    V3.4");
+        DisplayLCD(LCD_LINE4, "   Wi-Fi & Cloud   ");
+        DisplayLCD(LCD_LINE5, "     demos by:     ");
+        DisplayLCD(LCD_LINE6, "Gainspan           ");
+        DisplayLCD(LCD_LINE7, "Test            ");
+        DisplayLCD(LCD_LINE8, "Future Designs, Inc");
+        MSTimerDelay(3500);
+        ClearLCD();
+        DisplayLCD(LCD_LINE1, "Demo Modes:        ");
+        DisplayLCD(LCD_LINE2, "-RST no key:       ");
+        DisplayLCD(LCD_LINE3, "   GS Web Server   ");
+        DisplayLCD(LCD_LINE4, "-RST + SW1:        ");
+        DisplayLCD(LCD_LINE5, "   Test AP   ");
+        DisplayLCD(LCD_LINE6, "-RST + SW2:        ");
+        DisplayLCD(LCD_LINE7, "Provisioning & OTA ");
+        DisplayLCD(LCD_LINE8, "-RST + SW3: uCProbe");
+        MSTimerDelay(3000);
+        ClearLCD();
+        
+        LCDSelectFont(FONT_LARGE);
+    }
+
+    if (AppMode == RUN_MY_TEST)
+    {          
+        DisplayLCD(LCD_LINE1, " MY TEST ");
+        LimitedAP_TCP_SereverBulkMode();               // Run my testing 
     }
     else if(AppMode == RUN_PROVISIONING)
     {
-      ConsolePrintf("Begin App_WebProvisioning();\r\n");
-	  DisplayLCD(LCD_LINE1, "*SSID CONFIG");
-	  DisplayLCD(LCD_LINE3, "Initializing");
-      App_WebProvisioning();
+      App_WebProvisioning_OverAirPush();               // run provisioning and over air upgrade
     }
-     else if(AppMode == RUN_OVER_AIR_DOWNLOAD)
+    else if(AppMode == RUN_PROBE)
     {
-       App_OverTheAirProgrammingPushMetheod();
+        App_ProbeDemo();                                // Run the uC/Probe demo. 
     }
-    else{
-        ConsolePrintf("\r\nBegin default demo application\r\n");
-       // UART2_Start(GAINSPAN_UART_BAUD);
- 
-        Temperature_Init();
+    else if (AppMode == SWARM_CONN_MODE )
+    {
+		LCDSelectFont(FONT_SMALL);
+       DisplayLCD(LCD_LINE1, "BugLab Demo");           // Run the BugLab cloud demo.                              
+	   App_SwarmConnector();
+    }
+    else
+    {
+        Temperature_Init();                            // start default the webserver demo
         Potentiometer_Init();
-    
+  
        // sprintf(LCDString, "RDK Demo %s", VERSION_TEXT);
        // DisplayLCD(LCD_LINE1, (const uint8_t *)LCDString);
    
         /* Before doing any tests or apps, startup the module */
         /* and nonvolatile stettings */
-        App_Startup();
-        // Now connect to the system
-        //App_Connect(&G_nvsettings.webprov);
-     
-       //  App_PassThroughSPI();
-         
+        
+        App_StartupADKDemo(isLimiteAPmode);            // we may run limited AP or client
+        
          /******************Start Processing Sensor data******************/
-         
-         uint32_t start = MSTimerGet();  uint8_t c;
+        
+         start = MSTimerGet();  
          Accelerometer_Init();
+               
          while(1) 
-         { 
-          // if (GainSpan_SPI_ReceiveByte(GAINSPAN_SPI_CHANNEL, &c)) 
-           if(App_Read(&c, 1, 0)) 
-             AtLibGs_ReceiveDataProcess(c);
+         {
+           if(App_Read(&rxData, 1, 0)) 
+             AtLibGs_ReceiveDataProcess(rxData);
                    
         /* Timeout? */
            if (MSTimerDelta(start) >= 100)     // every 100 ms, read sensor data

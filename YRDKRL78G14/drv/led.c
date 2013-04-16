@@ -26,7 +26,7 @@
 */
 //#include "r_cg_macrodriver.h"
 #include "led.h"
-#include <system/mstimer.h>
+#include <mstimer.h>
 #include <string.h>
 
 // LEDS: LED3-LED15
@@ -171,6 +171,16 @@ void led_all_on(void)
   {
       GPIO_SetLow(G_LEDPort[n], G_LEDPin[n]);
   }
+}
+
+void led_on(int n)
+{
+    GPIO_SetLow(G_LEDPort[n], G_LEDPin[n]);
+}
+
+void led_off(int n)
+{
+    GPIO_SetHigh(G_LEDPort[n], G_LEDPin[n]);
 }
 
 void led_task(void)

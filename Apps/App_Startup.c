@@ -14,10 +14,10 @@
 #include <string.h>
 #include <stdbool.h>
 #include <system/platform.h>
-#include <Apps/NVSettings.h>
+#include <NVSettings.h> 
 #include <system/Switch.h>
 #include <drv/Glyph/lcd.h>
-#include <system/mstimer.h>
+#include <mstimer.h>
 #include <system/console.h>
 
 /*-------------------------------------------------------------------------*
@@ -31,12 +31,12 @@
 /*-------------------------------------------------------------------------*
  * Globals:
  *-------------------------------------------------------------------------*/
-NVSettings_t G_nvsettings;
-char str_config_ssid[22];
+NVSettings_t GNV_Setting;
+char str_config_ssid[25];
 uint8_t wifi_channel;
 char    WiFiMAC[20];
 char    WiFiMACStr[13];
-void    VirginCheck(void);
+extern char MRBuffer[ATLIBGS_RX_CMD_MAX_SIZE];
 /*---------------------------------------------------------------------------*
  * Routine:  App_InitModule
  *---------------------------------------------------------------------------*
@@ -65,7 +65,7 @@ void App_InitModule(void)
 #endif
 
     /* Wait for the banner (if any) */
-    MSTimerDelay(500);
+    // MSTimerDelay(500);
 
     /* Clear out the buffers */
     AtLibGs_FlushRxBuffer();
@@ -75,6 +75,11 @@ void App_InitModule(void)
         AtLibGs_FlushIncomingMessage();
         DisplayLCD(LCD_LINE8, "Checking...");
         r = AtLibGs_Check();
+    
+        if (r != ATLIBGS_MSG_ID_OK) {
+            MSTimerDelay(1000);
+            continue;  
+        }          
     } while (ATLIBGS_MSG_ID_OK != r);
 
     /* Send command to DISABLE echo */
@@ -102,31 +107,16 @@ void App_InitModule(void)
 void App_StartupLimitedAP(char *mySSID)
 {
     ATLIBGS_MSG_ID_E r;
-	
-	//DisplayLCD(LCD_LINE3, "Limited AP:");
-	//DisplayLCD(LCD_LINE4, (uint8_t const *)mySSID);
 
 #ifdef ATLIBGS_DEBUG_ENABLE
-    ConsolePrintf("Starting Limited AP: %s\n", ATLIBGS_LIMITED_AP_SSID);
+    ConsolePrintf("Starting Limited AP: %s\n", mySSID);
 #endif
 
     /* Try to disassociate if not already associated */
     AtLibGs_DisAssoc();
     while (1) {
         DisplayLCD(LCD_LINE6, " Setting up");
-           
-        r =AtLibGs_EnableRadio(1);                       // enable radio
-        if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Bad Mode!");
-            MSTimerDelay(2000);
-            continue;
-        }
-        r = AtLibGs_Mode(ATLIBGS_STATIONMODE_LIMITED_AP);
-        if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Bad Mode!");
-            MSTimerDelay(2000);
-            continue;
-        }
+
         r = AtLibGs_IPSet(ATLIBGS_LIMITED_AP_IP, ATLIBGS_LIMITED_AP_MASK,
                 ATLIBGS_LIMITED_AP_GATEWAY);
         if (r != ATLIBGS_MSG_ID_OK) {
@@ -134,10 +124,39 @@ void App_StartupLimitedAP(char *mySSID)
             MSTimerDelay(2000);
             continue;
         }
-        r = AtLibGs_EnableDHCPServer();
+        r =AtLibGs_EnableRadio(1);                       // enable radio
         if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Bad DHCPSrv!");
-            AtLibGs_DisableDHCPServer();
+            DisplayLCD(LCD_LINE6, "Bad Radio Mode!");
+            MSTimerDelay(2000);
+            continue;
+        }
+        do {
+           r = AtLibGs_Version();                        // check the GS version
+        }while (ATLIBGS_MSG_ID_OK != r);
+
+        if(strstr((const char *)MRBuffer, "3.4."))       // This is a GS1500 2.2 version
+        {
+          r = AtLibGs_ConfigAntenna(1);                  // set to PCB antenna
+           if (r != ATLIBGS_MSG_ID_OK) {
+              DisplayLCD(LCD_LINE6, "Configure Antenna Fail!");
+              MSTimerDelay(2000);
+              continue;
+          }
+#ifdef ATLIBGS_DEBUG_ENABLE
+          ConsolePrintf("This is a GS1500\n");
+#endif
+        }       
+#if 0             
+        r = AtLibGs_SetRegulatoryDomain(ATLIBGS_REGDOMAIN_TELEC);
+         if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "Set Domain Fail");
+            MSTimerDelay(2000);
+            continue;
+        }
+#endif         
+        r = AtLibGs_Mode(ATLIBGS_STATIONMODE_LIMITED_AP);
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "Bad Mode!");
             MSTimerDelay(2000);
             continue;
         }
@@ -145,6 +164,13 @@ void App_StartupLimitedAP(char *mySSID)
                 ATLIBGS_LIMITED_AP_CHANNEL);
         if (r != ATLIBGS_MSG_ID_OK) {
             DisplayLCD(LCD_LINE6, "AP Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }
+        r = AtLibGs_EnableDHCPServer();
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "Try DHCPSrv!");
+            AtLibGs_DisableDHCPServer();
             MSTimerDelay(2000);
             continue;
         }
@@ -157,11 +183,144 @@ void App_StartupLimitedAP(char *mySSID)
 }
 
 /*---------------------------------------------------------------------------*
- * Routine:  App_WebProvisioning
+ * Routine:  App_aClientConnection
  *---------------------------------------------------------------------------*
  * Description:
- *      Put the unit into web provisioning mode and wait for the user to
- *      connect with a web browser, change the settings, and click Save.
+ *      Connect an AP with static or dynamitc IP
+ * Inputs:
+ *      void
+ * Outputs:
+ *      void
+ *---------------------------------------------------------------------------*/
+void App_aClientConnection(void)
+{
+    ATLIBGS_MSG_ID_E rxMsgId; static ATLIBGS_AUTHMODE_E WEPMode=ATLIBGS_AUTHMODE_OPEN_WEP;
+    
+    /*  load up the settings */
+    if(NVSettingsLoad(&GNV_Setting))
+       NVSettingsSave(&GNV_Setting);
+   
+ /* Try to disassociate if not already associated */
+    AtLibGs_DisAssoc();
+    while (1) 
+    {  
+      rxMsgId = AtLibGs_Mode(ATLIBGS_STATIONMODE_INFRASTRUCTURE);
+      if (rxMsgId != ATLIBGS_MSG_ID_OK) 
+      {
+          DisplayLCD(LCD_LINE6, "Bad Mode!");
+          MSTimerDelay(2000);
+          continue;
+      }        
+      // Enable DHCP
+      DisplayLCD(LCD_LINE8, "DHCP On...");
+      rxMsgId = AtLibGs_DHCPSet(1);
+      if (rxMsgId != ATLIBGS_MSG_ID_OK) 
+      {
+          DisplayLCD(LCD_LINE6, "Cmad Fail!");
+          MSTimerDelay(2000);
+          continue;
+      }
+      break;
+    }
+    
+    // setup security
+    if(strlen(GNV_Setting.webprov.ssid) > 0)
+    { 
+  
+      if(GNV_Setting.webprov.security == ATLIBGS_PROVSECU_WEP)
+      {
+          do {
+            DisplayLCD(LCD_LINE8, " Setting WEP");
+            rxMsgId = AtLibGs_SetWEP1((int8_t*)GNV_Setting.webprov.password);
+          } while (ATLIBGS_MSG_ID_OK != rxMsgId); 
+          DisplayLCD(LCD_LINE8, " WEP Set");      
+      }
+      else if(GNV_Setting.webprov.security == ATLIBGS_PROVSECU_WPA_PER)
+      {
+          do {
+            DisplayLCD(LCD_LINE8, " Setting PSK");
+            rxMsgId = AtLibGs_CalcNStorePSK(GNV_Setting.webprov.ssid, GNV_Setting.webprov.password);
+          } while (ATLIBGS_MSG_ID_OK != rxMsgId); 
+          DisplayLCD(LCD_LINE8, " PSK Set");
+      }
+      else if(GNV_Setting.webprov.security == ATLIBGS_PROVSECU_WPA_ENT)
+      {
+       /* Set AT+WAUTH=0 for WPA or WPA2  */
+           do {
+             DisplayLCD(LCD_LINE8, "       " );
+             rxMsgId = AtLibGs_SetAuthentictionMode(ATLIBGS_AUTHMODE_NONE_WPA);
+           } while (ATLIBGS_MSG_ID_OK != rxMsgId);
+         /* Security Configuration */
+           do {
+             DisplayLCD(LCD_LINE8, "Set Security");
+             rxMsgId = AtLibGs_SetSecurity(ATLIBGS_SMAUTO);
+           } while (ATLIBGS_MSG_ID_OK != rxMsgId);  
+       }
+     }
+     else
+     {  
+                                            // use default security
+     }
+        
+     while(1)
+     {
+       /* Associate to a particular AP specified by SSID  */
+        if (strlen(GNV_Setting.webprov.ssid) > 0)
+        {
+          DisplayLCD(LCD_LINE8, (const uint8_t *)GNV_Setting.webprov.ssid);
+          rxMsgId = AtLibGs_Assoc(GNV_Setting.webprov.ssid,NULL,HOST_APP_AP_CHANNEL);
+        }
+        else
+        {
+          DisplayLCD(LCD_LINE8, HOST_APP_AP_SSID);
+          rxMsgId = AtLibGs_Assoc(HOST_APP_AP_SSID, NULL, HOST_APP_AP_CHANNEL);
+        }
+    
+        if (ATLIBGS_MSG_ID_OK != rxMsgId) 
+        {
+          /* Association error - we can retry */
+           if(GNV_Setting.webprov.security == ATLIBGS_PROVSECU_WEP)
+           {
+             if(WEPMode==ATLIBGS_AUTHMODE_OPEN_WEP)
+             {
+               rxMsgId = AtLibGs_SetAuthentictionMode(ATLIBGS_AUTHMODE_SHARED_WEP);// Potenially it's a WEP shared AP
+               WEPMode=ATLIBGS_AUTHMODE_SHARED_WEP;
+             }
+             else
+             {
+               rxMsgId = AtLibGs_SetAuthentictionMode(ATLIBGS_AUTHMODE_OPEN_WEP);// Potenially it's a WEP shared AP
+               WEPMode=ATLIBGS_AUTHMODE_OPEN_WEP;         
+             }
+           }
+      #ifdef HOST_APP_DEBUG_ENABLE
+              ConsolePrintf("\n Association error - retry now \n");
+      #endif
+          DisplayLCD(LCD_LINE7, " Connecting..");
+          MSTimerDelay(2000);
+          DisplayLCD(LCD_LINE7, "");
+        } 
+        else 
+        {
+          /* Association success */       
+          DisplayLCD(LCD_LINE1, (const uint8_t *) "Connected to");
+          DisplayLCD(LCD_LINE2, (const uint8_t *) GNV_Setting.webprov.ssid);   
+          
+          AtLibGs_GetIPAddress((uint8_t*) str_config_ssid);           // we just reuse the buffer to get IP address
+          
+          DisplayLCD(LCD_LINE4, (const uint8_t *)str_config_ssid);
+          DisplayLCD(LCD_LINE5, (const uint8_t *)&str_config_ssid[12]);
+          break;
+        }  
+     }
+}
+
+/*---------------------------------------------------------------------------*
+ * Routine:  App_WebProvisioning_OverAirPush
+ *---------------------------------------------------------------------------*
+ * Description:
+ *      Put the unit into web provisioning mode and over air push mode download mode ,
+ *      then wait for the user to connect with a web browser, or app, change the settings, and 
+ *      click Save or upgrade the WLan, App, webpage.
  *      The settings will then be parsed by the AtLibGs library and
  *      get saved into the nv settings.
  * Inputs:
@@ -169,13 +328,13 @@ void App_StartupLimitedAP(char *mySSID)
  * Outputs:
  *      void
  *---------------------------------------------------------------------------*/
-void App_WebProvisioning(void)
+void App_WebProvisioning_OverAirPush(void)
 {
     ATLIBGS_MSG_ID_E r;
 
     /* At power up, load up the default settings */
-    if(NVSettingsLoad(&G_nvsettings))
-       NVSettingsSave(&G_nvsettings);
+    if(NVSettingsLoad(&GNV_Setting))
+       NVSettingsSave(&GNV_Setting);
     
     App_InitModule();
     while(1)
@@ -192,12 +351,12 @@ void App_WebProvisioning(void)
     
     if(r == ATLIBGS_MSG_ID_OK)
       AtLibGs_ParseGetMacResponse(WiFiMACStr);    
-    strcpy(str_config_ssid, (char const*)ATLIBGS_ADK_SSID); 
+    strcpy(str_config_ssid, (char const*)ATLIBGS_LIMITED_AP_SSID); 
     strcat(str_config_ssid, &WiFiMACStr[6]);                     // concatenate last 6 digis of MAC as SSID  
+    
+    DisplayLCD(LCD_LINE1, "Limited AP:");
+    DisplayLCD(LCD_LINE2, (uint8_t const *)str_config_ssid);
 
-	DisplayLCD(LCD_LINE2, "   Connect  ");    
-	DisplayLCD(LCD_LINE3, "to Wifi SSID");
-    DisplayLCD(LCD_LINE4, (uint8_t const *)str_config_ssid);
     App_StartupLimitedAP(str_config_ssid);
     
     /* Before going into web provisioning, provide DNS to give a link. */
@@ -219,26 +378,50 @@ void App_WebProvisioning(void)
             MSTimerDelay(2000);
             continue;
         }
+#if 1 // mDNS_ENABLED
+        // now start mNDS service 
+        r = AtLibGs_StartMDNS();
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "MDNS1 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }        
+        r = AtLibGs_RegisterMDNSHost("Renesas","local");
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "MDNS2 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }             
+        r = AtLibGs_RegisterMDNSService(ATLIBGS_ADK_MDNS_SERVER_RPOV,"","_http","_tcp","local","80","", "path=/prov.html");
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "MDNS3 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }
+        r = AtLibGs_RegisterMDNSService("ota-fwu","","_http","_tcp","local","80","","path=/otafu.html");
+        if (r != ATLIBGS_MSG_ID_OK) {
+           DisplayLCD(LCD_LINE6, "MDNS3-2 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }
+        
+        //MSTimerDelay(1000);                  // put some delay here to wait for previous response
+        r = AtLibGs_AnnounceMDNS();
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "MDNS4 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }             
+ #endif       
         break;
     }
-	DisplayLCD(LCD_LINE5, "   And     ");	
-    DisplayLCD(LCD_LINE6, "Open Page: ");
+  //  DisplayLCD(LCD_LINE6, "WebProv ON");
+    DisplayLCD(LCD_LINE4, (const uint8_t *) "192.168.240.");
+    DisplayLCD(LCD_LINE5, (const uint8_t *) "1/prov.html");
+    
     DisplayLCD(LCD_LINE7, (const uint8_t *) "192.168.240.");
-    DisplayLCD(LCD_LINE8, (const uint8_t *) "1/prov.html");  
-#if 0
-    do {
-        DisplayLCD(LCD_LINE7, "IP: ???.???.");
-        DisplayLCD(LCD_LINE8, "    ???.???");
-        r = AtLibGs_GetNetworkStatus(&network_status);
-    } while (ATLIBGS_MSG_ID_OK != r);
+    DisplayLCD(LCD_LINE8, (const uint8_t *) "1/otafu.html");  
 
-    sprintf(text, "IP: " _F8_ "." _F8_ ".",
-            network_status.addr.ipv4[0], network_status.addr.ipv4[1]);
-    DisplayLCD(LCD_LINE7, (uint8_t *)text);
-    sprintf(text, "    " _F8_ "." _F8_, network_status.addr.ipv4[2],
-            network_status.addr.ipv4[3]);
-    DisplayLCD(LCD_LINE8, (uint8_t *)text);
-#endif
 #ifdef ATLIBGS_DEBUG_ENABLE
     ConsolePrintf("Web Provisioning ON\n");
 #endif
@@ -247,27 +430,22 @@ void App_WebProvisioning(void)
 #ifdef ATLIBGS_DEBUG_ENABLE
     ConsolePrintf("Waiting for web provisioning response...\n");
 #endif
-    AtLibGs_GetWebProvSettings(&G_nvsettings.webprov, 0);
+    AtLibGs_GetWebProvSettings(&GNV_Setting.webprov, 0);
 
     /* Save the above settings */
-    NVSettingsSave(&G_nvsettings);
+    NVSettingsSave(&GNV_Setting);
 #ifdef ATLIBGS_DEBUG_ENABLE
     ConsolePrintf("Web provisioning complete.\n");
 #endif
 
-	ClearLCD();
-	DisplayLCD(LCD_LINE1, "*SSID CONFIG");
-    DisplayLCD(LCD_LINE2, "  COMPLETE  ");
-	if (!G_nvsettings.webprov.dhcp_enable) {
-		DisplayLCD(LCD_LINE4, "WARN:       ");
-		DisplayLCD(LCD_LINE5, "DHCP IS OFF ");
-		DisplayLCD(LCD_LINE6, "CHK SETTINGS");
-	}
-    DisplayLCD(LCD_LINE7, "Press RESET");
-    //while (1)
-    //    {}
+    DisplayLCD(LCD_LINE6, "WebProv Done");
+    DisplayLCD(LCD_LINE7, "");
+    DisplayLCD(LCD_LINE8, "Press RESET");
+    while (1)
+        {}
 }
 
+#if 0
 /*---------------------------------------------------------------------------*
  * Routine:  App_StartWPS
  *---------------------------------------------------------------------------*
@@ -329,6 +507,7 @@ void App_StartWPS(void)
     DisplayLCD(LCD_LINE5, "");
     DisplayLCD(LCD_LINE6, "");
 }
+#endif
 /*---------------------------------------------------------------------------*
  * Routine:  App_StartupADKDemo
  *---------------------------------------------------------------------------*
@@ -340,91 +519,47 @@ void App_StartWPS(void)
  * Outputs:
  *      void
  *---------------------------------------------------------------------------*/
-void App_StartupADKDemo(void)
+void App_StartupADKDemo(uint8_t isLimiteAPmode)
 {
     ATLIBGS_MSG_ID_E r;
 
    // DisplayLCD(LCD_LINE3, "Limited AP");
-   // DisplayLCD(LCD_LINE4, ATLIBGS_LIMITED_AP_SSID);   
-   // VirginCheck();   
-#if 1                     
-    DisplayLCD(LCD_LINE3, (const uint8_t *) "192.168.240.");
-    DisplayLCD(LCD_LINE4, (const uint8_t *) "1/rdk.html");  
-#else   
-    DisplayLCD(LCD_LINE3, (const uint8_t *) "192.168.1.1/");
-    DisplayLCD(LCD_LINE4, (const uint8_t *) "rdk.html"); 
+   // DisplayLCD(LCD_LINE4, ATLIBGS_LIMITED_AP_SSID);  
+   /* Initialize the module now that a mode is chosen (above) */
+    App_InitModule();
+  
+#ifdef ATLIBGS_DEBUG_ENABLE
+    ConsolePrintf("Starting Limited AP: %s\n", ATLIBGS_LIMITED_AP_SSID);
 #endif
-    
+
     /* Try to disassociate if not already associated */
     AtLibGs_DisAssoc();
     while (1) {
         DisplayLCD(LCD_LINE6, " Setting up");
         
-        r =AtLibGs_EnableRadio(1);                       // enable radio
-        if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Bad Mode!");
-            MSTimerDelay(2000);
-            continue;
-        }  
-#if 0       
-        r = AtLibGs_ConfigAntenna(1);
-         if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Configure Antenna Fail!");
-            MSTimerDelay(2000);
-            continue;
-        }  
-#endif       
-        r = AtLibGs_Mode(ATLIBGS_STATIONMODE_LIMITED_AP);
-        if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Bad Mode!");
-            MSTimerDelay(2000);
-            continue;
+        if(isLimiteAPmode)                                                               // Run the limited AP mode
+        {
+          DisplayLCD(LCD_LINE3, (const uint8_t *) "192.168.240.");
+          DisplayLCD(LCD_LINE4, (const uint8_t *) "1/rdk.html");
+          r = AtLibGs_GetMAC(WiFiMAC);
+          if(r != ATLIBGS_MSG_ID_OK)
+          {
+              DisplayLCD(LCD_LINE6, "Get MAC Failed!");
+              MSTimerDelay(2000);
+              continue;
+           }
+  
+          if(r == ATLIBGS_MSG_ID_OK)
+            AtLibGs_ParseGetMacResponse(WiFiMACStr);
+          strcpy(str_config_ssid, (char const*)ATLIBGS_LIMITED_AP_SSID);
+          strcat(str_config_ssid, &WiFiMACStr[6]);                       // concatenate last 6 digis of MAC as SSID
+          DisplayLCD(LCD_LINE1, (const uint8_t *)str_config_ssid); 
+          App_StartupLimitedAP(str_config_ssid);
+        }                                                              
+        else                                                             //  // run the client mode   
+        {
+          App_aClientConnection();    
         }
-        r = AtLibGs_IPSet(ATLIBGS_ADK_IP, ATLIBGS_ADK_MASK,
-                ATLIBGS_ADK_GATEWAY);
-        if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Bad IP!");
-            MSTimerDelay(2000);
-            continue;
-        }
-        AtLibGs_DisableDHCPServer();
-        r = AtLibGs_EnableDHCPServer();
-        if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Bad DHCPSrv!");
-            MSTimerDelay(2000);
-            continue;
-        }
- #if 0             
-        r = AtLibGs_SetRegulatoryDomain(ATLIBGS_REGDOMAIN_TELEC);
-         if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Set Domain Fail");
-            MSTimerDelay(2000);
-            continue;
-        }
-#endif        
-         r = AtLibGs_GetMAC(WiFiMAC);
-         if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "Get MAC Failed!");
-            MSTimerDelay(2000);
-            continue;
-        } 
-        
-        if(r == ATLIBGS_MSG_ID_OK)
-           AtLibGs_ParseGetMacResponse(WiFiMACStr);
-        
-        strcpy(str_config_ssid, (char const*)ATLIBGS_ADK_SSID); 
-        strcat(str_config_ssid, &WiFiMACStr[6]);                     // concatenate last 6 digis of MAC as SSID                          
-        DisplayLCD(LCD_LINE1, (const uint8_t *)str_config_ssid);   
-        #ifdef ATLIBGS_DEBUG_ENABLE
-            ConsolePrintf("Starting Limited AP: %s\n",str_config_ssid);
-        #endif
-        r = AtLibGs_Assoc(str_config_ssid /*ATLIBGS_ADK_SSID*/, 0,
-                ATLIBGS_ADK_CHANNEL);
-        if (r != ATLIBGS_MSG_ID_OK) {
-            DisplayLCD(LCD_LINE6, "AP Failed!");
-            MSTimerDelay(2000);
-            continue;
-        }        
         r = AtLibGs_WebServer(1, "", "", "", "");
         if (r != ATLIBGS_MSG_ID_OK) {
             DisplayLCD(LCD_LINE6, "Server Failed!");
@@ -445,14 +580,14 @@ void App_StartupADKDemo(void)
             MSTimerDelay(2000);
             continue;
         }        
-        r = AtLibGs_RegisterMDNSHost("xyz","local");
+        r = AtLibGs_RegisterMDNSHost(ATLIBGS_ADK_MDNS_SERVER,"local");
         if (r != ATLIBGS_MSG_ID_OK) {
             DisplayLCD(LCD_LINE6, "MDNS2 Failed!");
             MSTimerDelay(2000);
             continue;
         }             
-        r = AtLibGs_RegisterMDNSService(ATLIBGS_ADK_MDNS_SERVER,"","_http","_tcp","local","80","path=/gainspan/profile/mcu");
-      //  r = AtLibGs_RegisterMDNSService(ATLIBGS_ADK_MDNS_SERVER,"","_http","_tcp","local","80","path=/rdk.html");
+       // r = AtLibGs_RegisterMDNSService(ATLIBGS_ADK_MDNS_SERVER,"","_http","_tcp","local","80","","path=/rdk.html,api=gs_profile_mcu:1.0.0:/gainspan/profile/mcu");
+        r = AtLibGs_RegisterMDNSService(ATLIBGS_ADK_MDNS_SERVER,"","_http","_tcp","local","80","","path=/rdk.html");
         if (r != ATLIBGS_MSG_ID_OK) {
             DisplayLCD(LCD_LINE6, "MDNS3 Failed!");
             MSTimerDelay(2000);
@@ -475,6 +610,64 @@ void App_StartupADKDemo(void)
 #endif
 }
 
+/*---------------------------------------------------------------------------*
+ * Routine:  App_StartupProbeDemo
+ *---------------------------------------------------------------------------*
+ * Description:
+ *      Put the unit into a limited AP mode.
+ *      
+ * Inputs:
+ *      void
+ * Outputs:
+ *      void
+ *---------------------------------------------------------------------------*/
+void App_StartupProbeDemo(uint8_t isLimiteAPmode)
+{
+    ATLIBGS_MSG_ID_E r;
+    char lcd_line[32];
+
+    /* Initialize the module now that a mode is chosen (above) */
+    App_InitModule();
+
+    /* Try to disassociate if not already associated */
+    AtLibGs_DisAssoc();
+
+    while (1) {
+        DisplayLCD(LCD_LINE6, " Setting up");
+        
+        if(isLimiteAPmode)                                                               // Run the limited AP mode
+        {
+          r = AtLibGs_GetMAC(WiFiMAC);
+          if(r != ATLIBGS_MSG_ID_OK)
+          {
+              DisplayLCD(LCD_LINE6, "Get MAC Failed!");
+              MSTimerDelay(2000);
+              continue;
+          }
+  
+          if(r == ATLIBGS_MSG_ID_OK)
+            AtLibGs_ParseGetMacResponse(WiFiMACStr);
+
+          strcpy(str_config_ssid, (char const*)ATLIBGS_LIMITED_AP_SSID);
+          strcat(str_config_ssid, &WiFiMACStr[6]);                       // concatenate last 6 digis of MAC as SSID
+          DisplayLCD(LCD_LINE6, (const uint8_t *)str_config_ssid); 
+          App_StartupLimitedAP(str_config_ssid);
+          sprintf(&lcd_line[0], "SSID: %s", str_config_ssid);
+          DisplayLCD(LCD_LINE6, (const uint8_t *)lcd_line); 
+        }                                                              
+        else                                                             //  // run the client mode   
+        {
+          // connect to WiFi router    
+        }
+        break;    
+    }
+    MSTimerDelay(2000);
+    AtLibGs_FlushIncomingMessage();
+#ifdef ATLIBGS_DEBUG_ENABLE
+    ConsolePrintf("Probe Demo Started\n");
+#endif
+}
+#if 0
 /*---------------------------------------------------------------------------*
  * Routine:  App_OverTheAirProgramming
  *---------------------------------------------------------------------------*
@@ -525,10 +718,13 @@ void App_OverTheAirProgramming(void)
  *---------------------------------------------------------------------------*/
 void App_OverTheAirProgrammingPushMetheod(void)
 {
-    ATLIBGS_MSG_ID_E r;
+     ATLIBGS_MSG_ID_E r;
 
+    /* At power up, load up the default settings */
+    if(NVSettingsLoad(&GNV_Setting))
+       NVSettingsSave(&GNV_Setting);
+    
     App_InitModule();
-     
     while(1)
     {
        r = AtLibGs_GetMAC(WiFiMAC);
@@ -543,137 +739,286 @@ void App_OverTheAirProgrammingPushMetheod(void)
     
     if(r == ATLIBGS_MSG_ID_OK)
       AtLibGs_ParseGetMacResponse(WiFiMACStr);    
-    strcpy(str_config_ssid, (char const*)ATLIBGS_ADK_SSID); 
+    strcpy(str_config_ssid, (char const*)ATLIBGS_LIMITED_AP_SSID); 
     strcat(str_config_ssid, &WiFiMACStr[6]);                     // concatenate last 6 digis of MAC as SSID  
     
     App_StartupLimitedAP(str_config_ssid);
     
-    r = AtLibGs_WebProv(",", ",");
-    while(r != ATLIBGS_MSG_ID_OK) {
-        DisplayLCD(LCD_LINE6, "Bad WebProv!");
-        MSTimerDelay(2000);
-        continue;
+    /* Before going into web provisioning, provide DNS to give a link. */
+    /* The user can then go to http://webprov.gainspan.com/gsclient.html to get */
+    /* access to the web provisioning screen. */
+    while (1) 
+    {
+        r = AtLibGs_WebProv(",", ",");
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "Bad WebProv!");
+            MSTimerDelay(2000);
+            continue;
+        }
+#if 1 // mDNS_ENABLED
+        // now start mNDS service 
+        r = AtLibGs_StartMDNS();
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "MDNS1 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }        
+        r = AtLibGs_RegisterMDNSHost("Renesas","local");
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "MDNS2 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }             
+        r = AtLibGs_RegisterMDNSService(ATLIBGS_ADK_MDNS_SERVER_OTAFU,"","_http","_tcp","local","80","", "path=/otafu.html");
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "MDNS3 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }          
+        r = AtLibGs_AnnounceMDNS();
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "MDNS4 Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }  
+ #endif
+        break;
     }
+       
     DisplayLCD(LCD_LINE6, "Download ON");   
     DisplayLCD(LCD_LINE7, (const uint8_t *) "192.168.240.");
-    DisplayLCD(LCD_LINE8, (const uint8_t *) "1/otafu.html");  
+    DisplayLCD(LCD_LINE8, (const uint8_t *) "1/otafu.html");   
+
+    AtLibGs_GetWebProvSettings(&GNV_Setting.webprov, 0);
+
+    /* Save the above settings */
+    NVSettingsSave(&GNV_Setting);
+#ifdef ATLIBGS_DEBUG_ENABLE
+    ConsolePrintf("Web provisioning complete.\n");
+#endif
+    DisplayLCD(LCD_LINE6, "WebProv Done");
+    DisplayLCD(LCD_LINE7, "");
+    DisplayLCD(LCD_LINE8, "Press RESET");
+
+    while (1)
+        {}
+}
+const char *pdata="0123456789ABCDEFGHIJ";
+void App_StartupTCPClinet(void)
+{
+    ATLIBGS_MSG_ID_E r; uint8_t cid, c;
+    
+    App_InitModule();
+    AtLibGs_DisAssoc();
     while(1)
-      ;
-}
-
-/*---------------------------------------------------------------------------*
- * Routine:  App_ProgramMode
- *---------------------------------------------------------------------------*
- * Description:
- *      Put the unit into programming mode by putting the control pin into
- *      program mode and mimicing the TX/RX lines on SCI2 with the
- *      RX/TX lines of SCI6.
- * Inputs:
- *      void
- * Outputs:
- *      void
- *---------------------------------------------------------------------------*/
-void App_Startup(void)
-{
-    /* At power up, load up the default settings */
-    if(NVSettingsLoad(&G_nvsettings))
-       NVSettingsSave(&G_nvsettings);
-
-    /* Initialize the module now that a mode is chosen (above) */
-    App_InitModule();
-#if 0
-    /* Grab switch 1 state at startup before we init the module (which */
-    /* can take longer than people want to hold the button). */
-    sw1 = Switch1IsPressed();
-    sw2 = Switch2IsPressed();
-    sw3 = Switch3IsPressed();
-
-    /* Show the mode immediately before initialization */
-    if (sw1) {
-        DisplayLCD(LCD_LINE3, "SW1 Pressed!");
-      } else if (sw2) {
-          DisplayLCD(LCD_LINE3, "SW2 Pressed!");
-      } else if (sw3) {
-          DisplayLCD(LCD_LINE3, "SW3 Pressed!");
-    }
-    /* Initialize the module now that a mode is chosen (above) */
-    App_InitModule();
-
-    /* Was switch1 held? */
-    if (sw1) {
-        /* Yes, then go into Limited AP point */
-        App_StartupLimitedAP();
-
-        /* Now go into web provisioning mode */
-        App_WebProvisioning();
-    } else if (sw2) {
-        App_StartWPS();
-
-        /* Now go into web provisioning mode */
-        App_WebProvisioning();
-    } else if (sw3) {
-        /* User wants to do over the air programming */
-        App_OverTheAirProgramming();
-    }
-    else
-#endif
-      App_StartupADKDemo();
-}
-
-#if 0
-
-const uint8_t GainspanSignature[]="Gainspan";
-#define GAINSPAN_SIGNATURE_ADDR   sizeof(NVSettings_t)  //  0
-#define GAINSPAN_SIGNATURE_LEN    8
-
-#define GAINSPAN_SSID_MAX_LEN     20
-#define GAINSPAN_SSID_ADDR       (GAINSPAN_SIGNATURE_ADDR + GAINSPAN_SIGNATURE_LEN)
-
-#define GAINSPAN_CHANNEL_ADDR    (GAINSPAN_SSID_ADDR + GAINSPAN_SSID_MAX_LEN)    
-#define GAINSPAN_CHANNEL_MAX_LEN  1
-
-void VirginCheck(void)
-{
-   uint8_t cBuffer[20];
-   
-   //EEPROM_Test();  
-   memset((uint8_t *)cBuffer, 0x00, 19);
-   
-   
-   // EEPROM_Write(GAINSPAN_SIGNATURE_ADDR, "12345678", GAINSPAN_SIGNATURE_LEN);
-    EEPROM_Read(GAINSPAN_SIGNATURE_ADDR, cBuffer, GAINSPAN_SIGNATURE_LEN);
-   
-   EEPROM_Read(GAINSPAN_SIGNATURE_ADDR, cBuffer, GAINSPAN_SIGNATURE_LEN);
-   EEPROM_Read(98, cBuffer, GAINSPAN_SIGNATURE_LEN);
-   cBuffer[GAINSPAN_SIGNATURE_LEN+1]=0;
-   
-   if(strcmp((char const *)GainspanSignature, (char const*)cBuffer))                       // write signature "Gainspan"
-   {
-     EEPROM_Write(GAINSPAN_SIGNATURE_ADDR, "Gainspan", GAINSPAN_SIGNATURE_LEN);
-     EEPROM_Read(GAINSPAN_SIGNATURE_ADDR, cBuffer, GAINSPAN_SIGNATURE_LEN);
-     strcpy(str_config_ssid, (char const*)ATLIBGS_ADK_SSID);  
-     AtLibGs_GetMAC((char *)cBuffer);
-     
-     strncat(str_config_ssid, (char const*)&cBuffer[9],2);
-     strncat(str_config_ssid, (char const*)&cBuffer[12],2);
-     strncat(str_config_ssid, (char const*)&cBuffer[15],2);
-     
-     EEPROM_Write(GAINSPAN_SSID_ADDR, str_config_ssid, GAINSPAN_SSID_MAX_LEN); 
-   }
-#if 1 
-   memset(str_config_ssid, 0x00, GAINSPAN_SSID_MAX_LEN);
-   EEPROM_Read(GAINSPAN_SSID_ADDR, str_config_ssid, GAINSPAN_SSID_MAX_LEN);                       // read SSID from EEPROM
-  
-   EEPROM_Read(GAINSPAN_CHANNEL_ADDR, &wifi_channel, GAINSPAN_CHANNEL_MAX_LEN);                   // read WiFi channel from EEPROM
-
-    if(wifi_channel<1 || wifi_channel>14)                                                     // something wrong, set to default channel
     {
-      wifi_channel = 6;
-      EEPROM_Write(GAINSPAN_CHANNEL_ADDR, &wifi_channel, GAINSPAN_CHANNEL_MAX_LEN);
+        r =AtLibGs_EnableRadio(1);                       // enable radio
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "Bad Mode!");
+            MSTimerDelay(2000);
+            continue;
+        }    
+        r =  AtLibGs_DHCPSet(1);     
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "DHCP!");
+            MSTimerDelay(2000);
+            continue;
+        }     
+        r = AtLibGs_BData(1);
+        if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "Bulk fail!");
+            MSTimerDelay(2000);
+            continue;
+        } 
+       r = AtLibGs_Assoc("GuLou", "", 0);
+       if (r != ATLIBGS_MSG_ID_OK) {
+            DisplayLCD(LCD_LINE6, "AP Failed!");
+            MSTimerDelay(2000);
+            continue;
+        }
+       
+       r = AtLibGs_TCPClientStart("192.168.3.112", 8010, &cid);
+       if (r != ATLIBGS_MSG_ID_OK) {
+                DisplayLCD(LCD_LINE7, "No Connect!");
+                MSTimerDelay(2000);
+                DisplayLCD(LCD_LINE7, "");
+                continue;
+        }
+        if (cid == ATLIBGS_INVALID_CID) {
+            DisplayLCD(LCD_LINE7, "No CID!");
+            MSTimerDelay(2000);
+            DisplayLCD(LCD_LINE7, "");
+            continue;
+        }
+      
+      DisplayLCD(LCD_LINE7, "Connected!");
+      break;
     }
+   
+   while(1)
+   {
+     AtLibGs_BulkDataTransfer(cid, pdata, 20);
+     if(App_Read(&c, 1, 0)) 
+        AtLibGs_ReceiveDataProcess(c);
+     MSTimerDelay(500);
+   }
+}
 #endif
-} 
-#endif
+
+extern ATLIBGS_MSG_ID_E AtLibGs_BulkDataTransferTest(uint8_t cid, uint16_t dataLen);
+#define MAX_TX_BUF_SIZE 1400
+int LimitedAP_TCP_SereverBulkMode(void)				
+{
+    ATLIBGS_MSG_ID_E rxMsgId;
+    ATLIBGS_TCPConnection connection;
+    char  infotext[32], mac[22]; uint8_t rxData, cid;
+    unsigned long start;
+    
+  //  GS_MCU_HWInit();
+   // GS_NodeReset();
+ 
+    ConsolePrintf("DW-Wireless Testing\r\n");
+    DisplayLCD(LCD_LINE2, "DW Wireless");
+    
+    App_InitModule();
+    /* Try to disassociate if not already associated */
+    AtLibGs_DisAssoc(); 
+	do
+    {
+        rxMsgId = AtLibGs_SetEcho(0);
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+   
+    do
+    {
+        rxMsgId = AtLibGs_GetMAC(mac);
+     }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+    
+    do
+    {
+     AtLibGs_GetInfo( ATLIBGS_ID_INFO_SOFTWARE_VERSION, infotext, 31);
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+    
+    do   /* Disable DHCP */
+    {
+        rxMsgId =  AtLibGs_DHCPSet(0); 
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);   
+     /* Set the static IP address */
+    do
+    {
+       rxMsgId = AtLibGs_SetTransmitRate(ATLIBGS_TR1MBPS);
+     }while(ATLIBGS_MSG_ID_OK != rxMsgId); 
+    
+    do
+    {
+        rxMsgId = AtLibGs_IPSet("192.168.1.1","255.255.255.0", "192.168.1.1"); 
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+    
+    DisplayLCD(LCD_LINE3, "Server:");
+    DisplayLCD(LCD_LINE4, "192.168.1.1");
+
+#if 1    
+    do  /* Enable Radio */
+    {
+        rxMsgId =  AtLibGs_EnableRadio(1);
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+#endif    
+    do  /* Enable Bulk Transfer */
+    {
+        rxMsgId =  AtLibGs_BData(1);
+  
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+    
+    do  /* Set Limited AP mode */
+    {     
+         rxMsgId =  AtLibGs_Mode(ATLIBGS_STATIONMODE_LIMITED_AP);
+         
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+       
+    do  /* Associate to AP */
+    {
+        rxMsgId =  AtLibGs_Assoc("DW_Wireless11", 0, 10);
+  
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+        
+    do   /* Enable DHCP Sever  */
+    {
+        rxMsgId = AtLibGs_EnableDHCPServer();
+        if (rxMsgId != ATLIBGS_MSG_ID_OK) {
+  //          DisplayLCD(LCD_LINE6, "Try DHCPSrv!");
+            rxMsgId = AtLibGs_DisableDHCPServer();
+            if (rxMsgId == ATLIBGS_MSG_ID_OK)
+            {
+               rxMsgId = AtLibGs_EnableDHCPServer();
+               if (rxMsgId != ATLIBGS_MSG_ID_OK)
+               {
+                 MSTimerDelay(2000);
+                 continue;
+               }
+            }
+        }
+    } while(ATLIBGS_MSG_ID_OK != rxMsgId);
+       
+        /* Open 3 TCP Clinet Socktes. */
+    do /* Start TCP Client 1*/
+    {
+        rxMsgId = AtLibGs_TCPServer_Start(8010, &cid);
+        //rxMsgId = AtLibGs_TcpClientStart("192.168.3.100","8010");
+        
+        DisplayLCD(LCD_LINE5, "TCP Port:");
+        DisplayLCD(LCD_LINE6, "8010");
+        DisplayLCD(LCD_LINE7, "");
+        DisplayLCD(LCD_LINE8, "");
+  
+    }while(ATLIBGS_MSG_ID_OK != rxMsgId);
+    
+   
+   while (1)
+   {
+      rxMsgId = AtLibGs_WaitForTCPConnection(&connection,  100000);
+      if(rxMsgId == ATLIBGS_MSG_ID_TCP_SERVER_CONNECT)
+      {
+         ConsolePrintf("Server CID: %d\r\n", connection.server_cid);
+         ConsolePrintf("Client CID: %d\r\n", connection.cid);
+         ConsolePrintf("Client Port: %u\r\n", connection.port);     
+         ConsolePrintf("Client IP: %s\r\n", connection.ip);
+         
+         DisplayLCD(LCD_LINE7, "TCP Client:");
+         DisplayLCD(LCD_LINE8, (uint8_t *)connection.ip);
+         break;
+      }   
+   }
+   start = MSTimerGet();
+   while(1)
+   {
+      if(App_Read(&rxData, 1, 0)==1)          // process incoming data
+      {
+        AtLibGs_ReceiveDataProcess(rxData);
+      }
+   
+      if(MSTimerDelta(start) >= 500)           // every 500 ms, send TCP data
+      {
+         // rxMsgId = AtLibGs_SendTCPData(connection.cid, TxDataBuf, MAX_TX_BUF_SIZE);
+         
+         rxMsgId = AtLibGs_BulkDataTransferTest(connection.cid, MAX_TX_BUF_SIZE);
+         
+         if(rxMsgId != ATLIBGS_MSG_ID_OK) 
+         {
+            ConsolePrintf("Send Fail!");
+            MSTimerDelay(2000);
+            AtLibGs_Close(cid);
+            break;
+         } 
+         start = MSTimerGet();     
+      } 
+     
+     // MSTimerDelay(500);  
+   }
+   
+   ConsolePrintf("Stopped!");
+   while(1)
+     ; 
+}
+
 /*-------------------------------------------------------------------------*
  * End of File:  App_Startup.c
  *-------------------------------------------------------------------------*/

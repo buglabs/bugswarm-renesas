@@ -12,7 +12,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <system/platform.h>
-#include <drv/UART0.h>
+#include <drv/UART.h>
 
 #define CONSOLE_ECHO 1
 
@@ -47,10 +47,10 @@ void ConsolePrintf(const char *format, ...)
     p = buffer;
     while (*p) {
         if (*p == '\n')
-            UART0_SendByte('\r');
-        UART0_SendByte(*p);
+            UART1_SendByte('\r');
+        UART1_SendByte(*p);
         if (*p == '\n')
-            while (!UART0_IsTransmitEmpty()) {
+            while (!UART1_IsTransmitEmpty()) {
             }
         p++;
     }

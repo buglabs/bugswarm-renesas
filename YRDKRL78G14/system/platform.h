@@ -16,38 +16,36 @@
 #include <ior5f104pj.h>
 #include <ior5f104pj_ext.h>
 #include "intrinsics.h"
-#include "drv\UART0.h"
-#include "drv\UART2.h"
+#include "drv\UART.h"
 #include "system\EEPROM.h"
 
 // The RL78 has 4KB of RAM
-#define APP_MAX_RECEIVED_DATA           (1500)
+#define APP_MAX_RECEIVED_DATA           (256)
 #define ATLIBGS_TX_CMD_MAX_SIZE         (256)
-#define ATLIBGS_RX_CMD_MAX_SIZE         (1500)
-#define GAINSPAN_SPI_RX_BUFFER_SIZE     (1500)
+#define ATLIBGS_RX_CMD_MAX_SIZE         (512)
+#define GAINSPAN_SPI_RX_BUFFER_SIZE     (256)
 #define GAINSPAN_SPI_TX_BUFFER_SIZE     (128)
-#define CONSOLE_BUFFER_SIZE             (1500)
-#define UART0_RX_BUFFER_SIZE            (8)
-#define UART0_TX_BUFFER_SIZE            (1500)
-#define UART2_RX_BUFFER_SIZE            (8)
-#define UART2_TX_BUFFER_SIZE            (8)
+#define CONSOLE_BUFFER_SIZE             (256)
+#define UART0_RX_BUFFER_SIZE            (64)
+#define UART0_TX_BUFFER_SIZE            (64)
+#define UART1_RX_BUFFER_SIZE            (128)
+#define UART1_TX_BUFFER_SIZE            (128)
 
-#define POTENTIOMETER_CHANNEL            8   // ANI8
-#define MICROPHONE_CHANNEL      		 5   // ANI5
+#define POTENTIOMETER_CHANNEL            8   // ADC_CHANNEL_4
 
 // Error Code LED
 #define ERROR_LED_ON()  P5 |= 0x10
 #define ERROR_LED_OFF()  P5 &= ~0x10
 
-// Console (UART0) driver linkage
-#define Console_UART_Start(baud)              UART0_Start(baud)
-#define Console_UART_Stop()                   UART0_Stop()
-#define Console_UART_SendByte(aByte)          UART0_SendByte(aByte)
-#define Console_UART_SendData(aData, aLen)    UART0_SendData(aData, aLen)
-#define Console_UART_ReceiveByte(aByte)       UART0_ReceiveByte(aByte)
-#define Console_UART_IsTransmitEmpty()        UART0_IsTransmitEmpty()
+// Console (UART1) driver linkage
+#define Console_UART_Start(baud)              UART1_Start(baud)
+#define Console_UART_Stop()                   UART1_Stop()
+#define Console_UART_SendByte(aByte)          UART1_SendByte(aByte)
+#define Console_UART_SendData(aData, aLen)    UART1_SendData(aData, aLen)
+#define Console_UART_ReceiveByte(aByte)       UART1_ReceiveByte(aByte)
+#define Console_UART_IsTransmitEmpty()        UART1_IsTransmitEmpty()
 
-// Application Header (UART2) driver linkage
+// Application Header (UART3) driver linkage
 #define GainSpan_UART_Start(baud)             UART2_Start(baud)
 #define GainSpan_UART_Stop()                  UART2_Stop()
 #define GainSpan_UART_SendByte(aByte)         UART2_SendByte(aByte)

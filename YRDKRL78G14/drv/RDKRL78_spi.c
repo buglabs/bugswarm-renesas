@@ -26,7 +26,7 @@ uint8_t SPI2_CS_Pin[] = {
     4    // APP-WIFI-CS    P84
 };
 
-void IO_Reset()
+void IO_Reset(void)
 {
     int i = 0;
     
@@ -37,7 +37,7 @@ void IO_Reset()
     for (i=0;i<12000;i++);
 }
 
-void SPI2_Init()
+void SPI2_Init(void)
 {
     IO_Reset();
     R_SAU1_Create();

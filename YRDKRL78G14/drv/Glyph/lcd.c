@@ -133,6 +133,10 @@ void DisplayLCD(uint8_t position, const uint8_t * string)
 #endif
 }
 
+void CloseLCD(void)
+{
+    GlyphClose(&G_lcd);
+}
 /******************************************************************************
 * Function name : LCDSelectFont
 * Description   : This function selects the font to display on the LCD
@@ -164,7 +168,7 @@ void LCDSelectFont (LCDFONT font)
 
 void LCDDisplayLogo()
 {
-    uint8_t font;
+    T_glyphFont font;
     
     GlyphGetFont(G_lcd, &font);
     

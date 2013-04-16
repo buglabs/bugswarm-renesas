@@ -14,6 +14,7 @@
 #define _F8_ "%d"
 #define _F16_ "%d"
 #define _F32_ "%ld"
+#define _uF16_ "%u"
 
 #define DI      __disable_interrupt
 #define EI      __enable_interrupt

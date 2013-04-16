@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include "Accelerometer.h"
 #include <drv/I2C.h>
-#include <system/mstimer.h>
+#include <mstimer.h>
 
 /*-------------------------------------------------------------------------*
  * Constants:

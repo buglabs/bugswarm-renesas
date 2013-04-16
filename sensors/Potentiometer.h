@@ -17,7 +17,6 @@
  *-------------------------------------------------------------------------*/
 void Potentiometer_Init(void);
 uint32_t Potentiometer_Get(void);
-uint32_t Microphone_Get(void);
 
 #endif // POTENTIOMETER_H_
 /*-------------------------------------------------------------------------*

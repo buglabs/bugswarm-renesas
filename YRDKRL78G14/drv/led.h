@@ -25,6 +25,8 @@ typedef struct {
 void led_init(void);
 void led_all_off(void);
 void led_all_on(void);
+void led_on(int n);
+void led_off(int n);
 void led_task(void);
 void LEDFlash(uint32_t timeout);
 

@@ -105,13 +105,13 @@ void ConfigureOutputPorts(void)
     P3 = 0xFE; /* SD CS */ 
     P7 = 0xFE; /* PMOD1_CS / PMOD2_CS / WIFI_CS */ 
     
-    //P5 = 0xC3; /* RLED1 / GLED1 / GLED2 / GLED3 */
+    P5 = 0xC3; /* RLED1 / GLED1 / GLED2 / GLED3 */
     P6 = 0xF3; /* RLED2 / RLED3 */
 
     PM3 = 0xFE; /* SD CS */ 
     PM7 = 0xF1; /* PMOD1_CS / PMOD2_CS / WIFI_CS */ 
     
-    //PM5 = 0xC3; /* RLED1 / GLED1 / GLED2 / GLED3 */
+    PM5 = 0xC3; /* RLED1 / GLED1 / GLED2 / GLED3 */
     PM6 = 0xF3; /* RLED2 / RLED3 */
 #endif
 }

@@ -27,7 +27,6 @@ void SwitchesInit(void);
 bool Switch1IsPressed(void);
 bool Switch2IsPressed(void);
 bool Switch3IsPressed(void);
-bool checkSwitches(char * switches);
 
 #endif // SWITCH_H_
 /*-------------------------------------------------------------------------*

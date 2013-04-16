@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>ADKRenesasRL78G14/Debug</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Build>
+        <PreferedWindows>
+          
+          
+          
+          
+        <Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>720</ColumnWidth1><ColumnWidth2>192</ColumnWidth2><ColumnWidth3>48</ColumnWidth3></Build>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>358</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Find-in-Files>
+        <PreferedWindows>
+          
+          
+          
+          
+        <Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows>
+        
+        
+        
+      <ColumnWidth0>436</ColumnWidth0><ColumnWidth1>62</ColumnWidth1><ColumnWidth2>747</ColumnWidth2></Find-in-Files>
+      <TerminalIO/>
+      <Debug-Log>
+        <ColumnWidth0>20</ColumnWidth0>
+        <ColumnWidth1>1382</ColumnWidth1>
+        <PreferedWindows>
+          <Position>3</Position>
+          <ScreenPosX>0</ScreenPosX>
+          <ScreenPosY>0</ScreenPosY>
+          <Windows>
+            <Window>
+              <Factory>Build</Factory>
+            </Window>
+          </Windows>
+        </PreferedWindows>
+      </Debug-Log>
+    </Static>
+    <Windows>
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-31833-26922</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>ADKRenesasRL78G14</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/Apps</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/CmdLib</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/GSHAL</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/Output</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/YRDKRL78G14</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/YRDKRL78G14/applilet3_src</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/YRDKRL78G14/drv</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/YRDKRL78G14/system</ExpandedNode><ExpandedNode>ADKRenesasRL78G14/applilet3_src</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd2><Tabs><Tab><Identity>TabID-658-21817</Identity><TabName>Build</TabName><Factory>Build</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd2></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\ATCmdLib\AtCmdLib.c</Filename><XPos>0</XPos><YPos>5095</YPos><SelStart>185790</SelStart><SelEnd>185790</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Apps\App_Startup.c</Filename><XPos>0</XPos><YPos>561</YPos><SelStart>20150</SelStart><SelEnd>20150</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\system\GainSpan_IO.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Apps\App_ProbeDemo.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\drv\SPI.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\applilet3_src\r_cg_serial.c</Filename><XPos>0</XPos><YPos>304</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\drv\SPI _G14.c</Filename><XPos>0</XPos><YPos>385</YPos><SelStart>14483</SelStart><SelEnd>14483</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\HostApp.h</Filename><XPos>0</XPos><YPos>15</YPos><SelStart>1078</SelStart><SelEnd>1138</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\system\EEPROM.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>876</SelStart><SelEnd>876</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\main.c</Filename><XPos>0</XPos><YPos>88</YPos><SelStart>3403</SelStart><SelEnd>3403</SelEnd></Tab><ActiveTab>9</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-01e92fe0><key>iaridepm.enu1</key></Toolbar-01e92fe0></Sizes></Row0><Row1><Sizes/></Row1><Row2><Sizes/></Row2><Row3><Sizes/></Row3><Row4><Sizes/></Row4></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>490</Bottom><Right>449</Right><x>-2</x><y>-2</y><xscreen>127</xscreen><yscreen>189</yscreen><sizeHorzCX>100714</sizeHorzCX><sizeHorzCY>265823</sizeHorzCY><sizeVertCX>357653</sizeVertCX><sizeVertCY>691983</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>176</Bottom><Right>1263</Right><x>-2</x><y>-2</y><xscreen>1265</xscreen><yscreen>178</yscreen><sizeHorzCX>1003172</sizeHorzCX><sizeHorzCY>250352</sizeHorzCY><sizeVertCX>158604</sizeVertCX><sizeVertCY>250352</sizeVertCY></Rect></Wnd2></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+

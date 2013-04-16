@@ -216,21 +216,21 @@
         </option>
         <option>
           <name>IccOptLevel</name>
-          <state>2</state>
+          <state>0</state>
         </option>
         <option>
           <name>IccOptStrategy</name>
           <version>0</version>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IccOptLevelSlave</name>
-          <state>2</state>
+          <state>0</state>
         </option>
         <option>
           <name>IccOptAllowList</name>
           <version>1</version>
-          <state>1001000</state>
+          <state>0000011</state>
         </option>
         <option>
           <name>IccWrksegEnable</name>
@@ -349,7 +349,17 @@
           <state>$PROJ_DIR$</state>
           <state>$PROJ_DIR$\..</state>
           <state>$PROJ_DIR$\drv</state>
+          <state>$PROJ_DIR$\..\GSHAL\</state>
           <state>$PROJ_DIR$\applilet3_src\</state>
+          <state>$PROJ_DIR$\..\Apps\</state>
+          <state>$PROJ_DIR$\..\Micrium\Software\Cfg</state>
+          <state>$PROJ_DIR$\..\Micrium\Software\uC-LIB</state>
+          <state>$PROJ_DIR$\..\Micrium\Software\uC-CPU</state>
+          <state>$PROJ_DIR$\..\Micrium\Software\uC-CPU\RL78\IAR</state>
+          <state>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\Source</state>
+          <state>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\OS\None</state>
+          <state>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\WiFi\Source</state>
+          <state>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\WiFi\OS\None</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1773,24 +1783,12 @@
     </settings>
   </configuration>
   <group>
-    <name>applilet3_src</name>
-    <file>
-      <name>$PROJ_DIR$\applilet3_src\r_cg_serial.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\applilet3_src\r_cg_serial.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\applilet3_src\r_cg_serial_user.c</name>
-    </file>
-  </group>
-  <group>
     <name>Apps</name>
     <file>
-      <name>$PROJ_DIR$\..\Apps\App_Common.c</name>
+      <name>$PROJ_DIR$\..\Apps\App_PassThroughSPI.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Apps\App_Connect.c</name>
+      <name>$PROJ_DIR$\..\Apps\App_ProbeDemo.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\Apps\App_ProgramMode.c</name>
@@ -1802,38 +1800,170 @@
       <name>$PROJ_DIR$\..\Apps\App_Swarm.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\Apps\App_Swarm.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\Apps\Apps.h</name>
     </file>
+  </group>
+  <group>
+    <name>ATCmdLib</name>
     <file>
-      <name>$PROJ_DIR$\..\Apps\NVSettings.c</name>
+      <name>$PROJ_DIR$\..\ATCmdLib\AtCmdLib.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Apps\NVSettings.h</name>
+      <name>$PROJ_DIR$\..\ATCmdLib\AtCmdLib.h</name>
     </file>
   </group>
   <group>
-    <name>CmdLib</name>
+    <name>GSHAL</name>
     <file>
-      <name>$PROJ_DIR$\..\CmdLib\AtCmdLib.c</name>
+      <name>$PROJ_DIR$\..\GSHAL\GainSpan_SPI.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\CmdLib\AtCmdLib.h</name>
+      <name>$PROJ_DIR$\..\GSHAL\GainSpan_SPI.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\CmdLib\GainSpan_SPI.c</name>
+      <name>$PROJ_DIR$\..\GSHAL\GSHAL.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\CmdLib\GainSpan_SPI.h</name>
+      <name>$PROJ_DIR$\..\GSHAL\mstimer.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\GSHAL\mstimer.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\GSHAL\NVSettings.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\GSHAL\NVSettings.h</name>
     </file>
   </group>
   <group>
-    <name>jsmn</name>
-    <file>
-      <name>$PROJ_DIR$\..\jsmn\jsmn.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\jsmn\jsmn.h</name>
-    </file>
+    <name>Micrium</name>
+    <group>
+      <name>Software</name>
+      <group>
+        <name>Cfg</name>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\Cfg\app_cfg.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\Cfg\cpu_cfg.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\Cfg\includes.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\Cfg\probe_com_cfg.h</name>
+        </file>
+      </group>
+      <group>
+        <name>uC/CPU</name>
+        <group>
+          <name>RL78</name>
+          <group>
+            <name>IAR</name>
+            <file>
+              <name>$PROJ_DIR$\..\Micrium\Software\uC-CPU\RL78\IAR\cpu.h</name>
+            </file>
+          </group>
+        </group>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-CPU\cpu_bsp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-CPU\cpu_core.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-CPU\cpu_core.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-CPU\cpu_def.h</name>
+        </file>
+      </group>
+      <group>
+        <name>uC/LIB</name>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_ascii.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_ascii.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_def.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_math.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_math.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_mem.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_mem.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_str.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Micrium\Software\uC-LIB\lib_str.h</name>
+        </file>
+      </group>
+      <group>
+        <name>uC/Probe</name>
+        <group>
+          <name>Target</name>
+          <group>
+            <name>Communication</name>
+            <group>
+              <name>Generic</name>
+              <group>
+                <name>OS</name>
+                <group>
+                  <name>None</name>
+                  <file>
+                    <name>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\OS\None\probe_com_os.c</name>
+                  </file>
+                </group>
+              </group>
+              <group>
+                <name>Source</name>
+                <file>
+                  <name>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\Source\probe_com.c</name>
+                </file>
+                <file>
+                  <name>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\Source\probe_com.h</name>
+                </file>
+              </group>
+              <group>
+                <name>WiFi</name>
+                <group>
+                  <name>OS</name>
+                  <group>
+                    <name>None</name>
+                    <file>
+                      <name>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\WiFi\OS\None\probe_wifi_os.c</name>
+                    </file>
+                  </group>
+                </group>
+                <group>
+                  <name>Source</name>
+                  <file>
+                    <name>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\WiFi\Source\probe_wifi.c</name>
+                  </file>
+                  <file>
+                    <name>$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\WiFi\Source\probe_wifi.h</name>
+                  </file>
+                </group>
+              </group>
+            </group>
+          </group>
+        </group>
+      </group>
+    </group>
   </group>
   <group>
     <name>sensors</name>
@@ -1865,6 +1995,18 @@
   <group>
     <name>YRDKRL78G14</name>
     <group>
+      <name>applilet3_src</name>
+      <file>
+        <name>$PROJ_DIR$\applilet3_src\r_cg_serial.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\applilet3_src\r_cg_serial.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\applilet3_src\r_cg_serial_user.c</name>
+      </file>
+    </group>
+    <group>
       <name>drv</name>
       <group>
         <name>Glyph</name>
@@ -1878,7 +2020,7 @@
           <name>$PROJ_DIR$\drv\Glyph\Glyph_API.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\drv\Glyph\Glyph_cfg.h</name>
+          <name>$PROJ_DIR$\drv\Glyph\glyph_cfg.h</name>
         </file>
         <file>
           <name>$PROJ_DIR$\drv\Glyph\glyph_register.c</name>
@@ -1936,16 +2078,10 @@
         <name>$PROJ_DIR$\drv\Timer.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\drv\UART0.c</name>
+        <name>$PROJ_DIR$\drv\UART.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\drv\UART0.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\drv\UART2.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\drv\UART2.h</name>
+        <name>$PROJ_DIR$\drv\UART.h</name>
       </file>
     </group>
     <group>
@@ -2228,12 +2364,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\system\GainSpan_IO.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\system\mstimer.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\system\mstimer.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\system\platform.h</name>

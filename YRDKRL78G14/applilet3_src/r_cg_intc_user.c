@@ -92,7 +92,7 @@ __interrupt static void r_intc3_interrupt(void)
     /* Start user code. Do not edit comment generated here */
     /* End user code. Do not edit comment generated here */
 }
-
+#if 0
 /***********************************************************************************************************************
 * Function Name: r_intc4_interrupt
 * Description  : This function is INTP4 interrupt service routine.
@@ -123,7 +123,7 @@ __interrupt static void r_intc4_interrupt(void)
   
     /* End user code. Do not edit comment generated here */
 }
-
+#endif
 /***********************************************************************************************************************
 * Function Name: r_intc7_interrupt
 * Description  : This function is INTP7 interrupt service routine.
