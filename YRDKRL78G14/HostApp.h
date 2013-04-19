@@ -11,7 +11,7 @@
 #define GAINSPAN_CONSOLE_BAUD        115200
 #define GAINSPAN_SERIAL_PORT_BAUD    9600
 
-//#define ATLIBGS_DEBUG_ENABLE       // output information on the serial port to PC
+#define ATLIBGS_DEBUG_ENABLE       // output information on the serial port to PC
 
 // Choose one of the following:  SPI or UART communications
 // NOTE that the GainSpan module requires the correct firmware to be loaded.

@@ -20,7 +20,7 @@
 #include "system\EEPROM.h"
 
 // The RL78 has 4KB of RAM
-#define APP_MAX_RECEIVED_DATA           (256)
+#define APP_MAX_RECEIVED_DATA           (1500)
 #define ATLIBGS_TX_CMD_MAX_SIZE         (256)
 #define ATLIBGS_RX_CMD_MAX_SIZE         (512)
 #define GAINSPAN_SPI_RX_BUFFER_SIZE     (256)

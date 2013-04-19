@@ -1840,6 +1840,15 @@
     </file>
   </group>
   <group>
+    <name>jsmn</name>
+    <file>
+      <name>$PROJ_DIR$\..\jsmn\jsmn.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\jsmn\jsmn.h</name>
+    </file>
+  </group>
+  <group>
     <name>Micrium</name>
     <group>
       <name>Software</name>
@@ -2020,7 +2029,7 @@
           <name>$PROJ_DIR$\drv\Glyph\Glyph_API.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\drv\Glyph\glyph_cfg.h</name>
+          <name>$PROJ_DIR$\drv\Glyph\Glyph_cfg.h</name>
         </file>
         <file>
           <name>$PROJ_DIR$\drv\Glyph\glyph_register.c</name>
