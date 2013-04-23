@@ -41,7 +41,8 @@ void ConsolePrintf(const char *format, ...)
     va_start(args, format);
 
     /* Output the parameters into a string */
-    vsprintf((char *)buffer, format, args);
+    //vsprintf((char *)buffer, format, args);
+	vsnprintf((char *)buffer, CONSOLE_BUFFER_SIZE-1, format, args);
 
     /* Output the string to the console */
     p = buffer;

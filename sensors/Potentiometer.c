@@ -30,6 +30,7 @@ void Potentiometer_Init(void)
 {
     ADC_Start();
     ADC_EnableChannel(POTENTIOMETER_CHANNEL);
+	ADC_EnableChannel(MICROPHONE_CHANNEL);	
 }
 
 /*---------------------------------------------------------------------------*
@@ -56,6 +57,19 @@ uint32_t Potentiometer_Get(void)
     return adc;
 }
 
+uint32_t Microphone_Get(void)
+{
+    int32_t adc;
+
+    // ADC sensor reading
+    adc = ADC_GetReading(MICROPHONE_CHANNEL);
+
+    // Get the temperature and show it on the LCD
+    adc *= 1000; // scale it from 0 to 1000
+    adc /= (1 << 10); // 10-bit reading
+
+    return adc;
+}
 /*-------------------------------------------------------------------------*
  * End of File:  Potentiometer.c
  *-------------------------------------------------------------------------*/

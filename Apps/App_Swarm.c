@@ -12,6 +12,10 @@
 #include <mstimer.h>
 #include <system/console.h>
 #include <jsmn/jsmn.h>
+#include <sensors/Accelerometer.h>
+#include <sensors/LightSensor.h> 
+#include <sensors/Temperature.h>
+#include <sensors/Potentiometer.h>
 #include "Apps.h"
 #include "App_Swarm.h"
 
@@ -66,6 +70,7 @@ char    pkt[1500];
 char 	msg[512];
 bool    connected;
 ATLIBGS_TCPMessage tcp_pkt;
+uint16_t mic_level;
 
 /*----------------------------------------------------------------------------*
  *	Routine: App_SwarmConnector
@@ -93,6 +98,7 @@ void App_SwarmConnector(void) {
     ConsolePrintf("Module MAC Address: %s\r\n", MACstr);
 	ConsolePrintf("Connecting to AP...");
     App_aClientConnection();		//Will block until connected
+	AtLibGs_SetNodeAssociationFlag();
 	ConsolePrintf("Connected.\n");
 
     //TODO - Check EEPROM for a cached resourceid,
@@ -106,13 +112,19 @@ void App_SwarmConnector(void) {
 		//return;
     }
 	ConsolePrintf("Using Resource %s\n",resource_id);
+	
+	Temperature_Init();
+    Potentiometer_Init();
+	Accelerometer_Init();
 
     MSTimerDelay(100);
     connected = false;
 
 	while(1) {
-		//if (!AtLibGs_IsNodeAssociated())
-		//	App_aClientConnection();
+		if (!AtLibGs_IsNodeAssociated()) {
+			App_aClientConnection();
+			AtLibGs_SetNodeAssociationFlag();
+		}
 		ConsolePrintf("Creating a production session\r\n");
 
 		r = createProductionSession(&cid, 
@@ -129,9 +141,13 @@ void App_SwarmConnector(void) {
 		ConsolePrintf("Connected to Swarm\n");
 		connected = true;
 		while (connected) {
-			//r = produceData(cid);
-			readForAtLeast(cid, 1000);
+			r = App_SwarmProducer(cid);
+			if (r != ATLIBGS_MSG_ID_OK){
+				connected = false;
+			}
+			//readForAtLeast(cid, 1000);
 		}
+		AtLibGs_Close(cid);
 		ConsolePrintf("Disconnected, attempting to reconnect...\n");
 		MSTimerDelay(5000);		//TODO - exponential backoff
 	}	
@@ -273,7 +289,6 @@ ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...
 ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	ATLIBGS_MSG_ID_E r;
 	uint16_t value;
-	uint16_t mic_level;
 	float temp, tempF;
 	extern int16_t	gAccData[3];
 	int idx = 0;
@@ -282,74 +297,73 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 		Make sure to readForAtLeast inbetween each transmission to the server
 		all waiting data must be read before transmitting a packet.
 		We stagger each sensor to reduce server load  */		
-	/*while(1) {
-		ConsolePrintf("Temp: ");
-		value = Temperature_Get();
-		//value returned is in celcius, needs to be scaled to make floating pt
-        //2.5 is an approximate measure of board self-heating, tested
-		//with a temperature probe above the IC...
-		temp = (((float)value)/128.0)-2.5;  
-        tempF = (temp*1.8)+32.0;
-		ConsolePrintf("%0.1fC %0.1fF\r\n", temp, tempF);
-		r = produce(cid, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%0.2f}}",
-					tempF);
-		if (r > 1)
-			return r;
-		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
+	ConsolePrintf("Temp: ");
+	value = Temperature_Get();
+	//value returned is in celcius, needs to be scaled to make floating pt
+	//2.5 is an approximate measure of board self-heating, tested
+	//with a temperature probe above the IC...
+	temp = (((float)value)/128.0)-2.5;  
+	tempF = (temp*1.8)+32.0;
+	ConsolePrintf("%0.1fC %0.1fF\r\n", temp, tempF);
+	r = produce(cid, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%0.2f}}",
+				tempF);
+	if (r > 1)
+		return r;
+	readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 
-		ConsolePrintf("Light: ");
-		value = LightSensor_Get();
-		ConsolePrintf("%u\r\n", value);
-		r = produce(cid, "{\"name\":\"Light\",\"feed\":{\"Value\":%u}}",
-					value);
-		if (r > 1)
-			return r;
-		sprintf(msg, "T: %0.2fF, L: %u",tempF, value);
-		DisplayLCD(LCD_LINE5, msg);
-		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
+	ConsolePrintf("Light: ");
+	value = LightSensor_Get();
+	ConsolePrintf("%u\r\n", value);
+	r = produce(cid, "{\"name\":\"Light\",\"feed\":{\"Value\":%u}}",
+				value);
+	if (r > 1)
+		return r;
+	sprintf(msg, "T: %0.2fF, L: %u",tempF, value);
+	//DisplayLCD(LCD_LINE5, msg);
+	readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 
-		ConsolePrintf("Accel: ");
-		Accelerometer_Get();
-		ConsolePrintf("(%d, %d, %d)\r\n", gAccData[0], gAccData[1], gAccData[2]);	
-		r = produce(cid, "{\"name\":\"Acceleration\","
-					"\"feed\":{\"x\":%0.2f,\"y\":%0.2f,\"z\":%0.2f}}",
-					(float)gAccData[0]/33.0, (float)gAccData[1]/33.0, (float)gAccData[2]/30.0);
-		if (r > 1)
-			return r;
-		sprintf(msg, "A(%0.2f,%0.2f,%0.2f)",
+	ConsolePrintf("Accel: ");
+	Accelerometer_Get();
+	ConsolePrintf("(%d, %d, %d)\r\n", gAccData[0], gAccData[1], gAccData[2]);	
+	r = produce(cid, "{\"name\":\"Acceleration\","
+				"\"feed\":{\"x\":%0.2f,\"y\":%0.2f,\"z\":%0.2f}}",
 				(float)gAccData[0]/33.0, (float)gAccData[1]/33.0, (float)gAccData[2]/30.0);
-		DisplayLCD(LCD_LINE6, msg);
-		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
+	if (r > 1)
+		return r;
+	sprintf(msg, "A(%0.2f,%0.2f,%0.2f)",
+			(float)gAccData[0]/33.0, (float)gAccData[1]/33.0, (float)gAccData[2]/30.0);
+	//DisplayLCD(LCD_LINE6, msg);
+	readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 
-		ConsolePrintf("Mic: ");
-		value = Microphone_Get();
-		value = Microphone_Get();	
-		mic_level = abs((int)(value/4)-493);
-		ConsolePrintf("%u, %04x\r\n", mic_level, value);		
-		r = produce(cid, "{\"name\":\"Sound Level\",\"feed\":{\"Raw\":%u}}",
-					mic_level);
-		if (r > 1)
-			return r;
-		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
+	ConsolePrintf("Mic: ");
+	//value = Microphone_Get();	
+	//value = Microphone_Get();
+	//mic_level = abs((int)(value/4)-493);
+	ConsolePrintf("%u, %04x\r\n", mic_level, value);		
+	r = produce(cid, "{\"name\":\"Sound Level\",\"feed\":{\"Raw\":%u}}",
+				mic_level);
+	mic_level = 0;
+	if (r > 1)
+		return r;
+	readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 
-		ConsolePrintf("Pot: ");
-		value = Potentiometer_Get();
-		value = Potentiometer_Get();
-		ConsolePrintf("%u, %04x\r\n", value/4, value);
-		r = produce(cid, "{\"name\":\"Potentiometer\",\"feed\":{\"Raw\":%u}}",
-					value/4);
-		if (r > 1)
-			return r;
-		sprintf(msg, "P: %u M: %u", value/4, mic_level);
-		DisplayLCD(LCD_LINE7, msg);
-		readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
+	ConsolePrintf("Pot: ");
+	value = Potentiometer_Get();
+	value = Potentiometer_Get();
+	ConsolePrintf("%u, %04x\r\n", value/4, value);
+	r = produce(cid, "{\"name\":\"Potentiometer\",\"feed\":{\"Raw\":%u}}",
+				value/4);
+	if (r > 1)
+		return r;
+	sprintf(msg, "P: %u M: %u", value/4, mic_level);
+	//DisplayLCD(LCD_LINE7, msg);
+	readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 
-		//Every 5th iteration of the loop, send a capabilities message
-		//Not necessary for network portal, but for demo.bugswarm.net
-		if (idx++%5 == 0){
-           produce(cid, feed_request);
-        }
-	}*/
+	//Every 5th iteration of the loop, send a capabilities message
+	//Not necessary for network portal, but for demo.bugswarm.net
+	if (idx++%5 == 0){
+	   produce(cid, feed_request);
+	}
 	return ATLIBGS_MSG_ID_OK;
 }
 
@@ -421,7 +435,7 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 		AtLibGs_Close(*cid);
 		return ATLIBGS_MSG_ID_ERROR_SOCKET_FAIL;
 	}
-	//readForAtLeast(*cid, 5000);
+	readForAtLeast(*cid, 2000);
 
 	ConsolePrintf("Done waiting for presence, connected to swarm!\r\n");
 	//DisplayLCD(LCD_LINE4, "                  ");
@@ -459,16 +473,22 @@ ATLIBGS_MSG_ID_E readOnePacket(char * buff, int len, int * written, uint32_t ms)
 	Make sure to run readForAtLeast in place of a sleep or delay whenever the
 	device has an active TCP connection.  */
 void readForAtLeast(uint8_t cid, uint32_t ms){
-  	uint32_t end = MSTimerGet()+ms;
+	//uint32_t curr = MSTimerGet();
+  	uint32_t end;
+	uint16_t value;
+	//ConsolePrintf("**** %lu + %lu = %lu ****\n", MSTimerGet(), ms, end);
 	ATLIBGS_MSG_ID_E r = ATLIBGS_MSG_ID_RESPONSE_TIMEOUT;
-	char * switches;
+//	char * switches;
 	//WHILE: bytes are waiting in buffer, WaitForTCPMessage has a new message,
 	//		or it hasn't been ms milliseocnds:
 	//WARN - WaitForTCPMessage() only works for TCP data, doesn't find DISCON
 	// //(AtLibGs_WaitForTCPMessage(10) == ATLIBGS_MSG_ID_DATA_RX) ||
-	while ((G_receivedCount) || 
+	end = MSTimerGet()+ms;
+	while ((G_receivedCount) ||
 		   (r != ATLIBGS_MSG_ID_RESPONSE_TIMEOUT) ||
 		   (MSTimerGet() < end)){
+		//ConsolePrintf("%lu-%lu-%d \n", end, MSTimerGet(), (end > MSTimerGet()));
+		//ConsolePrintf("%08lX\n",MSTimerGet());
 		r = AtLibGs_ReceiveDataHandle(10);
 		//SOCKET_FAIL seems to be thrown on disconnect...
 		if ((r == ATLIBGS_MSG_ID_DISCONNECT)||(r == ATLIBGS_MSG_ID_ERROR_SOCKET_FAIL)) {
@@ -487,13 +507,20 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 			App_PrepareIncomingData();
 		} else if (r == ATLIBGS_MSG_ID_RESPONSE_TIMEOUT) {
 			//NO messages to deal with, do some auxillary work.
-			/*if (checkSwitches(switches)) {
+			value = Microphone_Get();	
+			value = Microphone_Get();
+			value = abs((int)(value/4)-493);
+			if (value > mic_level){
+				mic_level = value;
+			}
+			if (checkSwitches((char *)&value)) {
 				ConsolePrintf("Switch Update Sw1: %u * SW2: %u * SW3: %u\r\n",Switch1IsPressed(), Switch2IsPressed(), Switch3IsPressed());
 				produce(cid, "{\"name\":\"Button\",\"feed\":{\"b1\":%u,\"b2\":%u,\"b3\":%u}}",
 					Switch1IsPressed(),Switch2IsPressed(),Switch3IsPressed());
-			}*/
+			}
 		} else {
 			ConsolePrintf("Unknown event thrown: %02X\n",r);
 		}
+		//curr = MSTimerGet();
 	} 
 }

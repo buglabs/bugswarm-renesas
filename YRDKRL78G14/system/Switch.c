@@ -20,6 +20,11 @@
  * Types:
  *-------------------------------------------------------------------------*/
 
+bool oldstate[3] = {false, false, false};
+bool currstate[3] = {false, false, false};
+uint8_t curr;
+uint8_t old;
+
 /*-------------------------------------------------------------------------*
  * Prototypes:
  *-------------------------------------------------------------------------*/
@@ -38,6 +43,16 @@ bool Switch2IsPressed(void)
 bool Switch3IsPressed(void)
 {
     return (!(P7 & (1<<5)))?true:false;
+}
+bool checkSwitches(char * switches) {
+	bool ret = false;
+	curr = P7 & 0x70;
+	if (curr != old) {
+		ret = true;
+	}
+	old = curr;
+	switches = &curr;
+	return ret;
 }
 
 /*-------------------------------------------------------------------------*

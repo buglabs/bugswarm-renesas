@@ -32,6 +32,7 @@
 #define UART1_TX_BUFFER_SIZE            (128)
 
 #define POTENTIOMETER_CHANNEL            8   // ADC_CHANNEL_4
+#define MICROPHONE_CHANNEL      		 5   // ANI5
 
 // Error Code LED
 #define ERROR_LED_ON()  P5 |= 0x10
