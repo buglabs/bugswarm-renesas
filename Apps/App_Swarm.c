@@ -573,13 +573,12 @@ void parseMessage(char * pkt){
 	start = tokens[ret+1].start;
 	end = tokens[ret+1].end;
 	if (strncmp(tokpos, "LED", 3) == 0) {
-		ConsolePrintf("LED command: %s\n", jsonpos+tokens[ret+1].start);
+		//ConsolePrintf("LED command: %s\n", jsonpos+tokens[ret+1].start);
 		for (int i=0;i<40;i++){
 			if (tokens[i].type == JSMN_STRING) {
 				if ((tokens[i].start < start)||(tokens[i].end > end))
 					continue;
 				if (strncmp(jsonpos+tokens[i].start, "led", 3) == 0) {
-					//ConsolePrintf("Set %.5s to %.5s\n",jsonpos+tokens[i].start,jsonpos+tokens[i+1].start);
 					val = atoi(jsonpos+tokens[i].start+3);
 					if (jsonpos[tokens[i+1].start] == 't') {
 						ConsolePrintf("LED %d ON\n", val);
@@ -592,12 +591,44 @@ void parseMessage(char * pkt){
 			}
 		}
 	} else if (strncmp(tokpos, "LCD", 3) == 0) {
-		ConsolePrintf("LCD command: %s\n", jsonpos+tokens[ret+1].start);
+		ret = findKey(jsonpos, tokens, 40, "text");
+		if (ret < 0)
+			return;
+		tokpos = jsonpos+tokens[ret+1].start;
+		memset(token, '\0', sizeof(token));
+		strncpy(token, tokpos, (tokens[ret+1].end-tokens[ret+1].start));
+		ConsolePrintf("LCD text: %s\n", token);
+		DisplayLCD(LCD_LINE8, token);
 	} else if (strncmp(tokpos, "Eink", 4) == 0) {
-		ConsolePrintf("Eink command: %s\n", jsonpos+tokens[ret+1].start);
+		//ConsolePrintf("Eink command: %s\n", jsonpos+tokens[ret+1].start);
+		for (int i=0;i<40;i++){
+			if (tokens[i].type == JSMN_STRING) {
+				if ((tokens[i].start < start)||(tokens[i].end > end))
+					continue;
+				if (strncmp(jsonpos+tokens[i].start, "eink", 4) == 0) {
+					val = atoi(jsonpos+tokens[i].start+4);
+					if (jsonpos[tokens[i+1].start] == 't') {
+						ConsolePrintf("EINK %d ON\n", val);
+						//TODO - turn on an EInk icon
+					} else {
+						ConsolePrintf("EINK %d OFF\n", val);
+						//TODO - turn off an EInk icon
+					}
+				}
+			}
+		}
 	} else if (strncmp(tokpos, "Beep", 4) == 0) {
 		ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
 	}
+}
+
+char * getValue(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key) {
+	char * ret = NULL;
+	int pos = findKey(jsonpos, tokens, toklen, key);
+	if (pos < 0)
+		return ret;
+	ret = jsonpos+tokens[pos+1].start;
+	return ret;
 }
 
 int findKey(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key) {
