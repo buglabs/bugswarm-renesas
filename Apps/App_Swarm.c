@@ -555,7 +555,7 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 			}
 			memset(pkt, '\0', sizeof(pkt));
 			memcpy(pkt, tcp_pkt.message, tcp_pkt.numBytes);
-			parseMessage(pkt);
+			parseMessage(pkt, cid);
 			rx++;
 			App_PrepareIncomingData();
 		} else if (r == ATLIBGS_MSG_ID_RESPONSE_TIMEOUT) {
@@ -592,7 +592,7 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 	} 
 }
 
-void parseMessage(char * pkt){
+void parseMessage(char * pkt, uint8_t cid){
 	int ret;
 	char token[50];
 	char * jsonpos;
@@ -711,6 +711,14 @@ void parseMessage(char * pkt){
 		tone_stop = MSTimerGet()+val;
 		R_TAU0_Channel0_Start();
 	}
+	ret = findKey(jsonpos, tokens, 40, "payload");
+	if (ret < 0)
+		return;
+	tokpos = jsonpos+tokens[ret+1].start;
+	memset(pkt, '\0', (tokens[ret+1].end-tokens[ret+1].start)+2);
+	strncpy(pkt, tokpos, (tokens[ret+1].end-tokens[ret+1].start));
+	ConsolePrintf("Payload: %s\n", pkt);
+	produce(cid, "%s", pkt);
 }
 
 char * getValue(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key) {
