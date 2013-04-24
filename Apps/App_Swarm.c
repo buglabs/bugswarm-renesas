@@ -17,6 +17,7 @@
 #include <sensors/Temperature.h>
 #include <sensors/Potentiometer.h>
 #include "Apps.h"
+#include "led.h"
 #include "App_Swarm.h"
 
 #define UPDATE_PERIOD 5000
@@ -34,11 +35,12 @@ uint16_t period = NUM_SENSOR;
 const char SwarmHost[] = "107.20.250.52";  //api.bugswarm.
 //const char SwarmHost[] = "192.168.11.230";  //api.bugswarm.
 //These parameters must be hardcoded, are not retrieved.
-char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
-char configuration_key[] = "359aff0298658552ec987b9354ea754b684a4047";
-char swarm_id[] = "69df1aea11433b3f85d2ca6e9c3575a9c86f8182";
+const char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
+const char configuration_key[] = "359aff0298658552ec987b9354ea754b684a4047";
+const char prod_swarm_id[] = "69df1aea11433b3f85d2ca6e9c3575a9c86f8182";
+const char cons_swarm_id[] = "5dbaf819af6eeec879a1a1d6c388664be4595bb3";
 //In the future, all of the above parameters can be retrieved with only this:
-char password_hash[] = "cmVuZXNhczpyZW5lc2FzcHNr";
+const char password_hash[] = "cmVuZXNhczpyZW5lc2FzcHNr";
 //This is the default resource id, "UnknownDevice".
 //It will be overwritten by getResourceID()
 char resource_id[] = "14f762c59815e24973165668aff677659b973d62";
@@ -49,13 +51,14 @@ const char configure_resource_header[] = "POST /renesas/configure HTTP/1.1\r\n"
     "Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n"
     "content-type: application/json\r\nContent-Length: %d\r\n\r\n%s\r\n";
 const char configure_resource_body[] = 
-    "{\"name\":\"%s\",\"swarmid\":\"%s\",\"description\":"
-    "\"an RL78G14 board running bugswarm-renesasG14 1.0\"}";
+	"{\"name\":\"%s\",\"swarmid\":[{\"id\":\"%s\",\"type\":\"producer\"},"
+	"{\"id\":\"%s\",\"type\":\"consumer\"}],"
+	"\"description\":\"an RL78G14 board running bugswarm-renesasG14 1.0\"}";
 const char list_resources_header[] = "GET /resources HTTP/1.1\r\n"
 	"Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n\r\n";
 const char apikey_header[] = "GET /keys/configuration HTTP/1.1\r\n"
 "Authorization: Basic %s\r\nHost: api.bugswarm.net\r\nAccept: */*\r\n\r\n";
-const char produce_header[] = "POST /stream?swarm_id=%s&"
+const char produce_header[] = "POST /stream?swarm_id=%s&swarm_id=%s&"
   "resource_id=%s HTTP/1.1\r\nHost: api.bugswarm.com\r\n"
   "x-bugswarmapikey: %s\r\ntransfer-encoding: chunked\r\nconnection: keep-alive"
   "\r\nContent-Type: application/json\r\n\r\n";
@@ -100,6 +103,7 @@ void App_SwarmConnector(void) {
     App_aClientConnection();		//Will block until connected
 	AtLibGs_SetNodeAssociationFlag();
 	ConsolePrintf("Connected.\n");
+	led_all_off();
 
     //TODO - Check EEPROM for a cached resourceid,
     //       possibly load preset swarm credentials.
@@ -129,7 +133,8 @@ void App_SwarmConnector(void) {
 
 		r = createProductionSession(&cid, 
 									 (char *)SwarmHost,
-									 (char *)swarm_id,
+									 (char *)prod_swarm_id,
+									 (char *)cons_swarm_id,
 									 (char *)resource_id,
 									 (char *)participation_key);
 		if (r != ATLIBGS_MSG_ID_OK) {
@@ -159,7 +164,7 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 	int len;
 
 	//See const char[] configure_resource_body above for the structure
-	len = sprintf(msg, configure_resource_body, mac_addr_str, swarm_id);
+	len = sprintf(msg, configure_resource_body, mac_addr_str, prod_swarm_id, cons_swarm_id);
 	r = makeAPICall(&cid, buff, configure_resource_header, 
 					configuration_key, len, msg);
 	if (r != ATLIBGS_MSG_ID_OK) {
@@ -385,7 +390,8 @@ ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...) {
 	requires a valid resource id, along with other swarm parameters  */
 ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid, 
                                          char * hostIP,
-                                         char * swarm_id,
+                                         char * prod_swarm_id,
+										 char * cons_swarm_id,
                                          char * resource_id,
                                          char * participation_key) {
 	ATLIBGS_MSG_ID_E r;
@@ -413,7 +419,7 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	ConsolePrintf("Socket open, sending headers\r\n");
   
 	//Transmit the swarm API request header to open a production session
-	len = sprintf(pkt, produce_header, swarm_id, resource_id, participation_key);
+	len = sprintf(pkt, produce_header, prod_swarm_id, cons_swarm_id, resource_id, participation_key);
 	ConsolePrintf("Attempting to send: %s ...", pkt);
 	r = AtLibGs_SendTCPData((*cid), (uint8_t *)pkt, len);
 	ConsolePrintf("SENT: %d\r\n", r);
@@ -503,7 +509,7 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 			}
 			memset(pkt, '\0', sizeof(pkt));
 			memcpy(pkt, tcp_pkt.message, tcp_pkt.numBytes);
-			ConsolePrintf("*(%u)%s*",tcp_pkt.numBytes,pkt);
+			parseMessage(pkt);
 			App_PrepareIncomingData();
 		} else if (r == ATLIBGS_MSG_ID_RESPONSE_TIMEOUT) {
 			//NO messages to deal with, do some auxillary work.
@@ -523,4 +529,85 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 		}
 		//curr = MSTimerGet();
 	} 
+}
+
+void parseMessage(char * pkt){
+	int ret;
+	char token[50];
+	char * jsonpos;
+	char * tokpos;
+	int start;
+	int end;
+	jsmn_parser parser;
+	jsmntok_t tokens[40];
+	jsmnerr_t jr;
+	int val;
+
+	jsmn_init(&parser);
+
+	//ConsolePrintf("\n*(%u)%s*",strlen(pkt),pkt);
+	
+	jsonpos = strchr(pkt, '{');
+	if (jsonpos == NULL) {
+		return;
+	}
+	//ConsolePrintf("\n%s\n",jsonpos);
+	
+	jr = jsmn_parse(&parser, jsonpos, tokens, 40);
+	if (jr != JSMN_SUCCESS){
+		ConsolePrintf("Error parsing json: %d\r\n", jr);
+		return;
+	}
+
+	ret = findKey(jsonpos, tokens, 40, "name");
+	if ((ret < 0) || (tokens[ret+1].type != JSMN_STRING)) {
+		ConsolePrintf("Couldn't find Name of feed\n");
+		return;
+	}
+	tokpos = jsonpos+tokens[ret+1].start;
+	ret = findKey(jsonpos, tokens, 40, "feed");
+	if ((ret < 0) || (tokens[ret+1].type != JSMN_OBJECT)) {
+		ConsolePrintf("Couldn't find Feed in payload\n");
+		return;
+	}
+	start = tokens[ret+1].start;
+	end = tokens[ret+1].end;
+	if (strncmp(tokpos, "LED", 3) == 0) {
+		ConsolePrintf("LED command: %s\n", jsonpos+tokens[ret+1].start);
+		for (int i=0;i<40;i++){
+			if (tokens[i].type == JSMN_STRING) {
+				if ((tokens[i].start < start)||(tokens[i].end > end))
+					continue;
+				if (strncmp(jsonpos+tokens[i].start, "led", 3) == 0) {
+					//ConsolePrintf("Set %.5s to %.5s\n",jsonpos+tokens[i].start,jsonpos+tokens[i+1].start);
+					val = atoi(jsonpos+tokens[i].start+3);
+					if (jsonpos[tokens[i+1].start] == 't') {
+						ConsolePrintf("LED %d ON\n", val);
+						led_on(val);
+					} else {
+						ConsolePrintf("LED %d OFF\n", val);
+						led_off(val);
+					}
+				}
+			}
+		}
+	} else if (strncmp(tokpos, "LCD", 3) == 0) {
+		ConsolePrintf("LCD command: %s\n", jsonpos+tokens[ret+1].start);
+	} else if (strncmp(tokpos, "Eink", 4) == 0) {
+		ConsolePrintf("Eink command: %s\n", jsonpos+tokens[ret+1].start);
+	} else if (strncmp(tokpos, "Beep", 4) == 0) {
+		ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
+	}
+}
+
+int findKey(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key) {
+	int ret = -1;
+	for (int i=0;i<toklen;i++){
+		if (tokens[i].type == JSMN_STRING) {
+			if (strncmp(jsonpos+tokens[i].start, key, strlen(key)) == 0) {
+				return i;
+			}
+		} 
+	}
+	return ret;
 }
