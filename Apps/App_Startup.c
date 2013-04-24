@@ -308,7 +308,7 @@ void App_aClientConnection(void)
           AtLibGs_GetIPAddress((uint8_t*) str_config_ssid);           // we just reuse the buffer to get IP address
           
           DisplayLCD(LCD_LINE4, (const uint8_t *)str_config_ssid);
-          DisplayLCD(LCD_LINE5, (const uint8_t *)&str_config_ssid[12]);
+          //DisplayLCD(LCD_LINE5, (const uint8_t *)&str_config_ssid[12]);
           break;
         }  
      }

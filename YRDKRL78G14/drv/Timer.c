@@ -9,6 +9,8 @@
  * Includes:
  *-------------------------------------------------------------------------*/
 #include <system/platform.h>
+//#include <drv/EInk/user_app.h>
+#include <drv/EInk/eink_driver.h>
 #include "Timer.h"
 
 /*-------------------------------------------------------------------------*
@@ -32,6 +34,8 @@ static void (*G_Timer_ISR)(void);
 __interrupt static void Interrupt_Timer(void)
 {
     /* Call interrupt service routine */
+  	TimerTick();
+ 	EinkDisplayFSM();
     G_Timer_ISR();
 }
 

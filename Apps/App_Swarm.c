@@ -19,6 +19,7 @@
 #include <sensors/Potentiometer.h>
 #include "Apps.h"
 #include "led.h"
+#include <drv/EInk/user_app.h>
 #include "App_Swarm.h"
 
 #define UPDATE_PERIOD 5000
@@ -76,6 +77,10 @@ bool    connected;
 ATLIBGS_TCPMessage tcp_pkt;
 uint16_t mic_level;
 uint32_t tone_stop;
+uint32_t rx;
+uint32_t tx;
+uint32_t rxold;
+uint32_t txold;
 
 /*----------------------------------------------------------------------------*
  *	Routine: App_SwarmConnector
@@ -85,8 +90,12 @@ uint32_t tone_stop;
  *----------------------------------------------------------------------------*/
 void App_SwarmConnector(void) {
 	ATLIBGS_MSG_ID_E r;
-	uint8_t errcount = 0;
 	uint8_t cid = 0;
+	rx=0;
+	tx=0;
+
+	initEink();
+	setLogo(2);
 
 	R_TAU0_Create();
 	//R_TAU0_Channel0_Freq(0);
@@ -98,6 +107,7 @@ void App_SwarmConnector(void) {
 		if(r != ATLIBGS_MSG_ID_OK) {
 			ConsolePrintf("Couldn't get MAC: %02X\n",r);
 			DisplayLCD(LCD_LINE6, "Get MAC Failed!");
+			DisplayLCD(LCD_LINE8, "Retry GET MAC");
 			MSTimerDelay(1000);
 			continue;
 		} 
@@ -106,9 +116,17 @@ void App_SwarmConnector(void) {
     AtLibGs_ParseGetMacResponse(MACstr);
     ConsolePrintf("Module MAC Address: %s\r\n", MACstr);
 	ConsolePrintf("Connecting to AP...");
+	DisplayLCD(LCD_LINE7, "Connecting to AP");
     App_aClientConnection();		//Will block until connected
 	AtLibGs_SetNodeAssociationFlag();
+	memset(msg, '\0', sizeof(msg));
+	sprintf(msg, "IP: ");
+	AtLibGs_GetIPAddress((uint8_t*) msg+4);
+	DisplayLCD(LCD_LINE4,(const uint8_t *) msg);
+	DisplayLCD(LCD_LINE7, "                 ");
 	ConsolePrintf("Connected.\n");
+	DisplayLCD(LCD_LINE1, (const uint8_t *) "Swarm Client R0.6.0");
+	DisplayLCD(LCD_LINE8, "Getting ResID");
 	led_all_off();
 
     //TODO - Check EEPROM for a cached resourceid,
@@ -117,11 +135,14 @@ void App_SwarmConnector(void) {
 					  , sizeof(pkt), resource_id);
     if (r != ATLIBGS_MSG_ID_OK) {
     	ConsolePrintf("WARN: Couldn't get Resource ID: %02X\n",r);
-		//DisplayLCD(LCD_LINE6, "Get ResID Failed!");
+		DisplayLCD(LCD_LINE6, "Get ResID Failed!");
+		DisplayLCD(LCD_LINE8, "+default resID");
 		//MSTimerDelay(2000);
 		//return;
     }
 	ConsolePrintf("Using Resource %s\n",resource_id);
+	sprintf(msg, "MAC:   %s",MACstr);
+	DisplayLCD(LCD_LINE3, (const uint8_t *)msg);
 	
 	Temperature_Init();
     Potentiometer_Init();
@@ -132,10 +153,18 @@ void App_SwarmConnector(void) {
 
 	while(1) {
 		if (!AtLibGs_IsNodeAssociated()) {
+			DisplayLCD(LCD_LINE7, "Reconnecting AP");
 			App_aClientConnection();
 			AtLibGs_SetNodeAssociationFlag();
+			memset(msg, '\0', sizeof(msg));
+			sprintf(msg, "IP: ");
+			AtLibGs_GetIPAddress((uint8_t*) msg+4);
+			DisplayLCD(LCD_LINE4,(const uint8_t *) msg);
+			DisplayLCD(LCD_LINE7, "                 ");
+			ConsolePrintf("Connected.\n");
 		}
 		ConsolePrintf("Creating a production session\r\n");
+		DisplayLCD(LCD_LINE8, "Contacting Swarm");
 
 		r = createProductionSession(&cid, 
 									 (char *)SwarmHost,
@@ -145,21 +174,29 @@ void App_SwarmConnector(void) {
 									 (char *)participation_key);
 		if (r != ATLIBGS_MSG_ID_OK) {
 			ConsolePrintf("Unable to open production session (%02X), retrying\n",r);
+			DisplayLCD(LCD_LINE8, "produce socket err");
 			connected = false;
 			MSTimerDelay(10000);		//TODO - exponential backoff
 			continue;
 		}
 		ConsolePrintf("Connected to Swarm\n");
+		DisplayLCD(LCD_LINE8, "Connected!");
+		sprintf(msg, "RX: %lu",rx);
+		DisplayLCD(LCD_LINE6, (const uint8_t *)msg);
+		sprintf(msg, "TX: %lu",tx);
+		DisplayLCD(LCD_LINE7, (const uint8_t *)msg);
 		connected = true;
 		while (connected) {
 			r = App_SwarmProducer(cid);
 			if (r != ATLIBGS_MSG_ID_OK){
+				DisplayLCD(LCD_LINE8, "Disconnected");
 				connected = false;
 			}
 			//readForAtLeast(cid, 1000);
 		}
 		AtLibGs_Close(cid);
 		ConsolePrintf("Disconnected, attempting to reconnect...\n");
+		DisplayLCD(LCD_LINE6, "Reconnecting");
 		MSTimerDelay(5000);		//TODO - exponential backoff
 	}	
 }
@@ -175,6 +212,7 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 					configuration_key, len, msg);
 	if (r != ATLIBGS_MSG_ID_OK) {
         ConsolePrintf("Unable to make API call:\r\n%s",buff);
+		DisplayLCD(LCD_LINE8, "API call err");
 		return r;
 	}
  
@@ -389,6 +427,7 @@ ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...) {
 
 	len = sprintf(pkt, message_header, len+sizeof(message_header)-9, msg);
 	//ConsolePrintf("Sending: *%s*", pkt);
+	tx++;
 	return AtLibGs_SendTCPData(cid, (uint8_t *)pkt, len);
 }
 
@@ -418,7 +457,7 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	ConsolePrintf(" %d,%d\r\n",r,(*cid));
 	if ((r != ATLIBGS_MSG_ID_OK) || ((*cid) == ATLIBGS_INVALID_CID)){
 		ConsolePrintf("Unable to connect to TCP socket\r\n");
-		//DisplayLCD(LCD_LINE8, "produce socket err");
+		DisplayLCD(LCD_LINE8, "produce socket err");
 		return r;
 	}
 	//Clear the RX buffer in anticipation of the response  
@@ -444,6 +483,7 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	r = readOnePacket(pkt, sizeof(pkt)-1, &len, 5000);
 	if (r != ATLIBGS_MSG_ID_OK) {
 		ConsolePrintf("Error, no server response\n");
+		DisplayLCD(LCD_LINE8, "No Swarm resp");
 		AtLibGs_Close(*cid);
 		return ATLIBGS_MSG_ID_ERROR_SOCKET_FAIL;
 	}
@@ -516,6 +556,7 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 			memset(pkt, '\0', sizeof(pkt));
 			memcpy(pkt, tcp_pkt.message, tcp_pkt.numBytes);
 			parseMessage(pkt);
+			rx++;
 			App_PrepareIncomingData();
 		} else if (r == ATLIBGS_MSG_ID_RESPONSE_TIMEOUT) {
 			//NO messages to deal with, do some auxillary work.
@@ -533,6 +574,16 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 			if (MSTimerGet() > tone_stop) {
 				//R_TAU0_Channel0_Freq(0);
 				R_TAU0_Channel0_Stop();
+			}
+			if (rx != rxold) {
+				sprintf(msg, "RX: %lu",rx);
+				DisplayLCD(LCD_LINE6, (const uint8_t *)msg);
+				rxold = rx;
+			}
+			if (tx != txold) {
+				sprintf(msg, "TX: %lu",tx);
+				DisplayLCD(LCD_LINE7, (const uint8_t *)msg);
+				txold = tx;
 			}
 		} else {
 			ConsolePrintf("Unknown event thrown: %02X\n",r);
@@ -608,9 +659,16 @@ void parseMessage(char * pkt){
 		memset(token, '\0', sizeof(token));
 		strncpy(token, tokpos, (tokens[ret+1].end-tokens[ret+1].start));
 		ConsolePrintf("LCD text: %s\n", token);
-		DisplayLCD(LCD_LINE8, token);
+		DisplayLCD(LCD_LINE8, (const uint8_t *)token);
 	} else if (strncmp(tokpos, "Eink", 4) == 0) {
 		//ConsolePrintf("Eink command: %s\n", jsonpos+tokens[ret+1].start);
+		
+		//We should use the following code for EINK display, however set/clear
+		//Logo() do not work properly.  eink_driver/user_app need to be
+		//modified such that setLogo and clearLogo() actually work on a
+		//consistent logo index.  Currently only 0-2 work, the rest produce
+		//unpredictable results.
+		/*
 		for (int i=0;i<40;i++){
 			if (tokens[i].type == JSMN_STRING) {
 				if ((tokens[i].start < start)||(tokens[i].end > end))
@@ -619,14 +677,22 @@ void parseMessage(char * pkt){
 					val = atoi(jsonpos+tokens[i].start+4);
 					if (jsonpos[tokens[i+1].start] == 't') {
 						ConsolePrintf("EINK %d ON\n", val);
-						//TODO - turn on an EInk icon
+						setLogo(val);
 					} else {
 						ConsolePrintf("EINK %d OFF\n", val);
-						//TODO - turn off an EInk icon
+						clearLogo(val);
 					}
 				}
 			}
-		}
+		}*/
+		//Instead, use doDemo, which is tested but limited.
+		ret = findKey(jsonpos, tokens, 40, "demo");
+		if (ret < 0)
+			return;
+		tokpos = jsonpos+tokens[ret+1].start;
+		val = atoi(tokpos);
+		ConsolePrintf("displaying eink demo %d\n", val);
+		doDemo(val);
 	} else if (strncmp(tokpos, "Beep", 4) == 0) {
 		//ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
 		ret = findKey(jsonpos, tokens, 40, "freq");

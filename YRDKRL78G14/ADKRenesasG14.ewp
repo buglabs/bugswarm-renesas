@@ -216,7 +216,7 @@
         </option>
         <option>
           <name>IccOptLevel</name>
-          <state>0</state>
+          <state>2</state>
         </option>
         <option>
           <name>IccOptStrategy</name>
@@ -225,12 +225,12 @@
         </option>
         <option>
           <name>IccOptLevelSlave</name>
-          <state>0</state>
+          <state>2</state>
         </option>
         <option>
           <name>IccOptAllowList</name>
           <version>1</version>
-          <state>0000011</state>
+          <state>1001000</state>
         </option>
         <option>
           <name>IccWrksegEnable</name>
@@ -2026,6 +2026,27 @@
     </group>
     <group>
       <name>drv</name>
+      <group>
+        <name>EInk</name>
+        <file>
+          <name>$PROJ_DIR$\drv\EInk\eink_driver.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\drv\EInk\eink_driver.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\drv\EInk\eink_rdk_display.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\drv\EInk\eink_rdk_display.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\drv\EInk\user_app.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\drv\EInk\user_app.h</name>
+        </file>
+      </group>
       <group>
         <name>Glyph</name>
         <group>
