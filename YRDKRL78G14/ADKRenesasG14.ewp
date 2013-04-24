@@ -2014,6 +2014,15 @@
       <file>
         <name>$PROJ_DIR$\applilet3_src\r_cg_serial_user.c</name>
       </file>
+      <file>
+        <name>$PROJ_DIR$\applilet3_src\r_cg_timer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\applilet3_src\r_cg_timer.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\applilet3_src\r_cg_timer_user.c</name>
+      </file>
     </group>
     <group>
       <name>drv</name>

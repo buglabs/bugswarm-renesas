@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=1906858170
+Checksum=-1625039722
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 1
@@ -116,8 +116,9 @@ LoggingEnabled=_ 0
 LogFile=_ ""
 [Aliases]
 A0=_ "C:\FDI\SVN\Renesas\YRDKRL78G13\GlyphLib\GlyphLib\glyph\Drivers\ST7579_LCD.c" ""
-A1=_ "C:\WorkSpace\YRDKRL78G14\ADK_G14_08_23_2012\YRDKRL78G14\drv\led.c" ""
-Count=2
+A1=_ "C:\FDI\SVN\Renesas\YRDKRL78G14\GlyphLib\GlyphLib\glyph\Drivers\ST7579_LCD.c" ""
+A2=_ "C:\WorkSpace\YRDKRL78G14\ADK_G14_08_23_2012\YRDKRL78G14\drv\led.c" ""
+Count=3
 SuppressDialog=1
 [TraceHelper]
 Enabled=0

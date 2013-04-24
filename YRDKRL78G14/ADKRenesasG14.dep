@@ -2,7 +2,7 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>3933838849</fileChecksum>
+  <fileChecksum>3452730014</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
@@ -217,20 +217,14 @@
       <file>$PROJ_DIR$\Debug\Obj\UART.r87</file>
       <file>$PROJ_DIR$\Debug\Obj\App_Startup.r87</file>
       <file>$PROJ_DIR$\applilet3_src\r_cg_timer.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\eink_rdk_display.r87</file>
-      <file>$PROJ_DIR$\Debug\Obj\eink_driver.r87</file>
-      <file>$PROJ_DIR$\Debug\Obj\user_app.r87</file>
-      <file>$PROJ_DIR$\Debug\Obj\eink_rdk_display.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\eink_driver.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\user_app.pbi</file>
-      <file>$PROJ_DIR$\drv\EInk\eink_driver.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\r_cg_timer.r87</file>
+      <file>$PROJ_DIR$\Debug\Obj\r_cg_timer_user.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\r_cg_timer_user.r87</file>
+      <file>$PROJ_DIR$\Debug\Obj\r_cg_timer.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\jsmn.r87</file>
-      <file>$PROJ_DIR$\drv\EInk\user_app.h</file>
-      <file>$PROJ_DIR$\drv\EInk\user_app.c</file>
       <file>$PROJ_DIR$\Debug\Obj\jsmn.pbi</file>
-      <file>$PROJ_DIR$\drv\EInk\eink_driver.h</file>
-      <file>$PROJ_DIR$\drv\EInk\eink_rdk_display.c</file>
-      <file>$PROJ_DIR$\drv\EInk\eink_rdk_display.h</file>
+      <file>$PROJ_DIR$\applilet3_src\r_cg_timer_user.c</file>
+      <file>$PROJ_DIR$\applilet3_src\r_cg_timer.c</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
@@ -348,11 +342,11 @@
       <inputs>
         <tool>
           <name>ICCRL78</name>
-          <file> 70 193 170 194 187 44 57 203 156 201 75 188 200 198 35 143 145 151 178 175 133 139 15 51 129 8 144 117 13 137 20 101 103 107 105 7 124 5</file>
+          <file> 70 193 170 194 187 44 57 203 156 201 75 188 200 198 35 143 145 151 178 175 133 139 15 51 129 8 144 117 13 137 20 210 101 103 107 105 7 124 5</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 70 193 170 194 44 57 203 156 201 75 188 200 198 35 143 145 151 178 175 133 139 15 51 129 8 144 117 13 137 20 101 103 107 105 7 124 5</file>
+          <file> 70 193 170 194 44 57 203 156 201 75 188 200 198 35 143 145 151 178 175 133 139 15 51 129 8 144 117 13 137 20 210 101 103 107 105 7 124 5</file>
         </tool>
       </inputs>
     </file>
@@ -476,11 +470,11 @@
       <outputs>
         <tool>
           <name>ICCRL78</name>
-          <file> 218</file>
+          <file> 215</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 221</file>
+          <file> 216</file>
         </tool>
       </outputs>
       <inputs>
@@ -505,7 +499,7 @@
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 146 163 50 161 46 189 209 71 172 205 48 166 62 58 61 69 199 54 152 164 22 155 208 23 191 154 34 56 218 158 55 192 177 41 165 159 42 79 77 153 190 27 150 118 185</file>
+          <file> 146 163 50 161 46 189 209 71 172 205 48 166 62 58 61 69 199 54 152 164 22 155 208 23 191 154 34 56 215 158 55 192 177 41 165 159 42 79 77 153 190 27 150 211 213 118 185</file>
         </tool>
       </inputs>
     </file>
@@ -514,7 +508,7 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 162 30 59 68 63 174 72 171 24 195 47 32 179 31 160 26 202 28 169 180 60 40 33 38 36 215 214 37 49 221 25 157 168 53 29 167 64 52 65 67 173 206 149 66 216</file>
+          <file> 162 30 59 68 63 174 72 171 24 195 47 32 179 31 160 26 202 28 169 180 60 40 33 38 36 37 49 216 25 157 168 53 29 167 64 52 65 67 173 206 149 66 214 212</file>
         </tool>
       </inputs>
     </file>
@@ -1232,30 +1226,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\drv\EInk\eink_driver.c</name>
-      <outputs>
-        <tool>
-          <name>ICCRL78</name>
-          <file> 212</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 215</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCRL78</name>
-          <file> 222 182 151 178 175 184 188 193 170 194 187 44 57 203 201 200 156 198 196 197 78 210</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 222 182 151 178 175 184 188 193 170 194 44 57 203 201 200 156 198 196 197 78 210</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drv\EInk\user_app.c</name>
+      <name>$PROJ_DIR$\applilet3_src\r_cg_timer_user.c</name>
       <outputs>
         <tool>
           <name>ICCRL78</name>
@@ -1263,22 +1234,22 @@
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 216</file>
+          <file> 212</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCRL78</name>
-          <file> 182 151 178 175 219 222 184 224</file>
+          <file> 148 151 178 175 210 184</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 182 151 178 175 219 222 184 224</file>
+          <file> 148 151 178 175 210 184</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\drv\EInk\eink_rdk_display.c</name>
+      <name>$PROJ_DIR$\applilet3_src\r_cg_timer.c</name>
       <outputs>
         <tool>
           <name>ICCRL78</name>
@@ -1292,11 +1263,11 @@
       <inputs>
         <tool>
           <name>ICCRL78</name>
-          <file> 182 151 178 175 184 224 222 198 193 170 194 187 44 57 203 201</file>
+          <file> 148 151 178 175 210 184</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 182 151 178 175 184 224 222 198 193 170 194 44 57 203 201</file>
+          <file> 148 151 178 175 210 184</file>
         </tool>
       </inputs>
     </file>

@@ -12,6 +12,7 @@
 #include <mstimer.h>
 #include <system/console.h>
 #include <jsmn/jsmn.h>
+#include "r_cg_timer.h"
 #include <sensors/Accelerometer.h>
 #include <sensors/LightSensor.h> 
 #include <sensors/Temperature.h>
@@ -74,6 +75,7 @@ char 	msg[512];
 bool    connected;
 ATLIBGS_TCPMessage tcp_pkt;
 uint16_t mic_level;
+uint32_t tone_stop;
 
 /*----------------------------------------------------------------------------*
  *	Routine: App_SwarmConnector
@@ -86,6 +88,10 @@ void App_SwarmConnector(void) {
 	uint8_t errcount = 0;
 	uint8_t cid = 0;
 
+	R_TAU0_Create();
+	//R_TAU0_Channel0_Freq(0);
+	//R_TAU0_Channel0_Start();
+	
 	App_InitModule();
 	while(1) {
     	r = AtLibGs_GetMAC(MACaddr);
@@ -524,6 +530,10 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 				produce(cid, "{\"name\":\"Button\",\"feed\":{\"b1\":%u,\"b2\":%u,\"b3\":%u}}",
 					Switch1IsPressed(),Switch2IsPressed(),Switch3IsPressed());
 			}
+			if (MSTimerGet() > tone_stop) {
+				//R_TAU0_Channel0_Freq(0);
+				R_TAU0_Channel0_Stop();
+			}
 		} else {
 			ConsolePrintf("Unknown event thrown: %02X\n",r);
 		}
@@ -618,7 +628,22 @@ void parseMessage(char * pkt){
 			}
 		}
 	} else if (strncmp(tokpos, "Beep", 4) == 0) {
-		ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
+		//ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
+		ret = findKey(jsonpos, tokens, 40, "freq");
+		if (ret < 0)
+			return;
+		tokpos = jsonpos+tokens[ret+1].start;
+		val = atoi(tokpos);
+		ConsolePrintf("Beep at Freq %d ", val);
+		R_TAU0_Channel0_Freq(val);
+		ret = findKey(jsonpos, tokens, 40, "duration");
+		if (ret < 0)
+			return;
+		tokpos = jsonpos+tokens[ret+1].start;
+		val = atoi(tokpos);
+		ConsolePrintf("for %d milliseconds\n", val);
+		tone_stop = MSTimerGet()+val;
+		R_TAU0_Channel0_Start();
 	}
 }
 

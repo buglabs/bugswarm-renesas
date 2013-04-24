@@ -24,11 +24,11 @@
 
 /***********************************************************************************************************************
 * File Name    : r_cg_timer.h
-* Version      : Applilet3 for RL78/G14 V1.01.01 [11 Oct 2011]
+* Version      : CodeGenerator for RL78/G14 V1.01.01 [11 Oct 2011]
 * Device(s)    : R5F104PJ
-* Tool-Chain   : IAR Systems iccrl78
+* Tool-Chain   : CA78K0R
 * Description  : This file implements device driver for TAU module.
-* Creation Date: 7/3/2012
+* Creation Date: 4/23/2013
 ***********************************************************************************************************************/
 
 #ifndef TAU_H
@@ -885,25 +885,17 @@ Macro definitions (Register bit)
 Macro definitions
 ***********************************************************************************************************************/
 /* 16-bit timer data register 00 (TDR00) */
-#define _7CFF_TAU_TDR00_VALUE                   (0x7CFFU)
+#define _9C3F_TAU_TDR00_VALUE                   (0x9C3FU)
 /* 16-bit timer data register 01 (TDR01) */
-#define _3E80_TAU_TDR01_VALUE                   (0x3E80U)
+#define _4E20_TAU_TDR01_VALUE                   (0x4E20U)
 /* 16-bit timer data register 02 (TDR02) */
-#define _3E80_TAU_TDR02_VALUE                   (0x3E80U)
+#define _4E20_TAU_TDR02_VALUE                   (0x4E20U)
 /* Clock divisor for TAU0 channel 0 */
-#define _0001_TAU0_CHANNEL0_DIVISOR             (0x0001U)
+#define _0008_TAU0_CHANNEL0_DIVISOR             (0x0008U)
 /* Clock divisor for TAU0 channel 1 */
-#define _0001_TAU0_CHANNEL1_DIVISOR             (0x0001U)
+#define _0008_TAU0_CHANNEL1_DIVISOR             (0x0008U)
 /* Clock divisor for TAU0 channel 2 */
-#define _0001_TAU0_CHANNEL2_DIVISOR             (0x0001U)
-/* 16-bit timer data register 03 (TDR03) */
-#define _031F_TAU_TDR03_VALUE                   (0x031FU)
-/* Clock divisor for TAU0 channel 3 */
-#define _0001_TAU0_CHANNEL3_DIVISOR             (0x0001U)
-/* TMRD register A1 (TRDGRA1) */
-#define _31FF_TMRD_TRDGRA1_VALUE                (0x31FFU)
-/* TMRD register D1 (TRDGRD1) */
-#define _18FF_TMRD_TRDGRD1_VALUE                (0x18FFU)
+#define _0008_TAU0_CHANNEL2_DIVISOR             (0x0008U)
 
 /***********************************************************************************************************************
 Typedef definitions
@@ -923,18 +915,8 @@ Global functions
 void R_TAU0_Create(void);
 void R_TAU0_Channel0_Start(void);
 void R_TAU0_Channel0_Stop(void);
-void R_TAU0_Channel3_Start(void);
-void R_TAU0_Channel3_Stop(void);
-void R_TMR_RD1_Create(void);
-void R_TMR_RD1_Start(void);
-void R_TMR_RD1_Stop(void);
 
 /* Start user code for function. Do not edit comment generated here */
-
-void R_TMR_RD1_ChangeDuty(uint8_t ratio);
-void SpeakerSetFreq(uint32_t aFreq);
-void SpeakerON(uint8_t left, uint8_t right);
-void SpeakerOFF();
-
+void R_TAU0_Channel0_Freq(uint32_t freq);
 /* End user code. Do not edit comment generated here */
 #endif
