@@ -14,6 +14,7 @@
 <script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
 <script type="text/javascript" src="http://flot.googlecode.com/svn/trunk/jquery.flot.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css" type="text/css" media="all" />
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load('visualization', '1', {packages: ['gauge']});
@@ -35,8 +36,8 @@
 	$("#buttonContainer").draggable();
 	$("#tempContainer").draggable({stop: function() { console.log('dragging stopped');}});
 	$("#potContainer").draggable();
-	$("#ledContainer").draggable();*/	
-	
+	$("#ledContainer").draggable();*/
+
 	$("#sortableLeft").sortable({containment:'document', stop: drawGuager, connectWith:".connectedSortable"}).disableSelection();
 	$("#sortableRight").sortable({containment:'document', stop: drawGuager, connectWith: ".connectedSortable"}).disableSelection();
 
@@ -54,7 +55,7 @@
 <!-- end of header div -->
 <div id="content">
 <h1>Renesas Development Board Network Portal</h1>
- 
+
 	<div id="resourcelist">
     <SELECT NAME="boardlist" id="boardlist">
       <OPTION SELECTED="SELECTED" VALUE=" ">Select a Development Board (first): </OPTION>
@@ -88,18 +89,65 @@
     </li>
     <li>
       <h3>Button Status</h3>
-      <table id=buttonTable>
+      <table id="buttonTable">
         <tr>
           <th>Button 1</th>
           <th>Button 2</th>
           <th>Button 3</th>
         </tr>
         <tr>
-          <td id=b1>0</td>
-          <td id=b2>0</td>
-          <td id=b3>0</td>
+          <td id="b1">0</td>
+          <td id="b2">0</td>
+          <td id="b3">0</td>
         </tr>
       </table>
+    </li>
+    <li>
+      <h3>LEDs</h3>
+      <div style="height:125px;">
+        <table id="ledTable">
+          <tr>
+            <th>led3</th>
+            <th>led4</th>
+            <th>led5</th>
+            <th>led6</th>
+            <th>led7</th>
+            <th>led8</th>
+            <th>led9</th>
+          </tr><tr>
+            <td id="led0" class="led">0</td>
+            <td id="led1" class="led">0</td>
+            <td id="led2" class="led">0</td>
+            <td id="led3" class="led">0</td>
+            <td id="led4" class="led">0</td>
+            <td id="led5" class="led">0</td>
+            <td id="led6" class="led">0</td>
+          </tr><tr>
+            <th>led10</th>
+            <th>led11</th>
+            <th>led12</th>
+            <th>led13</th>
+            <th>led14</th>
+            <th>led15</th>
+          </tr><tr>
+            <td id="led7" class="led">0</td>
+            <td id="led8" class="led">0</td>
+            <td id="led9" class="led">0</td>
+            <td id="led10" class="led">0</td>
+            <td id="led11" class="led">0</td>
+            <td id="led12" class="led">0</td>
+          </tr>
+        </table>
+      </div>
+    </li>
+    <li>
+      <h3>LCD Text</h3>
+      <div style="overflow:hidden; height: 40px;">
+        <div style="float:left; margin: 0px 0px 10px 20px;">
+          <textarea rows=1 cols=19 maxlength=19 id="lcdtext" style="resize:none;"></textarea></div>
+        <div style="float:right; margin: 0px 20px 10px 0px;">
+          <button type="button" id="sendlcd">Send Text</button></div>
+      </div>
     </li>
     </ul>
 
@@ -119,6 +167,34 @@
     <span id=soundlevel class=center>0</span> dB</br>
     <meter value="0" min="0" max="320"></meter>
   </li>
+  <li>
+    <h3>Buzzer</h3>
+    <div style="height:125px;">
+      <table>
+        <tr>
+          <td style="width: 87%;">
+            <span style="float:left;">Frequency:</span>
+            <span id="freqval" style="float:right; margin-right: 20px;">450</span></br>
+            <div id="freq" style="margin: 10px 20px;"></div></td>
+          <td rowspan=2><button type="button" id="sendbuzzer">Buzz</button></td>
+        </tr><tr>
+          <td>
+            <span style="float:left;">Duration:</span>
+            <span id="durval" style="float:right; margin-right: 20px;">500</span></br>
+            <div id="duration" style="margin: 10px 20px;"></div></td>
+        </tr>
+      </table>
+    </div>
+  </li>
+  <li>
+      <h3>EInk Display</h3>
+      <div style="overflow:hidden; height: 40px;">
+        <input type="radio" name="einkdemo" value="1">On</input>
+        <input type="radio" name="einkdemo" value="2">Halt</input>
+        <input type="radio" name="einkdemo" value="3">Snooze</input>
+        <input type="radio" name="einkdemo" value="4">Stop</input>
+      </div>
+    </li>
 </ul>
 </div>
 <!-- end of content div -->

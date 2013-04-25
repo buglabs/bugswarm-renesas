@@ -1,8 +1,9 @@
 var API_KEY = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 var CFG_KEY = "359aff0298658552ec987b9354ea754b684a4047";
 var SWARM_ID = "";
-var swarms = [ 	"2eaf3f05cd0dd4becc74d30857caf03adb85281e",
-				"69df1aea11433b3f85d2ca6e9c3575a9c86f8182" ];
+var swarms = [  "2eaf3f05cd0dd4becc74d30857caf03adb85281e",
+                "69df1aea11433b3f85d2ca6e9c3575a9c86f8182",
+                "5dbaf819af6eeec879a1a1d6c388664be4595bb3" ];
 var RESOURCE_ID = "5cf5ad58fa9ad98a01841fde8e1761b2ca473dbf";
 var WEBUI_RESOURCE = "c907c8bb15914a829b256c908aab2c54af48f5f3";
 
@@ -58,10 +59,10 @@ var potOptions = {
 
 function loadThemes() {
 	//console.log('in function');
-	for (i in myThemes) {
+	for (var i in myThemes) {
 		$('option#default').remove();
 		$('select#themeselect').append('<OPTION VALUE='+myThemes[i]+' id='+myThemes[i]+'>'+myThemes[i]+'</OPTION>');
-	}	
+	}
 }
 
 function changeTheme() {
@@ -69,12 +70,12 @@ function changeTheme() {
 				var theme = $("#themeselect option:selected").val();
                 //console.log('selecting '+theme );
 				$("link[id=style]").attr({href : 'css/'+theme+'.css'});
-       
+
 }
 
 function populateResourceList() {
 	$('option.reslistitem').remove();
-	for (resource in resources[selectedSwarm]){
+	for (var resource in resources[selectedSwarm]){
 		$('select#droplist').append('<OPTION class=reslistitem VALUE='+resource+' id='+resource+'>'+resources[selectedSwarm][resource]+'</OPTION>');
 	}
 }
@@ -93,7 +94,7 @@ function onPresence(presence) {
 		} else {
 			resources[swarm][resource] = resource;
 			//console.log('Presence ('+resource+'): ADD');
-			$.ajax({ 	url:'http://api.bugswarm.net/resources/'+resource, 
+			$.ajax({ 	url:'http://api.bugswarm.net/resources/'+resource,
 			    type: 'GET',
 			    data: null,
 			    dataType: 'json',
@@ -135,13 +136,13 @@ function drawGauge() {
 	gauge = new google.visualization.Gauge(document.getElementById('temp'));
 	//gauge.draw(gaugeData, gaugeOptions);
 }
-	
+
 function changeTemp(temp) {
   gaugeData.setValue(0, 0, temp);
   gauge.draw(gaugeData, gaugeOptions);
 }
-    
-    
+
+
 google.setOnLoadCallback(drawGauge);
 
 
@@ -154,7 +155,7 @@ function onMessage(message) {
     if (!("name" in payload)){
         //console.log('data -> '+JSON.stringify(message));
     } else if (payload.name === "Acceleration"){
-		
+
         //console.log('accel: '+payload.feed.x+','+payload.feed.y+','+payload.feed.z);
         accelX.push([(currentTime-startTime)/1000,payload.feed.x]);
         accelY.push([(currentTime-startTime)/1000,payload.feed.y]);
@@ -171,10 +172,10 @@ function onMessage(message) {
 /*        if (temp.length > xAxisLength){
             temp.shift();
         }
-*/		
+*/
 		changeTemp(Math.round(payload.feed.TempF*100)/100);
-		
-		
+
+
         //tempPlot = $.plot($('#tempChart'), [ temp ], plotOptions);
     } else if (payload.name === "Light"){
         //console.log('light: '+payload.feed.Value);
@@ -198,6 +199,14 @@ function onMessage(message) {
         //console.log(JSON.stringify(payload));
         $('span#soundlevel').html((parseInt(payload.feed.Raw)/5)+20);
         $('meter').attr('value',parseInt(payload.feed.Raw));
+    } else if (payload.name === "LED") {
+      for (var key in payload.feed) {
+        if (payload.feed[key]) {
+          $('td.led').filter('#'+key).html('1');
+        } else {
+          $('td.led').filter('#'+key).html('0');
+        }
+      }
     }
    //var payload = JSON.parse(message).message.payload;
    //console.log('Got data '+JSON.stringify(payload));
@@ -205,7 +214,7 @@ function onMessage(message) {
       //   $('span#'+key).text(value);
       //   if (key == "Temperature"){
       //      if (tempdata.length > xAxisLength)
-      //         tempdata.shift(); 
+      //         tempdata.shift();
       //   }
 }
 
@@ -235,13 +244,13 @@ function onError(error) {
    //console.log('error! -> ' + JSON.stringify(error));
 }
 function onConnect() {
-   //console.log('connected');
-   startTime = (new Date()).getTime();
+  //console.log('connected');
+  startTime = (new Date()).getTime();
 }
 
 $(document).ready(function() {
 	for (var i=0;i<swarms.length;i++) {
-		resources[swarms[i]] = new Object();
+		resources[swarms[i]] = {};
 	}
 	$('button#swarm_select').click(function(e){
 		var swarmid = $("#boardlist option:selected").val();
@@ -254,19 +263,64 @@ $(document).ready(function() {
 	$('button#populate').click(function(e){
         var resource = $("#droplist option:selected").val();
         //console.log('selecting '+resource);
-        selectedResource = resource
+        selectedResource = resource;
         startTime = (new Date()).getTime();
-        accelX = new Array();
-        accelY = new Array();
-        accelZ = new Array();
-        temp = new Array();
-        light = new Array();
-        pot = new Array();
+        accelX = [];
+        accelY = [];
+        accelZ = [];
+        temp = [];
+        light = [];
+        pot = [];
+        var toswarms = [{swarm: "5dbaf819af6eeec879a1a1d6c388664be4595bb3",
+                          resource: selectedResource}];
+        $('#sendbuzzer').click(function(e) {
+          SWARM.send({
+            name: 'Beep',
+            feed: {
+              freq: parseInt($('#freqval').html(),10),
+              duration: parseInt($('#durval').html(),10) }}, toswarms);
+        });
+        $('td.led').click(function(e) {
+          var ledid = this.id;
+          var message = {name: 'LED', feed:{}};
+          //console.log('Value: '+$(this).html());
+          message.feed[ledid] = ($(this).html() === '0');
+          //console.log('sending ',message);
+          SWARM.send(message, toswarms);
+        });
+        $('#sendlcd').click(function(e) {
+          SWARM.send({
+            name: 'LCD',
+            feed: {
+              text: $('textarea#lcdtext').val()}}, toswarms);
+        });
+        $("input[name='einkdemo']").change(function(e) {
+          SWARM.send({
+            name: 'Eink',
+            feed: {
+              demo: parseInt($(this).val(),10)}}, toswarms);
+        }) ;
     });
-    SWARM.connect({ apikey: API_KEY, 
-					resource: RESOURCE_ID, 
-					swarms: swarms, 
-					onmessage: onMessage, 
+    $('#freq').slider({
+      max: 2000,
+      min: 50,
+      step: 50,
+      value: 450
+    }).on("slide", function(event, ui) {
+      $('#freqval').html(ui.value);
+    });
+    $('#duration').slider({
+      max: 5000,
+      min: 100,
+      step: 100,
+      value: 500
+    }).on("slide", function(event, ui) {
+      $('#durval').html(ui.value);
+    });
+    SWARM.connect({ apikey: API_KEY,
+					resource: RESOURCE_ID,
+					swarms: swarms,
+					onmessage: onMessage,
 					onpresence: onPresence,
 					onerror: onError,
 					onconnect: onConnect});
