@@ -32,6 +32,7 @@
 // LEDS: LED3-LED15
 uint8_t G_LEDPort[] = { 6, 4, 6, 4, 6, 4, 6, 4, 6, 15, 6, 10, 4 };
 uint8_t G_LEDPin[] = { 2, 2, 3, 3, 4, 4, 5, 5, 6, 2, 7, 1, 1 };
+uint8_t G_LEDStatus[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 // Buttons
 uint8_t G_BtnPort[] = { 7, 7, 7 };
@@ -161,6 +162,7 @@ void led_all_off(void)
   for(n=0; n<NUM_LEDS; ++n)
   {
       GPIO_SetHigh(G_LEDPort[n], G_LEDPin[n]);
+	  G_LEDStatus[n] = 0;
   }
 }
 
@@ -170,17 +172,24 @@ void led_all_on(void)
   for(n=0; n<NUM_LEDS; ++n)
   {
       GPIO_SetLow(G_LEDPort[n], G_LEDPin[n]);
+	  G_LEDStatus[n] = 0;
   }
 }
 
 void led_on(int n)
 {
     GPIO_SetLow(G_LEDPort[n], G_LEDPin[n]);
+	G_LEDStatus[n] = 1;
 }
 
 void led_off(int n)
 {
     GPIO_SetHigh(G_LEDPort[n], G_LEDPin[n]);
+	G_LEDStatus[n] = 0;
+}
+
+uint8_t led_get(int n) {
+	return G_LEDStatus[n];
 }
 
 void led_task(void)

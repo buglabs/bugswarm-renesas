@@ -41,6 +41,8 @@ const char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 const char configuration_key[] = "359aff0298658552ec987b9354ea754b684a4047";
 const char prod_swarm_id[] = "69df1aea11433b3f85d2ca6e9c3575a9c86f8182";
 const char cons_swarm_id[] = "5dbaf819af6eeec879a1a1d6c388664be4595bb3";
+const char true_val[] = "true\0";
+const char false_val[] = "false\0";
 //In the future, all of the above parameters can be retrieved with only this:
 const char password_hash[] = "cmVuZXNhczpyZW5lc2FzcHNr";
 //This is the default resource id, "UnknownDevice".
@@ -651,6 +653,13 @@ void parseMessage(char * pkt, uint8_t cid){
 				}
 			}
 		}
+		produce(cid, "{\"name\":\"LED\",\"feed\":{"
+			"\"led0\":%s,\"led1\":%s,\"led2\":%s,\"led3\":%s,\"led4\":%s,"
+			"\"led5\":%s,\"led6\":%s,\"led7\":%s,\"led8\":%s,\"led9\":%s,"
+			"\"led10\":%s,\"led11\":%s,\"led12\":%s}}",
+			ledValue(0), ledValue(1), ledValue(2), ledValue(3), ledValue(4),
+			ledValue(5), ledValue(6), ledValue(7), ledValue(8), ledValue(9),
+			ledValue(10), ledValue(11), ledValue(12));
 	} else if (strncmp(tokpos, "LCD", 3) == 0) {
 		ret = findKey(jsonpos, tokens, 40, "text");
 		if (ret < 0)
@@ -719,6 +728,14 @@ void parseMessage(char * pkt, uint8_t cid){
 	strncpy(pkt, tokpos, (tokens[ret+1].end-tokens[ret+1].start));
 	ConsolePrintf("Payload: %s\n", pkt);
 	produce(cid, "%s", pkt);
+}
+
+const char * ledValue(int idx) {
+	if (led_get(idx) == 1) {
+		return true_val;
+	} else {
+		return false_val;
+	}
 }
 
 char * getValue(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key) {

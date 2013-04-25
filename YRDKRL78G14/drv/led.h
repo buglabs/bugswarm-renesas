@@ -27,6 +27,7 @@ void led_all_off(void);
 void led_all_on(void);
 void led_on(int n);
 void led_off(int n);
+uint8_t led_get(int n);
 void led_task(void);
 void LEDFlash(uint32_t timeout);
 
