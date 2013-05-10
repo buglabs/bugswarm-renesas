@@ -27,6 +27,7 @@
 #define CAPABILITIES_PERIOD 10000
 #define MAX_PROD_ERRORS 5
 
+#define CLIENT_VER	"Swarm Client R0.6.1"
 /*-------------------------------------------------------------------------*
  * Constants:
  *-------------------------------------------------------------------------*/
@@ -51,13 +52,19 @@ char resource_id[] = "14f762c59815e24973165668aff677659b973d62";
 
 /*  Swarm API Call message headers and payload formatting:  */
 
-const char configure_resource_header[] = "POST /renesas/configure HTTP/1.1\r\n"
+const char configure_resource_header[] = "%s HTTP/1.1\r\n"
     "Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n"
-    "content-type: application/json\r\nContent-Length: %d\r\n\r\n%s\r\n";
+    "content-type: application/json\r\nContent-Length: 00\r\n\r\n";
 const char configure_resource_body[] = 
 	"{\"name\":\"%s\",\"swarmid\":[{\"id\":\"%s\",\"type\":\"producer\"},"
 	"{\"id\":\"%s\",\"type\":\"consumer\"}],"
-	"\"description\":\"an RL78G14 board running bugswarm-renesasG14 1.0\"}";
+	"\"description\":\"an RL78G14 board running bugswarm-renesasG14 1.0\"}\r\n";
+const char configure_resource_whole[] = "POST /renesas/configure HTTP/1.1\r\n"
+    "Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n"
+    "content-type: application/json\r\nContent-Length: 000\r\n\r\n"
+	"{\"name\":\"%s\",\"swarmid\":[{\"id\":\"%s\",\"type\":\"producer\"},"
+	"{\"id\":\"%s\",\"type\":\"consumer\"}],"
+	"\"description\":\"an RL78G14 board running bugswarm-renesasG14 1.0\"}\r\n";
 const char list_resources_header[] = "GET /resources HTTP/1.1\r\n"
 	"Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n\r\n";
 const char apikey_header[] = "GET /keys/configuration HTTP/1.1\r\n"
@@ -66,14 +73,14 @@ const char produce_header[] = "POST /stream?swarm_id=%s&swarm_id=%s&"
   "resource_id=%s HTTP/1.1\r\nHost: api.bugswarm.com\r\n"
   "x-bugswarmapikey: %s\r\ntransfer-encoding: chunked\r\nconnection: keep-alive"
   "\r\nContent-Type: application/json\r\n\r\n";
-//  "\r\nContent-Type: application/json\r\n\r\n1\r\n\n\r\n";
 const char feed_request[] = "{\"capabilities\": {\"feeds\": [\"Acceleration\","
   "\"Temperature\",\"Button\",\"Light\",\"Sound Level\",\"Potentiometer\"]}}";
-const char message_header[] = "%x\r\n{\"message\": {\"payload\":%s}}\r\n\r\n";
+const char payload_start[] = "{\"message\": {\"to\": [\"%s\"], \"payload\": ";
+const char payload_end[] = "}}\r\n\r\n";
 
 char    MACaddr[20];
 char    MACstr[13];
-char    pkt[1500];
+//char    pkt[1500];
 char 	msg[512];
 bool    connected;
 ATLIBGS_TCPMessage tcp_pkt;
@@ -127,14 +134,15 @@ void App_SwarmConnector(void) {
 	DisplayLCD(LCD_LINE4,(const uint8_t *) msg);
 	DisplayLCD(LCD_LINE7, "                 ");
 	ConsolePrintf("Connected.\n");
-	DisplayLCD(LCD_LINE1, (const uint8_t *) "Swarm Client R0.6.0");
+	DisplayLCD(LCD_LINE1, (const uint8_t *) CLIENT_VER);
+	//DisplayLCD(LCD_LINE1, "Swarm Client R0.6.0");
 	DisplayLCD(LCD_LINE8, "Getting ResID");
 	led_all_off();
 
     //TODO - Check EEPROM for a cached resourceid,
     //       possibly load preset swarm credentials.
-    r = getResourceID(MACstr, pkt
-					  , sizeof(pkt), resource_id);
+    r = getResourceID(MACstr, msg
+					  , sizeof(msg), resource_id);
     if (r != ATLIBGS_MSG_ID_OK) {
     	ConsolePrintf("WARN: Couldn't get Resource ID: %02X\n",r);
 		DisplayLCD(LCD_LINE6, "Get ResID Failed!");
@@ -208,10 +216,9 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 	uint8_t cid = 0;
 	int len;
 
-	//See const char[] configure_resource_body above for the structure
-	len = sprintf(msg, configure_resource_body, mac_addr_str, prod_swarm_id, cons_swarm_id);
-	r = makeAPICall(&cid, buff, configure_resource_header, 
-					configuration_key, len, msg);
+	memset(buff, '\0', bufflen);
+	r = makeAPIPOST(&cid, buff, configure_resource_whole, configuration_key, mac_addr_str, prod_swarm_id, cons_swarm_id);
+	
 	if (r != ATLIBGS_MSG_ID_OK) {
         ConsolePrintf("Unable to make API call:\r\n%s",buff);
 		DisplayLCD(LCD_LINE8, "API call err");
@@ -297,6 +304,58 @@ ATLIBGS_MSG_ID_E getAPIKey(char * buff, int bufflen, char * result){
 	}
 
 	return r;
+}
+
+//	r = makeAPIPOST(&cid, buff, "POST /renesas/configure", configuration_key, 
+//					configure_resource_header, mac_addr_str, prod_swarm_id, cons_swarm_id);
+
+ATLIBGS_MSG_ID_E makeAPIPOST(uint8_t * cid, char * buff, const char *format, ...){
+	ATLIBGS_MSG_ID_E r;
+	int len;
+	int pos;
+	va_list args;
+    va_start(args, format);
+	char * contentlen;
+	char * headerend;
+	
+	//Hack: this assumes a Content-Length header and Body already exist...
+	//TODO - refactor into seperate functions to assemble header structure.
+	len = vsprintf((char *)buff, format, args);
+	contentlen = strstr(buff,"Content-Length:");
+	headerend = strstr(buff,"\r\n\r\n");
+	if ((contentlen != NULL) && (headerend != NULL)) {
+		//Overwrite the presumably false Content-Length
+		pos = sprintf(contentlen+16, "%03d", len-(headerend-buff)-4);
+		//Sprintf terminates it's string with '\0', we need to undo this.
+		//TODO - precalculate pos, find *(contentlen+16+pos), store it, and recover it
+		*(contentlen+16+pos) = '\r';
+	}
+	
+	ConsolePrintf("Attempting to send: (%02x)%s", len, buff+100);
+	
+
+	//Open a new socket only, will not send any request
+	r = AtLibGs_TCPClientStart((char *)SwarmHost, 80, cid);
+	ConsolePrintf("Opened a socket:  %d,%d\r\n",r,*cid);
+	if ((r != ATLIBGS_MSG_ID_OK) || (*cid == ATLIBGS_INVALID_CID)){
+		ConsolePrintf("Unable to connect to TCP socket\r\n");
+		DisplayLCD(LCD_LINE8, "API socket err");
+		return r;
+	}
+
+	ConsolePrintf("Socket open, sending headers\r\n");
+  
+	//Reset the RX buffer in anticipation of the response packet.
+	App_PrepareIncomingData();      
+	r = AtLibGs_SendTCPData(*cid, (uint8_t *)buff, len);
+	//ConsolePrintf("Sent headers: %d\r\n", r);
+	if (r != ATLIBGS_MSG_ID_OK) {
+		ConsolePrintf("Error transmitting headers to server (%d)%s\r\n", r, buff);
+		DisplayLCD(LCD_LINE8, "API send err");
+		return r;
+	}
+	//AtLibGs_Close(*cid);
+	return ATLIBGS_MSG_ID_OK;
 }
 
 /*  Helper function for all HTTP requests agaisnt api.bugswarm.net
@@ -423,14 +482,23 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...) {
 	va_list args;
 	int len;
+	int pos;
 
 	va_start(args, format);
-	len = vsprintf((char *)msg, format, args);
+	len = sprintf((char *)msg, payload_start, prod_swarm_id);
+	len += vsprintf((char *)msg+len, format, args);
+	len += sprintf((char *)msg+len, payload_end);
+    pos = sprintf(msg, "%x\r\n", len-2);
+	
+	len = sprintf((char *)msg+pos, payload_start, prod_swarm_id);
+	len += vsprintf((char *)msg+pos+len, format, args);
+	len += sprintf((char *)msg+pos+len, payload_end);
+	msg[pos] = '{';
 
-	len = sprintf(pkt, message_header, len+sizeof(message_header)-9, msg);
-	//ConsolePrintf("Sending: *%s*", pkt);
+	//len = sprintf(pkt, message_header, len+sizeof(message_header)-9, msg);
+	ConsolePrintf("Sending: *%s*", msg);
 	tx++;
-	return AtLibGs_SendTCPData(cid, (uint8_t *)pkt, len);
+	return AtLibGs_SendTCPData(cid, (uint8_t *)msg, len+pos);
 }
 
 /*  Open a new socket to the swarm server and establish a streaming connection.
@@ -466,9 +534,9 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	ConsolePrintf("Socket open, sending headers\r\n");
   
 	//Transmit the swarm API request header to open a production session
-	len = sprintf(pkt, produce_header, prod_swarm_id, cons_swarm_id, resource_id, participation_key);
-	ConsolePrintf("Attempting to send: %s ...", pkt);
-	r = AtLibGs_SendTCPData((*cid), (uint8_t *)pkt, len);
+	len = sprintf(msg, produce_header, prod_swarm_id, cons_swarm_id, resource_id, participation_key);
+	ConsolePrintf("Attempting to send: %s ...", msg);
+	r = AtLibGs_SendTCPData((*cid), (uint8_t *)msg, len);
 	ConsolePrintf("SENT: %d\r\n", r);
 	if (r != ATLIBGS_MSG_ID_OK) {
 		ConsolePrintf("Error transmitting headers to server\r\n");
@@ -482,7 +550,7 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	//Wait up to 5 seconds for presence messages.
 	//If we do not wait, the swarm server will have not opened a connection to
 	//the message passing layer and an error will be thrown on production.
-	r = readOnePacket(pkt, sizeof(pkt)-1, &len, 5000);
+	r = readOnePacket(msg, sizeof(msg)-1, &len, 5000);
 	if (r != ATLIBGS_MSG_ID_OK) {
 		ConsolePrintf("Error, no server response\n");
 		DisplayLCD(LCD_LINE8, "No Swarm resp");
@@ -551,13 +619,13 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 		} else if (r == ATLIBGS_MSG_ID_DATA_RX) {
 			AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
 			//ConsolePrintf("*(%u)*",tcp_pkt.numBytes);                
-			if (tcp_pkt.numBytes >= sizeof(pkt)){
-				tcp_pkt.numBytes = sizeof(pkt)-1;
-				ConsolePrintf("WARN: message greater than %d bytes, concatenated\r\n",sizeof(pkt));
+			if (tcp_pkt.numBytes >= sizeof(msg)){
+				tcp_pkt.numBytes = sizeof(msg)-1;
+				ConsolePrintf("WARN: message greater than %d bytes, concatenated\r\n",sizeof(msg));
 			}
-			memset(pkt, '\0', sizeof(pkt));
-			memcpy(pkt, tcp_pkt.message, tcp_pkt.numBytes);
-			parseMessage(pkt, cid);
+			memset(msg, '\0', sizeof(msg));
+			memcpy(msg, tcp_pkt.message, tcp_pkt.numBytes);
+			parseMessage(msg, cid);
 			rx++;
 			App_PrepareIncomingData();
 		} else if (r == ATLIBGS_MSG_ID_RESPONSE_TIMEOUT) {
@@ -720,14 +788,17 @@ void parseMessage(char * pkt, uint8_t cid){
 		tone_stop = MSTimerGet()+val;
 		R_TAU0_Channel0_Start();
 	}
-	ret = findKey(jsonpos, tokens, 40, "payload");
+	//The following will attempt to re-transmit any recieved messages
+	//NOTE - this is not compatible with produce() and only one string buffer
+	//TODO - add a raw version of produce() to handle this string payload.
+	/*ret = findKey(jsonpos, tokens, 40, "payload");
 	if (ret < 0)
 		return;
 	tokpos = jsonpos+tokens[ret+1].start;
 	memset(pkt, '\0', (tokens[ret+1].end-tokens[ret+1].start)+2);
 	strncpy(pkt, tokpos, (tokens[ret+1].end-tokens[ret+1].start));
 	ConsolePrintf("Payload: %s\n", pkt);
-	produce(cid, "%s", pkt);
+	produce(cid, "%s", pkt);*/
 }
 
 const char * ledValue(int idx) {

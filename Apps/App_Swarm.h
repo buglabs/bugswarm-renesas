@@ -7,6 +7,7 @@ void App_SwarmConnector(void);
 ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, char * result);
 ATLIBGS_MSG_ID_E getAPIKey(char * buff, int bufflen, char * result);
 ATLIBGS_MSG_ID_E makeAPICall(uint8_t * cid, char * buff, const char *format, ...);
+ATLIBGS_MSG_ID_E makeAPIPOST(uint8_t * cid, char * buff, const char *format, ...);
 ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid);
 ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...);
 ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid, 
