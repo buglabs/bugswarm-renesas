@@ -19,6 +19,7 @@
 #include <sensors/Potentiometer.h>
 #include "Apps.h"
 #include "led.h"
+#include <drv/EInk/eink_driver.h>
 #include <drv/EInk/user_app.h>
 #include "App_Swarm.h"
 
@@ -42,8 +43,8 @@ const char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 const char configuration_key[] = "359aff0298658552ec987b9354ea754b684a4047";
 const char prod_swarm_id[] = "69df1aea11433b3f85d2ca6e9c3575a9c86f8182";
 const char cons_swarm_id[] = "5dbaf819af6eeec879a1a1d6c388664be4595bb3";
-const char true_val[] = "true\0";
-const char false_val[] = "false\0";
+const char true_val[] = "true";
+const char false_val[] = "false";
 //In the future, all of the above parameters can be retrieved with only this:
 const char password_hash[] = "cmVuZXNhczpyZW5lc2FzcHNr";
 //This is the default resource id, "UnknownDevice".
@@ -97,15 +98,29 @@ uint32_t txold;
  *	Description:
  *		Run the swarm connector demo indefinitely
  *----------------------------------------------------------------------------*/
+int waitForButton() {
+	while(true){
+		if (Switch1IsPressed())
+			return 1;
+		if (Switch2IsPressed())
+			return 2;
+		if (Switch3IsPressed())
+			return 3;
+		MSTimerDelay(10);
+	}
+}
+
 void App_SwarmConnector(void) {
 	ATLIBGS_MSG_ID_E r;
 	uint8_t cid = 0;
+	int idx = 0; 
+	int but = 0;
 	rx=0;
 	tx=0;
 
 	initEink();
-	setLogo(2);
-
+	setLogo(11);
+	
 	R_TAU0_Create();
 	//R_TAU0_Channel0_Freq(0);
 	//R_TAU0_Channel0_Start();
@@ -769,7 +784,8 @@ void parseMessage(char * pkt, uint8_t cid){
 		tokpos = jsonpos+tokens[ret+1].start;
 		val = atoi(tokpos);
 		ConsolePrintf("displaying eink demo %d\n", val);
-		doDemo(val);
+		//doDemo(val);
+		setLogo(val);
 	} else if (strncmp(tokpos, "Beep", 4) == 0) {
 		//ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
 		ret = findKey(jsonpos, tokens, 40, "freq");

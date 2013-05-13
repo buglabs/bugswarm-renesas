@@ -24,7 +24,9 @@ void initEink(void)
 }
 
 void setLogo(int logo) {
-	DisplayNumber (&dispNum,logo,TYPE_NUM, displayScreen);
+	memset(nextDisplay, 0, NUM_SEGMENTS);
+	nextDisplay[logo%NUM_SEGMENTS] = 1;
+	//DisplayNumber (&dispNum,logo,TYPE_NUM, displayScreen);
 	updateRequest=TRUE;
 }
 
