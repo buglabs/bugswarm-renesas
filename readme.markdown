@@ -181,13 +181,18 @@ Pseudocode for the firmware:
 #### Known Issues
 
 1.  The watchdog timer has not been enabled in the beta release, adding this will improve reliability when the module is suddenly disconnected from the internet.
-1.  Serial debugging occurs over UART0 (at 115200 baud) which is used by the debugger.  We haven't been able to use the USB debugger tool to read this data, we instead used a seperate USB->Serial converter connected to pins 54 and 55.  
+1.  Serial debugging occurs over UART0 (at 115200 baud) which is used by the debugger.  We haven't been able to use the USB debugger tool to read this data, we instead used a seperate USB->Serial converter connected to pins 54 and 55. 
+1.  Some boards come pre-loaded with an older version of firmware. If the board connects to the Swarm backend with the old firmware, we will need to delete this resource. Please email your board ID to: support@buglabs.net You can then upload the new bi-directional firmware.
+1.  In order to enable the buzzer, please make sure the jumper on JP3 covers the top two pins, which moves the speaker output from the DAC to the PWM.
 
 ### Troubleshooting
 
 1.  If the device appears on the Renesas Web Portal as "UnknownDevice", try rebooting it.  Occasionally the first API call can fail if the wireless access point has not finished opening the connection.
 1.  If an error is printed to the LCD screen on line 4 or line 8, and the error does not go away for a few minutes, try manually resetting the board.
 1.  If the RDK board never appears on the web portal, use a smartphone or laptop to verify that the selected wireless access point has an internet connection, particularly to demo.bugswarm.com or developer.bugswarm.net.
+1.  Rebooting your device will often solve connection issues, please try this first.
+1.  Please use the most up-to-date browsers when connecting to http://bugcommunity.com/rdknext/ (IE8 or lower will not work, and older versions of Safari, Firefox and Chrome may have difficulty displaying data).  The latest version of Firefox has shown to be the most robust.
+1.  Conference center hotspots often have trouble sustaining a connection. Some hotspots do not work well with the Gainspan WiFi chipset. Please try a clean hotspot with little traffic if you experience connection issues (Verizon jetpack hotspots have been tested to work).
 
 ### Relevant Documentation
 
