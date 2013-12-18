@@ -182,7 +182,7 @@ Pseudocode for the firmware:
 
 1.  The watchdog timer has not been enabled in the beta release, adding this will improve reliability when the module is suddenly disconnected from the internet.
 1.  Serial debugging occurs over UART0 (at 115200 baud) which is used by the debugger.  We haven't been able to use the USB debugger tool to read this data, we instead used a seperate USB->Serial converter connected to pins 54 and 55. 
-1.  Some boards come pre-loaded with an older version of firmware. If the board connects to the Swarm backend with the old firmware, we will need to delete this resource. Please email your board ID to: support@buglabs.net You can then upload the new bi-directional firmware.
+1.  Some boards come pre-loaded with an older version of firmware. Please follow the procedure detailed in [programming instructions](#programming-instructions) to update to the latest firmware.  Please note, if the board connects to the Swarm backend with the old firmware before you have updated, we will need to reset its resourceid after the update has been applied. Please email your board ID to: support@buglabs.net.
 1.  In order to enable the buzzer, please make sure the jumper on JP3 covers the top two pins, which moves the speaker output from the DAC to the PWM.
 1.  If multiple development boards are online at the same time, you may experience connection issues. All RL78 boards share the same resource, which may cause failures in bi-directional communication. 
 1.  Upon disconnection, your board should re-connect itself after 10 minutes. You may hit the reset button to speed this up.
