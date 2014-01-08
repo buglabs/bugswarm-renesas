@@ -171,7 +171,7 @@ Follow these instructions to install the Virtual USB Com Port driver, required O
 
 Pseudocode for the firmware:
 
-1.  Check status of switches.  If SW1 is held down, enter Gainspan web demo.  If SW2 is held down, enter web provisioning mode
+1.  Check status of switches.  If SW1 and SW3 are held down, enter Gainspan web demo.  If SW2 is held down, enter web provisioning mode
 1.  Initialize hardware and read wireless AP data from nonvolatile storage.  If no SSID has been saved, enter web provisioning mode
 1.  Read wifi MAC address and execute API call to swarm server.  Swarm credentials will be created if the device is new, and then returned.
 1.  If Swarm credentials could not be retreived from server, use default ID of "UnknownDevice".
@@ -203,6 +203,6 @@ Pseudocode for the firmware:
 * [bugswarm API documentation](http://developer.bugswarm.net/)
 * [bugswarm javascript library](https://github.com/buglabs/bugswarm-js)
 * [bugswarm preliminary configuration interface](http://demo.bugswarm.com/)
-* [YRDKRL78G13 Quick Start Guide (how to install the SDK)](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_Quick_Start_Guide.pdf)
-* [YRDKRL78G13 Getting Started DVD](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_DVD10.zip)
+* [YRDKRL78G13 Main Page](http://www.renesas.com/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/index.jsp)
+* [YRDKRL78G14 Main Page (With Quick Start Guide)](http://www.renesas.com/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g14/index.jsp)
 
