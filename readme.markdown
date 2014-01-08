@@ -186,6 +186,7 @@ Pseudocode for the firmware:
 1.  In order to enable the buzzer, please make sure the jumper on JP3 covers the top two pins, which moves the speaker output from the DAC to the PWM.
 1.  If multiple development boards are online at the same time, you may experience connection issues. All RL78 boards share the same resource, which may cause failures in bi-directional communication. 
 1.  Upon disconnection, your board should re-connect itself after 10 minutes. You may hit the reset button to speed this up.
+1.  By default, the LED status on the RDKnext website is static. Please click on the 1 or 0 under any LED number to initiate. To turn LEDs on or off, click on the 0 or 1 under the LED number. If webpage is reset, or board ID is switched, LED status will show last configuration used until engaged.
 
 
 ### Troubleshooting
