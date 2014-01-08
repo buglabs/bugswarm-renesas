@@ -68,7 +68,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 	![LCD Screen when Running](http://i.imgur.com/g7LZ49x.jpg)
 
-1.  You will need to re-connect to a wireless access point with an internet connection.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://bugcommunity.com/rdknext/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
+1.  You will need to re-connect to a wireless access point with an internet connection.  Navigate to [bugcommunity.com/rdknext/](http://bugcommunity.com/rdknext/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
 
 	![Select Board](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectBoard.png)
 
