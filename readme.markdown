@@ -37,8 +37,8 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 1.  The RDK board now needs to be configured for an active wireless access point with an internet connection.  Hold down ```Switch 2```, Press and release the ```Reset``` button, and then release the ```Switch 2``` button.  See this video for a demonstration: [Enter Wifi Provisioning Mode](https://docs.google.com/open?id=0B_kD7ktKdpaQeTdfT3YtZERMNXM).
 1.  Using a smartphone, tablet, or laptop, connect to the wireless access point indicated on the LCD screen.
 
-	![LCD Screen Provisioning Message](http://imgur.com/wY5cYir)
-	![Provisioning Wireless AP](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionAP.png)
+	![LCD Screen Provisioning Message](http://i.imgur.com/wY5cYir.jpg)
+	![Provisioning Wireless AP](http://i.imgur.com/COSvdyB.jpg)
 
 1.  Open a web browser and go to the URL indicated on the LCD screen.  Click on the ```Wireless and Network Configuration``` link.
 
@@ -62,13 +62,13 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 1.  You should see the following message displayed on the LCD screen.  Press the ```RESET``` button.
 
-	![LCD Screen Provisioning Done](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/Provision\_Done.JPG)
+	![LCD Screen Provisioning Done](http://i.imgur.com/fYaBgls.jpg)
 
 1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
 
-	![LCD Screen when Running](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/connectorRunning.JPG)
+	![LCD Screen when Running](http://i.imgur.com/g7LZ49x.jpg)
 
-1.  You will need to re-connect to a wireless access point with an internet connection.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://buglabs.github.com/bugswarm-renesas/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
+1.  You will need to re-connect to a wireless access point with an internet connection.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://bugcommunity.com/rdknext/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
 
 	![Select Board](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectBoard.png)
 
