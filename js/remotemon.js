@@ -123,31 +123,53 @@ function onPresence(presence) {
         $('option#' + resource).remove();
       }
     } else {
+      
       resources[swarm][resource] = resource;
-      var url = 'http://api.staging.bugswarm.com/resources/' + resource;
-      var xhr = createCORSRequest('GET', url);
-      xhr.onload = function() {
-        var responseText = xhr.responseText;
-        var data = {};
-        try {
-          data = JSON.parse(xhr.responseText);
-        } catch(e) {
-          console.error(e);
-        }
-        // process the response.
-        console.log(data.id+' is named '+data.name);
-            //$('option').filter('#'+resource).html(data.name);
-        resources[swarm][resource] = data.name;
-        $('option').filter('#'+resource).html(data.name);
-      };
-
-      xhr.onerror = function() {
-        console.log('CORS request: There was an error!');
-      };
-
-      xhr.setRequestHeader(
-        'x-bugswarmapikey', CFG_KEY);
-      xhr.send();
+      if ('XDomainRequest' in window && window.XDomainRequest !== null) {
+				// Use Microsoft XDR	
+				var xdr = new XDomainRequest();
+				if(xdr) {
+					xdr.onerror = function() { console.log('xdr error!');};
+					xdr.ontimeout = function() { console.log('timed out'); return;};
+					xdr.onprogress = function() { return; };
+					xdr.timeout = 5000;
+					xdr.onload = function () {
+					var dom = new ActiveXObject("Microsoft.XMLDOM");
+					dom.async = false;
+					dom.loadXML(xdr.responseText);
+						console.log('response: '+xdr.responseText);
+					};
+					xdr.open("GET", "http://api.staging.bugswarm.com/renesas/getmac/"+resource);
+					xdr.send(null);
+				}
+			}
+      
+      else {
+        var url = 'http://api.staging.bugswarm.com/resources/' + resource;
+        var xhr = createCORSRequest('GET', url);
+        xhr.onload = function() {
+          var responseText = xhr.responseText;
+          var data = {};
+          try {
+            data = JSON.parse(xhr.responseText);
+          } catch(e) {
+            console.error(e);
+          }
+          // process the response.
+          console.log(data.id+' is named '+data.name);
+              //$('option').filter('#'+resource).html(data.name);
+          resources[swarm][resource] = data.name;
+          $('option').filter('#'+resource).html(data.name);
+        };
+  
+        xhr.onerror = function() {
+          console.log('CORS request: There was an error!');
+        };
+  
+        xhr.setRequestHeader(
+          'x-bugswarmapikey', CFG_KEY);
+        xhr.send();
+      }
 
       //console.log('Presence ('+resource+'): ADD');
      //  $.ajax({  url:'http://api.staging.bugswarm.com/resources/' + resource,
