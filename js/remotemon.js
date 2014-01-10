@@ -107,6 +107,9 @@ function onPresence(presence) {
           beforeSend: function(xhr) {
               xhr.setRequestHeader("x-bugswarmapikey", CFG_KEY);
           },
+          error: function(xhr, status, errorThrown){
+						console.log('ajax probs: ' +errorThrown+'\n'+status+'\n'+xhr.statusText);
+					},
           success: function(data){
             console.log(data.id+' is named '+data.name);
             //$('option').filter('#'+resource).html(data.name);
