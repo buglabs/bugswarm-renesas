@@ -19,6 +19,7 @@ body {
   border-radius: 3px;
   margin-bottom: 10px;
 }
+a img {border: none; }
 ul.reslist {
   text-align: center;
   list-style-type: none;
