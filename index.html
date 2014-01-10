@@ -10,10 +10,10 @@
 <![endif]-->
 <script type="text/javascript" src="js/json2.js"></script>
 <script type="text/javascript" src="js/excanvas/excanvas.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
-<script type="text/javascript" src="http://flot.googlecode.com/svn/trunk/jquery.flot.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/swarm-v0.4.1-8080.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.flot.min.js"></script>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css" type="text/css" media="all" />
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -66,7 +66,9 @@
     <SELECT NAME="droplist" id="droplist">
       <OPTION SELECTED="SELECTED" VALUE=" ">Select a board to view (second): </OPTION>
     </SELECT>
-    <button type="button" id="populate">Go!</button>
+    <button type="button" id="populate">Go!</button> <br />
+	<font size="2">Having trouble?? <a href="https://github.com/buglabs/bugswarm-renesas/tree/rdknext#known-issues">Click Here</a></font>
+
    </div>
    <div id="themechoose">
   Choose a theme:
@@ -186,15 +188,6 @@
       </table>
     </div>
   </li>
-  <li>
-      <h3>EInk Display</h3>
-      <div style="overflow:hidden; height: 40px;">
-        <input type="radio" name="einkdemo" value="1">On</input>
-        <input type="radio" name="einkdemo" value="2">Halt</input>
-        <input type="radio" name="einkdemo" value="3">Snooze</input>
-        <input type="radio" name="einkdemo" value="4">Stop</input>
-      </div>
-    </li>
 </ul>
 </div>
 <!-- end of content div -->

@@ -241,10 +241,10 @@ function onMessage(message) {
 
 function onError(error) {
 	alert(JSON.stringify(error));
-   //console.log('error! -> ' + JSON.stringify(error));
+   console.log('error! -> ' + JSON.stringify(error));
 }
 function onConnect() {
-  //console.log('connected');
+  console.log('connected');
   startTime = (new Date()).getTime();
 }
 
