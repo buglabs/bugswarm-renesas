@@ -100,7 +100,7 @@ function onPresence(presence) {
     } else {
       resources[swarm][resource] = resource;
       //console.log('Presence ('+resource+'): ADD');
-      $.ajax({  url:'http://api.staging.bugswarm.net/resources/' + resource,
+      $.ajax({  url:'http://api.staging.bugswarm.com/resources/' + resource,
           type: 'GET',
           data: null,
           dataType: 'json',
