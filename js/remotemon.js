@@ -134,10 +134,12 @@ function onPresence(presence) {
 					xdr.onprogress = function() { return; };
 					xdr.timeout = 5000;
 					xdr.onload = function () {
-					var dom = new ActiveXObject("Microsoft.XMLDOM");
-					dom.async = false;
-					dom.loadXML(xdr.responseText);
+						var dom = new ActiveXObject("Microsoft.XMLDOM");
+						dom.async = false;
+						dom.loadXML(xdr.responseText);
 						console.log('response: '+xdr.responseText);
+						resources[swarm][resource] = xdr.responseText;
+						$('option').filter('#'+resource).html(xdr.responseText);
 					};
 					xdr.open("GET", "http://api.staging.bugswarm.com/renesas/getmac/"+resource);
 					xdr.send(null);
