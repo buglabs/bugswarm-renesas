@@ -455,7 +455,7 @@ ATLIBGS_MSG_ID_E AtLibGs_Version(void);
 ATLIBGS_MSG_ID_E AtLibGs_Mode(ATLIBGS_STATIONMODE_E mode);
 ATLIBGS_MSG_ID_E AtLibGs_UDPServer_Start(uint16_t pUdpSrvPort, uint8_t *cid);
 ATLIBGS_MSG_ID_E AtLibGs_TCPServer_Start(uint16_t pTcpSrvPort, uint8_t *cid);
-ATLIBGS_MSG_ID_E AtLibGs_DNSLookup(char* pUrl);
+ATLIBGS_MSG_ID_E AtLibGs_DNSLookup(char *pUrl, uint16_t retries, uint16_t timeout);
 ATLIBGS_MSG_ID_E AtLibGs_Close(uint8_t cid);
 ATLIBGS_MSG_ID_E AtLibGs_SetWRetryCount(uint16_t count);
 ATLIBGS_MSG_ID_E AtLibGs_GetErrCount(uint32_t *errorCount);
