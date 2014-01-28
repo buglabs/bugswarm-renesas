@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-1762910991
+Checksum=14466469
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 1
@@ -11,7 +11,7 @@ Enabled=_ 0
 Map0=0,0,262143,262144
 Map1=1,1023744,1048319,24576
 MapEntries=2
-HWsettings=3,0,1,2,4,0,1,0,16,1
+HWsettings=3,0,1,2,4,0,1,0,16,1,0
 HWsettingsCube=2,4294967295,2,4294967295,0,1,0,0
 HWsettingsRsuid=00000000000000000000
 EventEntries=0
@@ -89,8 +89,58 @@ ByteLimit=50
 ShowArgs=0
 [Disassembly]
 MixedMode=1
+[SfrWindow]
+Show=1 1
+Sort=4 0
+[InterruptLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
+[DataLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+[Breakpoints2]
+Count=0
+[Interrupts]
+Enabled=1
+[MemoryMap]
+Enabled=0
+Base=0
+UseAuto=0
+TypeViolation=1
+UnspecRange=1
+ActionState=1
+[Trace1]
+Enabled=0
+ShowSource=1
 [watch_formats]
 Fmt0={W}0:temp	3	0
+[DataSample]
+LogEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.209.19" 0 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.83.5" 0 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.88.9" 0 0 0 0 "" 0 ""
+Bp3=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.578.3" 0 0 0 0 "" 0 ""
+Bp4=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.755.3" 0 0 0 0 "" 0 ""
+Bp5=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.783.9" 0 0 0 0 "" 0 ""
+Bp6=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.793.9" 0 0 0 0 "" 0 ""
+Bp7=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Startup.c}.333.5" 0 0 0 0 "" 0 ""
+Bp8=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Startup.c}.339.8" 0 0 0 0 "" 0 ""
+Bp9=_ "STD_CODE" "{$PROJ_DIR$\applilet3_src\r_cg_intc_user.c}.178.5" 0 0 0 0 "" 0 ""
+Bp10=_ "STD_CODE" "{$PROJ_DIR$\applilet3_src\r_cg_intc_user.c}.164.5" 0 0 0 0 "" 0 ""
+Bp11=_ "STD_CODE" "{$PROJ_DIR$\applilet3_src\r_cg_intc_user.c}.150.5" 0 0 0 0 "" 0 ""
+Bp12=_ "STD_CODE" "{$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\WiFi\Source\probe_wifi.c}.357.5" 0 0 0 0 "" 0 ""
+Count=13
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -98,6 +148,12 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Aliases]
+A0=_ "C:\FDI\SVN\Renesas\YRDKRL78G13\GlyphLib\GlyphLib\glyph\Drivers\ST7579_LCD.c" ""
+A1=_ "C:\FDI\SVN\Renesas\YRDKRL78G14\GlyphLib\GlyphLib\glyph\Drivers\ST7579_LCD.c" ""
+A2=_ "C:\WorkSpace\YRDKRL78G14\ADK_G14_08_23_2012\YRDKRL78G14\drv\led.c" ""
+Count=3
+SuppressDialog=1
 [TraceHelper]
 Enabled=0
 ShowSource=1
@@ -109,25 +165,3 @@ Mode=0
 Graph=0
 Symbiont=0
 Exclusions=
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.209.19" 0 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.83.5" 0 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.88.9" 0 0 0 0 "" 0 ""
-Bp3=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Windows\system32}.578.3" 0 0 0 0 "" 0 ""
-Bp4=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.755.3" 0 0 0 0 "" 0 ""
-Bp5=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.783.9" 0 0 0 0 "" 0 ""
-Bp6=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Exosite.c}.793.9" 0 0 0 0 "" 0 ""
-Bp7=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Startup.c}.336.5" 0 0 0 0 "" 0 ""
-Bp8=_ "STD_CODE" "{$PROJ_DIR$\..\Apps\App_Startup.c}.342.8" 0 0 0 0 "" 0 ""
-Bp9=_ "STD_CODE" "{$PROJ_DIR$\applilet3_src\r_cg_intc_user.c}.178.5" 0 0 0 0 "" 0 ""
-Bp10=_ "STD_CODE" "{$PROJ_DIR$\applilet3_src\r_cg_intc_user.c}.164.5" 0 0 0 0 "" 0 ""
-Bp11=_ "STD_CODE" "{$PROJ_DIR$\applilet3_src\r_cg_intc_user.c}.150.5" 0 0 0 0 "" 0 ""
-Bp12=_ "STD_CODE" "{$PROJ_DIR$\..\Micrium\Software\uC-Probe\Target\Communication\Generic\WiFi\Source\probe_wifi.c}.357.5" 0 0 0 0 "" 0 ""
-Bp13=_ "STD_CODE" "{$PROJ_DIR$\main.c}.259.19" 1 0 0 0 "" 0 ""
-Count=14
-[Aliases]
-A0=_ "C:\FDI\SVN\Renesas\YRDKRL78G13\GlyphLib\GlyphLib\glyph\Drivers\ST7579_LCD.c" ""
-A1=_ "C:\FDI\SVN\Renesas\YRDKRL78G14\GlyphLib\GlyphLib\glyph\Drivers\ST7579_LCD.c" ""
-A2=_ "C:\WorkSpace\YRDKRL78G14\ADK_G14_08_23_2012\YRDKRL78G14\drv\led.c" ""
-Count=3
-SuppressDialog=1

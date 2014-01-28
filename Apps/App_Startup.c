@@ -52,9 +52,6 @@ void App_InitModule(void)
 {
     ATLIBGS_MSG_ID_E r = ATLIBGS_MSG_ID_NONE;
 
-    DisplayLCD(LCD_LINE7, " Preparing");
-    DisplayLCD(LCD_LINE8, "  Init Mod");
-
     /* Give the unit a little time to start up */
     /* (300 ms for GS1011 and 1000 ms for GS1500) */
     MSTimerDelay(1000);
@@ -212,7 +209,7 @@ void App_aClientConnection(void)
           continue;
       }        
       // Enable DHCP
-      DisplayLCD(LCD_LINE8, "DHCP On...");
+      //DisplayLCD(LCD_LINE8, "DHCP On...");
       rxMsgId = AtLibGs_DHCPSet(1);
       if (rxMsgId != ATLIBGS_MSG_ID_OK) 
       {
@@ -238,10 +235,10 @@ void App_aClientConnection(void)
       else if(GNV_Setting.webprov.security == ATLIBGS_PROVSECU_WPA_PER)
       {
           do {
-            DisplayLCD(LCD_LINE8, " Setting PSK");
+            //DisplayLCD(LCD_LINE8, " Setting PSK");
             rxMsgId = AtLibGs_CalcNStorePSK(GNV_Setting.webprov.ssid, GNV_Setting.webprov.password);
           } while (ATLIBGS_MSG_ID_OK != rxMsgId); 
-          DisplayLCD(LCD_LINE8, " PSK Set");
+          //DisplayLCD(LCD_LINE8, " PSK Set");
       }
       else if(GNV_Setting.webprov.security == ATLIBGS_PROVSECU_WPA_ENT)
       {
@@ -267,12 +264,12 @@ void App_aClientConnection(void)
        /* Associate to a particular AP specified by SSID  */
         if (strlen(GNV_Setting.webprov.ssid) > 0)
         {
-          DisplayLCD(LCD_LINE8, (const uint8_t *)GNV_Setting.webprov.ssid);
+          //DisplayLCD(LCD_LINE8, (const uint8_t *)GNV_Setting.webprov.ssid);
           rxMsgId = AtLibGs_Assoc(GNV_Setting.webprov.ssid,NULL,HOST_APP_AP_CHANNEL);
         }
         else
         {
-          DisplayLCD(LCD_LINE8, HOST_APP_AP_SSID);
+          //DisplayLCD(LCD_LINE8, HOST_APP_AP_SSID);
           rxMsgId = AtLibGs_Assoc(HOST_APP_AP_SSID, NULL, HOST_APP_AP_CHANNEL);
         }
     
@@ -295,19 +292,19 @@ void App_aClientConnection(void)
       #ifdef HOST_APP_DEBUG_ENABLE
               ConsolePrintf("\n Association error - retry now \n");
       #endif
-          DisplayLCD(LCD_LINE7, " Connecting..");
+          //DisplayLCD(LCD_LINE7, " Connecting..");
           MSTimerDelay(2000);
           DisplayLCD(LCD_LINE7, "");
         } 
         else 
         {
           /* Association success */       
-          DisplayLCD(LCD_LINE1, (const uint8_t *) "Connected to");
-          DisplayLCD(LCD_LINE2, (const uint8_t *) GNV_Setting.webprov.ssid);   
+          //DisplayLCD(LCD_LINE1, (const uint8_t *) "Connected to");
+          //DisplayLCD(LCD_LINE2, (const uint8_t *) GNV_Setting.webprov.ssid);   
           
-          AtLibGs_GetIPAddress((uint8_t*) str_config_ssid);           // we just reuse the buffer to get IP address
+          //AtLibGs_GetIPAddress((uint8_t*) str_config_ssid);           // we just reuse the buffer to get IP address
           
-          DisplayLCD(LCD_LINE4, (const uint8_t *)str_config_ssid);
+          //DisplayLCD(LCD_LINE4, (const uint8_t *)str_config_ssid);
           //DisplayLCD(LCD_LINE5, (const uint8_t *)&str_config_ssid[12]);
           break;
         }  

@@ -210,9 +210,8 @@ int  main(void)
     }
     else if (AppMode == SWARM_CONN_MODE )
     {
-		LCDSelectFont(FONT_SMALL);
-       DisplayLCD(LCD_LINE1, "BugLab Demo");           // Run the BugLab cloud demo.                              
-	   App_SwarmConnector();
+		LCDSelectFont(FONT_SMALL);                           
+              App_SwarmConnector();
     }
     else
     {
