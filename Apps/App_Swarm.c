@@ -42,8 +42,9 @@ const char dweetRequestFormat[] = "POST /dweet%s HTTP/1.1\r\nHost: %s\r\nAccept:
 const char true_val[] = "true";
 const char false_val[] = "false";
 
+char	animation[] = " -\0 \\\0 |\0 /\0";
 char    thingPath[32];
-char 	msg[256];
+char 	msg[512];
 bool    connected;
 ATLIBGS_TCPMessage tcp_pkt;
 
@@ -53,17 +54,6 @@ ATLIBGS_TCPMessage tcp_pkt;
 *	Description:
 *		Run the swarm connector demo indefinitely
 *----------------------------------------------------------------------------*/
-int waitForButton() {
-	while(true){
-		if (Switch1IsPressed())
-			return 1;
-		if (Switch2IsPressed())
-			return 2;
-		if (Switch3IsPressed())
-			return 3;
-		MSTimerDelay(10);
-	}
-}
 
 void App_SwarmConnector(void) {
 	
@@ -80,13 +70,13 @@ void App_SwarmConnector(void) {
 	App_InitModule();
 	
 	DisplayLCD(LCD_LINE1, "");
-	DisplayLCD(LCD_LINE2, "   dweet.io");
+	DisplayLCD(LCD_LINE2, "dweet.io");
 	DisplayLCD(LCD_LINE3, "");
 	DisplayLCD(LCD_LINE4, "");
 	DisplayLCD(LCD_LINE5, "");
 	DisplayLCD(LCD_LINE6, "");
 	DisplayLCD(LCD_LINE7, "");
-	DisplayLCD(LCD_LINE8, " Finding WiFi...");
+	DisplayLCD(LCD_LINE8, "connecting.......");
 	
 	App_aClientConnection();		//Will block until connected
 	AtLibGs_SetNodeAssociationFlag();
@@ -113,17 +103,33 @@ void App_SwarmConnector(void) {
 	MSTimerDelay(100);
 	connected = false;
 	
+	char* animationIndex = animation;
+	
 	while(1) {
 		if (!AtLibGs_IsNodeAssociated()) {
-			DisplayLCD(LCD_LINE8, " Finding Wifi...");
+			DisplayLCD(LCD_LINE8, "connecting.......");
 			App_aClientConnection();
 			AtLibGs_SetNodeAssociationFlag();
 		}
 		
 		connected = true;
-		while (connected) {
+		while (connected)
+		{
+			DisplayLCD(LCD_LINE1, "visit:");
+			DisplayLCD(LCD_LINE2, "dweet.io/follow");
+			DisplayLCD(LCD_LINE4, "thing:");
+			
+			DisplayLCD(LCD_LINE8, animationIndex);
+			
+			animationIndex += strlen(animationIndex) + 1;
+			if(animationIndex >= animation + sizeof(animation) - 1)
+			{
+				animationIndex = animation;
+			}
+			
 			r = dweetData(cid);
-			if (r != ATLIBGS_MSG_ID_OK){
+			if (r != ATLIBGS_MSG_ID_OK)
+			{
 				connected = false;
 			}
 			
@@ -131,8 +137,7 @@ void App_SwarmConnector(void) {
 		}
 		
 		AtLibGs_Close(cid);
-		ConsolePrintf("Disconnected, attempting to reconnect...\n");
-		DisplayLCD(LCD_LINE8, " Finding Wifi..");
+		DisplayLCD(LCD_LINE8, "connecting.......");
 		MSTimerDelay(5000);		//TODO - exponential backoff
 	}	
 }
@@ -147,7 +152,7 @@ void addJSONKeyNumberValue(char* jsonString, const char* keyName, float value)
 		pos++;
 	}
 	
-	sprintf(jsonString + pos, "\"%s\":%f", keyName, value);
+	sprintf(jsonString + pos, "\"%s\":%.2g", keyName, value);
 }
 
 ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
@@ -175,9 +180,17 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 	
 	// Get our accelerometer
 	Accelerometer_Get();
-	addJSONKeyNumberValue(dataToSend, "x-tilt", gAccData[0] / 33.0);
-	addJSONKeyNumberValue(dataToSend, "y-tilt", gAccData[1] / 33.0);
-	addJSONKeyNumberValue(dataToSend, "z-tilt", gAccData[2] / 30.0);
+	addJSONKeyNumberValue(dataToSend, "x-tilt", gAccData[0] / 33.0 * 90);
+	addJSONKeyNumberValue(dataToSend, "y-tilt", gAccData[1] / 33.0 * 90);
+	addJSONKeyNumberValue(dataToSend, "z-tilt", gAccData[2] / 30.0 * 90);
+	
+	// Get our Buttons
+	addJSONKeyNumberValue(dataToSend, "btn-1", Switch1IsPressed());
+	addJSONKeyNumberValue(dataToSend, "btn-2", Switch2IsPressed());
+	addJSONKeyNumberValue(dataToSend, "btn-3", Switch3IsPressed());
+	
+	// Get our pot
+	addJSONKeyNumberValue(dataToSend, "pot", Potentiometer_Get());
 	
 	strcat(dataToSend, "}");
 	
@@ -222,7 +235,7 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 	memcpy(thingID, body + tokens[tokenIndex+1].start, tokenLen);
 	thingID[tokenLen] = NULL;
 	
-	DisplayLCD(LCD_LINE1, thingID);
+	DisplayLCD(LCD_LINE5, thingID);
 	
 	sprintf(thingPath, "/for/%s", thingID);
 	
