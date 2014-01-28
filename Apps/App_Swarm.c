@@ -180,14 +180,14 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 	
 	// Get our accelerometer
 	Accelerometer_Get();
-	addJSONKeyNumberValue(dataToSend, "x-tilt", gAccData[0] / 33.0 * 90);
-	addJSONKeyNumberValue(dataToSend, "y-tilt", gAccData[1] / 33.0 * 90);
-	addJSONKeyNumberValue(dataToSend, "z-tilt", gAccData[2] / 30.0 * 90);
+	addJSONKeyNumberValue(dataToSend, "x_tilt", gAccData[0] / 33.0 * 90);
+	addJSONKeyNumberValue(dataToSend, "y_tilt", gAccData[1] / 33.0 * 90);
+	addJSONKeyNumberValue(dataToSend, "z_tilt", gAccData[2] / 30.0 * 90);
 	
 	// Get our Buttons
-	addJSONKeyNumberValue(dataToSend, "btn-1", Switch1IsPressed());
-	addJSONKeyNumberValue(dataToSend, "btn-2", Switch2IsPressed());
-	addJSONKeyNumberValue(dataToSend, "btn-3", Switch3IsPressed());
+	addJSONKeyNumberValue(dataToSend, "btn_1", Switch1IsPressed());
+	addJSONKeyNumberValue(dataToSend, "btn_2", Switch2IsPressed());
+	addJSONKeyNumberValue(dataToSend, "btn_3", Switch3IsPressed());
 	
 	// Get our pot
 	addJSONKeyNumberValue(dataToSend, "pot", Potentiometer_Get());
