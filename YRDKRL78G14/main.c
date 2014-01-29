@@ -117,7 +117,7 @@ int  main(void)
 	AppMode = SWARM_CONN_MODE;
     
     /* Determine SW1, SW2 & SW3 is pressed at power up to dertmine which demo will run  */
-    if(Switch1IsPressed() && Switch2IsPressed() && Switch3IsPressed()) 
+    /*if(Switch1IsPressed() && Switch2IsPressed() && Switch3IsPressed()) 
     {
          AppMode = SWARM_CONN_MODE;
     }
@@ -137,14 +137,14 @@ int  main(void)
     {
         AppMode = RUN_MY_TEST;
     }
-    else if(Switch2IsPressed())
+    else*/ if(Switch2IsPressed())
     {
         AppMode = RUN_PROVISIONING;
     }
-    else if(Switch3IsPressed())
+    /*else if(Switch3IsPressed())
     {
         AppMode = RUN_PROBE;
-    }
+    }  */
     
     /************************initializa LCD module********************************/
     SPI2_Init();

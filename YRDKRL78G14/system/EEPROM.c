@@ -63,8 +63,8 @@ uint8_t EEPROM_Write(uint16_t offset, uint8_t *aData, uint16_t aSize)
     for(i=0; i<aSize; i+=EEPROM_BYTES_PER_WRITE) {
       
         // Data Address in the EEPROM to write to
-        writeData[0] = (uint8_t)(i + offset)<<8;
-        writeData[1] = (uint8_t)(i + offset);
+        writeData[0] = (uint8_t)(i + offset) >> 8;
+        writeData[1] = (uint8_t)(i + offset) & 0xFF;
         
         for(j=0; j<EEPROM_BYTES_PER_WRITE; j++) {
             writeData[2+j] = aData[i+j];
@@ -187,8 +187,8 @@ uint8_t EEPROM_Read(uint16_t offset, uint8_t *aData, uint16_t aSize)
     uint32_t timeout = MSTimerGet();
     I2C_Request r;
 
-    writeData[0] = (uint8_t)offset<<8;
-    writeData[1] = (uint8_t)offset;
+    writeData[0] = (uint8_t)offset>>8;
+    writeData[1] = (uint8_t)offset&0xFF;
     
     r.iAddr = EEPROM_ADDR>>1;
     r.iSpeed = 100;

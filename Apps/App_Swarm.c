@@ -37,13 +37,18 @@ uint16_t period = NUM_SENSOR;
 /*  Default swarm connection parameters  */
 #define DWEET_HOST "dweet.io"
 #define DWEET_HOST_FALLBACK_IP "216.178.216.62"
+#define THING_ID_EEPROM_LOC 128
 static char dweetIP[24];
-const char dweetRequestFormat[] = "POST /dweet%s HTTP/1.1\r\nHost: %s\r\nAccept: application/json\r\nContent-Type: application/json\r\nContent-Length: %d\r\n\r\n%s\r\n";
+const char postDweetFormat[] = "POST /dweet%s HTTP/1.1\r\nHost: %s\r\nAccept: application/json\r\nContent-Type: application/json\r\nContent-Length: %d\r\n\r\n%s\r\n";
+const char getDweetFormat[] = "GET /get/latest/dweet/for/%s-send HTTP/1.1\r\nHost: %s\r\nAccept: application/json\r\n\r\n";
+
 const char true_val[] = "true";
 const char false_val[] = "false";
 
 char	animation[] = " -\0 \\\0 |\0 /\0";
-char    thingPath[32];
+char    thingID[32];
+char	lastUpdate[32];
+
 char 	msg[512];
 bool    connected;
 ATLIBGS_TCPMessage tcp_pkt;
@@ -55,9 +60,28 @@ ATLIBGS_TCPMessage tcp_pkt;
 *		Run the swarm connector demo indefinitely
 *----------------------------------------------------------------------------*/
 
-void App_SwarmConnector(void) {
+void App_SwarmConnector(void)
+{
+	thingID[0] = NULL;
+	lastUpdate[0] = NULL;
+	msg[0] = NULL;
 	
-	thingPath[0] = NULL;
+	// If switch 3 is pressed, reset the EEPROM
+	if(Switch3IsPressed())
+	{
+		EEPROM_Write(THING_ID_EEPROM_LOC, "\0", 1);
+	}
+	else
+	{
+	  // Do we have a thingID saved to our EEPROM?
+	  EEPROM_Read(THING_ID_EEPROM_LOC, msg, sizeof(thingID));
+	  
+	  if(msg[0] == '!')
+	  {
+		  memcpy(thingID, msg + 1, sizeof(thingID));
+		  msg[0] = NULL;
+	  }
+	}
 	
 	ATLIBGS_MSG_ID_E r;
 	uint8_t cid = 0;
@@ -73,7 +97,17 @@ void App_SwarmConnector(void) {
 	DisplayLCD(LCD_LINE2, "dweet.io");
 	DisplayLCD(LCD_LINE3, "");
 	DisplayLCD(LCD_LINE4, "");
-	DisplayLCD(LCD_LINE5, "");
+	
+	if(thingID[0] == NULL)
+	{
+		DisplayLCD(LCD_LINE5, "");
+	}
+	else
+	{
+		DisplayLCD(LCD_LINE4, "thing:");
+		DisplayLCD(LCD_LINE5, thingID);
+	}
+	
 	DisplayLCD(LCD_LINE6, "");
 	DisplayLCD(LCD_LINE7, "");
 	DisplayLCD(LCD_LINE8, "connecting.......");
@@ -94,7 +128,6 @@ void App_SwarmConnector(void) {
 	}
 	
 	led_all_off();
-	
 	
 	Temperature_Init();
 	Potentiometer_Init();
@@ -117,7 +150,6 @@ void App_SwarmConnector(void) {
 		{
 			DisplayLCD(LCD_LINE1, "visit:");
 			DisplayLCD(LCD_LINE2, "dweet.io/follow");
-			DisplayLCD(LCD_LINE4, "thing:");
 			
 			DisplayLCD(LCD_LINE8, animationIndex);
 			
@@ -132,6 +164,8 @@ void App_SwarmConnector(void) {
 			{
 				connected = false;
 			}
+			
+			checkData(cid);
 			
 			MSTimerDelay(1000);
 		}
@@ -155,6 +189,65 @@ void addJSONKeyNumberValue(char* jsonString, const char* keyName, float value)
 	sprintf(jsonString + pos, "\"%s\":%.2g", keyName, value);
 }
 
+ATLIBGS_MSG_ID_E checkData(uint8_t cid)
+{
+	ATLIBGS_MSG_ID_E r;
+	
+	App_PrepareIncomingData(); 
+	
+	sprintf(msg, getDweetFormat, thingID, DWEET_HOST);
+	
+	r = AtLibGs_TCPClientStart((char *)dweetIP, 80, &cid);
+	
+	AtLibGs_SendTCPData(cid, (uint8_t *)msg, strlen(msg));
+	
+	r = AtLibGs_WaitForTCPMessage(5000);
+	if (r != ATLIBGS_MSG_ID_DATA_RX) {
+		AtLibGs_Close(cid);
+		return r;
+	}
+	AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
+	
+	*((char*)tcp_pkt.message[tcp_pkt.numBytes - 1]) = '\0';
+	char* body = strstr(tcp_pkt.message, "\r\n\r\n");
+	
+	jsmn_parser parser;
+	jsmntok_t tokens[40];
+	jsmnerr_t jr;
+	
+	jsmn_init(&parser);
+	
+	jr = jsmn_parse(&parser, body, tokens, 40);
+	if (jr != JSMN_SUCCESS){
+		AtLibGs_Close(cid);
+		return ATLIBGS_MSG_ID_OK;
+	}
+	
+	
+	if(getValue(body, tokens, 40, "this", msg) && strcmp(msg, "succeeded") == 0)
+	{
+		if(getValue(body, tokens, 40, "created", msg) && strcmp(msg, lastUpdate) != 0)
+		{	
+			strcpy(lastUpdate, msg); // Hold on to the update time so we don't re-use this
+			
+			if(getValue(body, tokens, 40, "lcd_text", msg))
+			{
+				DisplayLCD(LCD_LINE7, msg);
+			}
+			
+			if(getValue(body, tokens, 40, "beep", msg))
+			{
+				R_TAU0_Channel0_Freq(1000);
+				R_TAU0_Channel0_Start();
+				MSTimerDelay(2000);
+				R_TAU0_Channel0_Stop();
+			}
+		}
+	}
+	
+	return ATLIBGS_MSG_ID_OK;
+}
+
 ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 {
 	ATLIBGS_MSG_ID_E r;
@@ -162,6 +255,8 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 	uint16_t iValue;
 	float fValue;
 	extern int16_t gAccData[3];
+	
+	App_PrepareIncomingData();  
 	
 	char dataToSend[256];
 	dataToSend[0] = '{';
@@ -194,52 +289,58 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 	
 	strcat(dataToSend, "}");
 	
-	sprintf(msg, dweetRequestFormat, thingPath, DWEET_HOST, strlen(dataToSend) + 2, dataToSend);
+	char thingPath[32];
+	
+	if(thingID[0] != NULL)
+	{
+		sprintf(thingPath, "/for/%s", thingID);
+	}
+	else
+	{
+		thingPath[0] = '\0';
+	}
+	
+	sprintf(msg, postDweetFormat, thingPath, DWEET_HOST, strlen(dataToSend) + 2, dataToSend);
 	
 	r = AtLibGs_TCPClientStart((char *)dweetIP, 80, &cid);
-	
 	AtLibGs_SendTCPData(cid, (uint8_t *)msg, strlen(msg));
 	
-	
-	r = AtLibGs_WaitForTCPMessage(5000);
-	if (r != ATLIBGS_MSG_ID_DATA_RX) {
-		return r;
+	// If we've already parsed our THING, don't bother getting it again.
+	if(thingID[0] == NULL)
+	{ 
+	  r = AtLibGs_WaitForTCPMessage(5000);
+	  if (r != ATLIBGS_MSG_ID_DATA_RX) {
+		  AtLibGs_Close(cid);
+		  return r;
+	  }
+	  AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
+	  
+	  *((char*)tcp_pkt.message[tcp_pkt.numBytes - 1]) = '\0';
+	  char* body = strstr(tcp_pkt.message, "\r\n\r\n");
+	  
+	  jsmn_parser parser;
+	  jsmntok_t tokens[40];
+	  jsmnerr_t jr;
+	  
+	  jsmn_init(&parser);
+	  
+	  jr = jsmn_parse(&parser, body, tokens, 40);
+	  if (jr != JSMN_SUCCESS){
+		  AtLibGs_Close(cid);
+		  return ATLIBGS_MSG_ID_OK;
+	  }
+	  
+	  if(getValue(body, tokens, 40, "thing", thingID))
+	  {
+		  DisplayLCD(LCD_LINE4, "thing:");
+		  DisplayLCD(LCD_LINE5, thingID);
+		  
+		  // Save it to EEPROM
+		  EEPROM_Write(THING_ID_EEPROM_LOC, "!", 1);
+		  EEPROM_Write(THING_ID_EEPROM_LOC + 1, thingID, strlen(thingID) + 1);
+	  }
 	}
-	AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
-	
-	*((char*)tcp_pkt.message[tcp_pkt.numBytes - 1]) = '\0';
-	char* body = strstr(tcp_pkt.message, "\r\n\r\n");
-	
-	jsmn_parser parser;
-	jsmntok_t tokens[40];
-	jsmnerr_t jr;
-	
-	jsmn_init(&parser);
-	
-	jr = jsmn_parse(&parser, body, tokens, 40);
-	if (jr != JSMN_SUCCESS){
-		ConsolePrintf("Error parsing json: %d\r\n", jr);
-		return ATLIBGS_MSG_ID_OK;
-	}
-	
-	int tokenIndex = findKey(body, tokens, 40, "thing");
-	if ((tokenIndex < 0) || (tokens[tokenIndex+1].type != JSMN_STRING)) {
-		ConsolePrintf("Couldn't find Name of feed\n");
-		return ATLIBGS_MSG_ID_OK;
-	}
-	
-	
-	int tokenLen = tokens[tokenIndex+1].end - tokens[tokenIndex+1].start;
-	
-	char thingID[32];
-	memcpy(thingID, body + tokens[tokenIndex+1].start, tokenLen);
-	thingID[tokenLen] = NULL;
-	
-	DisplayLCD(LCD_LINE5, thingID);
-	
-	sprintf(thingPath, "/for/%s", thingID);
-	
-	App_PrepareIncomingData();  
+	 
 	AtLibGs_Close(cid);
 	
 	return ATLIBGS_MSG_ID_OK;
@@ -282,13 +383,22 @@ const char * ledValue(int idx)
 	}
 }
 
-char * getValue(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key) {
-	char * ret = NULL;
-	int pos = findKey(jsonpos, tokens, toklen, key);
-	if (pos < 0)
-		return ret;
-	ret = jsonpos+tokens[pos+1].start;
-	return ret;
+int getValue(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key, char* outValue)
+{
+	outValue[0] = NULL;
+	
+	int tokenIndex = findKey(jsonpos, tokens, toklen, key);
+	
+	if (tokenIndex < 0)
+	{
+		return 0;
+	}
+	
+	int tokenLen = tokens[tokenIndex+1].end - tokens[tokenIndex+1].start;
+	memcpy(outValue, jsonpos + tokens[tokenIndex+1].start, tokenLen);
+	outValue[tokenLen] = NULL;  // Add our string term character
+	
+	return 1;
 }
 
 int findKey(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key) {
