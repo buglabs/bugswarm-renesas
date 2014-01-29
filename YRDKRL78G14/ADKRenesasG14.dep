@@ -366,6 +366,10 @@
       <name>$PROJ_DIR$\..\Apps\App_Swarm.c</name>
       <outputs>
         <tool>
+          <name>ICCRL78</name>
+          <file> 92</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
           <file> 110</file>
         </tool>

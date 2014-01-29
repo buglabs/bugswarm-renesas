@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=40094248
+Checksum=1529240153
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 1
@@ -121,6 +121,8 @@ Enabled=0
 ShowSource=1
 [watch_formats]
 Fmt0={W}0:temp	3	0
+Fmt1={W}0:txBuf	0	2
+Fmt2={W}0:txBuf[0]	0	1
 [DataSample]
 LogEnabled=0
 GraphEnabled=0

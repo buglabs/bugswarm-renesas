@@ -1342,7 +1342,7 @@ ATLIBGS_MSG_ID_E AtLibGs_EnableExternalPA(uint8_t mode)
  *        Not Supported on the GS1011.
  *    1 = PCB antenna
  *    2 = UFL Antenna
- * 
+ *
  * Inputs:
  *    1 or 2
  * Outputs:
@@ -1905,7 +1905,7 @@ uint8_t AtLibGs_ParseWlanConnStat(void)
  *      uint8_t -- Returns true if matching MAC address and not 0's,
  *          else false.
  *---------------------------------------------------------------------------*/
-uint8_t AtLibGs_ParseGetMacResponse(char *pMAC) 
+uint8_t AtLibGs_ParseGetMacResponse(char *pMAC)
 {
     char *pSubStr;
     char currNodeMac[20] = "00:00:00:00:00:00";
@@ -1918,7 +1918,7 @@ uint8_t AtLibGs_ParseGetMacResponse(char *pMAC)
         /* Setup a copy to compare with */
         memcpy(currNodeMac, (pSubStr - 2), 17);
         currNodeMac[17] = '\0';
-        
+
         pSubStr = &currNodeMac[0];
         while (*pSubStr != '\0')
         {
@@ -1929,7 +1929,7 @@ uint8_t AtLibGs_ParseGetMacResponse(char *pMAC)
           }
           pSubStr++;
         }
-          
+
         return true;
 
     } else {
@@ -2278,7 +2278,7 @@ ATLIBGS_MSG_ID_E AtLibGs_BulkDataTransferTest(uint8_t cid, uint16_t dataLen)
     /* wait for GS1011 to process above command LeZ */
     /* TODO: Why the delay? */
     // App_DelayMS(1000);
-    
+
     rxMsgId = AtLibGs_ResponseHandle();
     if(rxMsgId == ATLIBGS_MSG_ID_ESC_CMD_OK)
     {
@@ -2290,7 +2290,7 @@ ATLIBGS_MSG_ID_E AtLibGs_BulkDataTransferTest(uint8_t cid, uint16_t dataLen)
           App_Write(&TxData, 1);
         }
     }
-    
+
     return rxMsgId;
 }
 
@@ -2754,7 +2754,7 @@ char *strrev(char *str) {
 	return str;
 }
 
-void 
+void
 AtLib_ConvertNumberTo4DigitASCII(uint32_t myNum, int8_t *pStr)
 {/* Its equivalent of  sprintf("%04d",myNum) */
 
@@ -2771,13 +2771,13 @@ AtLib_ConvertNumberTo4DigitASCII(uint32_t myNum, int8_t *pStr)
 	digit4 = ((myNum%1000)%100)%10;
 
 	sprintf((char *)pStr,"%d%d%d%d",digit1,digit2,digit3,digit4);
-	
+
 }
 
 char *itoa(int n, char *s, int b) {
 	static char digits[] = "0123456789abcdefghijklmnopqrstuvwxyz";
 	int i=0, sign;
-    
+
 	if ((sign = n) < 0)
 		n = -n;
 
@@ -2796,16 +2796,16 @@ void AtLib_GSLinkSendValue( int8_t *pTag, uint8_t cid, int32_t value)
 {
     uint32_t command_length;   int8_t cDataLen[5];
     char dataBuf[20], cData[5];
-    
+
     itoa(value, cData, 10);
-    
-    sprintf (&(dataBuf[0]),"%s%c%s", pTag,':',cData); 
+
+    sprintf (&(dataBuf[0]),"%s%c%s", pTag,':',cData);
     command_length = strlen(dataBuf);      /* Get command length */
     AtLib_ConvertNumberTo4DigitASCII(command_length, cDataLen);
-     
-    sprintf ( &(at_cmd_buf[0]),"%c%c%c%s%s",ATLIBGS_ESC_CHAR,'G', cid,cDataLen, dataBuf); 
+
+    sprintf ( &(at_cmd_buf[0]),"%c%c%c%s%s",ATLIBGS_ESC_CHAR,'G', cid,cDataLen, dataBuf);
     command_length = strlen(at_cmd_buf);
-    
+
     //printf("\n\r%s", at_cmd_buf);
     //R_UART0_Send(at_cmd_buf, strlen(at_cmd_buf));
 	/* Now send the bulk data START indication message  to S2w node */
@@ -2828,25 +2828,25 @@ void AtLib_GSLinkSendTempValue( int8_t *pTag, uint8_t cid)
     uint32_t command_length;   char  dataBuf[25];
     int8_t cDataLen[5];
 
-#if 0    
-   // itoa(value, cData, 10);  
-    if(gTempMode == TEMP_MODE_C) 
+#if 0
+   // itoa(value, cData, 10);
+    if(gTempMode == TEMP_MODE_C)
     {
-        sprintf (&(dataBuf[0]),"%s%c%.1fC", pTag,':',gTemp_C); 
+        sprintf (&(dataBuf[0]),"%s%c%.1fC", pTag,':',gTemp_C);
     }
     else
-    {   
+    {
        // itoa(gTemp_F, cData, 10);
-        sprintf (&(dataBuf[0]),"%s%c%.1fF", pTag,':',gTemp_F);       
+        sprintf (&(dataBuf[0]),"%s%c%.1fF", pTag,':',gTemp_F);
     }
 #endif
-    sprintf (&(dataBuf[0]),"%s%c%.1fF", pTag,':',gTemp_F);   
+    sprintf (&(dataBuf[0]),"%s%c%.1fF", pTag,':',gTemp_F);
     command_length = strlen((const char *)dataBuf);      /* Get command length */
     AtLib_ConvertNumberTo4DigitASCII(command_length, cDataLen);
-     
-    sprintf ( &(at_cmd_buf[0]),"%c%c%c%s%s",ATLIBGS_ESC_CHAR,'G', cid,cDataLen, dataBuf); 
+
+    sprintf ( &(at_cmd_buf[0]),"%c%c%c%s%s",ATLIBGS_ESC_CHAR,'G', cid,cDataLen, dataBuf);
     command_length = strlen(at_cmd_buf);
-    
+
     //printf("\n\r%s", at_cmd_buf);
     //R_UART0_Send(at_cmd_buf, strlen(at_cmd_buf));
 	/* Now send the bulk data START indication message  to S2w node */
@@ -2861,18 +2861,18 @@ void AtLib_GSLinkSend3Value( int8_t *pTag, uint8_t cid, int32_t value1, int32_t 
 {
     uint32_t command_length;   char cData1[5], cData2[5], cData3[5];
     int8_t dataBuf[20], cDataLen[5];
-    
+
     itoa(value1, cData1, 10);
     itoa(value2, cData2, 10);
     itoa(value3, cData3, 10);
-    
-    sprintf ((char *)&(dataBuf[0]),"%s%c%s,%s,%s", pTag,':',cData1, cData2, cData3); 
+
+    sprintf ((char *)&(dataBuf[0]),"%s%c%s,%s,%s", pTag,':',cData1, cData2, cData3);
     command_length = strlen((const char *)dataBuf);      /* Get command length */
     AtLib_ConvertNumberTo4DigitASCII(command_length, cDataLen);
-     
-    sprintf ( &(at_cmd_buf[0]),"%c%c%c%s%s",ATLIBGS_ESC_CHAR,'G',cid,cDataLen, dataBuf); 
+
+    sprintf ( &(at_cmd_buf[0]),"%c%c%c%s%s",ATLIBGS_ESC_CHAR,'G',cid,cDataLen, dataBuf);
     command_length = strlen(at_cmd_buf);
-    
+
     // printf("\n\r%s", at_cmd_buf);
     //R_UART0_Send(at_cmd_buf, strlen(at_cmd_buf));
 	/* Now send the bulk data START indication message  to S2w node */
@@ -2884,12 +2884,12 @@ void AtLib_GSLinkSend3Value( int8_t *pTag, uint8_t cid, int32_t value1, int32_t 
 }
 
 void AtLib_GSLinkPostDoneAck( uint8_t cid )
-{  
-    uint32_t command_length; 
-    
-    sprintf ( &(at_cmd_buf[0]),"%c%c%c%s%s",ATLIBGS_ESC_CHAR,'G', cid, "0009", "Post:Done"); 
+{
+    uint32_t command_length;
+
+    sprintf ( &(at_cmd_buf[0]),"%c%c%c%s%s",ATLIBGS_ESC_CHAR,'G', cid, "0009", "Post:Done");
     command_length = strlen(at_cmd_buf);
-    
+
     //printf("\n\r%s", at_cmd_buf);
     //R_UART0_Send(at_cmd_buf, strlen(at_cmd_buf));
 	/* Now send the bulk data START indication message  to S2w node */
@@ -2903,12 +2903,12 @@ void AtLib_GSLinkPostDoneAck( uint8_t cid )
 void AtLib_GSLinkGetPostResp(uint8_t cid, uint8_t gslinkType, int32_t TimeOut, uint8_t *pURL, uint8_t *pHdTag, uint8_t numOfValue)
 { /*<Esc> <Z> <Cid> <Data Length xxxx 4 ascii char> <data>     */
 
-	uint32_t command_length;   char cTimeout[5];  uint8_t TxCRD=0xD; 
-    
+	uint32_t command_length;   char cTimeout[5];  uint8_t TxCRD=0xD;
+
     itoa(TimeOut, cTimeout, 10);
-    
-    sprintf (&(at_cmd_buf[0]),"%s%c,%x,%s,%s,%s,%x","AT+XMLSEND=",cid, gslinkType, cTimeout, pURL, pHdTag, numOfValue); 
-     
+
+    sprintf (&(at_cmd_buf[0]),"%s%c,%x,%s,%s,%s,%x","AT+XMLSEND=",cid, gslinkType, cTimeout, pURL, pHdTag, numOfValue);
+
     command_length = strlen(at_cmd_buf); /* Get command length */
 
     // printf("\n\r%s", at_cmd_buf);
@@ -2920,16 +2920,16 @@ void AtLib_GSLinkGetPostResp(uint8_t cid, uint8_t gslinkType, int32_t TimeOut, u
 	#else
 	   GS_UARTTransfer((uint8_t *) &at_cmd_buf[0],command_length);
 	#endif
-       
+
 	/* Now send the actual value numOfValue times */
-       
+
      //AtLib_GSLinkSendValue( "temp", cid, gTemp_F);
-       
+
      if(gslinkType == GSLINK_GET_RESP)
      {
        AtLib_GSLinkSendTempValue("temp", cid);
        AtLib_GSLinkSendValue( "light", cid, gAmbientLight);
-       AtLib_GSLinkSend3Value( "acc", cid, gAccData[0], gAccData[1], gAccData[2]); 
+       AtLib_GSLinkSend3Value( "acc", cid, gAccData[0], gAccData[1], gAccData[2]);
        AtLib_GSLinkSendValue( "leds", cid, gSetLight_onoff);
      }
      else if(gslinkType == GSLINK_POST_RESP)
@@ -2952,9 +2952,9 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
     static uint16_t specialDataLen = 0;
     static uint8_t  rxCurrentCid=0, rxPOSTCid=0, escStatus=0, GetValue=0;
     static uint8_t specialDataLenCharCount = 0, GSLinkType=0;
-    
-    static  char *pPostTag, PostTag[8], *pPostValue, PostValue[20]; 
-    
+
+    static  char *pPostTag, PostTag[8], *pPostValue, PostValue[20];
+
     uint16_t datalencount;
 
     ATLIBGS_MSG_ID_E rxMsgId = ATLIBGS_MSG_ID_NONE;
@@ -2962,7 +2962,7 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
 #ifdef ATLIBGS_DEBUG_ENABLE
     if ((isprint(rxData)) || (isspace(rxData)))
         ConsolePrintf("%c", rxData);
-#endif    
+#endif
 
     /* Process the received data */
     switch (receive_state) {
@@ -3068,12 +3068,12 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
                 /* Start of UDP data */
                 /* ESC u  cid  <----data with info---> ESC E  */
                 receive_state = ATLIBGS_RX_STATE_DATA_HANDLE;
-            } else if( ATLIBGS_DATA_MODE_GSLINK_START_CHAR_K == rxData) {               // 1.GSLink K: <Esc>K<Cid><Data Length xxxx 4 ascii char><  
+            } else if( ATLIBGS_DATA_MODE_GSLINK_START_CHAR_K == rxData) {               // 1.GSLink K: <Esc>K<Cid><Data Length xxxx 4 ascii char><
               receive_state = ATLIBGS_RX_STATE_DATA_CID;
               escStatus= ATLIBGS_DATA_MODE_GSLINK_START_CHAR_K;
               specialDataLenCharCount=0;
             } else if( ATLIBGS_DATA_MODE_GSLINK_START_CHAR_G == rxData) {              // * GSLink G:  <Esc>G<Data Length><Tag>:<value>
-             
+
               receive_state = ATLIBGS_RX_STATE_GLINK_DATA_LEN;                     // * Go to get the data length
               escStatus= ATLIBGS_DATA_MODE_GSLINK_START_CHAR_G;
               specialDataLenCharCount=0;
@@ -3093,7 +3093,7 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
           else
              receive_state = ATLIBGS_RX_STATE_DATA_HANDLE;
           break;
-        
+
         case ATLIBGS_RX_STATE_DATA_HANDLE:
             /* Store the CID */
             App_ProcessIncomingData(rxData);
@@ -3166,23 +3166,23 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
             receive_state = ATLIBGS_RX_STATE_START;
             break;
 
-          case ATLIBGS_RX_STATE_GLINK_DATA_LEN:                                   // 3.  GSLink data length                                             
+          case ATLIBGS_RX_STATE_GLINK_DATA_LEN:                                   // 3.  GSLink data length
               specialDataLen = (specialDataLen * 10) + ((rxData) - '0');
               specialDataLenCharCount++;
               if(specialDataLenCharCount >= ATLIBGS_GSLINK_DATA_LEN_STRING_SIZE) {
-                
+
                   if(escStatus == ATLIBGS_DATA_MODE_GSLINK_START_CHAR_K)
                   {
-                     receive_state  = ATLIBGS_RX_STATE_GLINK_DATA_TYPE;      
+                     receive_state  = ATLIBGS_RX_STATE_GLINK_DATA_TYPE;
                   }
                   else if(escStatus == ATLIBGS_DATA_MODE_GSLINK_START_CHAR_G)
                   {
                       if(specialDataLen==0)
                       {
                          // This is the end of G Post sequence
-                         AtLib_GSLinkGetPostResp(rxPOSTCid, GSLINK_POST_RESP, 100, (uint8_t *)str_URL, (uint8_t *)str_rootTag, 1);  
+                         AtLib_GSLinkGetPostResp(rxPOSTCid, GSLINK_POST_RESP, 100, (uint8_t *)str_URL, (uint8_t *)str_rootTag, 1);
                          rxPOSTCid = 0;
-                         receive_state  = ATLIBGS_RX_STATE_START;                    // GS POSE command is completed.          
+                         receive_state  = ATLIBGS_RX_STATE_START;                    // GS POSE command is completed.
                       }
                       else
                       {
@@ -3190,7 +3190,7 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
                         pPostTag = PostTag;                                 // Post: prepare to receive the data tag
                       }
                   }
-                  pDebugMsg = at_cmd_buf; 
+                  pDebugMsg = at_cmd_buf;
               }
               break;
           case ATLIBGS_RX_STATE_GLINK_DATA_TYPE:                           // 4.  get GSLink Type
@@ -3201,8 +3201,8 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
                *pDebugMsg++ = rxData;
                receive_state  = ATLIBGS_RX_STATE_GSLINK_DATA_HANDLE;       // we are ready to get data
                break;
-              
-          case ATLIBGS_RX_STATE_GSLINK_DATA_HANDLE:                             
+
+          case ATLIBGS_RX_STATE_GSLINK_DATA_HANDLE:
               specialDataLen--;
               *pDebugMsg++ = rxData;
               if(escStatus == ATLIBGS_DATA_MODE_GSLINK_START_CHAR_G)
@@ -3210,7 +3210,7 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
                  if(rxData==':')
                  {
                    *pPostTag = NULL;                                    // Post: the end of the tag string
-                   GetValue = ESC_G_VALUE_ENABLE;                       // Post: get value 
+                   GetValue = ESC_G_VALUE_ENABLE;                       // Post: get value
                    pPostValue = PostValue;                              // Post: start receiving the value
                    valueLen = 0;
                  }
@@ -3219,7 +3219,7 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
                    *pPostValue++ = rxData;                               //  Receiving the value string
                    ++valueLen;
                    if(specialDataLen == 0)
-                   {  
+                   {
                      *pPostValue = NULL;                                 // Post: the end of the value string
                      if(!strcmp(ledTag, PostTag))
                      {
@@ -3239,21 +3239,21 @@ ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
                  else
                    *pPostTag++ = rxData;                                 // get the tag
               }
-              if(specialDataLen == 0) 
+              if(specialDataLen == 0)
               {
-      #ifdef TIME_OUT_TEST            
+      #ifdef TIME_OUT_TEST
                   clrTimeOutChk();
       #endif
                   pDebugMsg = 0;
                   if(GSLinkType == GSLINK_GET_XML)                       // this is GET request, send data
                   {
                      AtLib_GSLinkGetPostResp(rxCurrentCid, GSLINK_GET_RESP, 100, (uint8_t *)str_URL, (uint8_t *)str_rootTag, 4); // 4 value to be sent
-                  }  
+                  }
                   receive_state = ATLIBGS_RX_STATE_START;
                   escStatus = 0;                                       // this ESC sequence finished, let's clean it
                   //R_UART0_Send(at_cmd_buf, strlen(at_cmd_buf));
               };
-              break;  
+              break;
         case ATLIBGS_RX_STATE_RAW_DATA_HANDLE:
             if (ATLIBGS_DATA_MODE_RAW_INDICATION_CHAR_COL == rxData) {
                 specialDataLenCharCount = 0;
@@ -5594,7 +5594,7 @@ ATLIBGS_MSG_ID_E AtLibGs_GetWebProvSettings(
 void AtLibGs_IPv4AddressToString(ATLIBGS_IPv4 *ip, char *string)
 {
     uint8_t v1, v2, v3, v4;
- 
+
     v1 =(*ip)[0]; // extract each address
     v2 =(*ip)[1];
     v3 =(*ip)[2];
@@ -5705,7 +5705,7 @@ ATLIBGS_MSG_ID_E AtLibGs_RegisterMDNSHost(char hostname[], char domain[])
  *    Sends the command:
  *     AT+MDNSSRVREG=
  * Inputs:
- *    
+ *
  * Outputs:
  *      ATLIBGS_MSG_ID_E -- error code
  *---------------------------------------------------------------------------*/
@@ -5716,7 +5716,7 @@ ATLIBGS_MSG_ID_E  AtLibGs_RegisterMDNSService(char *pServerName, char *pServerSu
 
 	/* Construct the AT command */
     sprintf(cmd,"AT+MDNSSRVREG=%s,%s,%s,%s,%s,%s,%s,%s\r\n",pServerName,pServerSubType,pServiceType,pProtocol,pDomain,pPort, pDefaultKey, pKey1);
-	
+
 	return  AtLibGs_CommandSendString(cmd);
 }
 
@@ -5726,7 +5726,7 @@ ATLIBGS_MSG_ID_E  AtLibGs_RegisterMDNSService(char *pServerName, char *pServerSu
  * Description:
  *    This API modify the default adapter uri to the new one. The default URI is /gainspan/profile/mcu.
  *     Also reserved URIs like /gainspan/system cannot be used.
- *    
+ *
  * Inputs:
  *   URI (NULL terminated char array)
  * Outputs:
@@ -5797,7 +5797,7 @@ bool AtLibGs_GetIPAddress(uint8_t* ipAddr)
  *      Sends the command:
  *          ATB=baudrate
  *      and waits for a response.
- *      
+ *
  * Inputs:
  *      Allowed baud rates include: 9600, 19200, 38400, 57600, 115200, 230400,460800 and 921600.
  * Outputs:
