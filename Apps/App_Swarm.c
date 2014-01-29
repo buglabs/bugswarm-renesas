@@ -38,7 +38,9 @@ uint16_t period = NUM_SENSOR;
 #define DWEET_HOST "dweet.io"
 #define DWEET_HOST_FALLBACK_IP "216.178.216.62"
 #define THING_ID_EEPROM_LOC 128
-static char dweetIP[24];
+#define JSON_TOKEN_MAX 20
+
+char dweetIP[24];
 const char postDweetFormat[] = "POST /dweet%s HTTP/1.1\r\nHost: %s\r\nAccept: application/json\r\nContent-Type: application/json\r\nContent-Length: %d\r\n\r\n%s\r\n";
 const char getDweetFormat[] = "GET /get/latest/dweet/for/%s-send HTTP/1.1\r\nHost: %s\r\nAccept: application/json\r\n\r\n";
 
@@ -49,7 +51,13 @@ char	animation[] = " -\0 \\\0 |\0 /\0";
 char    thingID[32];
 char	lastUpdate[32];
 
-char 	msg[512];
+jsmn_parser parser;
+jsmntok_t tokens[JSON_TOKEN_MAX];
+jsmnerr_t jr;
+
+static char dataToSend[256];
+static char 	msg[512];
+
 bool    connected;
 ATLIBGS_TCPMessage tcp_pkt;
 
@@ -165,7 +173,11 @@ void App_SwarmConnector(void)
 				connected = false;
 			}
 			
-			checkData(cid);
+			r = checkData(cid);
+			if (r != ATLIBGS_MSG_ID_OK)
+			{
+				connected = false;
+			}
 			
 			MSTimerDelay(1000);
 		}
@@ -198,44 +210,52 @@ ATLIBGS_MSG_ID_E checkData(uint8_t cid)
 	sprintf(msg, getDweetFormat, thingID, DWEET_HOST);
 	
 	r = AtLibGs_TCPClientStart((char *)dweetIP, 80, &cid);
+	if ((r != ATLIBGS_MSG_ID_OK) || (cid == ATLIBGS_INVALID_CID))
+	{
+		return r;
+	}
 	
+	App_PrepareIncomingData(); 
 	AtLibGs_SendTCPData(cid, (uint8_t *)msg, strlen(msg));
+	if (r != ATLIBGS_MSG_ID_OK)
+	{
+		AtLibGs_Close(cid);
+		return r;
+    }
 	
 	r = AtLibGs_WaitForTCPMessage(5000);
-	if (r != ATLIBGS_MSG_ID_DATA_RX) {
+	if (r != ATLIBGS_MSG_ID_DATA_RX)
+	{
 		AtLibGs_Close(cid);
 		return r;
 	}
+	
 	AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
 	
 	*((char*)tcp_pkt.message[tcp_pkt.numBytes - 1]) = '\0';
 	char* body = strstr(tcp_pkt.message, "\r\n\r\n");
 	
-	jsmn_parser parser;
-	jsmntok_t tokens[40];
-	jsmnerr_t jr;
-	
 	jsmn_init(&parser);
 	
-	jr = jsmn_parse(&parser, body, tokens, 40);
-	if (jr != JSMN_SUCCESS){
+	jr = jsmn_parse(&parser, body, tokens, JSON_TOKEN_MAX);
+	if (jr != JSMN_SUCCESS)
+	{
 		AtLibGs_Close(cid);
 		return ATLIBGS_MSG_ID_OK;
 	}
 	
-	
-	if(getValue(body, tokens, 40, "this", msg) && strcmp(msg, "succeeded") == 0)
+	if(getValue(body, tokens, JSON_TOKEN_MAX, "this", msg) && strcmp(msg, "succeeded") == 0)
 	{
-		if(getValue(body, tokens, 40, "created", msg) && strcmp(msg, lastUpdate) != 0)
+		if(getValue(body, tokens, JSON_TOKEN_MAX, "created", msg) && strcmp(msg, lastUpdate) != 0)
 		{	
 			strcpy(lastUpdate, msg); // Hold on to the update time so we don't re-use this
 			
-			if(getValue(body, tokens, 40, "lcd_text", msg))
+			if(getValue(body, tokens, JSON_TOKEN_MAX, "lcd_text", msg))
 			{
 				DisplayLCD(LCD_LINE7, msg);
 			}
 			
-			if(getValue(body, tokens, 40, "beep", msg))
+			if(getValue(body, tokens, JSON_TOKEN_MAX, "beep", msg))
 			{
 				R_TAU0_Channel0_Freq(1000);
 				R_TAU0_Channel0_Start();
@@ -244,6 +264,8 @@ ATLIBGS_MSG_ID_E checkData(uint8_t cid)
 			}
 		}
 	}
+	
+	AtLibGs_Close(cid);
 	
 	return ATLIBGS_MSG_ID_OK;
 }
@@ -256,9 +278,6 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 	float fValue;
 	extern int16_t gAccData[3];
 	
-	App_PrepareIncomingData();  
-	
-	char dataToSend[256];
 	dataToSend[0] = '{';
 	dataToSend[1] = '\0';
 	
@@ -303,34 +322,45 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 	sprintf(msg, postDweetFormat, thingPath, DWEET_HOST, strlen(dataToSend) + 2, dataToSend);
 	
 	r = AtLibGs_TCPClientStart((char *)dweetIP, 80, &cid);
-	AtLibGs_SendTCPData(cid, (uint8_t *)msg, strlen(msg));
+	if ((r != ATLIBGS_MSG_ID_OK) || (cid == ATLIBGS_INVALID_CID))
+	{
+		return r;
+	}
 	
-	// If we've already parsed our THING, don't bother getting it again.
+	App_PrepareIncomingData(); 
+	r = AtLibGs_SendTCPData(cid, (uint8_t *)msg, strlen(msg));
+	if (r != ATLIBGS_MSG_ID_OK)
+	{
+		AtLibGs_Close(cid);
+		return r;
+    }
+	
+	r = AtLibGs_WaitForTCPMessage(5000);
+	if (r != ATLIBGS_MSG_ID_DATA_RX)
+	{
+		AtLibGs_Close(cid);
+		return r;
+	}
+	
+	AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
+	App_PrepareIncomingData();
+	
+	// If we don't have a thing. Get it.
 	if(thingID[0] == NULL)
 	{ 
-	  r = AtLibGs_WaitForTCPMessage(5000);
-	  if (r != ATLIBGS_MSG_ID_DATA_RX) {
-		  AtLibGs_Close(cid);
-		  return r;
-	  }
-	  AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
-	  
 	  *((char*)tcp_pkt.message[tcp_pkt.numBytes - 1]) = '\0';
 	  char* body = strstr(tcp_pkt.message, "\r\n\r\n");
 	  
-	  jsmn_parser parser;
-	  jsmntok_t tokens[40];
-	  jsmnerr_t jr;
-	  
 	  jsmn_init(&parser);
 	  
-	  jr = jsmn_parse(&parser, body, tokens, 40);
-	  if (jr != JSMN_SUCCESS){
+	  jr = jsmn_parse(&parser, body, tokens, JSON_TOKEN_MAX);
+	  if (jr != JSMN_SUCCESS)
+	  {
 		  AtLibGs_Close(cid);
 		  return ATLIBGS_MSG_ID_OK;
 	  }
 	  
-	  if(getValue(body, tokens, 40, "thing", thingID))
+	  if(getValue(body, tokens, JSON_TOKEN_MAX, "thing", thingID))
 	  {
 		  DisplayLCD(LCD_LINE4, "thing:");
 		  DisplayLCD(LCD_LINE5, thingID);
@@ -344,43 +374,6 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t cid)
 	AtLibGs_Close(cid);
 	
 	return ATLIBGS_MSG_ID_OK;
-}
-
-/*  Read a single packet from the wifi chipset into buff, waiting at least ms  
-If response is greater than len, it will be concatenated and the rest lost!
-resulting length written to 'written' */
-ATLIBGS_MSG_ID_E readResponse(char * buff, int len, int * written, uint32_t ms)
-{
-	ATLIBGS_MSG_ID_E r;
-	
-	r = AtLibGs_WaitForTCPMessage(ms);
-	if (r != ATLIBGS_MSG_ID_DATA_RX)
-	{
-		return r;
-	}
-	AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt); 
-	if (tcp_pkt.numBytes >= len){
-		tcp_pkt.numBytes = len-1;
-		ConsolePrintf("WARN: message greater than %d bytes, concatenated\r\n",len);
-	}
-	memset(buff, '\0', tcp_pkt.numBytes+1);
-	memcpy(buff, tcp_pkt.message, tcp_pkt.numBytes);
-	*written = tcp_pkt.numBytes;
-	//Clear the RX buffer for the next reception.
-	App_PrepareIncomingData();      
-	return ATLIBGS_MSG_ID_OK;
-}
-
-const char * ledValue(int idx)
-{
-	if (led_get(idx) == 1)
-	{
-		return true_val;
-	} 
-	else
-	{
-		return false_val;
-	}
 }
 
 int getValue(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key, char* outValue)

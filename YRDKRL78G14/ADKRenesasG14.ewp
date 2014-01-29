@@ -764,7 +764,7 @@
         </option>
         <option>
           <name>IoEmulation</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>AllowExtraOutput</name>

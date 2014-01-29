@@ -2,7 +2,7 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>2508039871</fileChecksum>
+  <fileChecksum>1740961771</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
@@ -365,10 +365,6 @@
     <file>
       <name>$PROJ_DIR$\..\Apps\App_Swarm.c</name>
       <outputs>
-        <tool>
-          <name>ICCRL78</name>
-          <file> 92</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 110</file>
