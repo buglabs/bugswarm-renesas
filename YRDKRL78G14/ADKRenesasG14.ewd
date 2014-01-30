@@ -57,7 +57,7 @@
         </option>
         <option>
           <name>DebugDDFFile</name>
-          <state>$TOOLKIT_DIR$\CONFIG\DDF\ior5f100le.ddf</state>
+          <state>$TOOLKIT_DIR$\config\debugger\ior5f104pj.ddf</state>
         </option>
         <option>
           <name>DebugCUseExtraOptions</name>
@@ -121,7 +121,7 @@
       <name>E1RL78</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <version>0</version>
+        <version>1</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -144,13 +144,17 @@
           <name>E1DoLogfile</name>
           <state>0</state>
         </option>
+        <option>
+          <name>E1AttachProgram</name>
+          <state>0</state>
+        </option>
       </data>
     </settings>
     <settings>
       <name>E20RL78</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <version>0</version>
+        <version>1</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -171,6 +175,10 @@
         </option>
         <option>
           <name>E20DoLogfile</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>E20AttachProgram</name>
           <state>0</state>
         </option>
       </data>
@@ -272,6 +280,10 @@
         <loadFlag>0</loadFlag>
       </plugin>
       <plugin>
+        <file>$TOOLKIT_DIR$\plugins\rtos\uCOS-III\uCOS-III-KA-CSpy.ewplugin</file>
+        <loadFlag>0</loadFlag>
+      </plugin>
+      <plugin>
         <file>$EW_DIR$\common\plugins\CodeCoverage\CodeCoverage.ENU.ewplugin</file>
         <loadFlag>1</loadFlag>
       </plugin>
@@ -280,12 +292,12 @@
         <loadFlag>0</loadFlag>
       </plugin>
       <plugin>
-        <file>$EW_DIR$\common\plugins\Stack\Stack.ENU.ewplugin</file>
+        <file>$EW_DIR$\common\plugins\SymList\SymList.ENU.ewplugin</file>
         <loadFlag>1</loadFlag>
       </plugin>
       <plugin>
-        <file>$EW_DIR$\common\plugins\SymList\SymList.ENU.ewplugin</file>
-        <loadFlag>1</loadFlag>
+        <file>$EW_DIR$\common\plugins\uCProbe\uCProbePlugin.ENU.ewplugin</file>
+        <loadFlag>0</loadFlag>
       </plugin>
     </debuggerPlugins>
   </configuration>
@@ -408,7 +420,7 @@
       <name>E1RL78</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <version>0</version>
+        <version>1</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>0</debug>
         <option>
@@ -431,13 +443,17 @@
           <name>E1DoLogfile</name>
           <state>0</state>
         </option>
+        <option>
+          <name>E1AttachProgram</name>
+          <state>0</state>
+        </option>
       </data>
     </settings>
     <settings>
       <name>E20RL78</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <version>0</version>
+        <version>1</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>0</debug>
         <option>
@@ -458,6 +474,10 @@
         </option>
         <option>
           <name>E20DoLogfile</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>E20AttachProgram</name>
           <state>0</state>
         </option>
       </data>
@@ -559,6 +579,10 @@
         <loadFlag>0</loadFlag>
       </plugin>
       <plugin>
+        <file>$TOOLKIT_DIR$\plugins\rtos\uCOS-III\uCOS-III-KA-CSpy.ewplugin</file>
+        <loadFlag>0</loadFlag>
+      </plugin>
+      <plugin>
         <file>$EW_DIR$\common\plugins\CodeCoverage\CodeCoverage.ENU.ewplugin</file>
         <loadFlag>1</loadFlag>
       </plugin>
@@ -567,12 +591,12 @@
         <loadFlag>0</loadFlag>
       </plugin>
       <plugin>
-        <file>$EW_DIR$\common\plugins\Stack\Stack.ENU.ewplugin</file>
+        <file>$EW_DIR$\common\plugins\SymList\SymList.ENU.ewplugin</file>
         <loadFlag>1</loadFlag>
       </plugin>
       <plugin>
-        <file>$EW_DIR$\common\plugins\SymList\SymList.ENU.ewplugin</file>
-        <loadFlag>1</loadFlag>
+        <file>$EW_DIR$\common\plugins\uCProbe\uCProbePlugin.ENU.ewplugin</file>
+        <loadFlag>0</loadFlag>
       </plugin>
     </debuggerPlugins>
   </configuration>
