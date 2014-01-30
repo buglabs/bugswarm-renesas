@@ -38,7 +38,7 @@ uint16_t period = NUM_SENSOR;
 #define DWEET_HOST "dweet.io"
 #define DWEET_PORT 80
 #define THING_ID_EEPROM_LOC 128
-#define JSON_TOKEN_MAX 20
+#define JSON_TOKEN_MAX 40
 
 const char true_val[] = "true";
 const char false_val[] = "false";
