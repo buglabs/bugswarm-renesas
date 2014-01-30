@@ -19,7 +19,7 @@
 
 /*******************************************************************************
  * Outline      : EEPROM_Open
- * Description  : 
+ * Description  :
  * Argument     : none
  * Return value : none
  *******************************************************************************/
@@ -58,35 +58,35 @@ uint8_t EEPROM_Write(uint16_t offset, uint8_t *aData, uint16_t aSize)
 
     r.iAddr = EEPROM_ADDR>>1;
     r.iSpeed = 100; /* kHz */
-    
+
     // Write Data in groups of size defined by EEPROM_BYTES_PER_WRITE
     for(i=0; i<aSize; i+=EEPROM_BYTES_PER_WRITE) {
-      
+
         // Data Address in the EEPROM to write to
         writeData[0] = (uint8_t)(i + offset) >> 8;
         writeData[1] = (uint8_t)(i + offset) & 0xFF;
-        
+
         for(j=0; j<EEPROM_BYTES_PER_WRITE; j++) {
             writeData[2+j] = aData[i+j];
         }
-        
+
         if((aSize - i) < EEPROM_BYTES_PER_WRITE)
             bytesToWrite = aSize - i;
         else
             bytesToWrite = EEPROM_BYTES_PER_WRITE;
-        
+
         r.iWriteData = writeData;
         r.iWriteLength = 2+bytesToWrite;
         r.iReadData = 0;
         r.iReadLength = 0;
-    
+
         I2C_Start();
         I2C_Write(&r, 0);
         MSTimerDelay(10); // Part requires a 5ms to process a data write
         while ((I2C_IsBusy()) && (MSTimerDelta(timeout) < EEPROM_TIMEOUT))
             {}
     }
-    
+
     return 0;
 }
 
@@ -94,12 +94,12 @@ uint8_t EEPROM_Write(uint16_t offset, uint8_t *aData, uint16_t aSize)
  * Routine:  EEPROM_Write
  *---------------------------------------------------------------------------*
  * Description:
- *      Write EEPROM 
+ *      Write EEPROM
  * Inputs:
  *      uint16_t    add,
         char *  pBuff
  * Outputs:
- *      
+ *
  *---------------------------------------------------------------------------*/
 void EEPROM_WriteStr(uint16_t addr, char *pdata)
 {
@@ -152,7 +152,7 @@ int16_t EEPROM_Seq_Read(uint16_t addr,uint8_t *pdata, uint16_t r_lenth)
     int16_t result = 0;
 
     target_address[0] = addr & 0xFF00;
-    target_address[1] = addr & 0x00FF;     
+    target_address[1] = addr & 0x00FF;
 
     r.iAddr = EEPROM_ADDR >> 1;
     r.iSpeed = 100;
@@ -189,14 +189,14 @@ uint8_t EEPROM_Read(uint16_t offset, uint8_t *aData, uint16_t aSize)
 
     writeData[0] = (uint8_t)offset>>8;
     writeData[1] = (uint8_t)offset&0xFF;
-    
+
     r.iAddr = EEPROM_ADDR>>1;
     r.iSpeed = 100;
     r.iWriteData = writeData;
     r.iWriteLength = 2;
     r.iReadData = aData;
     r.iReadLength = aSize;
-    
+
     I2C_Start();
     I2C_Write(&r, 0);
     while ((I2C_IsBusy()) && (MSTimerDelta(timeout) < EEPROM_TIMEOUT))
@@ -226,35 +226,35 @@ uint8_t EEPROM_Erase(uint16_t offset, uint16_t aSize)
 
     r.iAddr = EEPROM_ADDR>>1;
     r.iSpeed = 100; /* kHz */
-    
+
     // Write Data in groups of size defined by EEPROM_BYTES_PER_WRITE
     for(i=0; i<aSize; i+=EEPROM_BYTES_PER_WRITE) {
-      
+
         // Data Address in the EEPROM to write to
-        writeData[0] = (uint8_t)(i + offset)<<8;
-        writeData[1] = (uint8_t)(i + offset);
-        
+        writeData[0] = (uint8_t)(i + offset) >> 8;
+        writeData[1] = (uint8_t)(i + offset) & 0xFF;
+
         for(j=0; j<EEPROM_BYTES_PER_WRITE; j++) {
             writeData[2+j] = 0x00;
         }
-        
+
         if((aSize - i) < EEPROM_BYTES_PER_WRITE)
             bytesToWrite = aSize - i;
         else
             bytesToWrite = EEPROM_BYTES_PER_WRITE;
-        
+
         r.iWriteData = writeData;
         r.iWriteLength = 2+bytesToWrite;
         r.iReadData = 0;
         r.iReadLength = 0;
-    
+
         I2C_Start();
         I2C_Write(&r, 0);
         MSTimerDelay(5); // Part requires a 5ms to process a data write
         while ((I2C_IsBusy()) && (MSTimerDelta(timeout) < 10))
             {}
     }
-    
+
     return 0;
 }
 
@@ -265,21 +265,21 @@ bool EEPROM_Test()
     uint8_t writeData[EEPROM_TEST_BUFFER_SIZE];
     uint8_t readData[EEPROM_TEST_BUFFER_SIZE];
     uint16_t i;
-    
+
     for(i=0; i<EEPROM_TEST_BUFFER_SIZE; i++){
         writeData[i] = i;
     }
-    
+
     EEPROM_Read(EEPROM_TEST_DATA_ADDR, readData, EEPROM_TEST_BUFFER_SIZE);
     EEPROM_Write(EEPROM_TEST_DATA_ADDR, writeData, EEPROM_TEST_BUFFER_SIZE);
     EEPROM_Read(EEPROM_TEST_DATA_ADDR, readData, EEPROM_TEST_BUFFER_SIZE);
-    
+
     for(i=0; i<EEPROM_TEST_BUFFER_SIZE; i++){
         if(writeData[i] != readData[i]){
             return false;
         }
     }
-    
+
     return true;
 }
 
