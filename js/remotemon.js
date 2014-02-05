@@ -404,7 +404,7 @@ $(document).ready(function() {
       $('#durval').html(ui.value);
     });
     
-    setInterval(function(){updateUI;},1000);
+    setInterval(updateUI,1000);
 
     SWARM.connect({
       apikey: API_KEY,
