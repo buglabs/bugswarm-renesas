@@ -227,6 +227,22 @@ function changeTemp(temp) {
 
 google.setOnLoadCallback(drawGauge);
 
+function updateUI() {
+        if (accelX.length > xAxisLength){
+            accelX.shift();
+            accelY.shift();
+            accelZ.shift();
+        }
+        accelPlot = $.plot($('#accelChart'), [ accelX, accelY, accelZ ], accelOptions);
+        if (light.length > xAxisLength){
+            light.shift();
+        }
+        lightPlot = $.plot($('#lightChart'), [ light ], plotOptions);
+        if (pot.length > xAxisLength){
+            pot.shift();
+        }
+        potPlot = $.plot($('#potChart'), [ pot ], potOptions);
+}
 
 function onMessage(message) {
     if (message.from.resource !== selectedResource){
@@ -242,37 +258,33 @@ function onMessage(message) {
         accelX.push([(currentTime-startTime)/1000,payload.feed.x]);
         accelY.push([(currentTime-startTime)/1000,payload.feed.y]);
         accelZ.push([(currentTime-startTime)/1000,payload.feed.z]);
+        /*
         if (accelX.length > xAxisLength){
             accelX.shift();
             accelY.shift();
             accelZ.shift();
         }
         accelPlot = $.plot($('#accelChart'), [ accelX, accelY, accelZ ], accelOptions);
+        */
     } else if (payload.name === "Temperature"){
         //console.log('temp: '+payload.feed.TempF);
         temp.push([(currentTime-startTime)/1000,payload.feed.TempF]);
-/*        if (temp.length > xAxisLength){
-            temp.shift();
-        }
-*/
-    changeTemp(Math.round(payload.feed.TempF*100)/100);
+	    changeTemp(Math.round(payload.feed.TempF*100)/100);
 
-
-        //tempPlot = $.plot($('#tempChart'), [ temp ], plotOptions);
     } else if (payload.name === "Light"){
         //console.log('light: '+payload.feed.Value);
         light.push([(currentTime-startTime)/1000,payload.feed.Value]);
-        if (light.length > xAxisLength){
-            light.shift();
-        }
-        lightPlot = $.plot($('#lightChart'), [ light ], plotOptions);
+//         if (light.length > xAxisLength){
+//             light.shift();
+//         }
+//         lightPlot = $.plot($('#lightChart'), [ light ], plotOptions);
     } else if (payload.name === "Potentiometer"){
         //console.log('Potentiometer: '+payload.feed.Raw);
         pot.push([(currentTime-startTime)/1000,payload.feed.Raw]);
-        if (pot.length > xAxisLength){
-            pot.shift();
-        }
-        potPlot = $.plot($('#potChart'), [ pot ], potOptions);
+//         if (pot.length > xAxisLength){
+//             pot.shift();
+//         }
+//         potPlot = $.plot($('#potChart'), [ pot ], potOptions);
     } else if (payload.name === "Button"){
         $('#b1').html(payload.feed.b1);
         $('#b2').html(payload.feed.b2);
@@ -290,14 +302,6 @@ function onMessage(message) {
         }
       }
     }
-   //var payload = JSON.parse(message).message.payload;
-   //console.log('Got data '+JSON.stringify(payload));
-      //$.each(payload, function(key, value) {
-      //   $('span#'+key).text(value);
-      //   if (key == "Temperature"){
-      //      if (tempdata.length > xAxisLength)
-      //         tempdata.shift();
-      //   }
 }
 
 
@@ -399,6 +403,8 @@ $(document).ready(function() {
     }).on("slide", function(event, ui) {
       $('#durval').html(ui.value);
     });
+    
+    setInterval(function(){updateUI;},1000);
 
     SWARM.connect({
       apikey: API_KEY,
