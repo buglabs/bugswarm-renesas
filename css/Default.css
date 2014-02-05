@@ -135,7 +135,7 @@ h3 {text-align: left; background-color:#333; padding-left:7px; padding-top:5px; 
 #sortableLeft {
 float: left;
 width:50%;
-text-alight: left;
+text-align: left;
   position: relative ;
   margin-left:0; padding-left:0;
   /*left: 10px;*/
@@ -143,11 +143,11 @@ text-alight: left;
 #sortableLeft li{background: rgba(50,50,50,0.5); padding:0px 0px 0px 0px; list-style: none;}
 
 #sortableRight {
-	  float: left;
-	  width: 50%;
-  position: relative ;
-  left: 75px;
-  margin-left:0; padding-left:0;
+	float: left;
+	width: 50%;
+	position: relative ;
+	left: 75px;
+	margin-left:0; padding-left:0;
 }
 
 #sortableRight li{background: rgba(50,50,50,0.5); padding:0px 0px 0px 0px; list-style: none;}
