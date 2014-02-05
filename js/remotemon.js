@@ -251,7 +251,7 @@ function onMessage(message) {
     var currentTime = (new Date()).getTime();
     var payload = message.payload;
     if (!("name" in payload)){
-      //console.log('data -> '+JSON.stringify(message));
+      console.log('data -> '+JSON.stringify(message));
     } else if (payload.name === "Acceleration"){
 
         //console.log('accel: '+payload.feed.x+','+payload.feed.y+','+payload.feed.z);
