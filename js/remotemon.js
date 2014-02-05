@@ -258,14 +258,7 @@ function onMessage(message) {
         accelX.push([(currentTime-startTime)/1000,payload.feed.x]);
         accelY.push([(currentTime-startTime)/1000,payload.feed.y]);
         accelZ.push([(currentTime-startTime)/1000,payload.feed.z]);
-        /*
-        if (accelX.length > xAxisLength){
-            accelX.shift();
-            accelY.shift();
-            accelZ.shift();
-        }
-        accelPlot = $.plot($('#accelChart'), [ accelX, accelY, accelZ ], accelOptions);
-        */
+
     } else if (payload.name === "Temperature"){
         //console.log('temp: '+payload.feed.TempF);
         temp.push([(currentTime-startTime)/1000,payload.feed.TempF]);
@@ -274,17 +267,11 @@ function onMessage(message) {
     } else if (payload.name === "Light"){
         //console.log('light: '+payload.feed.Value);
         light.push([(currentTime-startTime)/1000,payload.feed.Value]);
-//         if (light.length > xAxisLength){
-//             light.shift();
-//         }
-//         lightPlot = $.plot($('#lightChart'), [ light ], plotOptions);
+
     } else if (payload.name === "Potentiometer"){
         //console.log('Potentiometer: '+payload.feed.Raw);
         pot.push([(currentTime-startTime)/1000,payload.feed.Raw]);
-//         if (pot.length > xAxisLength){
-//             pot.shift();
-//         }
-//         potPlot = $.plot($('#potChart'), [ pot ], potOptions);
+
     } else if (payload.name === "Button"){
         $('#b1').html(payload.feed.b1);
         $('#b2').html(payload.feed.b2);
