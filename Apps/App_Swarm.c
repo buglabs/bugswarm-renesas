@@ -1,4 +1,3 @@
-
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -28,7 +27,8 @@
 #define CAPABILITIES_PERIOD 10000
 #define MAX_PROD_ERRORS 5
 
-#define CLIENT_VER	"Swarm Client R0.6.1"
+// Newest client, pointing to Staging.  Change to 1.0.0 when ready to point to Production
+#define CLIENT_VER	"Swarm Client R0.9.9"
 /*-------------------------------------------------------------------------*
  * Constants:
  *-------------------------------------------------------------------------*/
