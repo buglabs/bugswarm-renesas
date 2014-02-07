@@ -265,12 +265,17 @@ void GainSpan_SPI_Update(uint8_t channel)
                 /* Is there more data to send? */
                 if (G_GainSpan_SPI_TXIn != G_GainSpan_SPI_TXOut) {
                     /* There is data to send, how many contiguous bytes can we send */
+#if 0
                     if (G_GainSpan_SPI_TXIn > G_GainSpan_SPI_TXOut) {
                         numBytes = G_GainSpan_SPI_TXIn - G_GainSpan_SPI_TXOut;
                     } else {
                         numBytes = GAINSPAN_SPI_TX_BUFFER_SIZE
                                 - G_GainSpan_SPI_TXOut;
                     }
+#endif
+
+                    // NOTE: the module wants only 1 byte per chip select cycle
+                    numBytes = 1;
 
                     /* Remember how many bytes were sent in this transfer so */
                     /* the returned bytes can be processed later */

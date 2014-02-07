@@ -134,7 +134,7 @@ void App_StartupLimitedAP(char *mySSID)
            r = AtLibGs_Version();                        // check the GS version
         }while (ATLIBGS_MSG_ID_OK != r);
 
-        if(strstr((const char *)MRBuffer, "3.4."))       // This is a GS1500 2.2 version
+        if(strstr((const char *)MRBuffer, "3.4.") || strstr((const char *)MRBuffer, "3.5."))      // This is a GS1500 2.2 version
         {
           r = AtLibGs_ConfigAntenna(1);                  // set to PCB antenna
            if (r != ATLIBGS_MSG_ID_OK) {
@@ -204,6 +204,10 @@ void App_aClientConnection(void)
     AtLibGs_DisAssoc();
     while (1) 
     {  
+      do{  
+             rxMsgId = AtLibGs_EnableRadio(1);                       // enable radio      
+      }while(rxMsgId != ATLIBGS_MSG_ID_OK);
+        
       rxMsgId = AtLibGs_Mode(ATLIBGS_STATIONMODE_INFRASTRUCTURE);
       if (rxMsgId != ATLIBGS_MSG_ID_OK) 
       {
@@ -308,7 +312,7 @@ void App_aClientConnection(void)
           AtLibGs_GetIPAddress((uint8_t*) str_config_ssid);           // we just reuse the buffer to get IP address
           
           DisplayLCD(LCD_LINE4, (const uint8_t *)str_config_ssid);
-          //DisplayLCD(LCD_LINE5, (const uint8_t *)&str_config_ssid[12]);
+          DisplayLCD(LCD_LINE5, (const uint8_t *)&str_config_ssid[12]);
           break;
         }  
      }
@@ -541,6 +545,7 @@ void App_StartupADKDemo(uint8_t isLimiteAPmode)
         {
           DisplayLCD(LCD_LINE3, (const uint8_t *) "192.168.240.");
           DisplayLCD(LCD_LINE4, (const uint8_t *) "1/rdk.html");
+          
           r = AtLibGs_GetMAC(WiFiMAC);
           if(r != ATLIBGS_MSG_ID_OK)
           {

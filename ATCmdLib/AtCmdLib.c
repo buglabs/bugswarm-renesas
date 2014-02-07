@@ -35,7 +35,7 @@ int atoi ( const char * str );
 #endif
 
 const char  str_URL[32] = "/gainspan/profile/mcu";
-const char  str_rootTag[16]= "renesas_tla";
+const char  str_rootTag[16]= "renesas_tla"; // "nxp_tla"; //"renesas_tla";
 
 /*-------------------------------------------------------------------------*
  * Globals:
@@ -2711,16 +2711,6 @@ void AtLibGs_ParseHTTPData(
     }
 }
 
-/*---------------------------------------------------------------------------*
- * Routine:  AtLibGs_ReceiveDataProcess
- *---------------------------------------------------------------------------*
- * Description:
- *      Process individually received characters
- * Inputs:
- *      uint8_t rxData -- Character to process
- * Outputs:
- *      ATLIBGS_MSG_ID_E -- error code
- *---------------------------------------------------------------------------*/
 #if 1
 int stricmp(const char *s1, const char *s2)
 {
@@ -2821,6 +2811,7 @@ extern uint8_t		gSetLight_onoff;
 //extern const char  str_URL[32];
 //extern const char  str_rootTag[16];
 // extern enum { TEMP_MODE_F, TEMP_MODE_C };
+
 void AtLib_GSLinkSendTempValue( int8_t *pTag, uint8_t cid)
 {
     uint32_t command_length;   char  dataBuf[25];
@@ -2943,6 +2934,17 @@ const char ledTag[5]="leds";
 const char ssidTag[5]="ssid";
 const char channelTag[5]="chanl";
 int valueLen;
+
+/*---------------------------------------------------------------------------*
+ * Routine:  AtLibGs_ReceiveDataProcess
+ *---------------------------------------------------------------------------*
+ * Description:
+ *      Process individually received characters
+ * Inputs:
+ *      uint8_t rxData -- Character to process
+ * Outputs:
+ *      ATLIBGS_MSG_ID_E -- error code
+ *---------------------------------------------------------------------------*/
 ATLIBGS_MSG_ID_E AtLibGs_ReceiveDataProcess(uint8_t rxData)
 {
     /* receive data handling state */
