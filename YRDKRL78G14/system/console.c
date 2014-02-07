@@ -42,13 +42,13 @@ void ConsolePrintf(const char *format, ...)
 
     /* Output the parameters into a string */
     //vsprintf((char *)buffer, format, args);
-	vsnprintf((char *)buffer, CONSOLE_BUFFER_SIZE-1, format, args);
+    vsnprintf((char *)buffer, CONSOLE_BUFFER_SIZE-1, format, args);
 
     /* Output the string to the console */
     p = buffer;
     while (*p) {
         if (*p == '\n')
-            UART1_SendByte('\r');
+            UART0_SendByte('\r');
         UART1_SendByte(*p);
         if (*p == '\n')
             while (!UART1_IsTransmitEmpty()) {

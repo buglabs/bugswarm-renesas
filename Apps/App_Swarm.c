@@ -1,4 +1,3 @@
-
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -28,7 +27,8 @@
 #define CAPABILITIES_PERIOD 10000
 #define MAX_PROD_ERRORS 5
 
-#define CLIENT_VER	"Swarm Client R0.6.1"
+// Newest client, pointing to Staging.  Change to 1.0.0 when ready to point to Production
+#define CLIENT_VER	"Swarm Client R0.9.9"
 /*-------------------------------------------------------------------------*
  * Constants:
  *-------------------------------------------------------------------------*/
@@ -36,7 +36,9 @@ uint16_t period = NUM_SENSOR;
 
 /*  Default swarm connection parameters  */
 
-const char SwarmHost[] = "107.20.250.52";  //api.bugswarm.
+//const char SwarmHost[] = "107.20.250.52";  //production
+const char SwarmHost[] = "54.197.232.67"; //staging
+//const char SwarmHost[] = "192.168.1.14"; //development
 //const char SwarmHost[] = "192.168.11.230";  //api.bugswarm.
 //These parameters must be hardcoded, are not retrieved.
 const char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
@@ -192,16 +194,17 @@ void App_SwarmConnector(void) {
 		DisplayLCD(LCD_LINE8, "Contacting Swarm");
 
 		r = createProductionSession(&cid, 
-									 (char *)SwarmHost,
-									 (char *)prod_swarm_id,
-									 (char *)cons_swarm_id,
-									 (char *)resource_id,
-									 (char *)participation_key);
+                                            (char *)SwarmHost,
+                                            (char *)prod_swarm_id,
+                                            (char *)cons_swarm_id,
+                                            (char *)resource_id,
+                                            (char *)participation_key);
 		if (r != ATLIBGS_MSG_ID_OK) {
 			ConsolePrintf("Unable to open production session (%02X), retrying\n",r);
 			DisplayLCD(LCD_LINE8, "produce socket err");
 			connected = false;
 			MSTimerDelay(10000);		//TODO - exponential backoff
+                        
 			continue;
 		}
 		ConsolePrintf("Connected to Swarm\n");
@@ -213,7 +216,15 @@ void App_SwarmConnector(void) {
 		connected = true;
 		while (connected) {
 			r = App_SwarmProducer(cid);
-			if (r != ATLIBGS_MSG_ID_OK){
+			if (r != ATLIBGS_MSG_ID_OK) {
+                          if (r == ATLIBGS_MSG_ID_RESPONSE_TIMEOUT) {
+                            ConsolePrintf("\n Timeout producing in Swarm!\n");
+                          }
+                          
+                          if (r == ATLIBGS_MSG_ID_DATA_RX) {
+                            ConsolePrintf("\n DATA_RX !!! IT SHOULDN'T CLOSE THE CONNECTION\n");
+                          }
+                                ConsolePrintf("\n Result -> %d\n", r);
 				DisplayLCD(LCD_LINE8, "Disconnected");
 				connected = false;
 			}
@@ -329,7 +340,7 @@ ATLIBGS_MSG_ID_E makeAPIPOST(uint8_t * cid, char * buff, const char *format, ...
 	int len;
 	int pos;
 	va_list args;
-    va_start(args, format);
+        va_start(args, format);
 	char * contentlen;
 	char * headerend;
 	
@@ -432,7 +443,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	ConsolePrintf("%0.1fC %0.1fF\r\n", temp, tempF);
 	r = produce(cid, "{\"name\":\"Temperature\",\"feed\":{\"TempF\":%0.2f}}",
 				tempF);
-	if (r > 1)
+	if (r != ATLIBGS_MSG_ID_OK)
 		return r;
 	readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 
@@ -441,7 +452,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	ConsolePrintf("%u\r\n", value);
 	r = produce(cid, "{\"name\":\"Light\",\"feed\":{\"Value\":%u}}",
 				value);
-	if (r > 1)
+	if (r != ATLIBGS_MSG_ID_OK)
 		return r;
 	sprintf(msg, "T: %0.2fF, L: %u",tempF, value);
 	//DisplayLCD(LCD_LINE5, msg);
@@ -453,7 +464,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	r = produce(cid, "{\"name\":\"Acceleration\","
 				"\"feed\":{\"x\":%0.2f,\"y\":%0.2f,\"z\":%0.2f}}",
 				(float)gAccData[0]/33.0, (float)gAccData[1]/33.0, (float)gAccData[2]/30.0);
-	if (r > 1)
+	if (r != ATLIBGS_MSG_ID_OK)
 		return r;
 	sprintf(msg, "A(%0.2f,%0.2f,%0.2f)",
 			(float)gAccData[0]/33.0, (float)gAccData[1]/33.0, (float)gAccData[2]/30.0);
@@ -468,7 +479,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	r = produce(cid, "{\"name\":\"Sound Level\",\"feed\":{\"Raw\":%u}}",
 				mic_level);
 	mic_level = 0;
-	if (r > 1)
+	if (r != ATLIBGS_MSG_ID_OK)
 		return r;
 	readForAtLeast(cid, UPDATE_PERIOD/NUM_SENSOR);
 
@@ -478,7 +489,7 @@ ATLIBGS_MSG_ID_E App_SwarmProducer(uint8_t cid) {
 	ConsolePrintf("%u, %04x\r\n", value/4, value);
 	r = produce(cid, "{\"name\":\"Potentiometer\",\"feed\":{\"Raw\":%u}}",
 				value/4);
-	if (r > 1)
+	if (r != ATLIBGS_MSG_ID_OK)
 		return r;
 	sprintf(msg, "P: %u M: %u", value/4, mic_level);
 	//DisplayLCD(LCD_LINE7, msg);
@@ -498,12 +509,13 @@ ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...) {
 	va_list args;
 	int len;
 	int pos;
+        int r;
 
 	va_start(args, format);
 	len = sprintf((char *)msg, payload_start, prod_swarm_id);
 	len += vsprintf((char *)msg+len, format, args);
 	len += sprintf((char *)msg+len, payload_end);
-    pos = sprintf(msg, "%x\r\n", len-2);
+        pos = sprintf(msg, "%x\r\n", len-2);
 	
 	len = sprintf((char *)msg+pos, payload_start, prod_swarm_id);
 	len += vsprintf((char *)msg+pos+len, format, args);
@@ -511,9 +523,14 @@ ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...) {
 	msg[pos] = '{';
 
 	//len = sprintf(pkt, message_header, len+sizeof(message_header)-9, msg);
-	ConsolePrintf("Sending: *%s*", msg);
+	//ConsolePrintf("Sending: *%s*", msg);
 	tx++;
-	return AtLibGs_SendTCPData(cid, (uint8_t *)msg, len+pos);
+        r = AtLibGs_SendTCPData(cid, (uint8_t *)msg, len+pos);
+        if ( r == ATLIBGS_MSG_ID_DATA_RX) {
+            r = ATLIBGS_MSG_ID_OK;
+        }
+        
+	return r; 
 }
 
 /*  Open a new socket to the swarm server and establish a streaming connection.
@@ -521,28 +538,29 @@ ATLIBGS_MSG_ID_E produce(uint8_t cid, const char *format, ...) {
 ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid, 
                                          char * hostIP,
                                          char * prod_swarm_id,
-										 char * cons_swarm_id,
+					 char * cons_swarm_id,
                                          char * resource_id,
                                          char * participation_key) {
 	ATLIBGS_MSG_ID_E r;
 	int len;
 
-	/*//Connect to Wifi if we are not connected.
-	if (!AtLibGs_IsNodeAssociated()) {
-		ConsolePrintf("Connecting to %s...",G_nvsettings.webprov.ssid);
-		r = App_Connect(&G_nvsettings.webprov);
-		ConsolePrintf(" %d\r\n",r);
-		//TODO - verify connection attempt against enum
-	}*/
-
 	//Open a new socket to the swarm server
 	ConsolePrintf("Attempting to connect to %s:%d ...",hostIP, 80);
 	App_PrepareIncomingData();    
 	r = AtLibGs_TCPClientStart(hostIP, 80, cid);
-	ConsolePrintf(" %d,%d\r\n",r,(*cid));
+        
+	ConsolePrintf("r: %d, cid: %d\r\n",r,(*cid));
 	if ((r != ATLIBGS_MSG_ID_OK) || ((*cid) == ATLIBGS_INVALID_CID)){
 		ConsolePrintf("Unable to connect to TCP socket\r\n");
 		DisplayLCD(LCD_LINE8, "produce socket err");
+                
+                //ATLIBGS_NetworkStatus ns;
+                
+                //AtLibGs_GetNetworkStatus(&ns);
+                //if (ns.connected == 0) {
+                  
+                 //  AtLibGs_Reset();
+                //}
 		return r;
 	}
 	//Clear the RX buffer in anticipation of the response  
@@ -626,10 +644,10 @@ void readForAtLeast(uint8_t cid, uint32_t ms){
 		   (MSTimerGet() < end)){
 		//ConsolePrintf("%lu-%lu-%d \n", end, MSTimerGet(), (end > MSTimerGet()));
 		//ConsolePrintf("%08lX\n",MSTimerGet());
-		r = AtLibGs_ReceiveDataHandle(10);
+		r = AtLibGs_ReceiveDataHandle(500);
 		//SOCKET_FAIL seems to be thrown on disconnect...
 		if ((r == ATLIBGS_MSG_ID_DISCONNECT)||(r == ATLIBGS_MSG_ID_ERROR_SOCKET_FAIL)) {
-			//ConsolePrintf("Socket disconnected!\n");
+			ConsolePrintf("Socket disconnected!\n");
 			connected = false;
 		} else if (r == ATLIBGS_MSG_ID_DATA_RX) {
 			AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
@@ -691,7 +709,7 @@ void parseMessage(char * pkt, uint8_t cid){
 
 	jsmn_init(&parser);
 
-	//ConsolePrintf("\n*(%u)%s*",strlen(pkt),pkt);
+	ConsolePrintf("\n%u=>%s<=\r\n",strlen(pkt),pkt);
 	
 	jsonpos = strchr(pkt, '{');
 	if (jsonpos == NULL) {
@@ -701,7 +719,7 @@ void parseMessage(char * pkt, uint8_t cid){
 	
 	jr = jsmn_parse(&parser, jsonpos, tokens, 40);
 	if (jr != JSMN_SUCCESS){
-		ConsolePrintf("Error parsing json: %d\r\n", jr);
+		ConsolePrintf("\nError parsing json: %d\r\n", jr);
 		return;
 	}
 
@@ -787,7 +805,7 @@ void parseMessage(char * pkt, uint8_t cid){
 		//doDemo(val);
 		setLogo(val);
 	} else if (strncmp(tokpos, "Beep", 4) == 0) {
-		//ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
+		ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
 		ret = findKey(jsonpos, tokens, 40, "freq");
 		if (ret < 0)
 			return;
