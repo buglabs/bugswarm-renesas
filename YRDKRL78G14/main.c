@@ -63,13 +63,12 @@ __root const uint8_t secuid[10] =
 /* Application Modes */
 typedef enum {
     GAINSPAN_DEMO=0,      //   0 0 0
-    RUN_EXOSITE,          //   0 0 1
+    SWARM_CONN_MODE,      //   0 0 1
     RUN_PROVISIONING,     //   0 1 0
     PROGRAM_MODE,         //   0 1 1
     RUN_PROBE,            //   1 0 0
     GAINSPAN_CLIENT,      //   1 0 1
     SPI_PT_MODE,          //   1 1 0
-    SWARM_CONN_MODE       //   1 1 1        RUN_BugLab
 }AppMode_T;
 
 typedef enum {
@@ -98,7 +97,6 @@ typedef union {
 } temp_u;
 extern void SPI2_Init(void);
 extern void SPI_Init(uint32_t bitsPerSecond);
-extern void App_Exosite(void);
 extern void App_WebProvisioning_OverAirPush(void);
 extern void App_StartupADKDemo(uint8_t isLimiteAPmode);
 extern int LimitedAP_TCP_SereverBulkMode(void);
@@ -116,7 +114,7 @@ int  main(void)
 	//AppMode = SWARM_CONN_MODE;
    
     /* Determine SW1, SW2 & SW3 is pressed at power up to dertmine which demo will run  */
-    if(Switch1IsPressed() && Switch2IsPressed() && Switch3IsPressed()) 
+    if(Switch1IsPressed()) 
     {
          AppMode = SWARM_CONN_MODE;
     }
@@ -131,10 +129,6 @@ int  main(void)
     else if(Switch2IsPressed() && Switch3IsPressed())
     {
         AppMode = SPI_PT_MODE;                      // run as the Gainspan Eval board
-    }
-    else if(Switch1IsPressed())
-    {
-        AppMode = RUN_EXOSITE;
     }
     else if(Switch2IsPressed())
     {
@@ -176,7 +170,7 @@ int  main(void)
         DisplayLCD(LCD_LINE4, "   Wi-Fi & Cloud   ");
         DisplayLCD(LCD_LINE5, "     demos by:     ");
         DisplayLCD(LCD_LINE6, "Gainspan           ");
-        DisplayLCD(LCD_LINE7, "Exosite            ");
+        DisplayLCD(LCD_LINE7, "BugLabs            ");
         DisplayLCD(LCD_LINE8, "Future Designs, Inc");
         MSTimerDelay(3500);
         ClearLCD();
@@ -184,7 +178,7 @@ int  main(void)
         DisplayLCD(LCD_LINE2, "-RST no key:       ");
         DisplayLCD(LCD_LINE3, "   GS Web Server   ");
         DisplayLCD(LCD_LINE4, "-RST + SW1:        ");
-        DisplayLCD(LCD_LINE5, "   Exosite Cloud   ");
+        DisplayLCD(LCD_LINE5, "   Swarm Cloud     ");
         DisplayLCD(LCD_LINE6, "-RST + SW2:        ");
         DisplayLCD(LCD_LINE7, "Provisioning & OTA ");
         DisplayLCD(LCD_LINE8, "-RST + SW3: uCProbe");
@@ -194,14 +188,7 @@ int  main(void)
         LCDSelectFont(FONT_LARGE);
     }
 
-    if (AppMode == RUN_EXOSITE)
-    {          
-        DisplayLCD(LCD_LINE1, " CLOUD DEMO ");
-        Temperature_Init();
-        Potentiometer_Init();  
-        App_Exosite();                                  // Run the Exosite cloud demo
-    }
-    else if(AppMode == RUN_PROVISIONING)
+    if(AppMode == RUN_PROVISIONING)
     {
       App_WebProvisioning_OverAirPush();               // run provisioning and over air upgrade
     }
@@ -211,9 +198,9 @@ int  main(void)
     }
     else if (AppMode == SWARM_CONN_MODE )
     {
-		LCDSelectFont(FONT_SMALL);
-       DisplayLCD(LCD_LINE1, "BugLab Demo");           // Run the BugLab cloud demo.                              
-	   App_SwarmConnector();
+        LCDSelectFont(FONT_SMALL);
+        DisplayLCD(LCD_LINE1, "BugLabs Demo");           // Run the BugLabs cloud demo.                              
+	App_SwarmConnector();
     }
     else
     {
