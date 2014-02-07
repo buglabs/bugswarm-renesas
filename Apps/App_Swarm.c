@@ -1,3 +1,16 @@
+/*-------------------------------------------------------------------------*
+ * File:  App_Swarm.c
+ *-------------------------------------------------------------------------*
+ * Description:
+ * Swarm connector DEMO for RL78 boards. It connects to Swarm servers and exposes
+ * the board's sensor information in "realtime", inside a Swarm. For 
+ * production systems, please go to www.bugswarm.com and create your own account
+ * and API Keys. 
+ * 
+ * For more technical information about Swarm, please go to 
+ * http://developer.bugswarm.net
+ *-------------------------------------------------------------------------*/
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
