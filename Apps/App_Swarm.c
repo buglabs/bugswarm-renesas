@@ -716,7 +716,7 @@ void parseMessage(char * pkt, uint8_t cid){
 	int start;
 	int end;
 	jsmn_parser parser;
-	jsmntok_t tokens[40];
+	jsmntok_t tokens[256];
 	jsmnerr_t jr;
 	int val;
 
@@ -730,19 +730,19 @@ void parseMessage(char * pkt, uint8_t cid){
 	}
 	//ConsolePrintf("\n%s\n",jsonpos);
 	
-	jr = jsmn_parse(&parser, jsonpos, tokens, 40);
+	jr = jsmn_parse(&parser, jsonpos, tokens, 256);
 	if (jr != JSMN_SUCCESS){
 		ConsolePrintf("\nError parsing json: %d\r\n", jr);
 		return;
 	}
 
-	ret = findKey(jsonpos, tokens, 40, "name");
+	ret = findKey(jsonpos, tokens, 256, "name");
 	if ((ret < 0) || (tokens[ret+1].type != JSMN_STRING)) {
 		ConsolePrintf("Couldn't find Name of feed\n");
 		return;
 	}
 	tokpos = jsonpos+tokens[ret+1].start;
-	ret = findKey(jsonpos, tokens, 40, "feed");
+	ret = findKey(jsonpos, tokens, 256, "feed");
 	if ((ret < 0) || (tokens[ret+1].type != JSMN_OBJECT)) {
 		ConsolePrintf("Couldn't find Feed in payload\n");
 		return;
@@ -751,7 +751,7 @@ void parseMessage(char * pkt, uint8_t cid){
 	end = tokens[ret+1].end;
 	if (strncmp(tokpos, "LED", 3) == 0) {
 		//ConsolePrintf("LED command: %s\n", jsonpos+tokens[ret+1].start);
-		for (int i=0;i<40;i++){
+		for (int i=0;i<256;i++){
 			if (tokens[i].type == JSMN_STRING) {
 				if ((tokens[i].start < start)||(tokens[i].end > end))
 					continue;
@@ -775,7 +775,7 @@ void parseMessage(char * pkt, uint8_t cid){
 			ledValue(5), ledValue(6), ledValue(7), ledValue(8), ledValue(9),
 			ledValue(10), ledValue(11), ledValue(12));
 	} else if (strncmp(tokpos, "LCD", 3) == 0) {
-		ret = findKey(jsonpos, tokens, 40, "text");
+		ret = findKey(jsonpos, tokens, 256, "text");
 		if (ret < 0)
 			return;
 		tokpos = jsonpos+tokens[ret+1].start;
@@ -809,7 +809,7 @@ void parseMessage(char * pkt, uint8_t cid){
 			}
 		}*/
 		//Instead, use doDemo, which is tested but limited.
-		ret = findKey(jsonpos, tokens, 40, "demo");
+		ret = findKey(jsonpos, tokens, 256, "demo");
 		if (ret < 0)
 			return;
 		tokpos = jsonpos+tokens[ret+1].start;
@@ -819,14 +819,14 @@ void parseMessage(char * pkt, uint8_t cid){
 		setLogo(val);
 	} else if (strncmp(tokpos, "Beep", 4) == 0) {
 		ConsolePrintf("Beep command: %s\n", jsonpos+tokens[ret+1].start);
-		ret = findKey(jsonpos, tokens, 40, "freq");
+		ret = findKey(jsonpos, tokens, 256, "freq");
 		if (ret < 0)
 			return;
 		tokpos = jsonpos+tokens[ret+1].start;
 		val = atoi(tokpos);
 		ConsolePrintf("Beep at Freq %d ", val);
 		R_TAU0_Channel0_Freq(val);
-		ret = findKey(jsonpos, tokens, 40, "duration");
+		ret = findKey(jsonpos, tokens, 256, "duration");
 		if (ret < 0)
 			return;
 		tokpos = jsonpos+tokens[ret+1].start;
