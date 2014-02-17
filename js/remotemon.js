@@ -346,6 +346,12 @@ $(document).ready(function() {
         pot = [];
         var toswarms = [{swarm: "5dbaf819af6eeec879a1a1d6c388664be4595bb3",
                           resource: selectedResource}];
+        
+        //send message to retrieve LED statuses
+        var message = {name: 'LED', feed:{}};
+        message.feed[15] = (false);
+        SWARM.send(message, toswarms);                          
+
         $('#sendbuzzer').click(function(e) {
           SWARM.send({
             name: 'Beep',
