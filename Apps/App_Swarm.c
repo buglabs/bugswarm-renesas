@@ -49,8 +49,8 @@ uint16_t period = NUM_SENSOR;
 
 /*  Default swarm connection parameters  */
 
-//const char SwarmHost[] = "107.20.250.52";  //production
-const char SwarmHost[] = "54.197.232.67"; //staging
+const char SwarmHost[] = "107.20.250.52";  //production
+//const char SwarmHost[] = "54.197.232.67"; //staging
 //const char SwarmHost[] = "192.168.1.14"; //development
 //const char SwarmHost[] = "192.168.11.230";  //api.bugswarm.
 //These parameters must be hardcoded, are not retrieved.
