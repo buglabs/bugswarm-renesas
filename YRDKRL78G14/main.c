@@ -152,6 +152,27 @@ int  main(void)
     RL78G14RDK_UART_Start(GAINSPAN_CONSOLE_BAUD, GAINSPAN_CONSOLE_BAUD);
     PM15 &= ~(1 << 2);       //EInk hand
     P15 &= ~(1 << 2);
+    
+	LCDDisplayLogo();
+	LCDSelectFont(FONT_SMALL);
+	DisplayLCD(LCD_LINE3, "   VERIZON DEMO    ");
+	DisplayLCD(LCD_LINE4, "   Wi-Fi & Cloud   ");
+	DisplayLCD(LCD_LINE5, "   connectivity    ");
+	DisplayLCD(LCD_LINE6, "Gainspan           ");
+	DisplayLCD(LCD_LINE7, "BugLabs            ");
+	DisplayLCD(LCD_LINE8, "Arrow Electronics  ");
+	MSTimerDelay(3500);
+	ClearLCD();
+	DisplayLCD(LCD_LINE1, "SW Config after RST");
+	DisplayLCD(LCD_LINE2, "1 2 3              ");
+	DisplayLCD(LCD_LINE3, "0 0 0 BugLabs Demo ");
+	DisplayLCD(LCD_LINE4, "1 0 0 GS AP Demo   ");
+	DisplayLCD(LCD_LINE5, "0 1 0 Provisioning ");
+	DisplayLCD(LCD_LINE6, "0 0 1 GS Clnt Demo ");
+	DisplayLCD(LCD_LINE7, " ");
+	DisplayLCD(LCD_LINE8, "  ");
+	MSTimerDelay(5000);
+	ClearLCD();
 
     if(AppMode == SPI_PT_MODE)
       App_PassThroughSPI();                             // run SPI pass through, so the board can be used as a GS eval board
@@ -160,26 +181,6 @@ int  main(void)
         App_ProgramMode();                              // Program GS1011 firmware and external flash
     }    
     if(AppMode == GAINSPAN_DEMO) {
-        LCDDisplayLogo();
-        LCDSelectFont(FONT_SMALL);
-        DisplayLCD(LCD_LINE3, "RL78G14 RDK    V3.7");
-        DisplayLCD(LCD_LINE4, "   Wi-Fi & Cloud   ");
-        DisplayLCD(LCD_LINE5, "     demos by:     ");
-        DisplayLCD(LCD_LINE6, "Gainspan           ");
-        DisplayLCD(LCD_LINE7, "BugLabs            ");
-        DisplayLCD(LCD_LINE8, "Future Designs, Inc");
-        MSTimerDelay(3500);
-        ClearLCD();
-        DisplayLCD(LCD_LINE1, "Demo Modes:        ");
-        DisplayLCD(LCD_LINE2, "-RST no key:       ");
-        DisplayLCD(LCD_LINE3, "   GS Web Server   ");
-        DisplayLCD(LCD_LINE4, "-RST + SW1:        ");
-        DisplayLCD(LCD_LINE5, "   Swarm Cloud     ");
-        DisplayLCD(LCD_LINE6, "-RST + SW2:        ");
-        DisplayLCD(LCD_LINE7, "Provisioning & OTA ");
-        DisplayLCD(LCD_LINE8, "-RST + SW3: uCProbe");
-        MSTimerDelay(3000);
-        ClearLCD();
         
         LCDSelectFont(FONT_LARGE);
     }
