@@ -110,21 +110,16 @@ int  main(void)
     HardwareSetup();  
 
     /* Default app mode */
-    AppMode = GAINSPAN_DEMO;
-	//AppMode = SWARM_CONN_MODE;
+    AppMode = SWARM_CONN_MODE;
    
     /* Determine SW1, SW2 & SW3 is pressed at power up to dertmine which demo will run  */
     if(Switch1IsPressed()) 
     {
-         AppMode = SWARM_CONN_MODE;
+         AppMode = GAINSPAN_DEMO;
     }
     else if(Switch1IsPressed() && Switch2IsPressed()) 
     {
          AppMode = PROGRAM_MODE;
-    }
-    else if(Switch1IsPressed() && Switch3IsPressed())
-    {
-        isLimiteAPmode=0;                            // run the WiFi client demo
     }
     else if(Switch2IsPressed() && Switch3IsPressed())
     {
@@ -136,7 +131,8 @@ int  main(void)
     }
     else if(Switch3IsPressed())
     {
-        AppMode = RUN_PROBE;
+        AppMode = GAINSPAN_DEMO;
+         isLimiteAPmode=0;                            // run the WiFi client demo this should be GS demo via shared network (provisioned)
     }
     
     /************************initializa LCD module********************************/
