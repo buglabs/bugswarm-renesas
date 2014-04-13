@@ -141,13 +141,13 @@ function onPresence(presence) {
 						resources[swarm][resource] = xdr.responseText;
 						$('option').filter('#'+resource).html(xdr.responseText);
 					};
-					xdr.open("GET", "http://api.staging.bugswarm.com/renesas/getmac/"+resource);
+					xdr.open("GET", "http://api.bugswarm.com/renesas/getmac/"+resource);
 					xdr.send(null);
 				}
 			}
       
       else {
-        var url = 'http://api.staging.bugswarm.com/resources/' + resource;
+        var url = 'http://api.bugswarm.com/resources/' + resource;
         var xhr = createCORSRequest('GET', url);
         xhr.onload = function() {
           var responseText = xhr.responseText;
