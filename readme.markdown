@@ -64,7 +64,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 	![LCD Screen Provisioning Done](http://i.imgur.com/fYaBgls.jpg)
 
-1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
+1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```MAC: ``` field on the third line, and keep an eye on the screen for any errors.
 
 	![LCD Screen when Running](http://i.imgur.com/NARRtkk.jpg?1)
 
