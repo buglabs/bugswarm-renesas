@@ -66,7 +66,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
 
-	![LCD Screen when Running](http://i.imgur.com/NARRtkk.jpg)
+	![LCD Screen when Running](http://i.imgur.com/NARRtkk.jpg?1)
 
 1.  You will need to re-connect to a wireless access point with an internet connection.  Navigate to [renesas.bugswarm.com](http://renesas.bugswarm.com).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
 
