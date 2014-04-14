@@ -35,8 +35,8 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 1.  The RDK board now needs to be configured for an active wireless access point with an internet connection.  Hold down ```Switch 2```, Press and release the ```Reset``` button, and then release the ```Switch 2``` button.  See this video for a demonstration: [Enter Wifi Provisioning Mode](https://docs.google.com/open?id=0B_kD7ktKdpaQeTdfT3YtZERMNXM).
 1.  Using a smartphone, tablet, or laptop, connect to the wireless access point indicated on the LCD screen.
 
-	![LCD Screen Provisioning Message](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/Provision\_Message.JPG)
-	![Provisioning Wireless AP](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/webprovisionAP.png)
+	![LCD Screen Provisioning Message](http://i.imgur.com/wY5cYir.jpg)
+	![Provisioning Wireless AP](http://i.imgur.com/COSvdyB.jpg)
 
 1.  Open a web browser and go to the URL indicated on the LCD screen.  Click on the ```Wireless and Network Configuration``` link.
 
@@ -179,19 +179,28 @@ Pseudocode for the firmware:
 #### Known Issues
 
 1.  The watchdog timer has not been enabled in the beta release, adding this will improve reliability when the module is suddenly disconnected from the internet.
-1.  Serial debugging occurs over UART0 (at 115200 baud) which is used by the debugger.  We haven't been able to use the USB debugger tool to read this data, we instead used a seperate USB->Serial converter connected to pins 54 and 55.  
+1.  Serial debugging occurs over UART0 (at 115200 baud) which is used by the debugger.  We haven't been able to use the USB debugger tool to read this data, we instead used a seperate USB->Serial converter connected to pins 54 and 55. 
+1.  Some boards come pre-loaded with an older version of firmware. Please follow the procedure detailed in [programming instructions](#programming-instructions) to update to the latest firmware.  Please note, if the board connects to the Swarm backend with the old firmware before you have updated, we will need to reset its resourceid after the update has been applied. Please email your board ID to: support@buglabs.net.
+1.  In order to enable the buzzer, please make sure the jumper on JP3 covers the top two pins, which moves the speaker output from the DAC to the PWM.
+1.  If multiple development boards are online at the same time, you may experience connection issues. All RL78 boards share the same resource, which may cause failures in bi-directional communication. 
+1.  Upon disconnection, your board should re-connect itself after 10 minutes. You may hit the reset button to speed this up.
+1.  By default, the LED status on the RDKnext website is static. Please click on the 1 or 0 under any LED number to initiate. To turn LEDs on or off, click on the 0 or 1 under the LED number. If webpage is reset, or board ID is switched, LED status will show last configuration used until engaged.
+
 
 ### Troubleshooting
 
+1.  Rebooting your device will often solve connection issues, please try this first.
 1.  If the device appears on the Renesas Web Portal as "UnknownDevice", try rebooting it.  Occasionally the first API call can fail if the wireless access point has not finished opening the connection.
 1.  If an error is printed to the LCD screen on line 4 or line 8, and the error does not go away for a few minutes, try manually resetting the board.
 1.  If the RDK board never appears on the web portal, use a smartphone or laptop to verify that the selected wireless access point has an internet connection, particularly to demo.bugswarm.com or developer.bugswarm.net.
+1.  Please use the most up-to-date browsers when connecting to http://bugcommunity.com/rdknext/ (IE8 or lower will not work, and older versions of Safari, Firefox and Chrome may have difficulty displaying data). The latest version of Firefox has shown to be the most robust.
+1.  Conference center hotspots often have trouble sustaining a connection. Some hotspots do not work well with the Gainspan WiFi chipset. Please try a clean hotspot with little traffic if you experience connection issues (Verizon jetpack hotspots have been tested to work).
 
 ### Relevant Documentation
 
 * [bugswarm API documentation](http://developer.bugswarm.net/)
 * [bugswarm javascript library](https://github.com/buglabs/bugswarm-js)
 * [bugswarm preliminary configuration interface](http://demo.bugswarm.com/)
-* [YRDKRL78G13 Quick Start Guide (how to install the SDK)](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_Quick_Start_Guide.pdf)
-* [YRDKRL78G13 Getting Started DVD](http://am.renesas.com/media/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/child_folder/YRDKRL78G13_DVD10.zip)
+* [YRDKRL78G13 Main Page](http://www.renesas.com/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g13/index.jsp)
+* [YRDKRL78G14 Main Page (With Quick Start Guide)](http://www.renesas.com/products/tools/introductory_evaluation_tools/renesas_demo_kits/yrdkrl78g14/index.jsp)
 
