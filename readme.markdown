@@ -72,7 +72,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 	![Select Board](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectBoard.png)
 
-1.  Click on the second dropdown box.  You should see the ```ID``` from the LCD screen in the list.  Select that entry and click "Go!".
+1.  Click on the second dropdown box.  You should see the ```MAC``` from the LCD screen in the list.  Select that entry and click "Go!".
 
 	![Select Device](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectDevice.png)
 
