@@ -16,8 +16,6 @@ A bugswarm connector for Renesas 8- and 16-bit microcontrollers.  This code turn
 
 ## Supported Boards
 
-*  RL78/G13 Demonstration Kit (YRDKRL78G13) [yrdkrl78g13 branch](https://github.com/buglabs/bugswarm-renesas/tree/yrdkrl78g13)
-    *  Redpine companion WiFi Card (RS-RL78G13-2200CC)
 *  RL78/G14 Demonstration Kit (YRDKRL78G14) (this branch)
     *  Built-in Gainspan GS1011-MIPS module
 
@@ -62,17 +60,17 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 1.  You should see the following message displayed on the LCD screen.  Press the ```RESET``` button.
 
-	![LCD Screen Provisioning Done](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/Provision\_Done.JPG)
+	![LCD Screen Provisioning Done](http://i.imgur.com/fYaBgls.jpg)
 
-1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
+1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```MAC: ``` field on the third line, and keep an eye on the screen for any errors.
 
-	![LCD Screen when Running](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/connectorRunning.JPG)
+	![LCD Screen when Running](http://i.imgur.com/NARRtkk.jpg?1)
 
 1.  You will need to re-connect to a wireless access point with an internet connection.  Navigate to [buglabs.github.com/bugswarm-renesas/](http://buglabs.github.com/bugswarm-renesas/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
 
 	![Select Board](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectBoard.png)
 
-1.  Click on the second dropdown box.  You should see the ```ID``` from the LCD screen in the list.  Select that entry and click "Go!".
+1.  Click on the second dropdown box.  You should see the ```MAC``` from the LCD screen in the list.  Select that entry and click "Go!".
 
 	![Select Device](https://raw.github.com/buglabs/bugswarm-renesas/yrdkrl78g14/tutorial/images/swarmSelectDevice.png)
 
