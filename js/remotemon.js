@@ -245,6 +245,7 @@ function updateUI() {
 }
 
 function onMessage(message) {
+    if(message.from.resource == RESOURCE_ID){console.log(JSON.stringify(message));}
     if (message.from.resource !== selectedResource){
         return;
     }
