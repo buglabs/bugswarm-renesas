@@ -365,7 +365,7 @@ $(document).ready(function() {
           var message = {name: 'LED', feed:{}};
           //console.log('Value: '+$(this).html());
           message.feed[ledid] = ($(this).html() === '0');
-          //console.log('sending ',message);
+          console.log('sending ',message);
           SWARM.send(message, toswarms);
         });
         $('#sendlcd').click(function(e) {
