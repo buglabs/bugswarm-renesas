@@ -1793,6 +1793,12 @@
   <group>
     <name>Apps</name>
     <file>
+      <name>$PROJ_DIR$\..\Apps\App_Dweet.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Apps\App_Dweet.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\Apps\App_PassThroughSPI.c</name>
     </file>
     <file>
@@ -1803,12 +1809,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\Apps\App_Startup.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\Apps\App_Swarm.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\Apps\App_Swarm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\Apps\Apps.h</name>

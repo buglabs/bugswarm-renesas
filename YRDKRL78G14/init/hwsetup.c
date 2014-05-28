@@ -100,6 +100,7 @@ void ConfigureOutputPorts(void)
     P14 = 0xDF; /* LCD_CS 0xFE */   /*G14 -> P145  */
     /* Set Output Port Modes */
     PM14 = 0xDF; /* LCD CS 0xFE */   /*G14 -> P145 */
+    ADPC = 0x01;
     
 #if 0
     P3 = 0xFE; /* SD CS */ 

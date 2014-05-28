@@ -21,20 +21,20 @@
 #include "led.h"
 #include <drv/EInk/eink_driver.h>
 #include <drv/EInk/user_app.h>
-#include "App_Swarm.h"
+#include "App_Dweet.h"
 
 #define UPDATE_PERIOD 5000
 #define NUM_SENSOR 5
 #define CAPABILITIES_PERIOD 10000
 #define MAX_PROD_ERRORS 5
 
-#define CLIENT_VER	"Swarm Client R0.6.1"
+#define CLIENT_VER	"Dweet Client R0.9.9"
 /*-------------------------------------------------------------------------*
 * Constants:
 *-------------------------------------------------------------------------*/
 uint16_t period = NUM_SENSOR;
 
-/*  Default swarm connection parameters  */
+/*  Default dweet connection parameters  */
 #define DWEET_HOST "dweet.io"
 #define DWEET_PORT 80
 #define THING_ID_EEPROM_LOC 128
@@ -52,21 +52,23 @@ jsmntok_t tokens[JSON_TOKEN_MAX];
 jsmnerr_t jr;
 
 char 	msg[300];
+char    ledmsg[500];
 
 bool    connected;
 
 /*----------------------------------------------------------------------------*
-*	Routine: App_SwarmConnector
+*	Routine: App_DweetConnector
 *----------------------------------------------------------------------------*
 *	Description:
-*		Run the swarm connector demo indefinitely
+*		Run the Dweet connector demo indefinitely
 *----------------------------------------------------------------------------*/
 
-void App_SwarmConnector(void)
+void App_DweetConnector(void)
 {
 	thingID[0] = NULL;
 	lastUpdate[0] = NULL;
 	msg[0] = NULL;
+        ledmsg[0] = NULL;
 	uint8_t cid = ATLIBGS_INVALID_CID;
 
 	// If switch 3 is pressed, reset the EEPROM
@@ -98,25 +100,25 @@ void App_SwarmConnector(void)
 	DisplayLCD(LCD_LINE1, "");
 	DisplayLCD(LCD_LINE2, "dweet.io");
 	DisplayLCD(LCD_LINE3, "");
-	DisplayLCD(LCD_LINE4, "");
 
 	if(thingID[0] == NULL)
 	{
-		DisplayLCD(LCD_LINE5, "");
+		DisplayLCD(LCD_LINE4, "");
 	}
 	else
 	{
-		DisplayLCD(LCD_LINE4, "thing:");
-		DisplayLCD(LCD_LINE5, thingID);
+		DisplayLCD(LCD_LINE5, "thing:");
+		DisplayLCD(LCD_LINE6, thingID);
 	}
 
-	DisplayLCD(LCD_LINE6, "");
 	DisplayLCD(LCD_LINE7, "");
 	DisplayLCD(LCD_LINE8, "connecting.......");
 
 	App_aClientConnection();		//Will block until connected
 	AtLibGs_SetNodeAssociationFlag();
 	memset(msg, '\0', sizeof(msg));
+        memset(ledmsg, '\0', sizeof(ledmsg));
+
 
 	led_all_off();
 
@@ -139,8 +141,9 @@ void App_SwarmConnector(void)
 		connected = true;
 		while (connected)
 		{
-			DisplayLCD(LCD_LINE1, "visit:");
-			DisplayLCD(LCD_LINE2, "dweet.io/follow");
+			DisplayLCD(LCD_LINE1, (const uint8_t *) CLIENT_VER);
+                        DisplayLCD(LCD_LINE2, "visit:");
+			DisplayLCD(LCD_LINE3, "dweet.io/follow");
 
 			DisplayLCD(LCD_LINE8, animationIndex);
 
@@ -187,6 +190,27 @@ void addJSONKeyNumberValue(char* jsonString, const char* keyName, float value)
 	sprintf(jsonString + pos, "\"%s\":%.2f", keyName, value);
 }
 
+void addJSONKeyStringValue(char* jsonString, const char* keyName, const char* value)
+{
+	int pos = strlen(jsonString);
+
+	if(jsonString[pos - 1] != '{')
+	{
+		strcat(jsonString, ",");
+		pos++;
+	}
+
+	sprintf(jsonString + pos, "\"%s\":\"%s\"", keyName, value);
+}
+
+const char * ledValue(int idx) {
+	if (led_get(idx) == 1) {
+		return true_val;
+	} else {
+		return false_val;
+	}
+}
+
 ATLIBGS_MSG_ID_E checkData(uint8_t* cid)
 {
 	if(thingID[0] == NULL)
@@ -199,6 +223,8 @@ ATLIBGS_MSG_ID_E checkData(uint8_t* cid)
 	char thingPath[64];
 	sprintf(thingPath, "/get/latest/dweet/for/%s-send", thingID);
 	strcpy(msg, "\r\n");
+        
+        int val;
 
 	r = httpRequest(ATLIBGS_HTTPSEND_GET, 5000, thingPath, msg, cid);
 	if (r != ATLIBGS_MSG_ID_OK)
@@ -234,6 +260,18 @@ ATLIBGS_MSG_ID_E checkData(uint8_t* cid)
 				MSTimerDelay(2000);
 				R_TAU0_Channel0_Stop();
 			}
+                        int ledUpdate = findKey(body, tokens, JSON_TOKEN_MAX, "led");
+                        if(ledUpdate >= 0)
+                        {
+                                val = atoi(body+tokens[ledUpdate].start+3);
+                                if (body[tokens[ledUpdate+1].start] == 't') {
+                                        ConsolePrintf("LED %d ON\n", val);
+                                        led_on(val);
+                                } else {
+                                        ConsolePrintf("LED %d OFF\n", val);
+                                        led_off(val);
+                                }
+                        }
 		}
 	}
 
@@ -250,6 +288,9 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t* cid)
 
 	msg[0] = '{';
 	msg[1] = '\0';
+        
+        ledmsg[0] = '{';
+        ledmsg[1] = '\0';
 
 	// Get our temp
 	iValue = Temperature_Get();
@@ -275,6 +316,24 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t* cid)
 
 	// Get our pot
 	addJSONKeyNumberValue(msg, "pot", Potentiometer_Get());
+        
+        // Get our LED statuses
+        addJSONKeyStringValue(ledmsg, "led3", ledValue(0));
+        addJSONKeyStringValue(ledmsg, "led4", ledValue(1));
+        addJSONKeyStringValue(ledmsg, "led5", ledValue(2));
+        addJSONKeyStringValue(ledmsg, "led6", ledValue(3));
+        addJSONKeyStringValue(ledmsg, "led7", ledValue(4));
+        addJSONKeyStringValue(ledmsg, "led8", ledValue(5));
+        addJSONKeyStringValue(ledmsg, "led9", ledValue(6));
+        addJSONKeyStringValue(ledmsg, "led10", ledValue(7));
+        addJSONKeyStringValue(ledmsg, "led11", ledValue(8));
+        addJSONKeyStringValue(ledmsg, "led12", ledValue(9));
+        addJSONKeyStringValue(ledmsg, "led13", ledValue(10));
+        addJSONKeyStringValue(ledmsg, "led14", ledValue(11));
+        addJSONKeyStringValue(ledmsg, "led15", ledValue(12)); 
+        strcat(ledmsg, "}\r\n");
+        strcat(msg, ",\"led\":");
+        strcat(msg,ledmsg);
 
 	strcat(msg, "}\r\n");
 
@@ -465,3 +524,4 @@ int findKey(char * jsonpos, jsmntok_t * tokens, int toklen, const char * key) {
 	}
 	return ret;
 }
+

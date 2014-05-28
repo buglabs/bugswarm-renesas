@@ -25,7 +25,7 @@
 #include <GainSpan_SPI.h>
 #include <NVSettings.h>
 #include <Apps/Apps.h>
-#include <Apps/App_Swarm.h>
+#include <Apps/App_Dweet.h>
 #include "stdio.h"
 #include "string.h"
 #include "led.h"
@@ -62,15 +62,13 @@ __root const uint8_t secuid[10] =
  *-------------------------------------------------------------------------*/
 /* Application Modes */
 typedef enum {
-    PROGRAM_MODE,
-    UART_PT_MODE,
-    SPI_PT_MODE,
-    RUN_MY_TEST,
-    RUN_PROVISIONING,
-    RUN_OVER_AIR_DOWNLOAD,
-    GAINSPAN_DEMO,
-    RUN_PROBE,
-    SWARM_CONN_MODE     // RUN_BugLab
+    GAINSPAN_DEMO=0,      
+    DWEET_CONN_MODE,      
+    RUN_PROVISIONING,     
+    PROGRAM_MODE,         
+    RUN_PROBE,            
+    GAINSPAN_CLIENT,      
+    SPI_PT_MODE,          
 }AppMode_T;
 
 typedef enum {
@@ -114,37 +112,30 @@ int  main(void)
 
     /* Default app mode */
     //AppMode = GAINSPAN_DEMO;
-	AppMode = SWARM_CONN_MODE;
+	AppMode = DWEET_CONN_MODE;
     
     /* Determine SW1, SW2 & SW3 is pressed at power up to dertmine which demo will run  */
-    /*if(Switch1IsPressed() && Switch2IsPressed() && Switch3IsPressed()) 
+    if(Switch1IsPressed()) 
     {
-         AppMode = SWARM_CONN_MODE;
+         AppMode = GAINSPAN_DEMO;
     }
     else if(Switch1IsPressed() && Switch2IsPressed()) 
     {
          AppMode = PROGRAM_MODE;
     }
-    else if(Switch1IsPressed() && Switch3IsPressed())
-    {
-        isLimiteAPmode=0;                            // run the WiFi client demo
-    }
     else if(Switch2IsPressed() && Switch3IsPressed())
     {
         AppMode = SPI_PT_MODE;                      // run as the Gainspan Eval board
     }
-    else if(Switch1IsPressed())
-    {
-        AppMode = RUN_MY_TEST;
-    }
-    else*/ if(Switch2IsPressed())
+    else if(Switch2IsPressed())
     {
         AppMode = RUN_PROVISIONING;
     }
-    /*else if(Switch3IsPressed())
+    else if(Switch3IsPressed())
     {
-        AppMode = RUN_PROBE;
-    }  */
+        AppMode = GAINSPAN_DEMO;
+         isLimiteAPmode=0;                            // run the WiFi client demo this should be GS demo via shared network (provisioned)
+    }
     
     /************************initializa LCD module********************************/
     SPI2_Init();
@@ -164,41 +155,35 @@ int  main(void)
     PM15 &= ~(1 << 2);       //EInk hand
     P15 &= ~(1 << 2);
 
+    LCDDisplayLogo();
+    LCDSelectFont(FONT_SMALL);
+    DisplayLCD(LCD_LINE3, "   VERIZON DEMO    ");
+    DisplayLCD(LCD_LINE4, "   Wi-Fi & Cloud   ");
+    DisplayLCD(LCD_LINE5, "   connectivity    ");
+    DisplayLCD(LCD_LINE6, "Gainspan           ");
+    DisplayLCD(LCD_LINE7, "BugLabs-Dweet       ");
+    DisplayLCD(LCD_LINE8, "Arrow Electronics  ");
+    MSTimerDelay(3500);
+    ClearLCD();
+    DisplayLCD(LCD_LINE1, "SW Config after RST");
+    DisplayLCD(LCD_LINE2, "1 2 3              ");
+    DisplayLCD(LCD_LINE3, "0 0 0 BugLabs Dweet Demo ");
+    DisplayLCD(LCD_LINE4, "1 0 0 GS AP Demo   ");
+    DisplayLCD(LCD_LINE5, "0 1 0 Provisioning ");
+    DisplayLCD(LCD_LINE6, "0 0 1 GS Clnt Demo ");
+    DisplayLCD(LCD_LINE7, " ");
+    DisplayLCD(LCD_LINE8, "  ");
+    MSTimerDelay(5000);
+    ClearLCD();
+    
     if(AppMode == SPI_PT_MODE)
       App_PassThroughSPI();                             // run SPI pass through, so the board can be used as a GS eval board
    
     if(AppMode == PROGRAM_MODE) {
         App_ProgramMode();                              // Program GS1011 firmware and external flash
     }    
-    if(AppMode == GAINSPAN_DEMO) {
-        LCDDisplayLogo();
-        LCDSelectFont(FONT_SMALL);
-        DisplayLCD(LCD_LINE3, "RL78G14 RDK    V3.4");
-        DisplayLCD(LCD_LINE4, "   Wi-Fi & Cloud   ");
-        DisplayLCD(LCD_LINE5, "     demos by:     ");
-        DisplayLCD(LCD_LINE6, "Gainspan           ");
-        DisplayLCD(LCD_LINE7, "Test            ");
-        DisplayLCD(LCD_LINE8, "Future Designs, Inc");
-        MSTimerDelay(3500);
-        ClearLCD();
-        DisplayLCD(LCD_LINE1, "Demo Modes:        ");
-        DisplayLCD(LCD_LINE2, "-RST no key:       ");
-        DisplayLCD(LCD_LINE3, "   GS Web Server   ");
-        DisplayLCD(LCD_LINE4, "-RST + SW1:        ");
-        DisplayLCD(LCD_LINE5, "   Test AP   ");
-        DisplayLCD(LCD_LINE6, "-RST + SW2:        ");
-        DisplayLCD(LCD_LINE7, "Provisioning & OTA ");
-        DisplayLCD(LCD_LINE8, "-RST + SW3: uCProbe");
-        MSTimerDelay(3000);
-        ClearLCD();
-        
+    if(AppMode == GAINSPAN_DEMO) {        
         LCDSelectFont(FONT_LARGE);
-    }
-
-    if (AppMode == RUN_MY_TEST)
-    {          
-        DisplayLCD(LCD_LINE1, " MY TEST ");
-        LimitedAP_TCP_SereverBulkMode();               // Run my testing 
     }
     else if(AppMode == RUN_PROVISIONING)
     {
@@ -208,10 +193,10 @@ int  main(void)
     {
         App_ProbeDemo();                                // Run the uC/Probe demo. 
     }
-    else if (AppMode == SWARM_CONN_MODE )
+    else if (AppMode == DWEET_CONN_MODE )
     {
-		LCDSelectFont(FONT_SMALL);                           
-              App_SwarmConnector();
+	LCDSelectFont(FONT_SMALL);                           
+        App_DweetConnector();
     }
     else
     {
