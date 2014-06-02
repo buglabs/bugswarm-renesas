@@ -132,7 +132,7 @@ void App_DweetConnector(void)
 	char* animationIndex = animation;
 
 	while(1) {
-		if (!AtLibGs_IsNodeAssociated()) {
+		if (!AtLibGs_IsNodeAssociated() || !connected) {
 			DisplayLCD(LCD_LINE8, "connecting.......");
 			App_aClientConnection();
 			AtLibGs_SetNodeAssociationFlag();
@@ -170,8 +170,10 @@ void App_DweetConnector(void)
 			MSTimerDelay(500);
 		}
 
-		AtLibGs_Close(cid);
+		//AtLibGs_Close(cid);
+		AtLibsGs_CloseAll();
 		cid = ATLIBGS_INVALID_CID;
+		AtLibGs_ClearNodeAssociationFlag();
 		DisplayLCD(LCD_LINE8, "connecting.......");
 		MSTimerDelay(5000);		//TODO - exponential backoff
 	}
@@ -266,10 +268,10 @@ ATLIBGS_MSG_ID_E checkData(uint8_t* cid)
                                 val = atoi(body+tokens[ledUpdate].start+3);
                                 if (body[tokens[ledUpdate+1].start] == 't') {
                                         ConsolePrintf("LED %d ON\n", val);
-                                        led_on(val);
+                                        led_on(val-3);
                                 } else {
                                         ConsolePrintf("LED %d OFF\n", val);
-                                        led_off(val);
+                                        led_off(val-3);
                                 }
                         }
 		}
