@@ -44,14 +44,14 @@ bool Switch3IsPressed(void)
 {
     return (!(P7 & (1<<5)))?true:false;
 }
-bool checkSwitches(char * switches) {
+bool checkSwitches(void) {
 	bool ret = false;
 	curr = P7 & 0x70;
 	if (curr != old) {
 		ret = true;
 	}
 	old = curr;
-	switches = &curr;
+	//switches = &curr;
 	return ret;
 }
 

@@ -104,17 +104,20 @@ extern int LimitedAP_TCP_SereverBulkMode(void);
 
 int  main(void)
 {
-    AppMode_T AppMode; APP_STATE_E state=UPDATE_TEMPERATURE; 
+    AppMode_T AppMode;
+    APP_STATE_E state=UPDATE_TEMPERATURE; 
     char LCDString[30], temp_char[2]; uint16_t temp; float ftemp;
     uint8_t isLimiteAPmode=1, rxData; uint32_t start;  
   
     HardwareSetup();  
 
+    
     /* Default app mode */
     //AppMode = GAINSPAN_DEMO;
-	AppMode = DWEET_CONN_MODE;
+    //AppMode = DWEET_CONN_MODE;
     
     /* Determine SW1, SW2 & SW3 is pressed at power up to dertmine which demo will run  */
+    /*
     if(Switch1IsPressed()) 
     {
          AppMode = GAINSPAN_DEMO;
@@ -137,6 +140,8 @@ int  main(void)
          isLimiteAPmode=0;                            // run the WiFi client demo this should be GS demo via shared network (provisioned)
     }
     
+    */
+    
     /************************initializa LCD module********************************/
     SPI2_Init();
     InitialiseLCD();
@@ -154,55 +159,183 @@ int  main(void)
     RL78G14RDK_UART_Start(GAINSPAN_CONSOLE_BAUD, GAINSPAN_CONSOLE_BAUD);
     PM15 &= ~(1 << 2);       //EInk hand
     P15 &= ~(1 << 2);
-
+    
+    ClearLCD();
+     
     LCDDisplayLogo();
     LCDSelectFont(FONT_SMALL);
-    DisplayLCD(LCD_LINE3, "   VERIZON DEMO    ");
+    MSTimerDelay(1500);
+    //CLearLCD();
+    // DisplayLCD max charactres per line is 19 
+    //                     |<--------------->|
+    DisplayLCD(LCD_LINE3, "   BugLabs DEMO    ");
     DisplayLCD(LCD_LINE4, "   Wi-Fi & Cloud   ");
     DisplayLCD(LCD_LINE5, "   connectivity    ");
     DisplayLCD(LCD_LINE6, "Gainspan           ");
-    DisplayLCD(LCD_LINE7, "BugLabs-Dweet       ");
+    DisplayLCD(LCD_LINE7, "BugLabs-Dweet      ");
     DisplayLCD(LCD_LINE8, "Arrow Electronics  ");
-    MSTimerDelay(3500);
-    ClearLCD();
-    DisplayLCD(LCD_LINE1, "SW Config after RST");
-    DisplayLCD(LCD_LINE2, "1 2 3              ");
-    DisplayLCD(LCD_LINE3, "0 0 0 BugLabs Dweet Demo ");
-    DisplayLCD(LCD_LINE4, "1 0 0 GS AP Demo   ");
-    DisplayLCD(LCD_LINE5, "0 1 0 Provisioning ");
-    DisplayLCD(LCD_LINE6, "0 0 1 GS Clnt Demo ");
-    DisplayLCD(LCD_LINE7, " ");
-    DisplayLCD(LCD_LINE8, "  ");
-    MSTimerDelay(5000);
+    MSTimerDelay(2000);
     ClearLCD();
     
+    int DemoCNT = 0;
+    bool SelMADE = false;
+    
+    while (SelMADE == false) 
+    {
+      if (DemoCNT == 0) 
+      {
+        // DisplayLCD max charactres per line is 19 
+        //                     |<--------------->|
+        DisplayLCD(LCD_LINE1, "UP                 ");
+        DisplayLCD(LCD_LINE2, "                   ");
+        DisplayLCD(LCD_LINE3, "     PROVISIONING  ");
+        DisplayLCD(LCD_LINE4, "                   ");
+        DisplayLCD(LCD_LINE5, "SEL Connect to     ");
+        DisplayLCD(LCD_LINE6, "    Wi-Fi          ");
+        DisplayLCD(LCD_LINE7, "    Access Point   ");
+        DisplayLCD(LCD_LINE8, "DWN                ");
+        while (checkSwitches()) 
+        {
+          if (Switch1IsPressed()) DemoCNT = 4;
+          if (Switch2IsPressed()) 
+          {
+           AppMode = RUN_PROVISIONING;
+           SelMADE = true;
+          }
+          if (Switch3IsPressed()) DemoCNT++ ;
+        }
+      }
+      if (DemoCNT == 1) 
+      {
+        // DisplayLCD max charactres per line is 19 
+        //                     |<--------------->|
+        DisplayLCD(LCD_LINE1, "UP   DEMO 1        ");
+        DisplayLCD(LCD_LINE2, "                   ");
+        DisplayLCD(LCD_LINE3, "     Buglabs Dweet ");
+        DisplayLCD(LCD_LINE4, "                   ");
+        DisplayLCD(LCD_LINE5, "SEL  Cloud         ");
+        DisplayLCD(LCD_LINE6, "     Connectivity  ");
+        DisplayLCD(LCD_LINE7, "     made easy     ");
+        DisplayLCD(LCD_LINE8, "DWN                ");
+        while (checkSwitches()) 
+        {
+          if (Switch1IsPressed()) DemoCNT--;
+          if (Switch2IsPressed()) 
+          {
+            AppMode = DWEET_CONN_MODE;
+            SelMADE = true;
+          }
+          if (Switch3IsPressed()) DemoCNT++;
+        }
+      }
+      if (DemoCNT == 2) 
+      {
+        // DisplayLCD max charactres per line is 19 
+        //                     |<--------------->|
+        DisplayLCD(LCD_LINE1, "UP   DEMO 2        ");
+        DisplayLCD(LCD_LINE2, "                   ");
+        DisplayLCD(LCD_LINE3, "     GainSpan DEMO ");
+        DisplayLCD(LCD_LINE4, "                   ");
+        DisplayLCD(LCD_LINE5, "SEL  Monitor the   ");
+        DisplayLCD(LCD_LINE6, "     board via     ");
+        DisplayLCD(LCD_LINE7, "     direct AP     ");
+        DisplayLCD(LCD_LINE8, "DWN                ");
+        while (checkSwitches()) 
+        {
+          if (Switch1IsPressed()) DemoCNT--;
+          if (Switch2IsPressed()) 
+          { 
+            AppMode = GAINSPAN_DEMO; 
+            SelMADE = true;
+          }
+          if (Switch3IsPressed()) DemoCNT++;
+        }
+      }
+      if (DemoCNT == 3) 
+      {
+        // DisplayLCD max charactres per line is 19 
+        //                     |<--------------->|
+        DisplayLCD(LCD_LINE1, "UP   DEMO 3        ");
+        DisplayLCD(LCD_LINE2, "                   ");
+        DisplayLCD(LCD_LINE3, "     GainSpan DEMO ");
+        DisplayLCD(LCD_LINE4, "                   ");
+        DisplayLCD(LCD_LINE5, "SEL  Monitor the   ");
+        DisplayLCD(LCD_LINE6, "     board via     ");
+        DisplayLCD(LCD_LINE7, "     shared Network");
+        DisplayLCD(LCD_LINE8, "DWN                ");
+        while (checkSwitches()) 
+        {
+          if (Switch1IsPressed()) DemoCNT--;
+          if (Switch2IsPressed()) 
+          {
+            AppMode = GAINSPAN_DEMO; 
+            isLimiteAPmode=0;
+            SelMADE = true;
+          }
+          if (Switch3IsPressed()) DemoCNT++;
+        }
+      }
+      if (DemoCNT == 4) 
+      {
+        // DisplayLCD max charactres per line is 19 
+        //                     |<--------------->|
+        DisplayLCD(LCD_LINE1, "UP   DEMO 4        ");
+        DisplayLCD(LCD_LINE2, "                   ");
+        DisplayLCD(LCD_LINE3, "     GainSpan Wi-Fi");
+        DisplayLCD(LCD_LINE4, "     Diagnostic    ");
+        DisplayLCD(LCD_LINE5, "SEL  Monitor the   ");
+        DisplayLCD(LCD_LINE6, "     Wi-Fi module  ");
+        DisplayLCD(LCD_LINE7, "     through Serial");
+        DisplayLCD(LCD_LINE8, "DWN  Port          ");
+        while (checkSwitches()) 
+        {
+          if (Switch1IsPressed()) DemoCNT--;
+          if (Switch2IsPressed()) 
+          {
+            AppMode = SPI_PT_MODE;                      // run as the Gainspan Eval boardGAINSPAN_DEMO; 
+            SelMADE = true;
+          }
+          if (Switch3IsPressed()) DemoCNT = 0;
+        }
+      }
+
+    }
+      
+    MSTimerDelay(500);
+    ClearLCD(); 
+        
     if(AppMode == SPI_PT_MODE)
       App_PassThroughSPI();                             // run SPI pass through, so the board can be used as a GS eval board
    
     if(AppMode == PROGRAM_MODE) {
         App_ProgramMode();                              // Program GS1011 firmware and external flash
     }    
+/*
     if(AppMode == GAINSPAN_DEMO) {        
         LCDSelectFont(FONT_LARGE);
     }
-    else if(AppMode == RUN_PROVISIONING)
+*/
+    if(AppMode == RUN_PROVISIONING)
     {
       App_WebProvisioning_OverAirPush();               // run provisioning and over air upgrade
     }
-    else if(AppMode == RUN_PROBE)
+    if(AppMode == RUN_PROBE)
     {
         App_ProbeDemo();                                // Run the uC/Probe demo. 
     }
-    else if (AppMode == DWEET_CONN_MODE )
+    if (AppMode == DWEET_CONN_MODE )
     {
 	LCDSelectFont(FONT_SMALL);                           
         App_DweetConnector();
     }
     else
     {
+        
         Temperature_Init();                            // start default the webserver demo
         Potentiometer_Init();
   
+        LCDSelectFont(FONT_LARGE);
+        
        // sprintf(LCDString, "RDK Demo %s", VERSION_TEXT);
        // DisplayLCD(LCD_LINE1, (const uint8_t *)LCDString);
    

@@ -28,7 +28,7 @@
 #define CAPABILITIES_PERIOD 10000
 #define MAX_PROD_ERRORS 5
 
-#define CLIENT_VER	"Dweet Client R0.9.9"
+#define CLIENT_VER	"Dweet Client R1.1.0"
 /*-------------------------------------------------------------------------*
 * Constants:
 *-------------------------------------------------------------------------*/
@@ -38,7 +38,7 @@ uint16_t period = NUM_SENSOR;
 #define DWEET_HOST "dweet.io"
 #define DWEET_PORT 80
 #define THING_ID_EEPROM_LOC 128
-#define JSON_TOKEN_MAX 40
+#define JSON_TOKEN_MAX 100
 
 const char true_val[] = "true";
 const char false_val[] = "false";
@@ -47,12 +47,16 @@ char	animation[] = " -\0 \\\0 |\0 /\0";
 char    thingID[32];
 char	lastUpdate[32];
 
+uint16_t mic_level;
+uint32_t tone_stop;
+
+
 jsmn_parser parser;
 jsmntok_t tokens[JSON_TOKEN_MAX];
 jsmnerr_t jr;
 
-char 	msg[300];
-char    ledmsg[500];
+char 	msg[400];
+char    ledmsg[100];
 
 bool    connected;
 
@@ -70,6 +74,7 @@ void App_DweetConnector(void)
 	msg[0] = NULL;
         ledmsg[0] = NULL;
 	uint8_t cid = ATLIBGS_INVALID_CID;
+        uint16_t value;
 
 	// If switch 3 is pressed, reset the EEPROM
 	if(Switch3IsPressed())
@@ -132,9 +137,10 @@ void App_DweetConnector(void)
 	char* animationIndex = animation;
 
 	while(1) {
-		if (!AtLibGs_IsNodeAssociated() || !connected) {
+		if (!AtLibGs_IsNodeAssociated()) {
 			DisplayLCD(LCD_LINE8, "connecting.......");
-			App_aClientConnection();
+			App_InitModule();
+                        App_aClientConnection();
 			AtLibGs_SetNodeAssociationFlag();
 		}
 
@@ -153,10 +159,14 @@ void App_DweetConnector(void)
 				animationIndex = animation;
 			}
 
+
 			r = dweetData(&cid);
 			if (r != ATLIBGS_MSG_ID_OK)
 			{
 				connected = false;
+			}
+                        if (MSTimerGet() > tone_stop) {
+				R_TAU0_Channel0_Stop();
 			}
 
 			MSTimerDelay(500);
@@ -167,13 +177,19 @@ void App_DweetConnector(void)
 				connected = false;
 			}
 
+                        value = Microphone_Get();
+                        value = Microphone_Get();
+                        value = abs((int)(value/4)-493);
+                        if (value > mic_level){
+                              mic_level = value;
+                        }
+
 			MSTimerDelay(500);
 		}
 
-		//AtLibGs_Close(cid);
-		AtLibsGs_CloseAll();
+		AtLibGs_CloseAll();
 		cid = ATLIBGS_INVALID_CID;
-		AtLibGs_ClearNodeAssociationFlag();
+                AtLibGs_ClearNodeAssociationFlag();
 		DisplayLCD(LCD_LINE8, "connecting.......");
 		MSTimerDelay(5000);		//TODO - exponential backoff
 	}
@@ -205,6 +221,20 @@ void addJSONKeyStringValue(char* jsonString, const char* keyName, const char* va
 	sprintf(jsonString + pos, "\"%s\":\"%s\"", keyName, value);
 }
 
+void addJSONKeyBooleanValue(char* jsonString, const char* keyName, const char* value)
+{
+	int pos = strlen(jsonString);
+
+	if(jsonString[pos - 1] != '{')
+	{
+		strcat(jsonString, ",");
+		pos++;
+	}
+
+	sprintf(jsonString + pos, "\"%s\":%s", keyName, value);
+}
+
+
 const char * ledValue(int idx) {
 	if (led_get(idx) == 1) {
 		return true_val;
@@ -225,14 +255,14 @@ ATLIBGS_MSG_ID_E checkData(uint8_t* cid)
 	char thingPath[64];
 	sprintf(thingPath, "/get/latest/dweet/for/%s-send", thingID);
 	strcpy(msg, "\r\n");
-        
+
         int val;
 
 	r = httpRequest(ATLIBGS_HTTPSEND_GET, 5000, thingPath, msg, cid);
 	if (r != ATLIBGS_MSG_ID_OK)
 	{
 		return r;
-    }
+        }
 
 	char* body = strstr(msg, "{");
 
@@ -257,21 +287,40 @@ ATLIBGS_MSG_ID_E checkData(uint8_t* cid)
 
 			if(getValue(body, tokens, JSON_TOKEN_MAX, "beep", msg))
 			{
-				R_TAU0_Channel0_Freq(1000);
-				R_TAU0_Channel0_Start();
-				MSTimerDelay(2000);
-				R_TAU0_Channel0_Stop();
+                                if (msg[0] == 't') {
+                                        ConsolePrintf("Beeping");
+                                        R_TAU0_Channel0_Freq(1000);
+                                        tone_stop = MSTimerGet()+2000;
+                                        R_TAU0_Channel0_Start();
+                                        // MSTimerDelay(2000);
+                                        //R_TAU0_Channel0_Stop();
+                                }
 			}
+
+
                         int ledUpdate = findKey(body, tokens, JSON_TOKEN_MAX, "led");
+                        /*
+                        int start = tokens[ledUpdate].start;
+                        ConsolePrintf("%d",start);
+                        int end = tokens[ledUpdate].end;
+                        ConsolePrintf("%d",end);*/
                         if(ledUpdate >= 0)
                         {
-                                val = atoi(body+tokens[ledUpdate].start+3);
-                                if (body[tokens[ledUpdate+1].start] == 't') {
-                                        ConsolePrintf("LED %d ON\n", val);
-                                        led_on(val-3);
-                                } else {
-                                        ConsolePrintf("LED %d OFF\n", val);
-                                        led_off(val-3);
+                                for (int i=0;i<256;i++){
+                                      if (tokens[i].type == JSMN_STRING) {
+                                          /*if ((tokens[i].start < start)||(tokens[i].end > end))
+                                            continue;*/
+                                          if (strncmp(body+tokens[i].start, "led", 3) == 0) {
+                                              val = atoi(body+tokens[i].start+3);
+                                              if (body[tokens[i+1].start] == 't') {
+                                                  ConsolePrintf("LED %d ON\n", val);
+                                                  led_on(val-3);
+                                              } else {
+                                                    ConsolePrintf("LED %d OFF\n", val);
+                                                    led_off(val-3);
+                                              }
+                                          }
+                                      }
                                 }
                         }
 		}
@@ -290,53 +339,62 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t* cid)
 
 	msg[0] = '{';
 	msg[1] = '\0';
-        
+
         ledmsg[0] = '{';
         ledmsg[1] = '\0';
 
 	// Get our temp
 	iValue = Temperature_Get();
 	fValue = (((float)iValue) / 128.0) - 2.5;
-    fValue = (fValue * 1.8) + 32.0;
+        fValue = (fValue * 1.8) + 32.0;
 
-	addJSONKeyNumberValue(msg, "temp", fValue);
+	addJSONKeyNumberValue(msg, "Temperature", fValue);
 
 	// Get our light
 	iValue = LightSensor_Get();
-	addJSONKeyNumberValue(msg, "light", iValue);
+	addJSONKeyNumberValue(msg, "Light", iValue);
 
 	// Get our accelerometer
 	Accelerometer_Get();
-	addJSONKeyNumberValue(msg, "x_tilt", gAccData[0] / 33.0 * 90);
-	addJSONKeyNumberValue(msg, "y_tilt", gAccData[1] / 33.0 * 90);
-	addJSONKeyNumberValue(msg, "z_tilt", gAccData[2] / 30.0 * 90);
+	addJSONKeyNumberValue(msg, "Tilt_X", gAccData[0] / 33.0 * 90);
+	addJSONKeyNumberValue(msg, "Tilt_Y", gAccData[1] / 33.0 * 90);
+	addJSONKeyNumberValue(msg, "Tilt_Z", gAccData[2] / 30.0 * 90);
 
 	// Get our Buttons
-	addJSONKeyNumberValue(msg, "btn_1", Switch1IsPressed());
-	addJSONKeyNumberValue(msg, "btn_2", Switch2IsPressed());
-	addJSONKeyNumberValue(msg, "btn_3", Switch3IsPressed());
+	addJSONKeyNumberValue(msg, "Button_1", Switch1IsPressed());
+	addJSONKeyNumberValue(msg, "Button_2", Switch2IsPressed());
+	addJSONKeyNumberValue(msg, "Button_3", Switch3IsPressed());
+
+        // Get Microphone level
+	addJSONKeyNumberValue(msg, "Microphone", mic_level);
+        mic_level = 0;
 
 	// Get our pot
-	addJSONKeyNumberValue(msg, "pot", Potentiometer_Get());
-        
-        // Get our LED statuses
-        addJSONKeyStringValue(ledmsg, "led3", ledValue(0));
-        addJSONKeyStringValue(ledmsg, "led4", ledValue(1));
-        addJSONKeyStringValue(ledmsg, "led5", ledValue(2));
-        addJSONKeyStringValue(ledmsg, "led6", ledValue(3));
-        addJSONKeyStringValue(ledmsg, "led7", ledValue(4));
-        addJSONKeyStringValue(ledmsg, "led8", ledValue(5));
-        addJSONKeyStringValue(ledmsg, "led9", ledValue(6));
-        addJSONKeyStringValue(ledmsg, "led10", ledValue(7));
-        addJSONKeyStringValue(ledmsg, "led11", ledValue(8));
-        addJSONKeyStringValue(ledmsg, "led12", ledValue(9));
-        addJSONKeyStringValue(ledmsg, "led13", ledValue(10));
-        addJSONKeyStringValue(ledmsg, "led14", ledValue(11));
-        addJSONKeyStringValue(ledmsg, "led15", ledValue(12)); 
-        strcat(ledmsg, "}\r\n");
-        strcat(msg, ",\"led\":");
-        strcat(msg,ledmsg);
+        Potentiometer_Get();
+	addJSONKeyNumberValue(msg, "Potentiometer", Potentiometer_Get());
 
+
+        // Get our LED statuses
+        addJSONKeyBooleanValue(ledmsg, "led3", ledValue(0));
+        addJSONKeyBooleanValue(ledmsg, "led4", ledValue(1));
+        addJSONKeyBooleanValue(ledmsg, "led5", ledValue(2));
+        addJSONKeyBooleanValue(ledmsg, "led6", ledValue(3));
+        addJSONKeyBooleanValue(ledmsg, "led7", ledValue(4));
+        addJSONKeyBooleanValue(ledmsg, "led8", ledValue(5));
+        addJSONKeyBooleanValue(ledmsg, "led9", ledValue(6));
+        addJSONKeyBooleanValue(ledmsg, "led10", ledValue(7));
+        addJSONKeyBooleanValue(ledmsg, "led11", ledValue(8));
+        addJSONKeyBooleanValue(ledmsg, "led12", ledValue(9));
+        addJSONKeyBooleanValue(ledmsg, "led13", ledValue(10));
+        addJSONKeyBooleanValue(ledmsg, "led14", ledValue(11));
+        addJSONKeyBooleanValue(ledmsg, "led15", ledValue(12));
+        strcat(ledmsg, "}\r\n");
+        strcat(msg, ",\"LED\":");
+        strcat(msg,ledmsg);
+        
+        // Include client version
+        addJSONKeyStringValue(msg, "Version", (const uint8_t *) CLIENT_VER);
+        
 	strcat(msg, "}\r\n");
 
 	char thingPath[32];
@@ -354,20 +412,17 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t* cid)
 	if (r != ATLIBGS_MSG_ID_OK)
 	{
 		return r;
-    }
+        }
 
 	// If we don't have a thing. Get it.
 	if(thingID[0] == NULL)
 	{
 		char* body = strstr(msg, "{");
-
+                int l = strlen(body);
+             //   char* body = strstr(body1, "{");
 		jsmn_init(&parser);
-
+                //ConsolePrintf("Body: %d, %s", l, body);
 		jr = jsmn_parse(&parser, body, tokens, JSON_TOKEN_MAX);
-		if (jr != JSMN_SUCCESS)
-		{
-			return ATLIBGS_MSG_ID_OK;
-		}
 
 		if(getValue(body, tokens, JSON_TOKEN_MAX, "thing", thingID))
 		{
@@ -385,66 +440,6 @@ ATLIBGS_MSG_ID_E dweetData(uint8_t* cid)
 
 ATLIBGS_MSG_ID_E httpRequest(ATLIBGS_HTTPSEND_E type, uint16_t timeout, char* page, char* inOutBuffer, uint8_t* cid)
 {
-	/*ATLIBGS_MSG_ID_E r;
-	char request[512];
-
-	int contentLength = strlen(inOutBuffer);
-
-	sprintf(request, "%s %s HTTP/1.1\r\nHost: %s", (type == ATLIBGS_HTTPSEND_POST) ? "POST" : "GET", page, DWEET_HOST);
-
-	if(type == ATLIBGS_HTTPSEND_POST)
-	{
-		strcat(request, "\r\nContent-Type: application/json");
-
-		char clHeader[24];
-		sprintf(clHeader, "\r\nContent-Length: %d", contentLength);
-		strcat(request, clHeader);
-	}
-
-	strcat(request, "\r\n\r\n");
-	strcat(request, inOutBuffer);
-
-	App_PrepareIncomingData();
-
-	r = AtLibGs_TCPClientStart("216.178.216.62", 80, cid);
-	if(r != ATLIBGS_MSG_ID_OK || *cid == ATLIBGS_INVALID_CID)
-	{
-		return r;
-	}
-
-    r = AtLibGs_SendTCPData(*cid, (uint8_t *)request, strlen(request));
-	if(r != ATLIBGS_MSG_ID_OK)
-	{
-		//AtLibGs_Close(cid);
-		return r;
-	}
-
-	r = AtLibGs_WaitForTCPMessage(5000);
-	if (r != ATLIBGS_MSG_ID_DATA_RX)
-	{
-		//AtLibGs_Close(cid);
-		return r;
-	}
-
-	AtLibGs_ParseTCPData(G_received, G_receivedCount, &tcp_pkt);
-
-    //*((char*)tcp_pkt.message[tcp_pkt.numBytes - 1]) = '\0';
-    //    char* body = strstr(tcp_pkt.message, "\r\n\r\n");
-
-	inOutBuffer[0] = NULL; // Set our inOutBuffer to a blank string
-
-	char* body = strstr(tcp_pkt.message, "\r\n\r\n");
-
-	if(body)
-	{
-		body += 4;
-		contentLength = tcp_pkt.message + tcp_pkt.numBytes - body;
-
-		strncpy(inOutBuffer, body, contentLength);
-	}
-
-	return ATLIBGS_MSG_ID_OK;*/
-
 	ATLIBGS_MSG_ID_E r;
 
 	App_PrepareIncomingData();
