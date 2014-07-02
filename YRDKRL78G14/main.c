@@ -177,10 +177,12 @@ int  main(void)
     MSTimerDelay(2000);
     ClearLCD();
     
+    int DownCount = 120;
     int DemoCNT = 0;
     bool SelMADE = false;
     
-    while (SelMADE == false) 
+    AppMode = DWEET_CONN_MODE;                                  //Default APP in case of timeout due to no action
+    while (SelMADE == false && DownCount >= 0)                  // Waits for selection or timeout
     {
       if (DemoCNT == 0) 
       {
@@ -196,13 +198,19 @@ int  main(void)
         DisplayLCD(LCD_LINE8, "DWN                ");
         while (checkSwitches()) 
         {
-          if (Switch1IsPressed()) DemoCNT = 4;
+          if (Switch1IsPressed()) { 
+           DemoCNT = 4; 
+           DownCount+=5;     // give more time
+          }
           if (Switch2IsPressed()) 
           {
            AppMode = RUN_PROVISIONING;
            SelMADE = true;
           }
-          if (Switch3IsPressed()) DemoCNT++ ;
+          if (Switch3IsPressed()) {
+           DemoCNT++ ; 
+           DownCount+=5;      // give more time
+          }
         }
       }
       if (DemoCNT == 1) 
@@ -219,13 +227,19 @@ int  main(void)
         DisplayLCD(LCD_LINE8, "DWN                ");
         while (checkSwitches()) 
         {
-          if (Switch1IsPressed()) DemoCNT--;
+          if (Switch1IsPressed()) {
+            DemoCNT--;
+            DownCount+=5;
+          }
           if (Switch2IsPressed()) 
           {
             AppMode = DWEET_CONN_MODE;
             SelMADE = true;
           }
-          if (Switch3IsPressed()) DemoCNT++;
+          if (Switch3IsPressed()) {
+            DemoCNT++;
+            DownCount+=5;
+          }
         }
       }
       if (DemoCNT == 2) 
@@ -242,13 +256,19 @@ int  main(void)
         DisplayLCD(LCD_LINE8, "DWN                ");
         while (checkSwitches()) 
         {
-          if (Switch1IsPressed()) DemoCNT--;
+          if (Switch1IsPressed()) {
+            DemoCNT--;
+            DownCount+=5;
+          }
           if (Switch2IsPressed()) 
           { 
             AppMode = GAINSPAN_DEMO; 
             SelMADE = true;
           }
-          if (Switch3IsPressed()) DemoCNT++;
+          if (Switch3IsPressed()) {
+            DemoCNT++;
+            DownCount+=5;
+          }
         }
       }
       if (DemoCNT == 3) 
@@ -265,14 +285,17 @@ int  main(void)
         DisplayLCD(LCD_LINE8, "DWN                ");
         while (checkSwitches()) 
         {
-          if (Switch1IsPressed()) DemoCNT--;
+          if (Switch1IsPressed()) {
+            DemoCNT--;
+            DownCount+=5;
+          }
           if (Switch2IsPressed()) 
           {
             AppMode = GAINSPAN_DEMO; 
             isLimiteAPmode=0;
             SelMADE = true;
           }
-          if (Switch3IsPressed()) DemoCNT++;
+          if (Switch3IsPressed()) DemoCNT++; DownCount+=5;
         }
       }
       if (DemoCNT == 4) 
@@ -289,16 +312,22 @@ int  main(void)
         DisplayLCD(LCD_LINE8, "DWN  Port          ");
         while (checkSwitches()) 
         {
-          if (Switch1IsPressed()) DemoCNT--;
+          if (Switch1IsPressed()) {
+            DemoCNT--;
+            DownCount+=5;
+          }
           if (Switch2IsPressed()) 
           {
             AppMode = SPI_PT_MODE;                      // run as the Gainspan Eval boardGAINSPAN_DEMO; 
             SelMADE = true;
           }
-          if (Switch3IsPressed()) DemoCNT = 0;
+          if (Switch3IsPressed()) {
+            DemoCNT = 0;
+            DownCount+=5;
+          }
         }
       }
-
+      DownCount--;                                      //decrease timeout counter
     }
       
     MSTimerDelay(500);
