@@ -28,7 +28,7 @@
 #define CAPABILITIES_PERIOD 10000
 #define MAX_PROD_ERRORS 5
 
-#define CLIENT_VER	"Dweet Client R1.1.0"
+#define CLIENT_VER	"Dweet Client R1.1.1"
 /*-------------------------------------------------------------------------*
 * Constants:
 *-------------------------------------------------------------------------*/
