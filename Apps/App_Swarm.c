@@ -35,9 +35,10 @@
 uint16_t period = NUM_SENSOR;
 
 /*  Default swarm connection parameters  */
+#define SWARM_HOST "rl78.bugswarm.com"
+#define SWARM_HOST_FALLBACK_IP "107.20.250.52"
+static char SwarmHost[32];
 
-const char SwarmHost[] = "107.20.250.52";  //api.bugswarm.
-//const char SwarmHost[] = "192.168.11.230";  //api.bugswarm.
 //These parameters must be hardcoded, are not retrieved.
 const char participation_key[] = "bc60aa60d80f7c104ad1e028a5223e7660da5f8c";
 const char configuration_key[] = "359aff0298658552ec987b9354ea754b684a4047";
@@ -52,26 +53,20 @@ const char password_hash[] = "cmVuZXNhczpyZW5lc2FzcHNr";
 char resource_id[] = "14f762c59815e24973165668aff677659b973d62";
 
 /*  Swarm API Call message headers and payload formatting:  */
-
-const char configure_resource_header[] = "%s HTTP/1.1\r\n"
-    "Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n"
-    "content-type: application/json\r\nContent-Length: 00\r\n\r\n";
 const char configure_resource_body[] = 
 	"{\"name\":\"%s\",\"swarmid\":[{\"id\":\"%s\",\"type\":\"producer\"},"
 	"{\"id\":\"%s\",\"type\":\"consumer\"}],"
 	"\"description\":\"an RL78G14 board running bugswarm-renesasG14 1.0\"}\r\n";
 const char configure_resource_whole[] = "POST /renesas/configure HTTP/1.1\r\n"
-    "Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n"
+    "Host: %s\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n"
     "content-type: application/json\r\nContent-Length: 000\r\n\r\n"
 	"{\"name\":\"%s\",\"swarmid\":[{\"id\":\"%s\",\"type\":\"producer\"},"
 	"{\"id\":\"%s\",\"type\":\"consumer\"}],"
 	"\"description\":\"an RL78G14 board running bugswarm-renesasG14 1.0\"}\r\n";
-const char list_resources_header[] = "GET /resources HTTP/1.1\r\n"
-	"Host: api.bugswarm.net\r\nAccept: */*\r\nx-bugswarmapikey: %s\r\n\r\n";
 const char apikey_header[] = "GET /keys/configuration HTTP/1.1\r\n"
-"Authorization: Basic %s\r\nHost: api.bugswarm.net\r\nAccept: */*\r\n\r\n";
+"Authorization: Basic %s\r\nHost: %s\r\nAccept: */*\r\n\r\n";
 const char produce_header[] = "POST /stream?swarm_id=%s&swarm_id=%s&"
-  "resource_id=%s HTTP/1.1\r\nHost: api.bugswarm.com\r\n"
+  "resource_id=%s HTTP/1.1\r\nHost: %s\r\n"
   "x-bugswarmapikey: %s\r\ntransfer-encoding: chunked\r\nconnection: keep-alive"
   "\r\nContent-Type: application/json\r\n\r\n";
 const char feed_request[] = "{\"capabilities\": {\"feeds\": [\"Acceleration\","
@@ -126,6 +121,7 @@ void App_SwarmConnector(void) {
 	//R_TAU0_Channel0_Start();
 	
 	App_InitModule();
+        
 	while(1) {
     	r = AtLibGs_GetMAC(MACaddr);
 		if(r != ATLIBGS_MSG_ID_OK) {
@@ -144,6 +140,19 @@ void App_SwarmConnector(void) {
     App_aClientConnection();		//Will block until connected
 	AtLibGs_SetNodeAssociationFlag();
 	memset(msg, '\0', sizeof(msg));
+        
+        // Get DNS for our API server
+        if(AtLibGs_DNSLookup(SWARM_HOST, 2, 5) == ATLIBGS_MSG_ID_OK)
+        {
+          AtLibGs_ParseDNSLookupResponse(SwarmHost);
+          
+          *(strstr(SwarmHost,"\r\nOK")) = '\0';   // Parse doesn't remove "OK" at end of string??
+        }
+        else
+        {
+          strcpy(SwarmHost, SWARM_HOST_FALLBACK_IP);
+        }
+        
 	sprintf(msg, "IP: ");
 	AtLibGs_GetIPAddress((uint8_t*) msg+4);
 	DisplayLCD(LCD_LINE4,(const uint8_t *) msg);
@@ -232,7 +241,7 @@ ATLIBGS_MSG_ID_E getResourceID (char * mac_addr_str, char * buff, int bufflen, c
 	int len;
 
 	memset(buff, '\0', bufflen);
-	r = makeAPIPOST(&cid, buff, configure_resource_whole, configuration_key, mac_addr_str, prod_swarm_id, cons_swarm_id);
+	r = makeAPIPOST(&cid, buff, configure_resource_whole, SWARM_HOST, configuration_key, mac_addr_str, prod_swarm_id, cons_swarm_id);
 	
 	if (r != ATLIBGS_MSG_ID_OK) {
         ConsolePrintf("Unable to make API call:\r\n%s",buff);
@@ -276,7 +285,7 @@ ATLIBGS_MSG_ID_E getAPIKey(char * buff, int bufflen, char * result){
 
 	jsmn_init(&parser);
 
-	r = makeAPICall(&cid, buff, apikey_header, password_hash);
+	r = makeAPICall(&cid, buff, apikey_header, password_hash, SWARM_HOST);
 	if (r != ATLIBGS_MSG_ID_OK) {
 		ConsolePrintf("Unable to make API call\r\n");
 		return r;
@@ -320,9 +329,6 @@ ATLIBGS_MSG_ID_E getAPIKey(char * buff, int bufflen, char * result){
 
 	return r;
 }
-
-//	r = makeAPIPOST(&cid, buff, "POST /renesas/configure", configuration_key, 
-//					configure_resource_header, mac_addr_str, prod_swarm_id, cons_swarm_id);
 
 ATLIBGS_MSG_ID_E makeAPIPOST(uint8_t * cid, char * buff, const char *format, ...){
 	ATLIBGS_MSG_ID_E r;
@@ -549,7 +555,7 @@ ATLIBGS_MSG_ID_E createProductionSession(uint8_t *cid,
 	ConsolePrintf("Socket open, sending headers\r\n");
   
 	//Transmit the swarm API request header to open a production session
-	len = sprintf(msg, produce_header, prod_swarm_id, cons_swarm_id, resource_id, participation_key);
+	len = sprintf(msg, produce_header, prod_swarm_id, cons_swarm_id, resource_id, SWARM_HOST, participation_key);
 	ConsolePrintf("Attempting to send: %s ...", msg);
 	r = AtLibGs_SendTCPData((*cid), (uint8_t *)msg, len);
 	ConsolePrintf("SENT: %d\r\n", r);

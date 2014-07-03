@@ -1149,14 +1149,16 @@ ATLIBGS_MSG_ID_E AtLibGs_TCPServer_Start(uint16_t pTcpSrvPort, uint8_t *cid)
  *      TODO: Needs to return the parsed lookup or an error.
  * Inputs:
  *      char *pUrl -- URL to parse.
+ *      uint32_t retries -- The number of retries
+ *      uint32_t timeout -- Timeout in seconds, or 0 for no timeout
  * Outputs:
  *      ATLIBGS_MSG_ID_E -- error code
  *---------------------------------------------------------------------------*/
-ATLIBGS_MSG_ID_E AtLibGs_DNSLookup(char *pUrl)
+ATLIBGS_MSG_ID_E AtLibGs_DNSLookup(char *pUrl, uint16_t retries, uint16_t timeout)
 {
-    char cmd[30];
+    char cmd[64];
 
-    sprintf(cmd, "AT+DNSLOOKUP=%s\r\n", pUrl);
+    sprintf(cmd, "AT+DNSLOOKUP=%s,%d,%d\r\n", pUrl, retries, timeout);
 
     return AtLibGs_CommandSendString(cmd);
 }
