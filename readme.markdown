@@ -64,7 +64,7 @@ This is the most recent bugswarm-enabled device.  The firmware is currently in b
 
 1.  After rebooting, the device will automatically connect and begin producing data.  Note the ```ID: ``` field on the third line, and keep an eye on the screen for any errors.
 
-	![LCD Screen when Running](http://i.imgur.com/g7LZ49x.jpg)
+	![LCD Screen when Running](http://i.imgur.com/DwSW7MW.jpg?3)
 
 1.  You will need to re-connect to a wireless access point with an internet connection.  Navigate to [bugcommunity.com/rdknext/](http://bugcommunity.com/rdknext/).  In the first dropdown box, select the YRDKRL78G14 board and click "Go!".
 
