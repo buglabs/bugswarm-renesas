@@ -1,8 +1,8 @@
-# bugswarm-renesas: 
+# buglabs-renesas dweet firmware: 
 
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-- [bugswarm-renesas:](#bugswarm-renesas)
+- [buglabs-renesas:](#buglabs-renesas)
 	- [Supported Boards](#supported-boards)
 	- [The RL78/G14 board with built-in Gainspan module](#the-rl78g14-board-with-built-in-gainspan-module)
 		- [Usage Instructions](#usage-instructions)
@@ -12,12 +12,10 @@
 			- [Known Issues](#known-issues)
 		- [Troubleshooting](#troubleshooting)
 
-A bugswarm connector for Renesas 8- and 16-bit microcontrollers.  This code turns a compatible evaluation board into a real-time internet enabled device.  Once the connector is deployed to a device, the device will automatically connect to the bugswarm platform and share it's peripherals using a standardized API.  This enables developers to create applications for the evaluation board in a wide variety of languages, without needing to download an SDK or physical access to the device.  
+A dweet connector for Renesas 8- and 16-bit microcontrollers.  This code turns a compatible evaluation board into a real-time internet enabled device.  Once the connector is deployed to a device, the device will automatically connect to the bugswarm platform and share it's peripherals using a standardized API.  This enables developers to create applications for the evaluation board in a wide variety of languages, without needing to download an SDK or physical access to the device.  
 
 ## Supported Boards
 
-*  RL78/G13 Demonstration Kit (YRDKRL78G13) [yrdkrl78g13 branch](https://github.com/buglabs/bugswarm-renesas/tree/yrdkrl78g13)
-    *  Redpine companion WiFi Card (RS-RL78G13-2200CC)
 *  RL78/G14 Demonstration Kit (YRDKRL78G14) (this branch)
     *  Built-in Gainspan GS1011-MIPS module
 
